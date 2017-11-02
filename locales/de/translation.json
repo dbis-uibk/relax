@@ -177,7 +177,8 @@
 					"multi-line-comment": "Kommentar mehrzeilig",
 					"inline-relation": "inline-Relation",
 					"inline-relation-editor": "inline-Relation (Editor)",
-					"inline-relation-editor-content": "eine neue inline-Relation mit dem Editor erstellen"
+					"inline-relation-editor-content": "eine neue inline-Relation mit dem Editor erstellen",
+					"insert-date": "Datum einfügen"
 				}
 			},
 			"sql": {
@@ -192,7 +193,8 @@
 					"group-by": "group-b-Klausely",
 					"having": "having-Klausel",
 					"order-by": "order-by-Klausel",
-					"limit": "limit-Klausel"
+					"limit": "limit-Klausel",
+					"insert-date": "Datum einfügen"
 				}
 			}
 		},

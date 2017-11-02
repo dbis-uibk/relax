@@ -238,7 +238,11 @@
 					"inline-relation": "inline-relation",
 					"inline-relation-content": "&sigma; a = 'test' (<b>{<br>a:string, b:number, X.c:date<br>a, 1, 1970-01-01<br>}</b>)",
 					"inline-relation-editor": "inline-relation (editor)",
-					"inline-relation-editor-content": "create a new inline-relation using a built in editor"
+					"inline-relation-editor-content": "create a new inline-relation using a built in editor",
+					"insert-date": "insert date",
+					"insert-date-content": [
+						"<span class=\"math\">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )"
+					]
 				}
 			},
 			"sql": {
@@ -260,7 +264,12 @@
 					"order-by": "order by  clause",
 					"order-by-content": "<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>",
 					"limit": "limit clause",
-					"limit-content": "SELECT * FROM A <br>LIMIT 10 OFFSET 0"
+					"limit-content": "SELECT * FROM A <br>LIMIT 10 OFFSET 0",
+					"insert-date": "insert date",
+					"insert-date-content": [
+						"select * from A",
+						"where a &lt; <b>date('1970-01-01')</b>"
+					]
 				}
 			}
 		},

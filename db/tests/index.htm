@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<title>tests</title>
-<script type="text/javascript" src="../../../resources/jquery-current.js"></script>
-<script type="text/javascript" src="../../../resources/i18next-current.js"></script>
-<link rel="stylesheet" href="../../../resources/qunit-current.css">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+	<title>tests</title>
+	<link href="../../libs/qunit/qunit.css" rel="stylesheet">
+
+	<script src="../../libs/jquery/jquery.js"></script>
+	<script src="../../libs/i18next/i18next.js"></script>
+	<script src="../../libs/qunit/qunit.js"></script>
 </head>
 <body>
-	<div id="qunit"></div>
-	<div id="qunit-fixture"></div>
-	<script src="../../resources/qunit-current.js"></script>
-	<script src="../../resources/blanket.min.js"></script>
-	<script>
-		if (location.href.match(/(\?|&)gruntReport($|&|=)/)) {
-			blanket.options("reporter", "../node_modules/grunt-blanket-qunit/reporter/grunt-reporter.js");
-		}
-	</script>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
 
-	<script src="./tests.bundle.js"></script>
+<script src="../../js/tests.bundle.js"></script>
 </body>
 </html>

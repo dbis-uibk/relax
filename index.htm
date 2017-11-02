@@ -157,8 +157,7 @@
 				<h1>RelaX - relational algebra calculator</h1>
 
 				<p>calculates any relational algebra statement like
-					<code><span>( &sigma; <sub>a &gt; 42</sub> ( A ) ) <span class="math">⋈</span> ( &pi; <sub>a,
-						b</sub> ( B ) )</span></code>
+					<code><span>( &sigma; <sub>a &gt; 42</sub> ( A ) ) <span class="math">⋈</span> ( &pi; <sub>a, b</sub> ( B ) )</span></code>
 					on a set of relations.
 				</p>
 
@@ -602,16 +601,14 @@
 						<li>updated to CodeMirror version 5.1 with "experimental mobile support"</li>
 						<li>
 							added support for <a href="help.htm#relalg-valueexpr">COALESCE()</a>
-							<br>e.g. <code>pi coalesce(a, b, 1)-&gt;x R</code>, <code>select coalesce(a, b, 1) as x from
-							R</code>
+							<br>e.g. <code>pi coalesce(a, b, 1)-&gt;x R</code>, <code>select coalesce(a, b, 1) as x from R</code>
 						</li>
 						<li>
 							added support for <a href="help.htm#relalg-valueexpr">CASE WHEN</a>
 							<br>e.g. <code>select case when a &gt; 3 then a+1 else a end as x from R</code>
 						</li>
 						<li>added support for complex union/intersect/except statements for SQL
-							<br>e.g. <code>(select * from S union ( select * from T except select * from T )) order by
-								1</code>
+							<br>e.g. <code>(select * from S union ( select * from T except select * from T )) order by 1</code>
 						</li>
 					</ul>
 				</li>

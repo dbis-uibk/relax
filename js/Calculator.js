@@ -24,7 +24,7 @@ export class Calculator {
 				ra: $('#tab-editor-ra'),
 				sql: $('#tab-editor-sql'),
 				group: $('#tab-editor-group'),
-				sqldump: $('#editor-sqldump')
+				sqldump: $('#modal-sqldump')
 			},
 			modalSqlDump: $('#modal-sqldump'),
 
@@ -374,8 +374,8 @@ export class Calculator {
 
 		// modal dialog for sqldump editor
 		this.state.editors.sqldump = new Editor({
-			textarea: this.options.editorContainers.sqldump.find('> textarea'),
-			execErrors: this.options.editorContainers.sqldump.find('> .exec-errors'),
+			textarea: this.options.editorContainers.sqldump.find('textarea'),
+			execErrors: this.options.editorContainers.sqldump.find('.exec-errors'),
 			execButton: this.options.editorContainers.sqldump.find('.exec-button'),
 			execFunction: function (text) {
 				var ast = relalgjs.parseSQLDump(text);

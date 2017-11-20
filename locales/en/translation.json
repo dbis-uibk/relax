@@ -179,7 +179,7 @@
 					"not": "not",
 					"not-content": "<div>&sigma; <b>¬</b>(a < b) ( A )</div>",
 					"equals": "equals",
-					"equals-contents": "<div>&sigma; a <b>=</b> b ( A )</div>",
+					"equals-content": "<div>&sigma; a <b>=</b> b ( A )</div>",
 					"not-equals": "not equals",
 					"not-equals-content": "<div>&sigma; a <b>≠</b> 'text' ( A )</div>",
 					"greater-or-equals": "greater or equals",

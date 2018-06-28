@@ -1,0 +1,94 @@
+/*** Copyright 2018 Johannes Kessler
+*
+* This Source Code Form is subject to the terms of the Mozilla Public
+* License, v. 2.0. If a copy of the MPL was not distributed with this
+* file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.calculator {
+	margin-top: 8px;
+
+	.toolbar__popover b {
+		color: #708;
+	}
+
+	.groupRelationList {
+		margin-top: 1em;
+	}
+
+	.nav-item {
+		cursor: pointer;
+	}
+
+	.exec-button.selection > .selection, .exec-button.selection > .query {
+		display: none;
+	}
+	
+	.exec-button.selection:not(.selection-selected) > .query {
+		display: inline;
+	}
+	
+	.exec-button.selection.selection-selected > .selection {
+		display: inline;
+	}
+
+	.tab-content-border {
+		border: 1px solid #d9d9d9;
+		border-top-style: none;
+		margin-bottom: 16px;
+		border-radius: 2px;
+	}
+
+	// everything but the editor should have some padding
+	.tab-pane .editor-base > *:not(.toolbar):not(.CodeMirror):not(textarea) {
+		padding: 0px 5px 5px 5px;
+	}
+
+	.CodeMirror {
+		border: 1px solid #eee;
+		height: auto;
+	}
+	
+	.CodeMirror-scroll {
+		overflow-y: hidden;
+		overflow-x: auto;
+		min-height: 250px;
+	}
+	
+	.CodeMirror-hints {
+		z-index: 2000; /* for use in bs modal */
+	}
+	
+	.CodeMirror-gutters {
+		background-color: #fff;
+		border-right-style: dashed;
+	}
+	
+	.CodeMirror .error {
+		background-color: #f2dede;
+		padding: 2px;
+		display: inline-block;
+	}
+	
+	.CodeMirror .CodeMirror-placeholder {
+		color: #999;
+	}
+	
+	.CodeMirror-lint-tooltip {
+		background: #eee;
+		color: black;
+	}
+
+	.CodeMirror-lint-tooltip {
+		font-family: FreeSansMinimal;
+	}
+
+	.history .dropdown-menu {
+		left: auto;
+		right: 0px;
+	}
+	
+	.history .dropdown-menu li .replace-all {
+		white-space: pre;
+		padding: 0 8px 0 8px;
+	}
+}

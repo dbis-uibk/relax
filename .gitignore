@@ -1,0 +1,10 @@
+/nbproject/private/
+/node_modules
+.brackets.json
+.idea
+dist
+build
+/bower_components
+/tmp
+/yarn-error.log
+/reports/

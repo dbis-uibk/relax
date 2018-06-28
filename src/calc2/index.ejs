@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<title>RelaX - relational algebra calculator</title>
+	<!-- 
+		Copyright 2016 Johannes Kessler
+		
+		This Source Code Form is subject to the terms of the Mozilla Public
+		License, v. 2.0. If a copy of the MPL was not distributed with this
+		file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+	-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description"
+	      content="The relational algebra calculator helps you learn relational algebra (RelAlg) by executing it."/>
+	<meta name="keywords"
+	      content="relational algebra, relationale algebra, relationale algebra rechner, relational algebra online tool"/>
+	<meta name="author" content="Kessler Johannes"/>
+	<link rel="manifest" href="./manifest.json">	
+	<script>
+		(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function () {
+						(i[r].q = i[r].q || []).push(arguments)
+					}, i[r].l = 1 * new Date();
+			a = s.createElement(o),
+					m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-53545936-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+
+	<!-- Start Single Page Apps for GitHub Pages -->
+	<script type="text/javascript">
+		// Single Page Apps for GitHub Pages
+		// https://github.com/rafrex/spa-github-pages
+		// Copyright (c) 2016 Rafael Pedicini, licensed under the MIT License
+		// ----------------------------------------------------------------------
+		// This script checks to see if a redirect is present in the query string
+		// and converts it back into the correct url and adds it to the
+		// browser's history using window.history.replaceState(...),
+		// which won't cause the browser to attempt to load the new url.
+		// When the single page app is loaded further down in this file,
+		// the correct url will be waiting in the browser's history for
+		// the single page app to route accordingly.
+		(function(l) {
+			if (l.search) {
+				var q = {};
+				l.search.slice(1).split('&').forEach(function(v) {
+					var a = v.split('=');
+					q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
+				});
+				if (q.p !== undefined) {
+					window.history.replaceState(null, null,
+						l.pathname.slice(0, -1) + (q.p || '') +
+						(q.q ? ('?' + q.q) : '') +
+						l.hash
+					);
+				}
+			}
+		}(window.location))
+	</script>
+	<!-- End Single Page Apps for GitHub Pages -->
+</head>
+<body>
+	<!--[if lte IE 9]>
+		<div class="alert alert-danger alert-dismissable">You use an unsuported browser version! You should really <strong>get a modern browser</strong> like one of these:
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			<ul>
+				<li><a target="_blank" href="http://www.mozilla.org/firefox/">Mozilla Firefox</a></li>
+				<li><a target="_blank" href="http://chrome.google.com/">Google Chrome</a></li>
+			</ul>
+			Or you could update to more recent Version of IE (at least IE 10).
+			<![if IE 9]>
+				<p>In IE 9 (your version) loading Tables from github does not work. The rest might work, but use it at your own risk.</p>
+			<![endif]>
+		</div>
+	<![endif]-->
+	<div id="root"></div>
+</body>
+</html>

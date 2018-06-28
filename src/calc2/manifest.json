@@ -1,0 +1,26 @@
+{
+  "short_name": "RelaX",
+  "name": "RelaX - relational algebra calculator",
+  "icons": [
+    {
+      "src": "assets/icon/icon_48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "assets/icon/icon_96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "assets/icon/icon_192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+	"start_url": "index.html?launcher=true",
+	"theme_color": "#0275D8",
+	"background_color": "#FFFFFF",
+	"display": "standalone",
+	"orientation": "landscape"
+}

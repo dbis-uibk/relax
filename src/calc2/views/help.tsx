@@ -1557,14 +1557,16 @@ export class Help extends React.Component<Props> {
 							<div>
 								<h4 id="relalg-operations-leftjoin">left outer join</h4>
 								<table className="table table-nonfluid">
-									<tr>
-										<th>symbol</th>
-										<td className="math">⟕</td>
-									</tr>
-									<tr>
-										<th>alternative syntax</th>
-										<td>left outer join<br />left join</td>
-									</tr>
+									<tbody>
+										<tr>
+											<th>symbol</th>
+											<td className="math">⟕</td>
+										</tr>
+										<tr>
+											<th>alternative syntax</th>
+											<td>left outer join<br />left join</td>
+										</tr>
+									</tbody>
 								</table>
 								<div>optional join condition; if no join condition is given it acts as a natural left outer join
 									<div className="too-wide">

@@ -2,8 +2,7 @@
 	"scripts": {
 		"build": "webpack --progress --mode=production",
 		"build-test": "webpack -p --progress --colors --mode=development",
-		"serve2": "webpack-dev-server --hot --inline --mode=development",
-		"serve": "webpack-serve --hot --mode=development"
+		"serve": "webpack-serve"
 	},
 	"name": "relax-relational_algebra_calculator",
 	"private": true,
@@ -36,6 +35,7 @@
 		"clean-webpack-plugin": "^0.1.16",
 		"codemirror": "^5.30.0",
 		"compression-webpack-plugin": "^1.1.11",
+		"connect-history-api-fallback": "^1.5.0",
 		"copy-webpack-plugin": "^4.0.1",
 		"core-js": "^2.5.7",
 		"css-loader": "^0.28.4",
@@ -45,12 +45,14 @@
 		"handsontable": "^3.0.0",
 		"html-webpack-exclude-assets-plugin": "0.0.7",
 		"html-webpack-plugin": "3.2.x",
+		"http-proxy-middleware": "^0.18.0",
 		"i18next": "^11.3.3",
 		"i18next-browser-languagedetector": "^2.0.0",
 		"i18next-xhr-backend": "^1.4.2",
 		"immutable": "4.0.0-rc.9",
 		"jquery": "^3.3.1",
 		"json5-loader": "^1.0.1",
+		"koa-connect": "^2.0.1",
 		"memoize-one": "^3.1.1",
 		"mini-css-extract-plugin": "^0.4.0",
 		"node-sass": "^4.5.3",
@@ -80,8 +82,7 @@
 		"webpack": "^4.11.0",
 		"webpack-bundle-analyzer": "^2.13.1",
 		"webpack-command": "^0.3.1",
-		"webpack-dev-server": "^3.1.4",
-		"webpack-serve": "^1.0.4"
+		"webpack-serve": "^2.0.2"
 	},
 	"dependencies": {}
 }

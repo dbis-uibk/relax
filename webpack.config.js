@@ -16,7 +16,11 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 
 module.exports = (env, options) => {
-	const isProduction = !(process.env.WEBPACK_SERVE || options.mode === 'development');
+	const isProduction = !(
+		process.env.WEBPACK_SERVE
+		|| options && options.mode === 'development'
+		|| env.mode === 'development'
+	);
 
 	return {
 		mode: isProduction ? 'production' : 'development',
@@ -181,7 +185,7 @@ module.exports = (env, options) => {
 			]
 		},
 
-		serve: {
+		devServer: {
 			contentBase: path.join(__dirname, "dist"),
 			compress: true,
 			port: 8088,
@@ -191,10 +195,6 @@ module.exports = (env, options) => {
 				//"X-Custom-Foo": "bar"
 			},
 			hotOnly: true,
-			/*overlay: {
-				warnings: true,
-				errors: true,
-			},*/
 			/*proxy: {
 				"/relax": {
 					target: "http://localhost:8080",

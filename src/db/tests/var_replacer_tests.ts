@@ -531,7 +531,7 @@ QUnit.test('test variables with cycle', function (assert) {
 		assert.ok(false, 'execution should fail as the query contains a cycle');
 	}
 	catch (e) {
-		assert.equal(e.message.indexOf('cyclic-usage') > -1, true);
+		assert.equal(e.message.toLocaleLowerCase().indexOf('variable "a"') > -1, true);
 	}
 });
 

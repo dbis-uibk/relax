@@ -16,7 +16,6 @@ There is still some old/undocumented old code left within the components.
 [ ] import via sql-dump
 [ ] document publish workflow
 [ ] error html in messages is broken
-[ ] fix unit-tests
 [ ] update _handsontable_ to the new react wrapper
 [ ] split bundle to reduce loading time
 [ ] statically compiled landing and help page?
@@ -40,6 +39,7 @@ There is still some old/undocumented old code left within the components.
 * execute `yarn install`
 * execute `yarn serve`
 * open http://127.0.0.1:8088 in browser
+* go to http://127.0.0.1:8088/test.html to run the unit tests.
 
 ## relax-core
 

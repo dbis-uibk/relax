@@ -76,7 +76,7 @@ declare module relalgAst {
 	interface columnName {
 		type: 'columnName',
 		name: string | number,
-		relAlias: string
+		relAlias: string | null,
 	}
 
 	interface namedColumnExpr {

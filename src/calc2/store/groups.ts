@@ -11,13 +11,13 @@ import { Relation } from 'db/exec/Relation';
 import * as Immutable from 'immutable';
 import * as saga from 'redux-saga/effects';
 
-export interface State {
+export type State = {
 	groups: Immutable.Map<string, Group>,
 
 	current: {
 		group: Group,
 	} | null,
-}
+};
 
 export type Action = (
 	| GROUPS_LOAD_REQUEST
@@ -296,14 +296,15 @@ export function reduce(oldState: State | undefined, action: store.Action): State
 		case 'GROUPS_LOAD_SUCCESS': {
 			// merge new groups
 			const { loadedGroups } = action;
+			let newState = oldState;
 
 			for (const group of loadedGroups) {
-				oldState = {
-					...oldState,
-					groups: oldState.groups.set(getGroupPath(group), group),
+				newState = {
+					...newState,
+					groups: newState.groups.set(getGroupPath(group), group),
 				};
 			}
-			return oldState;
+			return newState;
 		}
 
 		case 'GROUP_SET_DRAFT': {

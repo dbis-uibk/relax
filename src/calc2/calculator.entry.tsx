@@ -4,9 +4,9 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-// polyfill(s)
 import { loadStaticGroups } from 'calc2/store/groups';
 import { SET_LOCALE } from 'calc2/store/session';
+// polyfill(s)
 import 'custom-event-polyfill';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';

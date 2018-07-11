@@ -16,11 +16,14 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 
 module.exports = (env, options) => {
-	const isProduction = !(
-		process.env.WEBPACK_SERVE
-		|| options && options.mode === 'development'
-		|| env.mode === 'development'
+	const mode = (
+		options
+			? options.mode
+			: env.mode
 	);
+	const isProduction = (mode !== 'development');
+
+	console.log(`build-mode: ${mode}`);
 
 	return {
 		mode: isProduction ? 'production' : 'development',

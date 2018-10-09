@@ -122,7 +122,7 @@
 				"tab-name": "Group Editor",
 				"toolbar": {
 					"import-sql": "import SQL-dump",
-					"import-sql-content": "import SQL-dump",
+					"import-sql-content": "import SQL-content",
 					"add-new-relation": "add new relation",
 					"add-new-relation-content": "open relation editor"
 				},

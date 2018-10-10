@@ -49,7 +49,7 @@
 				"warning-distinct-missing": "DISTINCT is missing; relational algebra uses implicit duplicate elimination",
 				"warning-ignored-all-on-set-operators": "ignored ALL on set operation; relational algebra uses implicit duplicate elimination",
 				"error-variable-name-conflict": "name conflict: relation name \"__name__\" already exists",
-				"error-variable-cyclic-usage": "cylic usage of variable \"__name__\" detected"
+				"error-variable-cyclic-usage": "cyclic usage of variable \"__name__\" detected"
 			}
 		}
 	},

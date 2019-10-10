@@ -330,7 +330,8 @@ ul.table-list li {
 
 	.navbar-brand {
 		margin-bottom: 32px;
-		font-size: 1.2em
+		font-size: 1.2em;
+		font-weight: 600;
 	}
 
 	.tree-container {
@@ -341,5 +342,3 @@ ul.table-list li {
 		display: none;
 	}
 }
-
-

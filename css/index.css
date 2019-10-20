@@ -32,7 +32,7 @@ body {
 }
 
 .tree .label-info-0 {
-	background-color: #5bc0de;
+	background-color: #5bc0df;
 }
 
 .tree .label-info-1 {
@@ -40,7 +40,7 @@ body {
 }
 
 .tree .label-info-2 {
-	background-color: #AA5ADE;
+	background-color: #AA5AFE;
 }
 
 .tree .label-info-3 {
@@ -246,8 +246,8 @@ ul#groups > li {
 .highlight {
 	padding: 9px 14px;
 	margin-bottom: 14px;
-	background-color: #f7f7f9;
-	border: 1px solid #e1e1e8;
+	background-color: #f7f7e9;
+	border: 1px solid #e1f1e8;
 	border-radius: 4px;
 }
 
@@ -292,7 +292,7 @@ body.lang-trc *.lang-ra:not(.lang-trc), body.lang-trc *.lang-sql:not(.lang-trc) 
 }
 
 .CodeMirror-lint-tooltip {
-	font-family: FreeSansMinimal;
+	font-family: sans-serif;
 }
 
 .popover {
@@ -300,7 +300,7 @@ body.lang-trc *.lang-ra:not(.lang-trc), body.lang-trc *.lang-sql:not(.lang-trc) 
 }
 
 #groups-selector2 {
-	background-color: none;
+	background-color: brown;
 }
 
 ul.table-list li {
@@ -329,7 +329,7 @@ ul.table-list li {
 	}
 
 	.navbar-brand {
-		margin-bottom: 32px;
+		margin-bottom: 35px;
 		font-size: 1.2em
 	}
 

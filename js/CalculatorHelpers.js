@@ -167,6 +167,7 @@ export class CalculatorHelpers {
 				break;
 			default:
 				throw new Error('unknown source ' + source);
+				#Errors could be more elaborative.
 		}
 	}
 

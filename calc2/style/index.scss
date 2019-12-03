@@ -1,0 +1,187 @@
+/*** Copyright 2016 Johannes Kessler 2016 Johannes Kessler
+*
+* This Source Code Form is subject to the terms of the Mozilla Public
+* License, v. 2.0. If a copy of the MPL was not distributed with this
+* file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@font-face {
+	font-family: 'FreeSansMinimal';
+	src: url('../../../resources/font/FreeSansMinimal.otf') format('opentype');
+}
+
+body {
+	font-family: Open Sans Light, DejaVu Sans, sans-serif;
+}
+
+.row {
+	margin-bottom: 50px;
+}
+
+
+.CodeMirror.readonly .CodeMirror-scroll {
+	background-color: #DFDFDF;
+}
+
+
+
+#input {
+	/*padding-top: 10px;*/
+}
+
+.history-code {
+	white-space: pre;
+}
+
+#logos {
+	float: right;
+}
+
+#logos img {
+	margin-left: 8px;
+}
+
+@-webkit-keyframes wiggle {
+	from {
+		-webkit-transform: rotateZ(0deg);
+		-webkit-transform-origin: 0% 0%;
+	}
+	50% {
+		-webkit-transform: rotateZ(-1deg);
+		-webkit-transform-origin: 0% 0%;
+	}
+	to {
+		-webkit-transform: rotateZ(1deg);
+		-webkit-transform-origin: 0% 0%;
+	}
+}
+
+
+
+#execution-error div {
+	-webkit-animation-name: wiggle;
+	-webkit-animation-duration: .2s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: ease;
+}
+
+
+#groups-tmp:empty {
+	display: none;
+
+	transition: display 0.5s;
+	-webkit-transition: display 0.5s;
+	-moz-transition: display 0.5s;
+}
+
+/*ul#groups {
+	padding-left: 0em;
+}
+
+ul#groups li {
+	list-style-type: none;
+}
+
+ul#groups > li {
+	padding-bottom: 4px;
+}
+
+#groups ul {
+	padding-left: 30px;
+}*/
+
+#execution-error {
+	padding-bottom: 1em;
+}
+
+.hint-keyword {
+	color: #708;
+}
+
+.hint-table, .hint-column {
+	color: #000;
+}
+
+.cm-math, .math, .formula {
+	font-family: FreeSansMinimal;
+}
+
+.highlight {
+	padding: 9px 14px;
+	margin-bottom: 14px;
+	background-color: #f7f7f9;
+	border: 1px solid #e1e1e8;
+	border-radius: 4px;
+}
+
+#lang-tabs {
+	border-bottom-style: none;
+}
+
+body.lang-ra *.lang-sql:not(.lang-ra), body.lang-ra *.lang-trc:not(.lang-ra),
+body.lang-sql *.lang-ra:not(.lang-sql), body.lang-sql *.lang-trc:not(.lang-sql) {
+	display: none;
+}
+
+.replace:not(.btn), .replace-all:not(.btn) {
+	cursor: pointer;
+}
+
+.replace:not(.btn):hover, .replace-all:not(.btn):hover {
+	border-bottom: silver dashed 1px;
+}
+
+.popover {
+	max-width: 450px;
+}
+
+#groups-selector2 {
+	background-color: none;
+}
+
+/*ul.table-list li {
+	list-style-type: none;
+	display: inline-block;
+	margin-right: 16px;
+	margin-bottom: 16px;
+}*/
+
+.grid-editor-container {
+	padding: 10px;
+	background-color: #FFFFFF;
+	/* border-top: 2px inset; */
+	/* outline: groove; */
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+@media print {
+	.navbar button, .navbar .navbar-collapse, .nav, #result-pag, #input-buttons, .toolbar, #groups-container {
+		display: none !important;
+	}
+
+	#workspace {
+		border-style: none;
+	}
+
+	.navbar-brand {
+		margin-bottom: 32px;
+		font-size: 1.2em
+	}
+
+	.tree-container {
+		float: none;
+	}
+
+	.result-pag {
+		display: none;
+	}
+}
+
+
+.calculator__menu {
+	max-width: 60em;
+
+	li.active {
+		font-weight: bold;
+	}
+}

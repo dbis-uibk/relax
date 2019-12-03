@@ -1,0 +1,18 @@
+{
+  "name": "exists-stat",
+  "version": "1.0.0",
+  "description": "Synchronously check if a path exists and returns its stats object if it does",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "Trent Willis <trentmwillis@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "qunitjs": "^2.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trentmwillis/exists-stat.git"
+  }
+}

@@ -1,0 +1,16 @@
+# Installation
+> `npm install --save @types/bootstrap`
+
+# Summary
+This package contains type definitions for Bootstrap (https://github.com/twbs/bootstrap/).
+
+# Details
+Files were exported from https://www.github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/bootstrap
+
+Additional Details
+ * Last updated: Wed, 11 Apr 2018 23:19:56 GMT
+ * Dependencies: popper.js, jquery
+ * Global values: Bootstrap
+
+# Credits
+These definitions were written by denisname <https://github.com/denisname>.

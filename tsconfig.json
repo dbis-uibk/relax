@@ -1,0 +1,38 @@
+{
+	"compilerOptions": {
+		"module": "es6",
+		"target": "es6",
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": false,
+		"sourceMap": true,
+		"outDir": "./tmp/",
+		"rootDir": ".",
+		"jsx": "react",
+		"forceConsistentCasingInFileNames": true,
+		"noStrictGenericChecks": true,
+		"typeRoots": [
+			"./typings",
+			"./node_modules/@types"
+		],
+		"baseUrl": ".",
+		"paths": {
+			"*": [
+				"*",
+				"src/*"
+			]
+		},
+		"strict": true,
+		"strictNullChecks": true,
+		"noImplicitAny": true,
+		"lib": [
+			"dom",
+			"es5",
+			"es2015",
+			"es2016"
+		]
+	},
+	"include": [
+		"src",
+		"typings"
+	]
+}

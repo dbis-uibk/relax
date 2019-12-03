@@ -1,0 +1,33 @@
+{
+  "name": "custom-event-polyfill",
+  "version": "0.3.0",
+  "author": [
+    "Mozilla Developer Network",
+    "Evan Krambuhl <thekrambuhl@gmail.com>"
+  ],
+  "contributors": [
+    "Frank Panetta (http://www.savvi.io)",
+    "Mikhail Reenko <reenko@yandex.ru>",
+    "Joscha Feth <joscha@feth.com> (http://www.feth.com)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "polyfill",
+    "custom-event",
+    "CustomEvent",
+    "Web API Interface"
+  ],
+  "main": "custom-event-polyfill.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:krambuhl/custom-event-polyfill.git"
+  },
+  "scripts": {
+    "test": "karma start"
+  },
+  "devDependencies": {
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.12.31",
+    "karma-jasmine": "^0.3.5"
+  }
+}

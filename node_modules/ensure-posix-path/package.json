@@ -1,0 +1,29 @@
+{
+  "name": "ensure-posix-path",
+  "version": "1.0.2",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test",
+    "test:debug": "mocha debug test"
+  },
+  "files": [
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stefanpenner/ensure-posix-path.git"
+  },
+  "author": "Stefan Penner <stefan.penner@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stefanpenner/ensure-posix-path/issues"
+  },
+  "homepage": "https://github.com/stefanpenner/ensure-posix-path#readme",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4",
+    "path-posix": "^1.0.0",
+    "path-win32": "^1.0.1"
+  }
+}

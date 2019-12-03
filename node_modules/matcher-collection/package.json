@@ -1,0 +1,29 @@
+{
+  "name": "matcher-collection",
+  "version": "1.0.5",
+  "main": "index.js",
+  "dependencies": {
+    "minimatch": "^3.0.2"
+  },
+  "devDependencies": {
+    "tap": "^1.4.1"
+  },
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "tap --timeout 2 test.js",
+    "test:debug": "tap --debug-brk --timeout 9999 test.js"
+  },
+  "author": "Stefan Penner",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stefanpenner/matcher-collection.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stefanpenner/matcher-collection/issues"
+  },
+  "homepage": "https://github.com/stefanpenner/matcher-collection#readme",
+  "description": ""
+}

@@ -1,0 +1,41 @@
+{
+  "name": "tryer",
+  "version": "1.0.0",
+  "description": "Because everyone loves a tryer! Conditional and repeated task invocation for node and browser.",
+  "homepage": "https://github.com/philbooth/tryer",
+  "bugs": "https://github.com/philbooth/tryer/issues",
+  "license": "MIT",
+  "author": "Phil Booth <pmbooth@gmail.com> (https://philbooth.me/)",
+  "main": "./src/tryer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philbooth/tryer.git"
+  },
+  "keywords": [
+    "repeat",
+    "retry",
+    "predicate",
+    "conditional",
+    "invocation",
+    "execution",
+    "loop",
+    "condition",
+    "termination",
+    "exponential",
+    "backoff"
+  ],
+  "devDependencies": {
+    "chai": "4.1.x",
+    "jshint": "2.9.x",
+    "mocha": "3.5.x",
+    "please-release-me": "1.0.x",
+    "spooks": "2.0.x",
+    "uglify-js": "3.0.x"
+  },
+  "scripts": {
+    "lint": "jshint src/tryer.js test/unit.js",
+    "test": "mocha --ui tdd --reporter spec --colors test/unit.js",
+    "minify": "uglifyjs ./src/tryer.js --compress --mangle --output ./lib/tryer.min.js"
+  }
+}
+

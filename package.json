@@ -30,7 +30,7 @@
 		"@types/reactstrap": "^5.0.27",
 		"assert-never": "^1.0.0",
 		"bootstrap": "4.1.1",
-		"bower": "^1.8.0",
+		"bower": "^1.8.8",
 		"classnames": "^2.2.5",
 		"clean-webpack-plugin": "^0.1.16",
 		"codemirror": "^5.30.0",

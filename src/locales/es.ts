@@ -104,12 +104,13 @@ export const langES: Partial<typeof langEN> = {
   'calc.navigation.feedback': 'Feedback',
   'calc.navigation.help': 'Ayuda (en)',
   'calc.navigation.language': 'Lenguaje',
-  'calc.navigation.language-warning-reload-required': 'actualiza la página!',
+  'calc.navigation.calc': 'Calculadora',
   'calc.maintainer-groups.misc': 'Misceláneo',
   'calc.maintainer-groups.temp': 'Temporal',
   'calc.maintainer-groups.uibk': 'Universidad de Innsbruck',
   'calc.editors.button-history': 'historia',
   'calc.editors.group.tab-name': 'Editor de Grupo',
+  'calc.editors.group.tab-name-short': 'EG',
   'calc.editors.group.toolbar.import-sql': 'importar SQL-dump',
   'calc.editors.group.toolbar.import-sql-content': 'importar SQL-dump',
   'calc.editors.group.toolbar.add-new-relation': 'agregar nueva relación',
@@ -127,6 +128,7 @@ export const langES: Partial<typeof langEN> = {
   'calc.editors.group.modal-sqldump.description': 'Ponga su SQL-Dump aquí para crear un grupo.',
 
   'calc.editors.ra.tab-name': 'Álgebra Relacional',
+  'calc.editors.ra.tab-name-short': 'ÁlgRel',
   'calc.editors.ra.button-execute-query': 'executar consulta',
   'calc.editors.ra.button-execute-selection': 'executar selección',
   'calc.editors.ra.button-download': 'descargar',
@@ -229,6 +231,7 @@ export const langES: Partial<typeof langEN> = {
 
 
   'calc.editors.sql.tab-name': 'SQL',
+  'calc.editors.sql.tab-name-short': 'SQL',
   'calc.editors.sql.button-execute-query': 'ejecutar consulta',
   'calc.editors.sql.button-execute-selection': 'ejecutar selección',
   'calc.editors.sql.button-download': 'descargar',

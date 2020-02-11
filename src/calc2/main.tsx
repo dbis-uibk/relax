@@ -18,6 +18,8 @@ import { i18n } from './i18n';
 import { ConnectedCalc } from './views/calc';
 import { Help } from './views/help';
 import { Landing } from './views/landing';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalculator, faGlobeEurope, faComment, faQuestionCircle} from '@fortawesome/free-solid-svg-icons'
 
 require('calc2/style/index.scss');
 
@@ -61,82 +63,78 @@ export class Main extends React.Component<Props, State> {
 			<Router>
 				<Provider store={store}>
 					<I18NProvider>
-						<div>
-							<Navbar color="light" light expand="md">
-								<NavbarBrand href="/">RelaX - relational algebra calculator</NavbarBrand>
-								<NavbarToggler onClick={() => this.setState({ isNavbarOpen: !isNavbarOpen })} />
-								<Collapse isOpen={isNavbarOpen} navbar>
-									<Nav className="ml-auto" navbar>
-										<NavItem><NavLink href="/calc">Calc</NavLink></NavItem>
+						<Navbar color="light" light expand="md">
+							<NavbarBrand href="/">RelaX</NavbarBrand>
+							<NavbarToggler onClick={() => this.setState({ isNavbarOpen: !isNavbarOpen })} />
+							<Collapse isOpen={isNavbarOpen} navbar>
+								<Nav className="ml-auto" navbar>
+									<NavItem className="navItemSpace"><NavLink href="/calc"><FontAwesomeIcon icon={faCalculator} /> Calculator</NavLink></NavItem>
 
-										<UncontrolledDropdown nav inNavbar>
-											<DropdownToggle nav caret><T id="calc.navigation.language" /></DropdownToggle>
-											<DropdownMenu right>
-												<DropdownItem onClick={() => this.changeLocale('en')}>en</DropdownItem>
-												<DropdownItem onClick={() => this.changeLocale('de')}>de</DropdownItem>
-												<DropdownItem onClick={() => this.changeLocale('es')}>es</DropdownItem>
-												<DropdownItem divider />
-												<DropdownItem><span className="text-danger"><T id="calc.navigation.language-warning-reload-required" /></span></DropdownItem>
-											</DropdownMenu>
-										</UncontrolledDropdown>
-										{/*<NavItem><NavLink href="/help"><T id="calc.navigation.take-a-tour" /></NavLink></NavItem>*/}
-										<NavItem><NavLink href="https://github.com/dbis-uibk/relax/issues"><T id="calc.navigation.feedback" /></NavLink></NavItem>
-										<NavItem><NavLink href="/help"><T id="calc.navigation.help" /></NavLink></NavItem>
-									</Nav>
-								</Collapse>
-							</Navbar>
+									<UncontrolledDropdown nav inNavbar className="navItemSpace">
+										<DropdownToggle nav caret><FontAwesomeIcon icon={faGlobeEurope} /> <T id="calc.navigation.language" /></DropdownToggle>
+										<DropdownMenu right>
+											<DropdownItem onClick={() => this.changeLocale('en')}>en</DropdownItem>
+											<DropdownItem onClick={() => this.changeLocale('de')}>de</DropdownItem>
+											<DropdownItem onClick={() => this.changeLocale('es')}>es</DropdownItem>
+										</DropdownMenu>
+									</UncontrolledDropdown>
+									{/*<NavItem><NavLink href="/help"><T id="calc.navigation.take-a-tour" /></NavLink></NavItem>*/}
+									<NavItem className="navItemSpace"><NavLink href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faComment} /> <T id="calc.navigation.feedback" /></NavLink></NavItem>
+									<NavItem className="navItemSpace"><NavLink href="/help"><FontAwesomeIcon icon={faQuestionCircle} /> <T id="calc.navigation.help" /></NavLink></NavItem>
+								</Nav>
+							</Collapse>
+						</Navbar>
 
-							<div>
-								<Switch>
-									<Redirect exact from="/" to={`/landing`} />
-									<Route path="/landing" component={Landing} />
-									<Route path="/help" component={Help} />
-									<Redirect from="/calc" to="/calc/local/uibk/local/0" exact strict />
-									<Route path="/calc/:source/:id/:filename/:index" component={ConnectedCalc} />
+						<div className="view-max">
+							<Switch>
+								<Redirect exact from="/" to={`/landing`} />
+								<Route path="/landing" component={Landing} />
+								<Route path="/help" component={Help} />
+								<Redirect from="/calc" to="/calc/local/uibk/local/0" exact strict />
+								<Route path="/calc/:source/:id/:filename/:index" component={ConnectedCalc} />
 
-									<Route exact path="(/.*)?/(calc|index|help).htm" render={({ location, match, history, staticContext }) => {
-										// support old paths
-										console.log('old path', location, match);
-										const query = queryString.parse(location.search);
-										const page = match.params[1];
-										const lang: string = query.lang || 'en'; // TODO: fallback to en when not supported
+								<Route exact path="(/.*)?/(calc|index|help).htm" render={({ location, match, history, staticContext }) => {
+									// support old paths
+									console.log('old path', location, match);
+									const query = queryString.parse(location.search);
+									const page = match.params[1];
+									const lang: string = query.lang || 'en'; // TODO: fallback to en when not supported
 
-										if (i18n.language !== lang) {
-											i18n.changeLanguage(lang);
-										}
+									if (i18n.language !== lang) {
+										i18n.changeLanguage(lang);
+									}
 
-										// ?data=source:id
-										const data: string = query.data || undefined;
-										if (data) {
-											// try to parse data
-											const match = data.trim().match(/(gist):(.*)/);
-											if (match !== null) {
-												const [, source, id] = match;
-												return <Redirect to={`/calc/${source}/${id}`} />;
-											}
-											else {
-												return <p>data syntax not correct</p>;
-											}
+									// ?data=source:id
+									const data: string = query.data || undefined;
+									if (data) {
+										// try to parse data
+										const match = data.trim().match(/(gist):(.*)/);
+										if (match !== null) {
+											const [, source, id] = match;
+											return <Redirect to={`/calc/${source}/${id}`} />;
 										}
 										else {
-											// no data
-											switch (page) {
-												case 'calc':
-													return <Redirect to={`/calc/`} />;
-												case 'help':
-													return <Redirect to={`/help${location.hash}`} />;
-												case 'index':
-												default:
-													return <Redirect to={`/landing`} />;
-											}
+											return <p>data syntax not correct</p>;
 										}
-									}} />
+									}
+									else {
+										// no data
+										switch (page) {
+											case 'calc':
+												return <Redirect to={`/calc/`} />;
+											case 'help':
+												return <Redirect to={`/help${location.hash}`} />;
+											case 'index':
+											default:
+												return <Redirect to={`/landing`} />;
+										}
+									}
+								}} />
 
-									<Route render={match => (
-										<span>404 {JSON.stringify(match)}</span>
-									)} />
-								</Switch>
-							</div>
+								<Route render={match => (
+									<span>404 {JSON.stringify(match)}</span>
+								)} />
+							</Switch>
 						</div>
 					</I18NProvider>
 				</Provider>
@@ -154,14 +152,14 @@ export class Main extends React.Component<Props, State> {
 		<Redirect to={`/en/landing`} />
 	)} />
 	<Route path="/en/landing" component={Landing} />
-	
+
 	<Route path="/help" render={() => (
 		<Redirect to={`/en/help`} />
 	)} />
 	<Route path="/en/help" component={Help} />
 
 	<Route path="/:lang/calc/:source?/:id?" render={Calc} />
-	
+
 	<Route exact path="(/.*)?/(calc|index|help).htm" render={({location, match, history, staticContext}) => {
 		console.log('test', location, match);
 		const query = queryString.parse(location.search);
@@ -194,7 +192,7 @@ export class Main extends React.Component<Props, State> {
 			}
 		}
 	}} />
-	
+
 	<Route render={(match) => (
 		<span>no match {JSON.stringify(match)}</span>
 	)} />

@@ -18,6 +18,11 @@ import { forEachPreOrder } from 'db/translate/utils';
 import * as Handsontable from 'handsontable';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
+import { useState } from 'react';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlayCircle, faArrowAltCircleDown, faHistory } from '@fortawesome/free-solid-svg-icons'
 
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/eclipse.css');
@@ -337,8 +342,8 @@ export class EditorBase extends React.Component<Props, State> {
 					CodeMirror.showHint(cm, (cm) => {
 						return this.genericHint(cm);
 					}, {
-							closeOnUnfocus: true,
-						});
+						closeOnUnfocus: true,
+					});
 				},
 			},
 			placeholder: t('editor.codemirror-placeholder'),
@@ -359,7 +364,9 @@ export class EditorBase extends React.Component<Props, State> {
 			execErrors: [],
 			isExecutionDisabled: false,
 			execResult: null,
+			modal: false
 		};
+		this.toggle = this.toggle.bind(this);
 		this.hinterCache = {
 			hints: [],
 			hintsFromLinter: [],
@@ -394,6 +401,7 @@ export class EditorBase extends React.Component<Props, State> {
 			});
 		});
 	}
+
 
 	render() {
 		const {
@@ -444,21 +452,21 @@ export class EditorBase extends React.Component<Props, State> {
 							? <T id={execButtonLabel} />
 							: (
 								<>
-									<span className="glyphicon glyphicon-play"></span> <span className="query"><T id="calc.editors.ra.button-execute-query" /></span><span className="selection"><T id="calc.editors.ra.button-execute-selection" /></span>
+									<span className="glyphicon glyphicon-play"></span> <span className="query"><FontAwesomeIcon icon={faPlayCircle} /> <T id="calc.editors.ra.button-execute-query" /></span><span className="selection"><T id="calc.editors.ra.button-execute-selection" /></span>
 								</>
 							)
 						}
 					</button>
 
 					<div style={{ float: 'right' }}>
-						<button type="button" className="btn btn-default download-button" onClick={this.downloadEditorText}><T id="calc.editors.ra.button-download" /></button>
+						<button type="button" className="btn btn-default download-button" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faArrowAltCircleDown} /> <span className="hideOnSM"><T id="calc.editors.ra.button-download" /></span></button>
 
 						{disableHistory
 							? null
 							: (
 								<div className="btn-group history-container">
-									<DropdownList<HistoryEntry>
-										label={<T id="calc.editors.button-history" />}
+									<DropdownList
+										label={<span><FontAwesomeIcon icon={faHistory} /> <span className="hideOnSM"><T id="calc.editors.button-history" /></span></span>}
 										elements={history.map(h => ({
 											label: (
 												<>
@@ -482,8 +490,30 @@ export class EditorBase extends React.Component<Props, State> {
 				</div>
 
 				<div className="exec-result">{execResult}</div>
+
+				<Modal isOpen={this.state.modal} toggle={this.toggle} className="showOnSM">
+				<ModalHeader toggle={this.toggle}>Result</ModalHeader>
+				<ModalBody>
+					<div>
+						{execResult}
+					</div>
+				</ModalBody>
+				<ModalFooter>
+					<Button color="secondary" onClick={this.toggle}>Cancel</Button>
+				</ModalFooter>
+				</Modal>
+
 			</div>
 		);
+	}
+
+	toggle() {
+		if (window.innerWidth < 992){
+			return;
+		}
+		this.setState({
+			modal: !this.state.modal
+		});
 	}
 
 	private applyHistory(h: HistoryEntry): void {
@@ -835,7 +865,7 @@ export class EditorBase extends React.Component<Props, State> {
 			this.setState({
 				execResult: result,
 			});
-
+			this.toggle();
 			return true;
 		}
 		catch (e) {

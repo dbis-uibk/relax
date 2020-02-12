@@ -1000,8 +1000,8 @@ export class ValueExprGeneric extends ValueExpr {
 				case 'upper':
 				case 'lower':
 				case 'date':
-				case 'coalesce':
-					return printFunction.call(this);
+				//case 'coalesce':
+				//	return printFunction.call(this);
 				case 'strlen':
 					return printFunction.call(this, 'length');
 
@@ -1053,7 +1053,7 @@ export class ValueExprGeneric extends ValueExpr {
 			return `(${getFormula.call(this)})`;
 		}
 		else {
-			return getFormula.call(this);
+			return (getFormula.call(this)).toString();
 		}
 	}
 }

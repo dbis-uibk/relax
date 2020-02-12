@@ -1,7 +1,4 @@
-import { langEN } from 'locales/en';
-
-// cSpell: disable
-export const langKR: Partial<typeof langEN> = {
+export const langKR = {
 	"db.messages.parser.error-duplicate-variable": "변수 이름 중복: {{name}}",
 	"db.messages.parser.error-invalid-date-format": "\"__str__\"  유효하지 않은 날짜; 형식: YYYY-MM-DD",
 	"db.messages.parser.error-group-duplicate-header": " 헤더 중복: {{name}}",
@@ -46,7 +43,7 @@ export const langKR: Partial<typeof langEN> = {
 	"db.messages.translate.warning-ignored-all-on-set-operators": "집합 연산에서 무시된 ALL; 관계 대수는 암시적인 중복 제거를 사용함",
 	"db.messages.translate.error-variable-name-conflict": "이름 충돌: 릴레이션 이름 \"{{name}}\" 은 이미 존재함",
 	"db.messages.translate.error-variable-cyclic-usage": "변수  \"{{name}}\"의 순환 사용이 감지됨",
-	"editor.codemirror-placeholder": ["쿼리는 이곳에 표시된다 ...", "", "키보드 단축키:", "\tstatement 실행:    [CTRL]+[RETURN]", "\tselection 실행:    [CTRL]+[SHIFT]+[RETURN]", "\t자동 완성:         [CTRL]+[SPACE]"],
+	"editor.codemirror-placeholder": ["쿼리는 이곳에 표시된다 ...", "", "키보드 단축키:", "\tstatement 실행:    [CTRL]+[RETURN]", "\tselection 실행:    [CTRL]+[SHIFT]+[RETURN]", "\t자동 완성:         [CTRL]+[SPACE]"].join('\n'),
 	"editor.alert-message-headers.success": "성공",
 	"editor.alert-message-headers.info": "정보",
 	"editor.alert-message-headers.warning": "경고",

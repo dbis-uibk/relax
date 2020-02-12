@@ -262,11 +262,9 @@ type Props = {
 
 type State = {
 	editor: CodeMirror.Editor | null,
-
 	history: HistoryEntry[],
-
 	codeMirrorOptions: CodeMirror.EditorConfiguration,
-
+	modal: boolean,
 	execErrors: Alert[],
 	isSelectionSelected: boolean,
 	execSuccessful: boolean,
@@ -276,6 +274,7 @@ type State = {
 
 const gutterClass = 'CodeMirror-table-edit-markers';
 const eventExecSuccessfulName = 'editor.execSuccessful';
+
 
 export class EditorBase extends React.Component<Props, State> {
 	private hinterCache: {
@@ -287,7 +286,7 @@ export class EditorBase extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
-
+		
 		const codeMirrorOptions = {
 			theme: 'eclipse',
 			smartdent: true,
@@ -374,8 +373,8 @@ export class EditorBase extends React.Component<Props, State> {
 			editor,
 		});
 
-		if (this.props.linterFunction) {
-			editor.setOption('lint', this.linter);
+		if (this.props.linterFunction != null) {
+			editor.setOption('lint', true)
 		}
 
 		editor.on('cursorActivity', (cm) => {
@@ -1243,13 +1242,13 @@ export class EditorBase extends React.Component<Props, State> {
 
 
 		const boldRenderer: Handsontable.renderers.Base = (instance, td, row, col, prop, value, cellProperties) => {
-			const node = Handsontable.renderers.TextRenderer.apply(this, arguments);
+			const node = Handsontable.renderers.TextRenderer.apply(this, arguments as any);
 			td.style.fontWeight = 'bold';
 			return node;
 		};
 
 		const valueRenderer: Handsontable.renderers.Base = (instance, td, row, col, prop, value, cellProperties) => {
-			const node = Handsontable.renderers.TextRenderer.apply(this, arguments);
+			const node = Handsontable.renderers.TextRenderer.apply(this, arguments as any);
 
 			if (value === 'null') {
 				td.style.fontStyle = 'italic';

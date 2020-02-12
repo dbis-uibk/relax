@@ -2,10 +2,12 @@
 A relational algebra calculator
 
 ## How to build
-* install yarn https://yarnpkg.com/
-* install node https://nodejs.org/en/
-* clone the repo
-* open folder with https://code.visualstudio.com/ and install the workspace recommended extensions
+* Install yarn https://yarnpkg.com/
+* Install node https://nodejs.org/en/
+* Clone the repo
+* Execute `yarn install` to install all dependencies
+* Execute `yarn serve` to locally run the webapp on port 8088
+* (Optional) open folder with https://code.visualstudio.com/ and install the workspace recommended extensions (includes tasks)
 
 ## Contributions
 * Contributions are **highly appreciated**

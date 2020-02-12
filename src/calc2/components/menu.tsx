@@ -65,11 +65,11 @@ export class Menu extends React.Component<Props> {
 						<h3><T id="calc.menu.headline" /></h3>
 
 						<ul id="groups-selector-list">
-							{groupsByHeadlineName.map((groups, headline) => (
+							{groupsByHeadlineName.map((groups:any, headline:any) => (
 								<li key={`${headline}`}>
 									{!headline ? <T id="calc.maintainer-groups.misc" /> : headline}
 									<ul>
-										{groups.map((group, i) => {
+										{groups.map((group:any, i:any) => {
 											const { groupName, groupInfo } = group;
 											const path = `/calc/${groupInfo.source}/${groupInfo.id}/${groupInfo.filename}/${groupInfo.index}`;
 

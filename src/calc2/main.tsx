@@ -99,14 +99,14 @@ export class Main extends React.Component<Props, State> {
 									console.log('old path', location, match);
 									const query = queryString.parse(location.search);
 									const page = match.params[1];
-									const lang: string = query.lang || 'en'; // TODO: fallback to en when not supported
+									const lang: any = query.lang || 'en'; // TODO: fallback to en when not supported
 
 									if (i18n.language !== lang) {
 										i18n.changeLanguage(lang);
 									}
 
 									// ?data=source:id
-									const data: string = query.data || undefined;
+									const data: any = query.data || undefined;
 									if (data) {
 										// try to parse data
 										const match = data.trim().match(/(gist):(.*)/);

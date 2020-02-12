@@ -10,6 +10,8 @@ import * as React from 'react';
 import { langDE } from '../locales/de';
 import { langEN } from '../locales/en';
 import { langES } from '../locales/es';
+import { langUA } from '../locales/ua';
+import { langKR } from '../locales/kr';
 
 export type LanguageKeys = keyof typeof langEN;
 
@@ -27,6 +29,9 @@ export const i18n = i18next
 			es: {
 				translations: langES,
 			},
+			kr: {
+				translations: langKR,
+			}
 		},
 		fallbackLng: 'en',
 

@@ -76,6 +76,7 @@ export class Main extends React.Component<Props, State> {
 											<DropdownItem onClick={() => this.changeLocale('en')}>en</DropdownItem>
 											<DropdownItem onClick={() => this.changeLocale('de')}>de</DropdownItem>
 											<DropdownItem onClick={() => this.changeLocale('es')}>es</DropdownItem>
+											<DropdownItem onClick={() => this.changeLocale('kr')}>kr</DropdownItem>
 										</DropdownMenu>
 									</UncontrolledDropdown>
 									{/*<NavItem><NavLink href="/help"><T id="calc.navigation.take-a-tour" /></NavLink></NavItem>*/}

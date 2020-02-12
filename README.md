@@ -14,7 +14,7 @@ A Relational Algebra Calculator
 
 ## Features
 
-### data sources
+### Data Sources
 There are two ways to provide a group of tables:
 
 * static groups: the groups and tables are loaded from a text file stored on the server
@@ -22,7 +22,7 @@ There are two ways to provide a group of tables:
 
 In the group's description markdown code can be used but javascript code will be removed for security reasons.
 
-### static groups
+### static Groups
 Static groups are loaded from the file `data/local_groups`.
 In this file multiple groups can be declared in the following text format.
 
@@ -59,7 +59,7 @@ The qualifier of each column is its tables name and is automatically added at ru
         }
         C = A x B
 
-### github gist
+### Github Gist
 
 The program can load groups from a gist.
 This allows any user to use their own tables and share them with others.

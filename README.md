@@ -77,4 +77,4 @@ the group with other users.
 
 ## Contributors
 * Spanish translation was contributed by https://github.com/Nifled
-* Korean translation was contributed by @jeongwhanchoi https://github.com/jeongwhanchoi
+* Korean translation was contributed by https://github.com/jeongwhanchoi

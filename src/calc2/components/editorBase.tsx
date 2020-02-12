@@ -160,23 +160,6 @@ declare module 'codemirror' {
 		},
 	): void;
 
-	type Hint = {
-		/** The completion text. This is the only required property. */
-		text: string,
-		/** The text that should be displayed in the menu. */
-		displayText: string,
-		/** A CSS class name to apply to the completion's line in the menu. */
-		className: string,
-		/** A method used to create the DOM structure for showing the completion by appending it to its first argument. */
-		render?(element: Element, self: any, data: any): void,
-		/** A method used to actually apply the completion, instead of the default behavior. */
-		hint?(cm: CodeMirror.Editor, self: any, data: any): void,
-		/** Optional from position that will be used by pick() instead of the global one passed with the full list of completions. */
-		from?: CodeMirror.Position,
-		/** Optional to position that will be used by pick() instead of the global one passed with the full list of completions. */
-		to?: CodeMirror.Position,
-	};
-
 	interface Editor {
 		/** Retrieves information about the token the current mode found before the given position (a {line, ch} object). */
 		getTokenAt(pos: CodeMirror.Position, precise?: boolean): Token;

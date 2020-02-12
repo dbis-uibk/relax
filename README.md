@@ -1,4 +1,4 @@
-# Relax , a relational algebra calculator
+# Relax, a relational algebra calculator
 
 ## How to build
 * install yarn https://yarnpkg.com/

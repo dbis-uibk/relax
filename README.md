@@ -1,5 +1,4 @@
-# Relax 
-A Relational Algebra Calculator
+# Relax , a relational algebra calculator
 
 ## How to build
 * install yarn https://yarnpkg.com/
@@ -8,8 +7,8 @@ A Relational Algebra Calculator
 * open folder with https://code.visualstudio.com/ and install the workspace recommended extensions
 
 ## Contributions
-* Contributions are Highly appreciated
-* Please create a pull request for the development version
+* Contributions are **highly appreciated**
+* Please create a **pull request** for the **development** branch
 * To add a new language, just copy an existing file in `src/locales` e.g. `src/locales/en.ts` and rewrite the phrases
 
 ## Features
@@ -22,7 +21,7 @@ There are two ways to provide a group of tables:
 
 In the group's description markdown code can be used but javascript code will be removed for security reasons.
 
-### static Groups
+### Static Groups
 Static groups are loaded from the file `data/local_groups`.
 In this file multiple groups can be declared in the following text format.
 

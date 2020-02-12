@@ -19,7 +19,7 @@ import { Nav, NavItem, NavLink, TabContent, TabPane, UncontrolledDropdown, Dropd
 import { GroupRelationList } from '../components/groupRelationList';
 import { MenuConnected } from '../components/menu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { faCalculator, faGlobeEurope, faComment, faBars, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 
 require('./calculator.scss');
 
@@ -112,13 +112,14 @@ export class Calculator extends React.Component<Props, State> {
 									<FontAwesomeIcon icon={faBars} />
 								</DropdownToggle>
 									<DropdownMenu>
-									<DropdownItem><T id="calc.navigation.calc" /></DropdownItem>
-									<DropdownItem><T id="calc.navigation.help" /></DropdownItem>
-									<DropdownItem><T id="calc.navigation.feedback" /></DropdownItem>
+									<DropdownItem href="/calc"><FontAwesomeIcon icon={faCalculator} /> <T id="calc.navigation.calc" /></DropdownItem>
+									<DropdownItem href="/help"><FontAwesomeIcon icon={faComment} /> <T id="calc.navigation.help" /></DropdownItem>
+									<DropdownItem href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faQuestionCircle} /> <T id="calc.navigation.feedback" /></DropdownItem>
 									<DropdownItem divider />
 									<DropdownItem onClick={() => this.changeLocale('en')}>en</DropdownItem>
 									<DropdownItem onClick={() => this.changeLocale('de')}>de</DropdownItem>
 									<DropdownItem onClick={() => this.changeLocale('es')}>es</DropdownItem>
+									<DropdownItem onClick={() => this.changeLocale('kr')}>kr</DropdownItem>
 								</DropdownMenu>
 							</UncontrolledDropdown>
 							<NavItem>

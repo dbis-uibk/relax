@@ -19,7 +19,7 @@ import { ConnectedCalc } from './views/calc';
 import { Help } from './views/help';
 import { Landing } from './views/landing';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalculator, faGlobeEurope, faComment, faQuestionCircle} from '@fortawesome/free-solid-svg-icons'
+import { faCalculator, faGlobeEurope, faComment, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 
 require('calc2/style/index.scss');
 
@@ -143,58 +143,3 @@ export class Main extends React.Component<Props, State> {
 		);
 	}
 }
-
-
-/*<Switch>
-	<Route exact path="/" render={(match) => (
-		<Redirect to={`/en/landing`} />
-	)} />
-	<Route path="/landing" render={() => (
-		<Redirect to={`/en/landing`} />
-	)} />
-	<Route path="/en/landing" component={Landing} />
-
-	<Route path="/help" render={() => (
-		<Redirect to={`/en/help`} />
-	)} />
-	<Route path="/en/help" component={Help} />
-
-	<Route path="/:lang/calc/:source?/:id?" render={Calc} />
-
-	<Route exact path="(/.*)?/(calc|index|help).htm" render={({location, match, history, staticContext}) => {
-		console.log('test', location, match);
-		const query = queryString.parse(location.search);
-		const lang: string = query['lang'] || 'en';
-		const page = match.params[1];
-
-		// ?data=source:id
-		const data: string = query['data'] || undefined;
-		if(data){
-			// try to parse data
-			const match = data.trim().match(/(gist):(.*)/);
-			if(match !== null){
-				const [, source, id] = match;
-				return <Redirect to={`/${lang}/calc/${source}/${id}`} />
-			}
-			else{
-				return <p>data syntax not correct</p>;
-			}
-		}
-		else{
-			// no data
-			switch(page){
-				case 'calc':
-					return <Redirect to={`/${lang}/calc/`} />
-				case 'help':
-					return <Redirect to={`/${lang}/help${location.hash}`} />;
-				case 'index':
-				default:
-					return <Redirect to={`/${lang}/landing`} />;
-			}
-		}
-	}} />
-
-	<Route render={(match) => (
-		<span>no match {JSON.stringify(match)}</span>
-	)} />
-</Switch>*/

@@ -1,59 +1,20 @@
-# relational algebra calculator
+# Relax 
+A Relational Algebra Calculator
 
-This is the current development version of the project.
-
-It is a port of the old application written in 2015.
-The old application was written in plain es5 and jQuery.
-The new port tries to unravel the old structure by using typescript and react.
-
-There is still some old/undocumented old code left within the components.
-
-## TODOs
-
-[ ] cross browser build+tests (>= ie11?)
-[ ] port the into tour
-[ ] date picker for toolbar
-[ ] import via sql-dump
-[ ] document publish workflow
-[ ] error html in messages is broken
-[ ] update _handsontable_ to the new react wrapper
-[ ] split bundle to reduce loading time
-[ ] statically compiled landing and help page?
-
-### *Possible* future extensions
-* generate datasets via <http://www.mockaroo.com/> or <http://www.generatedata.com/> ?
-* extensions that would/could be useful in teaching:
-    * restrict set of usable operators for a group
-    * restrict language/mode for a group
-    * get insight about how the result is calculated
-    * provide exercises/instructions for a group
-
-## development
-
+## How to build
 * install yarn https://yarnpkg.com/
 * install node https://nodejs.org/en/
 * clone the repo
 * open folder with https://code.visualstudio.com/ and install the workspace recommended extensions
 
-### run the application locally
-* execute `yarn install`
-* execute `yarn serve`
-* open http://127.0.0.1:8088 in browser
-* go to http://127.0.0.1:8088/test.html to run the unit tests.
+## Contributions
+* Contributions are Highly appreciated
+* Please create a pull request for the development version
+* To add a new language, just copy an existing file in `src/locales` e.g. `src/locales/en.ts` and rewrite the phrases
 
-## relax-core
+## Features
 
-see `src/db/README.md`
-
-## Font
-FreeSansMinimal contains all glyphs for the relational algebra.
-The glyphs are from FreeSans, FreeSerif and FreeMono.
-
-## Changelog
-
-see ./index.htm
-
-## data sources
+### data sources
 There are two ways to provide a group of tables:
 
 * static groups: the groups and tables are loaded from a text file stored on the server
@@ -115,4 +76,5 @@ the group with other users.
 
 
 ## Contributors
-* spanish translation was contributed by https://github.com/Nifled
+* Spanish translation was contributed by https://github.com/Nifled
+* Korean translation was contributed by @jeongwhanchoi https://github.com/jeongwhanchoi

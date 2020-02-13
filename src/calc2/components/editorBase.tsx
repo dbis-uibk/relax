@@ -269,8 +269,6 @@ type State = {
 	execSuccessful: boolean,
 	isExecutionDisabled: boolean,
 	execResult: JSX.Element | null,
-	collection: any,
-	toRemove: [],
 };
 
 const gutterClass = 'CodeMirror-table-edit-markers';
@@ -383,17 +381,6 @@ export class EditorBase extends React.Component<Props, State> {
 			});
 		});
 	}
-
-	// Remove definetly
-	cleanCollection = () => this.setState({
-		// Return element which are not included in toRemove
-		collection: this.state.collection.filter(v => !this.state.toRemove.includes(v.id)),
-		// Cleanup the buffer
-		toRemove: [],
-	})
-
-
-
 
 	render() {
 		const {
@@ -552,14 +539,14 @@ export class EditorBase extends React.Component<Props, State> {
 
 	addExecutionWarning(msg: string, position?: { line: number, ch: number }) {
 		this._addExecutionAlert(msg, position, 'warning');
-		if(this.isMobile()){
+		if (this.isMobile()) {
 			toast.warn(msg, { className: 'fancyToastWarning' });
 		}
 	}
 
 	addExecutionError(msg: string, position?: { line: number, ch: number }) {
 		this._addExecutionAlert(msg, position, 'error');
-		if(this.isMobile()){
+		if (this.isMobile()) {
 			toast.error(msg, { className: 'fancyToastError' });
 		}
 	}

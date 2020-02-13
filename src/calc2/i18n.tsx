@@ -40,7 +40,7 @@ export const i18n = i18next
 		debug: true,
 	});
 
-export function t(key: LanguageKeys, options?: { [key: string]: string | number }): String {
+export function t(key: LanguageKeys, options?: { [key: string]: string | number }): string {
 	return String(i18n.t(key, options));
 }
 

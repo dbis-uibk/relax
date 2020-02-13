@@ -298,3 +298,21 @@ $NAV_BAR_HEIGHT: 64px;
 		display: none;
 	}
 }
+
+.modal {
+	padding: 0 !important; // override inline padding-right added from js
+}
+.modal .modal-dialog {
+	width: calc(100% - 32px);
+	height: calc(100% - 32px);
+	max-width: none;
+	margin: 16px 16px 16px 16px;
+}
+.modal .modal-content {
+	height: 100%;
+	border: 0;
+	border-radius: 0;
+}
+.modal .modal-body {
+overflow-y: auto;
+}

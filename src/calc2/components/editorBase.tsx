@@ -478,14 +478,14 @@ export class EditorBase extends React.Component<Props, State> {
 				<div className="exec-result">{execResult}</div>
 
 				<Modal isOpen={this.state.modal} toggle={this.toggle} className="showOnSM">
-				<ModalHeader toggle={this.toggle}>Result</ModalHeader>
+				<ModalHeader toggle={this.toggle}>{t('calc.result.modal.title')}</ModalHeader>
 				<ModalBody>
 					<div>
 						{execResult}
 					</div>
 				</ModalBody>
 				<ModalFooter>
-					<Button color="secondary" onClick={this.toggle}>Cancel</Button>
+					<Button color="secondary" onClick={this.toggle}>{t('calc.result.modal.close')}</Button>
 				</ModalFooter>
 				</Modal>
 
@@ -494,7 +494,7 @@ export class EditorBase extends React.Component<Props, State> {
 	}
 
 	toggle() {
-		if (window.innerWidth < 992){
+		if (window.innerWidth > 992){ // only show on mobile devices
 			return;
 		}
 		this.setState({

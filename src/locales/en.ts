@@ -270,4 +270,6 @@ export const langEN = {
 		<li><a href=\"help.htm#tutorial-maintainer\" target=\"_blank\">a short tutorial about how to create a new dataset for others</a></li>
 		</ul>
 	`,
+	'calc.result.modal.title': 'Result',
+	'calc.result.modal.close': 'Close',
 };

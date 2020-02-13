@@ -199,4 +199,6 @@ export const langDE: Partial<typeof langEN> = {
 		</ul>
 		finden Sie auf der <a href=\"help.htm\" target=\"_blank\">Hilfe Seite (en)</a>
 	`,
+	'calc.result.modal.title': 'Ergebnis',
+	'calc.result.modal.close': 'Schließen',
 };

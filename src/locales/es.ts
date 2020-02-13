@@ -278,4 +278,6 @@ export const langES: Partial<typeof langEN> = {
     '<li><a href="help.htm#tutorial-maintainer" target="_blank">un breve tutorial de como hacer tu propio dataset para compartir con otros</a></li>',
     '</ul>',
   ].join('\n'),
+  'calc.result.modal.title': 'Resultado',
+  'calc.result.modal.close': 'Cerrar',
 };

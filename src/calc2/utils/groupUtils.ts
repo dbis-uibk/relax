@@ -9,7 +9,7 @@ import { parseRelalgGroup, relalgFromRelalgAstNode, replaceVariables } from 'db/
 import * as jQuery from 'jquery';
 
 const LOCAL_DATA: { [id: string]: string } = {
-  'uibk': require('../data/uibk.txt') as string,
+  'uibk': require('../data/uibk.txt'),
 };
 
 
@@ -149,6 +149,7 @@ export function loadGroupsFromSource(source: GroupSourceType, id: string): Promi
           resolve(newGroups);
         }
         catch (e) {
+          // tslint:disable-next-line: prefer-template
           const msg = 'could not parse given group from gist with id "' + id + '": ' + e;
           console.error(msg, id, e, filename, data);
           reject(new Error(msg));
@@ -165,6 +166,7 @@ export function loadGroupsFromSource(source: GroupSourceType, id: string): Promi
           crossDomain: true,
           statusCode: {
             404: function () {
+              // tslint:disable-next-line: prefer-template
               reject(new Error('gist ' + id + ' not found'));
             },
           },
@@ -174,10 +176,6 @@ export function loadGroupsFromSource(source: GroupSourceType, id: string): Promi
       }
       case 'local': {
         try {
-          if (typeof LOCAL_DATA[id] === 'undefined') {
-            reject(new Error(`could not find local data ${id}`));
-          }
-
           const data: string = LOCAL_DATA[id];
           const info: GroupInfo = {
             source,
@@ -190,13 +188,8 @@ export function loadGroupsFromSource(source: GroupSourceType, id: string): Promi
           resolve(newGroups);
         }
         catch (e) {
-
-          let msg = 'cannot parse groups file: ' + e.message;
-          if (e.line) {
-            msg += ' in line    ' + e.line;
-          }
+          let msg = 'cannot parse groups file: ' + (e as Error).message;
           msg += '<br>see log for more information';
-
           console.error(msg, e);
           reject(new Error(msg));
         }

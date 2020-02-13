@@ -6,12 +6,10 @@
 
 import { loadStaticGroups } from 'calc2/store/groups';
 import { SET_LOCALE } from 'calc2/store/session';
-// polyfill(s)
 import 'custom-event-polyfill';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-// 404 page for spa-github-pages
 import './404.html';
 import { i18n } from './i18n';
 import Main from './main.hot';

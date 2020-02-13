@@ -4,22 +4,21 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { faBars, faCalculator, faComment, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EditorGroup } from 'calc2/components/editorGroup';
 import { EditorRelalg } from 'calc2/components/editorRelalg';
 import { EditorSql } from 'calc2/components/editorSql';
-import { GroupInfoDesc } from 'calc2/components/groupInfoDesc';
 import { Popover } from 'calc2/components/popover';
-import { T, i18n } from 'calc2/i18n';
+import { i18n, T } from 'calc2/i18n';
 import * as store from 'calc2/store';
 import { Group } from 'calc2/store/groups';
 import { translateHeader } from 'calc2/utils/misc';
 import * as classnames from 'classnames';
 import * as React from 'react';
-import { Nav, NavItem, NavLink, TabContent, TabPane, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLink, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import { GroupRelationList } from '../components/groupRelationList';
 import { MenuConnected } from '../components/menu';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalculator, faGlobeEurope, faComment, faBars, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 
 require('./calculator.scss');
 
@@ -48,7 +47,7 @@ export class Calculator extends React.Component<Props, State> {
 
 		this.getCurrentEditor = this.getCurrentEditor.bind(this);
 	}
-	
+
 	private changeLocale(lang: string) {
 		if (i18n.language === lang) {
 			return;
@@ -111,7 +110,7 @@ export class Calculator extends React.Component<Props, State> {
 								<DropdownToggle nav>
 									<FontAwesomeIcon icon={faBars} />
 								</DropdownToggle>
-									<DropdownMenu>
+								<DropdownMenu>
 									<DropdownItem href="/calc"><FontAwesomeIcon icon={faCalculator} /> <T id="calc.navigation.calc" /></DropdownItem>
 									<DropdownItem href="/help"><FontAwesomeIcon icon={faComment} /> <T id="calc.navigation.help" /></DropdownItem>
 									<DropdownItem href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faQuestionCircle} /> <T id="calc.navigation.feedback" /></DropdownItem>

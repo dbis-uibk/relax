@@ -48,7 +48,7 @@ export class Toolbar extends React.Component<Props> {
 								key={index}
 								trigger={['hover', 'focus']}
 								placement={item.type === 'dropdown' ? 'top' : 'bottom'}
-								title={item.tooltipTitle ? t(item.tooltipTitle) : ''}
+								title={item.tooltipTitle ? String(t(item.tooltipTitle)) : ''}
 								body={<T id={item.tooltip} html={true} />}
 								className="toolbar__popover"
 							>
@@ -69,3 +69,4 @@ export class Toolbar extends React.Component<Props> {
 		);
 	}
 }
+

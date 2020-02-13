@@ -7,4 +7,5 @@
 import { Main } from 'calc2/main';
 import { hot } from 'react-hot-loader';
 
+// tslint:disable-next-line: no-default-export
 export default hot(module)(Main);

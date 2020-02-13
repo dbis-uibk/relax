@@ -19,10 +19,10 @@ import * as Handsontable from 'handsontable';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlayCircle, faArrowAltCircleDown, faHistory } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlayCircle, faArrowAltCircleDown, faHistory } from '@fortawesome/free-solid-svg-icons';
 
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/eclipse.css');
@@ -34,6 +34,10 @@ require('codemirror/addon/display/autorefresh.js');
 
 require('handsontable/dist/handsontable.full.css');
 
+class codeMirrorState {
+	inBlockComment: boolean = false;
+}
+	
 CodeMirror.defineMode('relalg', function () {
 	const keywords = [
 		'pi', 'sigma', 'rho', 'tau', '<-', '->', 'intersect', 'union', 'except', '/', '-', '\\\\', 'x', 'cross join', 'join',
@@ -65,11 +69,11 @@ CodeMirror.defineMode('relalg', function () {
 
 	return {
 		startState: () => {
-			return {
-				inBlockComment: false,
-			};
+			const s = new codeMirrorState();
+			s.inBlockComment = false;
+			return s;
 		},
-		token: (stream, state) => {
+		token: (stream: CodeMirror.StringStream, state: codeMirrorState) => {
 			if (state.inBlockComment) {
 				if (stream.match(/.*?\*\//, true)) {
 					state.inBlockComment = false;
@@ -346,7 +350,7 @@ export class EditorBase extends React.Component<Props, State> {
 			execErrors: [],
 			isExecutionDisabled: false,
 			execResult: null,
-			modal: false
+			modal: false,
 		};
 		this.toggle = this.toggle.bind(this);
 		this.hinterCache = {
@@ -374,7 +378,7 @@ export class EditorBase extends React.Component<Props, State> {
 		});
 
 		if (this.props.linterFunction != null) {
-			editor.setOption('lint', true)
+			editor.setOption('lint', true);
 		}
 
 		editor.on('cursorActivity', (cm) => {
@@ -494,7 +498,7 @@ export class EditorBase extends React.Component<Props, State> {
 			return;
 		}
 		this.setState({
-			modal: !this.state.modal
+			modal: !this.state.modal,
 		});
 	}
 

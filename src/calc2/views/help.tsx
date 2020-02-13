@@ -5,12 +5,11 @@
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import * as $ from 'jquery';
-import { Choice, Comment, Diagram, NonTerminal, OneOrMore, Optional, Sequence, Skip, Stack, Terminal, ZeroOrMore } from "railroad-diagrams";
+import { Choice, Comment, Diagram, NonTerminal, OneOrMore, Optional, Sequence, Skip, Stack, Terminal, ZeroOrMore } from 'railroad-diagrams';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { RailroadDiagram } from "../components/railroadDiagram";
+import { RailroadDiagram } from '../components/railroadDiagram';
 import './help.css';
-
 
 interface Props extends RouteComponentProps<{lang: string}> {
 }
@@ -35,6 +34,7 @@ export class Help extends React.Component<Props> {
 			e.attr('name', anchor);
 			e.attr('id', anchor);
 
+			// tslint:disable-next-line: prefer-template
 			const content = '<a href="#' + anchor + '">' + e.text() + '</a>';
 
 			if (e.is('h2')) {
@@ -800,7 +800,7 @@ export class Help extends React.Component<Props> {
 											<RailroadDiagram 
 												diagram={Diagram(
 														Optional(
-																Sequence(NonTerminal('qualifier'), '.')
+																Sequence(NonTerminal('qualifier'), '.'),
 														),
 														NonTerminal('column-name'),
 														Optional(
@@ -810,10 +810,10 @@ export class Help extends React.Component<Props> {
 																				'string',
 																				'number',
 																				'date',
-																				'boolean'
-																		)
-																)
-														)
+																				'boolean',
+																		),
+																),
+														),
 												)} />
 										</div>
 									</div>
@@ -878,10 +878,10 @@ export class Help extends React.Component<Props> {
 																			NonTerminal('rename relation', '#relalg-operations-renamerelation'),
 																			NonTerminal('rename column', '#relalg-operations-renamecolumn'),
 																			NonTerminal('order by', '#relalg-operations-orderby'),
-																			NonTerminal('group by', '#relalg-operations-groupby')
+																			NonTerminal('group by', '#relalg-operations-groupby'),
 																	),
-																	NonTerminal('RA-expression', '#relalg-relalgexpr')
-															)
+																	NonTerminal('RA-expression', '#relalg-relalgexpr'),
+															),
 													),
 													Choice(
 															1,
@@ -901,11 +901,11 @@ export class Help extends React.Component<Props> {
 																			NonTerminal('full outer join', '#relalg-operations-fulljoin'),
 																			NonTerminal('left semi join', '#relalg-operations-leftsemijoin'),
 																			NonTerminal('right semi join', '#relalg-operations-rightsemijoin'),
-																			NonTerminal('anti semi join', '#relalg-operations-antijoin')
+																			NonTerminal('anti semi join', '#relalg-operations-antijoin'),
 																	),
-																	NonTerminal('RA-expression', '#relalg-relalgexpr')
-															)
-													)
+																	NonTerminal('RA-expression', '#relalg-relalgexpr'),
+															),
+													),
 											)} />
 									</div>
 								</div>
@@ -978,9 +978,9 @@ export class Help extends React.Component<Props> {
 											diagram={Diagram(
 												Sequence(
 														Choice(0, 'π', 'pi'),
-														OneOrMore(NonTerminal('column', '#relalg-column'), ',')
+														OneOrMore(NonTerminal('column', '#relalg-column'), ','),
 												),
-												NonTerminal('RA-expression', '#relalg-relalgexpr')
+												NonTerminal('RA-expression', '#relalg-relalgexpr'),
 										)} />
 								</div>
 							</div>
@@ -1025,9 +1025,9 @@ export class Help extends React.Component<Props> {
 											diagram={Diagram(
 												Sequence(
 														Choice(0, 'σ', 'sigma'),
-														NonTerminal('boolean-expression', '#relalg-valueexpr')
+														NonTerminal('boolean-expression', '#relalg-valueexpr'),
 												),
-												NonTerminal('RA-expression', '#relalg-relalgexpr')
+												NonTerminal('RA-expression', '#relalg-relalgexpr'),
 										)} />
 								</div>
 							</div>
@@ -1066,9 +1066,9 @@ export class Help extends React.Component<Props> {
 											diagram={Diagram(
 													Sequence(
 															Choice(0, 'ρ', 'rho'),
-															NonTerminal('new relation name')
+															NonTerminal('new relation name'),
 													),
-													NonTerminal('RA-expression', '#relalg-relalgexpr')
+													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 											)} />
 									</div>
 								</div>
@@ -1118,18 +1118,18 @@ export class Help extends React.Component<Props> {
 																			Sequence(
 																					NonTerminal('new name'),
 																					Choice(0, '←', '<-'),
-																					NonTerminal('column', '#relalg-column')
+																					NonTerminal('column', '#relalg-column'),
 																			),
 																			Sequence(
 																					NonTerminal('column', '#relalg-column'),
 																					Choice(0, '→', '->'),
-																					NonTerminal('new name')
-																			)
+																					NonTerminal('new name'),
+																			),
 																	),
-																	','
-															)
+																	',',
+															),
 													),
-													NonTerminal('RA-expression', '#relalg-relalgexpr')
+													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 												)
 											}
 										/>
@@ -1177,13 +1177,13 @@ export class Help extends React.Component<Props> {
 																			Choice(0,
 																					Skip(),
 																					'asc',
-																					'desc'
-																			)
+																					'desc',
+																			),
 																	),
-																	','
-															)
+																	',',
+															),
 													),
-													NonTerminal('RA-expression', '#relalg-relalgexpr')
+													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 											)} />
 									</div>
 								</div>
@@ -1286,18 +1286,18 @@ export class Help extends React.Component<Props> {
 																									'COUNT(*)',
 																									Sequence(
 																											Choice(0, 'COUNT', 'MIN', 'MAX', 'SUM', 'AVG'),
-																											'(', NonTerminal('column', '#relalg-column'), ')'
-																									)
+																											'(', NonTerminal('column', '#relalg-column'), ')',
+																									),
 																							),
 																							Choice(0, '→', '->'),
-																							NonTerminal('new name')
+																							NonTerminal('new name'),
 																					),
-																					','
-																			)
-																	)
+																					',',
+																			),
+																	),
 															),
-															NonTerminal('RA-expression', '#relalg-relalgexpr')
-													)
+															NonTerminal('RA-expression', '#relalg-relalgexpr'),
+													),
 											)} />
 									</div>
 								</div>
@@ -1338,9 +1338,9 @@ export class Help extends React.Component<Props> {
 											diagram={Diagram(
 													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													Sequence(
-															Choice(0, '∩', 'intersect')
+															Choice(0, '∩', 'intersect'),
 													),
-													NonTerminal('RA-expression', '#relalg-relalgexpr')
+													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 											)} />
 									</div>
 								</div>
@@ -1371,9 +1371,9 @@ export class Help extends React.Component<Props> {
 											diagram={Diagram(
 													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													Sequence(
-															Choice(0, '∪', 'union')
+															Choice(0, '∪', 'union'),
 													),
-													NonTerminal('RA-expression', '#relalg-relalgexpr')
+													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 											)} />
 									</div>
 								</div>
@@ -1404,9 +1404,9 @@ export class Help extends React.Component<Props> {
 											diagram={Diagram(
 													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													Sequence(
-															Choice(0, '÷', '/')
+															Choice(0, '÷', '/'),
 													),
-													NonTerminal('RA-expression', '#relalg-relalgexpr')
+													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 											)} />
 									</div>
 								</div>
@@ -1441,9 +1441,9 @@ export class Help extends React.Component<Props> {
 											diagram={Diagram(
 													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													Sequence(
-															Choice(0, '-', '\\', 'except')
+															Choice(0, '-', '\\', 'except'),
 													),
-													NonTerminal('RA-expression', '#relalg-relalgexpr')
+													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 											)} />
 									</div>
 								</div>
@@ -1468,9 +1468,9 @@ export class Help extends React.Component<Props> {
 											diagram={Diagram(
 													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													Sequence(
-															Choice(0, '⨯', Sequence('cross', 'join'))
+															Choice(0, '⨯', Sequence('cross', 'join')),
 													),
-													NonTerminal('RA-expression', '#relalg-relalgexpr')
+													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 											)} />
 									</div>
 								</div>
@@ -1498,10 +1498,10 @@ export class Help extends React.Component<Props> {
 																	NonTerminal('RA-expression', '#relalg-relalgexpr'),
 																	Sequence(
 																			Choice(0, '⋈', Sequence(Optional('inner'), 'join')),
-																			NonTerminal('boolean-expression', '#relalg-valueexpr')
+																			NonTerminal('boolean-expression', '#relalg-valueexpr'),
 																	),
 															),
-															NonTerminal('RA-expression', '#relalg-relalgexpr')
+															NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													),
 											)} />
 									</div>
@@ -1547,7 +1547,7 @@ export class Help extends React.Component<Props> {
 											diagram={Diagram(
 													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													Sequence(
-															Choice(0, '⋈', Sequence('natural', 'join'))
+															Choice(0, '⋈', Sequence('natural', 'join')),
 													),
 													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 											)} />
@@ -1577,7 +1577,7 @@ export class Help extends React.Component<Props> {
 																	NonTerminal('RA-expression', '#relalg-relalgexpr'),
 																	Sequence(
 																			Choice(0, '⟕', Sequence('left', Optional('outer'), 'join')),
-																			Optional(NonTerminal('boolean-expression', '#relalg-valueexpr'))
+																			Optional(NonTerminal('boolean-expression', '#relalg-valueexpr')),
 																	),
 															),
 															NonTerminal('RA-expression', '#relalg-relalgexpr'),
@@ -2222,9 +2222,9 @@ export class Help extends React.Component<Props> {
 																					'AS',
 																					'(',
 																					NonTerminal('select', '#sql-select'),
-																					')'
+																					')',
 																			),
-																			','
+																			',',
 																	),
 															),
 															'skip',
@@ -2240,14 +2240,14 @@ export class Help extends React.Component<Props> {
 																					0,
 																					Sequence(
 																							NonTerminal('column'),
-																							Optional(Sequence('AS', NonTerminal('output_name')))
+																							Optional(Sequence('AS', NonTerminal('output_name'))),
 																					),
 																					Sequence(
 																							NonTerminal('expression', '#sql-valueexpr'),
-																							Sequence('AS', NonTerminal('output_name'))
-																					)
+																							Sequence('AS', NonTerminal('output_name')),
+																					),
 																			),
-																			','
+																			',',
 																	),
 															),
 
@@ -2257,12 +2257,12 @@ export class Help extends React.Component<Props> {
 																			0,
 																			Sequence(
 																					NonTerminal('table_name'),
-																					Optional(Sequence('AS', NonTerminal('alias')))
+																					Optional(Sequence('AS', NonTerminal('alias'))),
 																			),
 																			Sequence(
 																					'(', NonTerminal('select'), ')',
-																					Sequence('AS', NonTerminal('alias'))
-																			)
+																					Sequence('AS', NonTerminal('alias')),
+																			),
 																	),
 																	',',
 															),
@@ -2281,27 +2281,27 @@ export class Help extends React.Component<Props> {
 																							Choice(
 																									0,
 																									Sequence(Optional('INNER'), 'JOIN'),
-																									Sequence(Choice(0, 'LEFT', 'RIGHT', 'FULL'), Optional('OUTER'), 'JOIN')
+																									Sequence(Choice(0, 'LEFT', 'RIGHT', 'FULL'), Optional('OUTER'), 'JOIN'),
 																							),
 																							Choice(
 																									0,
 																									Sequence('ON', NonTerminal('condition')),
 																									Sequence('USING', '(', OneOrMore(NonTerminal('join_column'), ','), ')'),
-																									Sequence('NATURAL')
-																							)
-																					)
+																									Sequence('NATURAL'),
+																							),
+																					),
 																			),
 																			Choice(
 																					0,
 																					Sequence(
 																							NonTerminal('table_name'),
-																							Optional(Sequence('AS', NonTerminal('alias')))
+																							Optional(Sequence('AS', NonTerminal('alias'))),
 																					),
 																					Sequence(
 																							'(', NonTerminal('select'), ')',
-																							Sequence('AS', NonTerminal('alias'))
-																					)
-																			)
+																							Sequence('AS', NonTerminal('alias')),
+																					),
+																			),
 																	),
 															),
 													),
@@ -2310,21 +2310,21 @@ export class Help extends React.Component<Props> {
 															Optional(
 																	Sequence(
 																			Terminal('WHERE', '#sql-where'),
-																			NonTerminal('condition')
+																			NonTerminal('condition'),
 																	),
 																	'skip',
 															),
 															Optional(
 																	Sequence(
 																			Terminal('GROUP BY', '#sql-groupby'),
-																			NonTerminal('expression', '#sql-valueexpr')
+																			NonTerminal('expression', '#sql-valueexpr'),
 																	),
 																	'skip',
 															),
 															Optional(
 																	Sequence(
 																			Terminal('HAVING', '#sql-having'),
-																			NonTerminal('condition')
+																			NonTerminal('condition'),
 																	),
 																	'skip',
 															),
@@ -2337,15 +2337,15 @@ export class Help extends React.Component<Props> {
 																					0,
 																					'UNION',
 																					'INTERSECT',
-																					'EXCEPT'
+																					'EXCEPT',
 																			),
 																			Choice(
 																					0,
 																					Skip(),
 																					'DISTINCT',
-																					'ALL'
+																					'ALL',
 																			),
-																			NonTerminal('select')
+																			NonTerminal('select'),
 																	),
 																	'skip',
 															),
@@ -2358,11 +2358,11 @@ export class Help extends React.Component<Props> {
 																							Choice(
 																									0,
 																									'ASC',
-																									'DESC'
-																							)
+																									'DESC',
+																							),
 																					),
-																					','
-																			)
+																					',',
+																			),
 																	),
 																	'skip',
 															),
@@ -2374,8 +2374,8 @@ export class Help extends React.Component<Props> {
 																			Terminal('LIMIT', '#sql-limit'),
 																			Choice(0,
 																					NonTerminal('count'),
-																					'ALL'
-																			)
+																					'ALL',
+																			),
 																	),
 																	'skip',
 															),
@@ -2383,7 +2383,7 @@ export class Help extends React.Component<Props> {
 																	Sequence(
 																			Terminal('OFFSET', '#sql-limit'),
 																			NonTerminal('start'),
-																			Optional('ROWS')
+																			Optional('ROWS'),
 																	),
 																	'skip',
 															),
@@ -2396,7 +2396,7 @@ export class Help extends React.Component<Props> {
 																			Terminal('FETCH FIRST', '#sql-limit'),
 																			NonTerminal('count'),
 																			Optional('ROWS'),
-																			'ONLY'
+																			'ONLY',
 																	),
 																	'skip',
 															),

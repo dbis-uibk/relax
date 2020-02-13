@@ -53,7 +53,7 @@ export class Calc extends React.Component<Props> {
 	private loadGroup(props: Props) {
 		const { source, id, filename, index } = props.match.params;
 
-		this.props.loadGroup(source, id, filename, Number.parseInt(index));
+		this.props.loadGroup(source, id, filename, Number.parseInt(index, 10));
 		// TODO: display errors
 	}
 

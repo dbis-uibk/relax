@@ -30,7 +30,7 @@ export const i18n = i18next
 			},
 			kr: {
 				translations: langKR,
-			}
+			},
 		},
 		fallbackLng: 'en',
 
@@ -40,8 +40,8 @@ export const i18n = i18next
 		debug: true,
 	});
 
-export function t(key: LanguageKeys, options?: { [key: string]: string | number }): string {
-	return i18n.t(key, options);
+export function t(key: LanguageKeys, options?: { [key: string]: string | number }): String {
+	return String(i18n.t(key, options));
 }
 
 const {
@@ -52,7 +52,7 @@ const {
 /**
  * exposes the i18n instance
  */
-export const I18NProvider: React.SFC<{}> = props => {
+export const I18NProvider: React.FunctionComponent<{}> = props => {
 	return (
 		<Provider value={i18n}>
 			{props.children}
@@ -63,13 +63,13 @@ export const I18NProvider: React.SFC<{}> = props => {
 /**
  * translate the given id via the i18n instance of the context
  */
-export const T: React.SFC<{ id: LanguageKeys, html?: boolean }> = ({ id, html = false }) => {
+export const T: React.FunctionComponent<{ id: LanguageKeys, html?: boolean }> = ({ id, html = false }) => {
 	return (
 		<Consumer>
-			{_i18n => (
+			{(_i18n: i18next.i18n) => (
 				html
-					? <span dangerouslySetInnerHTML={{ __html: _i18n.t(id, { interpolation: { escapeValue: false } }) }} />
-					: <span>{_i18n.t(id)}</span>
+					? <span dangerouslySetInnerHTML={{ __html: String(_i18n.t(id, { interpolation: { escapeValue: false } })) }} />
+					: <span>{String(_i18n.t(id))}</span>
 			)}
 		</Consumer>
 	);

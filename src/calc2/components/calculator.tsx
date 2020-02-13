@@ -16,10 +16,11 @@ import { Group } from 'calc2/store/groups';
 import { translateHeader } from 'calc2/utils/misc';
 import * as classnames from 'classnames';
 import * as React from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLink, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import { GroupRelationList } from '../components/groupRelationList';
 import { MenuConnected } from '../components/menu';
-
 require('./calculator.scss');
 
 type Props = {
@@ -40,7 +41,9 @@ export class Calculator extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
-
+		
+		toast.configure();
+		
 		this.state = {
 			activeTab: 'relalg',
 		};
@@ -76,6 +79,7 @@ export class Calculator extends React.Component<Props, State> {
 
 		return (
 			<div className="calculator">
+				<ToastContainer enableMultiContainer position={toast.POSITION.TOP_RIGHT} />
 				<div className="row">
 					<div className="d-none d-xs-block d-sm-block d-md-block col-lg-1 col-xl-2"></div>
 					<div className="groups-container col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">

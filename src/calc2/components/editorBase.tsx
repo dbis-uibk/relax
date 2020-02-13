@@ -4,6 +4,8 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { faArrowAltCircleDown, faHistory, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DropdownList } from 'calc2/components/dropdownList';
 import { HistoryEntry } from 'calc2/components/history';
 import { Group as ToolbarGroup, Item, Toolbar } from 'calc2/components/toolbar';
@@ -18,11 +20,8 @@ import { forEachPreOrder } from 'db/translate/utils';
 import * as Handsontable from 'handsontable';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlayCircle, faArrowAltCircleDown, faHistory } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/eclipse.css');
@@ -34,10 +33,6 @@ require('codemirror/addon/display/autorefresh.js');
 
 require('handsontable/dist/handsontable.full.css');
 
-class codeMirrorState {
-	inBlockComment: boolean = false;
-}
-	
 CodeMirror.defineMode('relalg', function () {
 	const keywords = [
 		'pi', 'sigma', 'rho', 'tau', '<-', '->', 'intersect', 'union', 'except', '/', '-', '\\\\', 'x', 'cross join', 'join',
@@ -69,11 +64,11 @@ CodeMirror.defineMode('relalg', function () {
 
 	return {
 		startState: () => {
-			const s = new codeMirrorState();
-			s.inBlockComment = false;
-			return s;
+			return {
+				inBlockComment: false,
+			};
 		},
-		token: (stream: CodeMirror.StringStream, state: codeMirrorState) => {
+		token: (stream: CodeMirror.StringStream, state) => {
 			if (state.inBlockComment) {
 				if (stream.match(/.*?\*\//, true)) {
 					state.inBlockComment = false;
@@ -274,6 +269,8 @@ type State = {
 	execSuccessful: boolean,
 	isExecutionDisabled: boolean,
 	execResult: JSX.Element | null,
+	collection: any,
+	toRemove: [],
 };
 
 const gutterClass = 'CodeMirror-table-edit-markers';
@@ -290,7 +287,6 @@ export class EditorBase extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
-		
 		const codeMirrorOptions = {
 			theme: 'eclipse',
 			smartdent: true,
@@ -388,6 +384,16 @@ export class EditorBase extends React.Component<Props, State> {
 		});
 	}
 
+	// Remove definetly
+	cleanCollection = () => this.setState({
+		// Return element which are not included in toRemove
+		collection: this.state.collection.filter(v => !this.state.toRemove.includes(v.id)),
+		// Cleanup the buffer
+		toRemove: [],
+	})
+
+
+
 
 	render() {
 		const {
@@ -406,95 +412,99 @@ export class EditorBase extends React.Component<Props, State> {
 		} = this.props;
 
 		return (
-			<div className="editor-base">
-				<Toolbar groups={toolbar} />
+			<div>
+				<div className="editor-base">
+					<Toolbar groups={toolbar} />
 
-				<textarea />
+					<textarea />
 
-				<div className="exec-errors">
-					{execErrors.map((alert, i) => <ExecutionAlert key={i} alert={alert} editor={editor} />)}
-				</div>
+					<div className="exec-errors">
+						{execErrors.map((alert, i) => <ExecutionAlert key={i} alert={alert} editor={editor} />)}
+					</div>
 
 
-				<div className="input-buttons">
-					<button
-						type="button"
-						disabled={isExecutionDisabled}
-						className={classNames('btn btn-primary exec-button selection', {
-							'selection-selected': isSelectionSelected,
-							'btn-danger': execErrors.length > 0,
-							'btn-success': execSuccessful,
-							'disabled': isExecutionDisabled,
-						})}
-						onClick={() => {
-							if (!editor) {
-								console.warn(`editor not initialized yet`);
-								return;
+					<div className="input-buttons">
+						<button
+							type="button"
+							disabled={isExecutionDisabled}
+							className={classNames('btn btn-primary exec-button selection', {
+								'selection-selected': isSelectionSelected,
+								'btn-danger': execErrors.length > 0,
+								'btn-success': execSuccessful,
+								'disabled': isExecutionDisabled,
+							})}
+							onClick={() => {
+								if (!editor) {
+									console.warn(`editor not initialized yet`);
+									return;
+								}
+								this.exec(editor.getDoc().somethingSelected());
+							}}
+						>
+							{!!execButtonLabel
+								? <T id={execButtonLabel} />
+								: (
+									<>
+										<span className="glyphicon glyphicon-play"></span> <span className="query"><FontAwesomeIcon icon={faPlayCircle} /> <T id="calc.editors.ra.button-execute-query" /></span><span className="selection"><T id="calc.editors.ra.button-execute-selection" /></span>
+									</>
+								)
 							}
-							this.exec(editor.getDoc().somethingSelected());
-						}}
-					>
-						{!!execButtonLabel
-							? <T id={execButtonLabel} />
-							: (
-								<>
-									<span className="glyphicon glyphicon-play"></span> <span className="query"><FontAwesomeIcon icon={faPlayCircle} /> <T id="calc.editors.ra.button-execute-query" /></span><span className="selection"><T id="calc.editors.ra.button-execute-selection" /></span>
-								</>
-							)
-						}
-					</button>
+						</button>
 
-					<div style={{ float: 'right' }}>
-						<button type="button" className="btn btn-default download-button" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faArrowAltCircleDown} /> <span className="hideOnSM"><T id="calc.editors.ra.button-download" /></span></button>
+						<div style={{ float: 'right' }}>
+							<button type="button" className="btn btn-default download-button hideOnSM" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faArrowAltCircleDown} /> <span className="hideOnSM"><T id="calc.editors.ra.button-download" /></span></button>
 
-						{disableHistory
-							? null
-							: (
-								<div className="btn-group history-container">
-									<DropdownList
-										label={<span><FontAwesomeIcon icon={faHistory} /> <span className="hideOnSM"><T id="calc.editors.button-history" /></span></span>}
-										elements={history.map(h => ({
-											label: (
-												<>
-													<small className="muted text-muted">{h.time.toLocaleTimeString()}</small>
-													<div>{h.code}</div>
-													{/*
+							{disableHistory
+								? null
+								: (
+									<div className="btn-group history-container">
+										<DropdownList
+											label={<span><FontAwesomeIcon icon={faHistory} /> <span className="hideOnSM"><T id="calc.editors.button-history" /></span></span>}
+											elements={history.map(h => ({
+												label: (
+													<>
+														<small className="muted text-muted">{h.time.toLocaleTimeString()}</small>
+														<div>{h.code}</div>
+														{/*
 														// colorize the code
 														codeNode.addClass('colorize');
 														CodeMirror.colorize(codeNode, this.state.editor.getOption('mode'));
 													*/}
-												</>
-											),
-											value: h,
-										}))}
-										onChange={this.applyHistory}
-									/>
-								</div>
-							)
-						}
+													</>
+												),
+												value: h,
+											}))}
+											onChange={this.applyHistory}
+										/>
+									</div>
+								)
+							}
+						</div>
 					</div>
+					<div className="exec-result">{execResult}</div>
+					<Modal isOpen={this.state.modal} toggle={this.toggle} className="showOnSM">
+						<ModalHeader toggle={this.toggle}>{t('calc.result.modal.title')}</ModalHeader>
+						<ModalBody>
+							<div>
+								{execResult}
+							</div>
+						</ModalBody>
+						<ModalFooter>
+							<Button color="secondary" onClick={this.toggle}>{t('calc.editors.ra.button-download')}</Button>
+							<span></span>
+							<Button color="secondary" onClick={this.toggle}>{t('calc.result.modal.close')}</Button>
+						</ModalFooter>
+					</Modal>
 				</div>
-
-				<div className="exec-result">{execResult}</div>
-
-				<Modal isOpen={this.state.modal} toggle={this.toggle} className="showOnSM">
-				<ModalHeader toggle={this.toggle}>{t('calc.result.modal.title')}</ModalHeader>
-				<ModalBody>
-					<div>
-						{execResult}
-					</div>
-				</ModalBody>
-				<ModalFooter>
-					<Button color="secondary" onClick={this.toggle}>{t('calc.result.modal.close')}</Button>
-				</ModalFooter>
-				</Modal>
-
 			</div>
 		);
 	}
 
+	isMobile(): boolean {
+		return (window.innerWidth <= 992);
+	}
 	toggle() {
-		if (window.innerWidth > 992){ // only show on mobile devices
+		if (this.isMobile()) {
 			return;
 		}
 		this.setState({
@@ -536,17 +546,22 @@ export class EditorBase extends React.Component<Props, State> {
 	}
 
 	clearExecutionAlerts() {
-		this.setState({
-			execErrors: [],
-		});
+		this.state.execErrors.splice(0, this.state.execErrors.length);
+		toast.dismiss();
 	}
 
 	addExecutionWarning(msg: string, position?: { line: number, ch: number }) {
 		this._addExecutionAlert(msg, position, 'warning');
+		if(this.isMobile()){
+			toast.warn(msg, { className: 'fancyToastWarning' });
+		}
 	}
 
 	addExecutionError(msg: string, position?: { line: number, ch: number }) {
 		this._addExecutionAlert(msg, position, 'error');
+		if(this.isMobile()){
+			toast.error(msg, { className: 'fancyToastError' });
+		}
 	}
 
 	_addExecutionAlert(
@@ -554,19 +569,18 @@ export class EditorBase extends React.Component<Props, State> {
 		position: { line: number, ch: number } | undefined = undefined,
 		type: 'error' | 'warning',
 	) {
+		if (this.isMobile()) {
+
+		}
 		const { editor } = this.state;
 		const alert: Alert = {
 			type,
 			message,
 			position,
 		};
-
-		this.setState({
-			execErrors: [
-				...this.state.execErrors,
-				alert,
-			],
-		});
+		const errors = this.state.execErrors;
+		errors.push(alert);
+		this.setState({ execErrors: errors });
 	}
 
 	setText(text: string, replace: 'selection' | 'all') {
@@ -812,6 +826,7 @@ export class EditorBase extends React.Component<Props, State> {
 		if (!editor) {
 			throw new Error(`editor not initialized yet`);
 		}
+		this.clearExecutionAlerts();
 		let query = '';
 		let offset = {
 			line: 0,

@@ -15,7 +15,7 @@ interface Props {
 	 * replace the current selection of the current editor with the given text
 	 */
 	replace?(text: string): void,
-	onElementClick: Function,
+	onElementClick: Function | null,
 }
 
 export const GroupRelationList: React.StatelessComponent<Props> = ({ tables, replace, onElementClick }) => (

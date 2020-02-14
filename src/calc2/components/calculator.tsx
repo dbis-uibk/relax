@@ -115,6 +115,7 @@ export class Calculator extends React.Component<Props, State> {
 										editor.current.replaceSelection(text);
 									}
 								}}
+								onElementClick={null}
 							/>
 						</div>
 					</div>

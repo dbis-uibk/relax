@@ -291,30 +291,39 @@ $NAV_BAR_HEIGHT: 64px;
 		display: none;
 	}
 	
+	
+	.modal {
+		padding: 0 !important; // override inline padding-right added from js
+	}
+	.modal .modal-dialog {
+		width: calc(100% - 32px);
+		height: calc(100% - 32px);
+		max-width: none;
+		margin: 16px 16px 16px 16px;
+	}
+	.modal .modal-content {
+		height: 100%;
+		border: 0;
+		border-radius: 0;
+	}
+	.modal .modal-body {
+	overflow-y: auto;
+	}
+	
 }
+
 
 @media only screen and (min-width: 992px) {
 	.showOnSM{
 		display: none;
 	}
-}
-
-.modal {
-	padding: 0 !important; // override inline padding-right added from js
-}
-.modal .modal-dialog {
-	width: calc(100% - 32px);
-	height: calc(100% - 32px);
-	max-width: none;
-	margin: 16px 16px 16px 16px;
-}
-.modal .modal-content {
-	height: 100%;
-	border: 0;
-	border-radius: 0;
-}
-.modal .modal-body {
-overflow-y: auto;
+	
+	
+	.modal-dialog {
+		min-width: 800px;
+	}
+	
+	
 }
 
 .fancyToastWarning{
@@ -325,4 +334,13 @@ overflow-y: auto;
 .fancyToastError{
 	background-color: rgba(255, 0, 0, 0.5);
 	backdrop-filter: blur(5px);
+}
+
+h4 {
+	margin-top: 0px !important;
+}
+
+.fullWidthBtn {
+	width: 100%;
+	margin-top: 8px;
 }

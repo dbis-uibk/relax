@@ -4,6 +4,8 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EditorBase, getColumnNamesFromRaRoot, getHintsFromGroup } from 'calc2/components/editorBase';
 import { Result } from 'calc2/components/result';
 import { Item } from 'calc2/components/toolbar';
@@ -25,6 +27,7 @@ const KEYWORDS_SQL = [
 interface Props {
 	group: Group,
 	replaceSelection?(text: string): void,
+	relInsertModalToggle: Function,
 }
 
 export class EditorSql extends React.Component<Props> {
@@ -164,6 +167,12 @@ export class EditorSql extends React.Component<Props> {
 								onClick: this.replaceText,
 								tooltipTitle: 'calc.editors.sql.toolbar.limit',
 								tooltip: 'calc.editors.sql.toolbar.limit',
+							},
+							{
+								label: <FontAwesomeIcon className="showOnSM" icon={faExternalLinkAlt} />,
+								onClick: this.props.relInsertModalToggle,
+								tooltipTitle: 'calc.editors.insert-relation-title',
+								tooltip: 'calc.editors.insert-relation-tooltip',
 							},
 						],
 					},

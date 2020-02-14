@@ -14,7 +14,7 @@
 			list-style-type: none;
 		}
 		li:last-child {
-			padding-bottom: 12px;
+			margin-bottom: 16px;
 		}
 	}
 	
@@ -25,5 +25,11 @@
 
 	.clickable {
 		cursor: pointer;
+		padding: 2px 15px 2px 15px;
+	}
+	.clickable:hover{
+		background-color: rgba(208, 228, 255, 0.25);
+		transition: background-color 0.3s linear;
+		
 	}
 }

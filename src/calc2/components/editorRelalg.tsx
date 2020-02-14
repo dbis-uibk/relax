@@ -13,6 +13,8 @@ import * as CodeMirror from 'codemirror';
 import { Relation } from 'db/exec/Relation';
 import { AutoreplaceOperatorsMode, parseRelalg, queryWithReplacedOperatorsFromAst, relalgFromRelalgAstRoot, replaceVariables } from 'db/relalg';
 import * as React from 'react';
+import { faCalendarAlt, faTable, faMagic, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const NUM_TREE_LABEL_COLORS = 6;
 export const KEYWORDS_RELALG = [
@@ -24,6 +26,7 @@ export const KEYWORDS_RELALG = [
 
 type Props = {
 	group: Group,
+	relInsertModalToggle: Function,
 };
 type State = {
 	autoreplaceOperatorsMode: AutoreplaceOperatorsMode,
@@ -352,7 +355,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 					{
 						items: [
 							{
-								label: <i className="fa fa-table" />,
+								label: <FontAwesomeIcon icon={faTable} />,
 								onClick: () => {
 									if (this.editorBase) {
 										this.editorBase.createInlineRelationViaEditor();
@@ -362,10 +365,16 @@ export class EditorRelalg extends React.Component<Props, State> {
 								tooltip: 'calc.editors.ra.toolbar.inline-relation-editor-content',
 							},
 							{
-								label: <i className="fa fa-calendar" />,
+								label: <FontAwesomeIcon icon={faCalendarAlt} />,
 								onClick: item => this.replaceText(item, `date('1970-01-01')`),
 								tooltipTitle: 'calc.editors.ra.toolbar.insert-date',
 								tooltip: 'calc.editors.ra.toolbar.insert-date-content',
+							},
+							{
+								label: <FontAwesomeIcon className="showOnSM" icon={faExternalLinkAlt} />,
+								onClick: this.props.relInsertModalToggle,
+								tooltipTitle: 'calc.editors.insert-relation-title',
+								tooltip: 'calc.editors.insert-relation-tooltip',
 							},
 						],
 					},
@@ -373,7 +382,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 						items: [
 							{
 								type: 'dropdown',
-								label: <i className="fa fa-magic" />,
+								label: <FontAwesomeIcon icon={faMagic} />,
 								tooltipTitle: 'calc.editors.ra.toolbar.inline-relation-editor',
 								tooltip: 'calc.editors.ra.toolbar.inline-relation-editor-content',
 								elements: [

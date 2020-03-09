@@ -491,7 +491,7 @@ export class EditorBase extends React.Component<Props, State> {
 		return (window.innerWidth <= 992);
 	}
 	toggle() {
-		if (this.isMobile()) {
+		if (!this.isMobile()) {
 			return;
 		}
 		this.setState({

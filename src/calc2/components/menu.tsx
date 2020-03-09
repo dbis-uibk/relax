@@ -13,7 +13,9 @@ import * as Immutable from 'immutable';
 import memoize from 'memoize-one';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, Redirect, useHistory, withRouter } from 'react-router-dom';
+import { GROUPS_LOAD_REQUEST } from 'calc2/store/groups';
+import { History } from 'history';
 
 type Props = {
 	groups: store.State['groups']['groups'],
@@ -21,9 +23,14 @@ type Props = {
 	locale: store.State['session']['locale'],
 };
 
+
 export class Menu extends React.Component<Props> {
+
+	gistLink: string;
+	
 	constructor(props: Props) {
 		super(props);
+		this.gistLink = '';
 	}
 
 	private getGroupsByHeadlineName = memoize((groups: Props['groups'], locale: string) => {
@@ -88,8 +95,8 @@ export class Menu extends React.Component<Props> {
 					</div>
 					<div className="col-md-6 align-text-top align-top">
 						<h4><T id="calc.menu.load-gist-headline" /></h4>
-						<input type="text" className="form-control gist-load-input" placeholder="" data-i18n="[placeholder]calc.menu.load-gist-insert-placeholder" size={32} style={{ maxWidth: '400px' }} />
-						<button type="button" className="fullWidthBtn btn btn-secondary gist-load-btn"><T id="calc.menu.load-gist-button" /></button>
+						<input type="text" className="form-control gist-load-input" placeholder="" data-i18n="[placeholder]calc.menu.load-gist-insert-placeholder" size={32} style={{ maxWidth: '400px' }} onChange={(event) => { this.gistLink = '/calc/gist/' + event.target.value; }} />
+						<button onClick={() => {document.location.href = this.gistLink; }} type="button" className="fullWidthBtn btn btn-secondary gist-load-btn"><T id="calc.menu.load-gist-button" /></button>
 						<hr />
 						<h4><T id="calc.menu.create-own-dataset-headline" /></h4>
 						<p><T id="calc.menu.create-own-dataset-text" /> <Link to="/help#tutorial-maintainer"><T id="calc.menu.create-own-dataset-text-link" /></Link></p>
@@ -113,3 +120,4 @@ export const MenuConnected = connect((state: store.State) => {
 		locale: state.session.locale,
 	};
 })(Menu);
+

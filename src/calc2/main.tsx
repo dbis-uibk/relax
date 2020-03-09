@@ -12,7 +12,7 @@ import { Store } from 'calc2/store';
 import * as queryString from 'query-string';
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import { Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, UncontrolledDropdown } from 'reactstrap';
 import NavLink from 'reactstrap/lib/NavLink';
 import { i18n } from './i18n';
@@ -32,6 +32,9 @@ type State = {
 
 
 export class Main extends React.Component<Props, State> {
+	
+
+	
 	constructor(props: Props) {
 		super(props);
 		this.state = {
@@ -86,37 +89,7 @@ export class Main extends React.Component<Props, State> {
 								<Route path="/help" component={Help} />
 								<Redirect from="/calc" to="/calc/local/uibk/local/0" exact strict />
 								<Route path="/calc/:source/:id/:filename/:index" component={ConnectedCalc} />
-								<Route exact path="(/.*)?/(calc|index|help).htm" render={({ location, match, history, staticContext }) => { // support old paths
-									console.log('old path', location, match);
-									const query = queryString.parse(location.search);
-									const page: any = (match.params as any[])[0] || null;
-									const lang: String = String(query.lang) || 'en';
-									if (i18n.language !== lang) {
-										i18n.changeLanguage(String(lang));
-									}
-									const data: any = query.data || undefined; // ?data=source:id
-									if (data) { // try to parse data
-										const match = String(data).trim().match(/(gist):(.*)/);
-										if (match !== null) {
-											const [, source, id] = match;
-											return <Redirect to={`/calc/${source}/${id}`} />;
-										}
-										else {
-											return <p>data syntax not correct</p>;
-										}
-									}
-									else { // no data
-										switch (page) {
-											case 'calc':
-												return <Redirect to={`/calc/`} />;
-											case 'help':
-												return <Redirect to={`/help${location.hash}`} />;
-											case 'index':
-											default:
-												return <Redirect to={`/landing`} />;
-										}
-									}
-								}} />
+								<Route path="/calc/:source/:id" component={ConnectedCalc} />
 								<Route render={match => (
 									<span>404 {JSON.stringify(match)}</span>
 								)} />

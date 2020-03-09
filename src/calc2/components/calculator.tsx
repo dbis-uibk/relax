@@ -57,12 +57,12 @@ export class Calculator extends React.Component<Props, State> {
 		this.insertRelationToggle = this.insertRelationToggle.bind(this);
 	}
 
-	toggleDatasetModal() {
+	private toggleDatasetModal() {
 		this.setState({
 			datasetModal: !this.state.datasetModal,
 		});
 	}
-	insertRelationToggle() {
+	private insertRelationToggle() {
 		this.setState({
 			relationModal: !this.state.relationModal,
 		});
@@ -197,7 +197,7 @@ export class Calculator extends React.Component<Props, State> {
 					<ModalHeader toggle={this.toggleDatasetModal}>{translateHeader(group.groupName, locale)}</ModalHeader>
 					<ModalBody>
 						<div>
-							<MenuConnected />
+							<MenuConnected/>
 						</div>
 					</ModalBody>
 					<ModalFooter>

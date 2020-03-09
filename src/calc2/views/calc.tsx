@@ -29,23 +29,26 @@ type Props = RouteComponentProps<{
 };
 
 export class Calc extends React.Component<Props> {
+	
+	private init: boolean;
+	
 	constructor(props: Props) {
 		super(props);
-
-		// start loading group
+		this.init = false;
 	}
 
 	componentDidUpdate(prevProps: Props): void {
 		const { params } = this.props.match;
 		const { params: prevParams } = prevProps.match;
 		if (
-			false
+			this.init === false
 			|| params.source !== prevParams.source
 			|| params.id !== prevParams.id
 			|| params.filename !== prevParams.filename
 			|| params.index !== prevParams.index
 		) {
 			// change/load
+			this.init = true;
 			this.loadGroup(this.props);
 		}
 	}

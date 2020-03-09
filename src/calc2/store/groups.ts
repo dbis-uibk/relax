@@ -68,8 +68,8 @@ export function* rootSaga() {
 					loadedGroups,
 				};
 				yield saga.put(success);
-
-				if (setCurrent === 'first' && loadedGroups.length > 0) {
+				console.log('setCurrent: ', setCurrent);
+				if (setCurrent !== undefined && loadedGroups.length > 0) {
 					const { source, id, filename } = loadedGroups[0].groupInfo;
 
 					const setCurrent: GROUP_SET_CURRENT = {

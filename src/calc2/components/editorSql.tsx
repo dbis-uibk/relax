@@ -170,7 +170,7 @@ export class EditorSql extends React.Component<Props> {
 							},
 							{
 								label: <FontAwesomeIcon className="showOnSM" icon={faExternalLinkAlt} />,
-								onClick: this.props.relInsertModalToggle,
+								onClick: item => this.props.relInsertModalToggle,
 								tooltipTitle: 'calc.editors.insert-relation-title',
 								tooltip: 'calc.editors.insert-relation-tooltip',
 							},

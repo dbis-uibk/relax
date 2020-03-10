@@ -17,6 +17,7 @@ export type Item<V = string> = {
 	tooltip: LanguageKeys,
 	tooltipTitle?: LanguageKeys,
 	onClick: (item: Item) => void,
+	className?: string,
 } | {
 	type: 'dropdown',
 	label: string | JSX.Element,
@@ -25,6 +26,7 @@ export type Item<V = string> = {
 	elements: DropdownElement<V>[],
 	value: V,
 	onChange: (value: V) => void,
+	className?: string | '',
 };
 export type Group = {
 	/** defaults to false */
@@ -42,28 +44,29 @@ export class Toolbar extends React.Component<Props> {
 		return (
 			<div className="toolbar codemirror-toolbar">
 				{groups.map((group, index) => (
-					<div className={group.math ? 'math' : ''} key={index}>
-						{group.items.map((item, index) => (
-							<Popover
-								key={index}
-								trigger={['hover', 'focus']}
-								placement={item.type === 'dropdown' ? 'top' : 'bottom'}
-								title={item.tooltipTitle ? String(t(item.tooltipTitle)) : ''}
-								body={<T id={item.tooltip} html={true} />}
-								className="toolbar__popover"
-							>
-								{item.type === 'dropdown'
-									? <DropdownList label={item.label} elements={item.elements} onChange={item.onChange} value={item.value} />
-									: <span onClick={e => {
-										e.preventDefault();
-										e.stopPropagation();
-
-										item.onClick(item);
-									}}>{item.label}</span>
+					group.items.map((item, index) => (
+						<Popover
+							key={index}
+							trigger={['hover', 'focus']}
+							placement={item.type === 'dropdown' ? 'top' : 'bottom'}
+							title={item.tooltipTitle ? String(t(item.tooltipTitle)) : ''}
+							body={<T id={item.tooltip} html={true} />}
+							className={
+								(item.type === 'dropdown' ? 'toolbar__popover__dropdown' : 'toolbar__popover' ) + ' ' + 
+								(item.className === undefined ? '' : item.className)
 								}
-							</Popover>
-						))}
-					</div>
+						>
+							{item.type === 'dropdown'
+								? <DropdownList label={item.label} elements={item.elements} onChange={item.onChange} value={item.value} />
+								: <span onClick={e => {
+									e.preventDefault();
+									e.stopPropagation();
+
+									item.onClick(item);
+								}}>{item.label}</span>
+							}
+						</Popover>
+					))
 				))}
 			</div>
 		);

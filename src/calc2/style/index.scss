@@ -27,7 +27,6 @@ body {
 }
 
 
-
 #input {
 	/*padding-top: 10px;*/
 }
@@ -229,8 +228,6 @@ $NAV_BAR_HEIGHT: 64px;
 	
 	$NAV_TABS_HEIGHT: 42px;
 	$INPUT_BUTTONS_ROW: 55px;
-	$CODE_TOOLBAR_HEIGHT_SINGLE: 45px;
-	$CODE_TOOLBAR_HEIGHT_DOUBLE: 90px;
 	
 	
 	
@@ -251,31 +248,29 @@ $NAV_BAR_HEIGHT: 64px;
 		padding: 0px !important;
 	}
 	
+	.tab-pane > div {
+		height: 100%;
+	}
+	
 	.input-buttons{
 		height: INPUT_BUTTONS_ROW;
 		margin: 5px;
 	}
 	
-	
+	.editor-base {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
 	.CodeMirror{
-		@media only screen and (min-width: 751px) {
-			height: calc(100% - #{$NAV_TABS_HEIGHT} - #{$INPUT_BUTTONS_ROW}) !important;
-		}
-		@media only screen and (max-width: 750px) {
-			height: calc(100% - #{$NAV_TABS_HEIGHT} - #{$INPUT_BUTTONS_ROW} - #{$CODE_TOOLBAR_HEIGHT_SINGLE}) !important;
-		}
-		
+		//height: calc(100% - #{$NAV_TABS_HEIGHT} - 82px - 43px) !important;
+		flex-grow: 1;
 		margin: 0px !important;
 		padding: 0px !important;
 	}
 	
 	.codemirror-toolbar{
-		@media only screen and (min-width: 751px) {
-			height: #{$CODE_TOOLBAR_HEIGHT_SINGLE} !important;
-		}
-		@media only screen and (max-width: 750px) {
-			height: #{$CODE_TOOLBAR_HEIGHT_DOUBLE} !important;
-		}
+
 	}
 
 	.exec-errors{
@@ -288,7 +283,7 @@ $NAV_BAR_HEIGHT: 64px;
 	
 	
 	.hideOnSM{
-		display: none;
+		display: none !important;
 	}
 	
 	
@@ -315,15 +310,21 @@ $NAV_BAR_HEIGHT: 64px;
 
 @media only screen and (min-width: 992px) {
 	.showOnSM{
-		display: none;
+		display: none !important;
 	}
-	
 	
 	.modal-dialog {
 		min-width: 800px;
 	}
-	
-	
+
+}
+
+.toolbar__popover {
+	min-width: 24px;
+}
+
+.toolbar__popover__dropdown{
+	width: 64px;
 }
 
 .fancyToastWarning{
@@ -344,3 +345,4 @@ h4 {
 	width: 100%;
 	margin-top: 8px;
 }
+

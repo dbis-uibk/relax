@@ -15,6 +15,7 @@ import { AutoreplaceOperatorsMode, parseRelalg, queryWithReplacedOperatorsFromAs
 import * as React from 'react';
 import { faCalendarAlt, faTable, faMagic, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NonTerminal } from 'railroad-diagrams';
 
 const NUM_TREE_LABEL_COLORS = 6;
 export const KEYWORDS_RELALG = [
@@ -371,7 +372,8 @@ export class EditorRelalg extends React.Component<Props, State> {
 								tooltip: 'calc.editors.ra.toolbar.insert-date-content',
 							},
 							{
-								label: <FontAwesomeIcon className="showOnSM" icon={faExternalLinkAlt} />,
+								className: 'showOnSM',
+								label: <FontAwesomeIcon className="editorButtonOnSM" icon={faExternalLinkAlt} />,
 								onClick:  () => { this.props.relInsertModalToggle(); },
 								tooltipTitle: 'calc.editors.insert-relation-title',
 								tooltip: 'calc.editors.insert-relation-tooltip',
@@ -381,6 +383,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 					{
 						items: [
 							{
+								className: 'hideOnSM',
 								type: 'dropdown',
 								label: <FontAwesomeIcon icon={faMagic} />,
 								tooltipTitle: 'calc.editors.ra.toolbar.inline-relation-editor',

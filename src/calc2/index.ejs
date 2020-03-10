@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>RelaX - relational algebra calculator</title>
 	<!-- 
 		Copyright 2016 Johannes Kessler
@@ -13,18 +14,18 @@
 	-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description"
-	      content="The relational algebra calculator helps you learn relational algebra (RelAlg) by executing it."/>
+		content="The relational algebra calculator helps you learn relational algebra (RelAlg) by executing it." />
 	<meta name="keywords"
-	      content="relational algebra, relationale algebra, relationale algebra rechner, relational algebra online tool"/>
-	<meta name="author" content="Kessler Johannes"/>
+		content="relational algebra, relationale algebra, relationale algebra rechner, relational algebra online tool" />
+	<meta name="author" content="Kessler Johannes" />
 	<script>
 		(function (i, s, o, g, r, a, m) {
 			i['GoogleAnalyticsObject'] = r;
 			i[r] = i[r] || function () {
-						(i[r].q = i[r].q || []).push(arguments)
-					}, i[r].l = 1 * new Date();
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
 			a = s.createElement(o),
-					m = s.getElementsByTagName(o)[0];
+				m = s.getElementsByTagName(o)[0];
 			a.async = 1;
 			a.src = g;
 			m.parentNode.insertBefore(a, m)
@@ -47,10 +48,10 @@
 		// When the single page app is loaded further down in this file,
 		// the correct url will be waiting in the browser's history for
 		// the single page app to route accordingly.
-		(function(l) {
+		(function (l) {
 			if (l.search) {
 				var q = {};
-				l.search.slice(1).split('&').forEach(function(v) {
+				l.search.slice(1).split('&').forEach(function (v) {
 					var a = v.split('=');
 					q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
 				});
@@ -65,21 +66,56 @@
 		}(window.location))
 	</script>
 	<!-- End Single Page Apps for GitHub Pages -->
+	<style>
+		.center {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.spinner {
+			background-color: #333;
+			width: 64px;
+			height: 64px;
+			border-radius: 100%;
+			-webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+			animation: sk-scaleout 1.0s infinite ease-in-out;
+		}
+
+		@-webkit-keyframes sk-scaleout {
+			0% {
+				-webkit-transform: scale(0)
+			}
+
+			100% {
+				-webkit-transform: scale(1.0);
+				opacity: 0;
+			}
+		}
+
+		@keyframes sk-scaleout {
+			0% {
+				-webkit-transform: scale(0);
+				transform: scale(0);
+			}
+
+			100% {
+				-webkit-transform: scale(1.0);
+				transform: scale(1.0);
+				opacity: 0;
+			}
+		}
+	</style>
 </head>
+
 <body>
-	<!--[if lte IE 9]>
-		<div class="alert alert-danger alert-dismissable">You use an unsuported browser version! You should really <strong>get a modern browser</strong> like one of these:
-			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			<ul>
-				<li><a target="_blank" href="http://www.mozilla.org/firefox/">Mozilla Firefox</a></li>
-				<li><a target="_blank" href="http://chrome.google.com/">Google Chrome</a></li>
-			</ul>
-			Or you could update to more recent Version of IE (at least IE 10).
-			<![if IE 9]>
-				<p>In IE 9 (your version) loading Tables from github does not work. The rest might work, but use it at your own risk.</p>
-			<![endif]>
+	<div className="maxSize" id="loadingScreen">
+		<div class="center">
+			<div class="spinner"></div>
 		</div>
-	<![endif]-->
+	</div>
 	<div id="root"></div>
 </body>
+
 </html>

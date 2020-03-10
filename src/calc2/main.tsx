@@ -52,6 +52,11 @@ export class Main extends React.Component<Props, State> {
 			window.location.reload();
 		}
 	}
+	
+	componentDidMount(){
+		const element = document.getElementById('loadingScreen');
+		element?.parentNode?.removeChild(element);
+	}
 
 	render() {
 		const { store } = this.props;

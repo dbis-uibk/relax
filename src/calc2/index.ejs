@@ -74,16 +74,16 @@
 			transform: translate(-50%, -50%);
 		}
 
-		.spinner {
+		.spinnerInit {
 			background-color: #333;
 			width: 64px;
 			height: 64px;
 			border-radius: 100%;
-			-webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
-			animation: sk-scaleout 1.0s infinite ease-in-out;
+			-webkit-animation: sk-scaleout-init 1.0s infinite ease-in-out;
+			animation: sk-scaleout-init 1.0s infinite ease-in-out;
 		}
 
-		@-webkit-keyframes sk-scaleout {
+		@-webkit-keyframes sk-scaleout-init {
 			0% {
 				-webkit-transform: scale(0)
 			}
@@ -94,7 +94,7 @@
 			}
 		}
 
-		@keyframes sk-scaleout {
+		@keyframes sk-scaleout-init {
 			0% {
 				-webkit-transform: scale(0);
 				transform: scale(0);
@@ -112,7 +112,7 @@
 <body>
 	<div className="maxSize" id="loadingScreen">
 		<div class="center">
-			<div class="spinner"></div>
+			<div class="spinnerInit"></div>
 		</div>
 	</div>
 	<div id="root"></div>

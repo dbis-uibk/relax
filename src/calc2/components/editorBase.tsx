@@ -808,66 +808,62 @@ export class EditorBase extends React.Component<Props, State> {
 	}
 
 
-	exec(selectionOnly: boolean): boolean {
+	exec(selectionOnly: boolean) {
 		const { editor } = this.state;
 		if (!editor) {
 			throw new Error(`editor not initialized yet`);
 		}
-		this.clearExecutionAlerts();
-		let query = '';
-		let offset = {
-			line: 0,
-			ch: 0,
-		};
-
-		if (selectionOnly !== true) {
-			// execute whole text
-			query = editor.getValue();
-		}
-		else {
-			// execute selection
-			query = editor.getDoc().getSelection();
-			offset = editor.getDoc().getCursor('from');
-		}
-		if (query.length === 0) {
-			this.clearExecutionAlerts();
-			this.addExecutionError(t('editor.error-no-query-found'));
-			return false;
-		}
-
-		this.clearExecutionAlerts();
 		this.setState({
-			execResult: null,
-		});
-
-		try {
-			const { result } = this.props.execFunction(this, query, offset);
-
-			const event = new CustomEvent(eventExecSuccessfulName, {
-				'detail': {
-					editor: this,
-				},
-			});
-			document.dispatchEvent(event);
-
-			this.setState({
-				execResult: result,
-			});
-			this.toggle();
-			return true;
-		}
-		catch (e) {
-			console.log(e, e.stack);
-
-			const error = EditorBase._generateErrorFromException(e, offset.line, offset.ch);
-			this.addExecutionError(error.message, error.codemirrorPositions ? error.codemirrorPositions.from : undefined);
-
-			if (this.props.enableInlineRelationEditor) {
-				this.clearInlineRelationMarkers();
+			execResult: 
+			(<div className="spinner">
+				<div className="rect1"></div>
+				<div className="rect2"></div>
+				<div className="rect3"></div>
+				<div className="rect4"></div>
+				<div className="rect5"></div>
+			</div>),
+		}, () => {
+			this.clearExecutionAlerts();
+			let query = '';
+			let offset = {
+				line: 0,
+				ch: 0,
+			};
+			if (selectionOnly !== true) { // execute whole text
+				query = editor.getValue();
 			}
-
-			return false;
-		}
+			else { // execute selection
+				query = editor.getDoc().getSelection();
+				offset = editor.getDoc().getCursor('from');
+			}
+			if (query.length === 0) {
+				this.clearExecutionAlerts();
+				this.addExecutionError(t('editor.error-no-query-found'));
+			}
+			this.clearExecutionAlerts();
+			try {
+				const { result } = this.props.execFunction(this, query, offset);
+				this.setState({
+					execResult: result,
+				});
+				const event = new CustomEvent(eventExecSuccessfulName, {
+					'detail': {
+						editor: this,
+					},
+				});
+				document.dispatchEvent(event);
+				this.toggle();
+				return true;
+			}
+			catch (e) {
+				console.log(e, e.stack);
+				const error = EditorBase._generateErrorFromException(e, offset.line, offset.ch);
+				this.addExecutionError(error.message, error.codemirrorPositions ? error.codemirrorPositions.from : undefined);
+				if (this.props.enableInlineRelationEditor) {
+					this.clearInlineRelationMarkers();
+				}
+			}
+		});
 	}
 
 	// TODO: e needs to by typed

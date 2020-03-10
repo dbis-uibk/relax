@@ -264,6 +264,7 @@ type State = {
 	history: HistoryEntry[],
 	codeMirrorOptions: CodeMirror.EditorConfiguration,
 	modal: boolean,
+	inlineRelationModal: boolean,
 	execErrors: Alert[],
 	isSelectionSelected: boolean,
 	execSuccessful: boolean,
@@ -345,8 +346,10 @@ export class EditorBase extends React.Component<Props, State> {
 			isExecutionDisabled: false,
 			execResult: null,
 			modal: false,
+			inlineRelationModal:  false,
 		};
 		this.toggle = this.toggle.bind(this);
+		this.toggleInlineRelationEditor = this.toggleInlineRelationEditor.bind(this);
 		this.hinterCache = {
 			hints: [],
 			hintsFromLinter: [],
@@ -482,6 +485,20 @@ export class EditorBase extends React.Component<Props, State> {
 							<Button color="secondary" onClick={this.toggle}>{t('calc.result.modal.close')}</Button>
 						</ModalFooter>
 					</Modal>
+					
+					<Modal isOpen={this.state.inlineRelationModal} toggle={this.toggleInlineRelationEditor}>
+						<ModalHeader toggle={this.toggleInlineRelationEditor}>{t('calc.result.modal.title')}</ModalHeader>
+						<ModalBody>
+							<div>
+								<div className="grid-editor-container"><div className="editor"></div><div className="errors alert alert-danger"></div></div>
+							</div>
+						</ModalBody>
+						<ModalFooter>
+							<Button color="secondary" onClick={this.toggleInlineRelationEditor}>{t('calc.editors.ra.button-download')}</Button>
+							<span></span>
+							<Button color="secondary" onClick={this.toggleInlineRelationEditor}>{t('calc.result.modal.close')}</Button>
+						</ModalFooter>
+					</Modal>
 				</div>
 			</div>
 		);
@@ -489,6 +506,12 @@ export class EditorBase extends React.Component<Props, State> {
 
 	isMobile(): boolean {
 		return (window.innerWidth <= 992);
+	}
+	
+	toggleInlineRelationEditor() {
+		this.setState({
+			inlineRelationModal: !this.state.inlineRelationModal,
+		});
 	}
 	toggle() {
 		if (!this.isMobile()) {
@@ -814,14 +837,14 @@ export class EditorBase extends React.Component<Props, State> {
 			throw new Error(`editor not initialized yet`);
 		}
 		this.setState({
-			execResult: 
-			(<div className="spinner">
-				<div className="rect1"></div>
-				<div className="rect2"></div>
-				<div className="rect3"></div>
-				<div className="rect4"></div>
-				<div className="rect5"></div>
-			</div>),
+			execResult:
+				(<div className="spinner">
+					<div className="rect1"></div>
+					<div className="rect2"></div>
+					<div className="rect3"></div>
+					<div className="rect4"></div>
+					<div className="rect5"></div>
+				</div>),
 		}, () => {
 			this.clearExecutionAlerts();
 			let query = '';
@@ -1018,16 +1041,8 @@ export class EditorBase extends React.Component<Props, State> {
 		this.focus();
 	}
 
-	private modalInlineEditorIsOpen: boolean = false;
 	public createInlineRelationViaEditor() {
-		if (this.modalInlineEditorIsOpen === true) {
-			return;
-		}
-
-		this.modalInlineEditorIsOpen = true;
-		this.openModalInlineEditor_inlineRelationNew(() => {
-			this.modalInlineEditorIsOpen = false;
-		});
+		this.toggleInlineRelationEditor();
 	}
 
 
@@ -1048,82 +1063,12 @@ export class EditorBase extends React.Component<Props, State> {
 		}
 	}
 
-
-	openModalInlineEditor_inlineRelationNew(callback?: () => void) {
-		const { editor } = this.state;
-		if (!editor) {
-			throw new Error(`editor not initialized yet`);
-		}
-		const cursor = editor.getDoc().getCursor();
-		let widget: CodeMirror.LineWidget;
-
-		const container = this.getInlineRelationEditor(null, (err, tableStr) => {
-			if (!err && tableStr) {
-				editor.getDoc().replaceRange(tableStr, cursor, cursor);
-			}
-			widget.clear();
-			this.setReadOnly(false);
-			this.setExecutionDisabled(false);
-			this.forceLinterRun();
-
-			callback && callback();
-		});
-
-		widget = editor.addLineWidget(cursor.line, container, {
-			coverGutter: false,
-		});
-		setTimeout(() => {
-			this.handsontable && this.handsontable.selectCell(0, 0);
-		}, 50);
-
-		this.setReadOnly(true);
-		this.setExecutionDisabled(true);
-	}
-
-	openModalInlineEditor_inlineRelationChange(table: Table) {
-		const { editor } = this.state;
-		let mark: CodeMirror.TextMarker;
-		let widget: CodeMirror.LineWidget;
-		if (!editor) {
-			return;
-		}
-
-		const from = { line: table.line, ch: table.column };
-		const to = editor.findPosH(from, table.length, 'char', true);
-
-		const container = this.getInlineRelationEditor(table.content, (err, tableStr) => {
-			mark.clear();
-			widget.clear();
-			if (!err && tableStr) {
-				editor.getDoc().replaceRange(tableStr, from, to);
-			}
-			this.setReadOnly(false);
-			this.setExecutionDisabled(false);
-			this.forceLinterRun();
-		});
-
-		mark = editor.getDoc().markText(from, to, {
-			collapsed: true,
-			readOnly: true,
-			replacedWith: $('<i class="fa fa-table"></i>')[0],
-		});
-
-		this.setReadOnly(true);
-		this.setExecutionDisabled(true);
-		widget = editor.addLineWidget(table.line, container);
-
-		// try to set focus on new editor
-		setTimeout(() => {
-			this.handsontable && this.handsontable.selectCell(0, 0);
-		}, 50);
-	}
-
 	getInlineRelationEditor(content: Table['content'] | null, callback: (err: null | string, res: string | null) => void) {
 		/** Handsontable */
 		let handsontable: Handsontable;
 		let data: (string | number | Date | boolean)[][];
 
-		const container = $('<div class="grid-editor-container"><div class="editor"></div><div class="errors alert alert-danger" style="display: none;"></div></div>');
+		const container = $('.grid-editor-container');
 		const gridContainer = container.find('> .editor');
 		const errorContainer = container.find('> .errors');
 		const btnOk = $(`<button class="btn btn-primary disabled">${t('editor.inline-relation-editor.button-ok')}</button>`).click(() => {
@@ -1303,12 +1248,14 @@ export class EditorBase extends React.Component<Props, State> {
 		handsontable = new Handsontable(gridContainer[0], {
 			data: data,
 			minRows: 2,
-			minCols: 2,
 			minSpareRows,
-			minSpareCols,
-			fixedRowsTop: 1,
-			rowHeaders: false,
-			colHeaders: false,
+			columns: [{
+				type: 'text'
+			},
+			{
+				type: 'dropdown',
+				source: ['yellow', 'red', 'orange', 'green', 'blue', 'gray', 'black', 'white']
+			}],
 			pasteMode: 'overwrite',
 			tabMoves: function (event: KeyboardEvent) {
 				// allows to tab out of the grid
@@ -1385,7 +1332,7 @@ export class EditorBase extends React.Component<Props, State> {
 
 				const emptyCols = this.countEmptyCols(true) - minSpareCols;
 				if (emptyCols > 0) {
-					this.alter('remove_col', this.countCols() - 1 - emptyCols, emptyCols);
+					//this.alter('remove_col', this.countCols() - 1 - emptyCols, emptyCols);
 				}
 
 				processGrid(this);
@@ -1437,7 +1384,6 @@ export class EditorBase extends React.Component<Props, State> {
 			const self = this;
 			const table = tables[i];
 			const e = $('<i class="fa fa-table" title="edit relation"></i>').click(() => {
-				self.openModalInlineEditor_inlineRelationChange(table);
 				self.clearInlineRelationMarkers();
 			});
 

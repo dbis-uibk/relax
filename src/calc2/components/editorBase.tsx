@@ -271,6 +271,151 @@ type State = {
 	execResult: JSX.Element | null,
 };
 
+
+
+class Attribute {
+	name: string;
+	type: string;
+	data: string[];
+
+	constructor() {
+		this.name = '';
+		this.type = '';
+		this.data = [];
+	}
+
+}
+
+class Relation {
+	name: string;
+	attributes: Attribute[];
+
+	constructor() {
+		this.name = '';
+		this.attributes = [];
+	}
+
+	toString(includeDataColumn = true): string {
+		let str = this.name + ' = {\n';
+		const rows = new Array<string>();
+		for (let i = 0; i < (2 + this.attributes[0].data.length); i++) {
+			rows.push('');
+		}
+		this.attributes.forEach((attribute: Attribute, ai: number) => {
+			if (ai > 0) {
+				rows[0] += ', ';
+				if (includeDataColumn){
+					rows[1] += ', ';
+				}
+			}
+			rows[0] += attribute.name;
+			if (includeDataColumn){
+				rows[1] += attribute.type;
+			}
+			attribute.data.forEach((val: string, index: number) => {
+				if (ai > 0) {
+					rows[index + 2] += ', ';
+				}
+				if (attribute.type === 'number') {
+					rows[index + 2] += val;
+				}
+				else {
+					rows[index + 2] += '\'' + val + '\'';
+				}
+			});
+		});
+		str += rows.join('\n');
+		str += '\n}\n';
+		return str;
+	}
+
+	fromString(str: string): void {
+		const lines = str
+			.replace(/ +?/g, '') // remove white spaces except \n
+			.replace(/['"]+/g, '') // remove quotes
+			.split('\n'); // split in lines
+		this.name = lines[0].replace('={', ''); // query name
+		for (let i = 0; i < lines[1].split(',').length; i++) { // add attribute instances
+			this.attributes.push(new Attribute());
+		}
+		for (let i = 1; i < (lines.length - 1); i++) { // fill attribute instances
+			const values = lines[i].split(',');
+			for (let j = 0; j < values.length; j++) {
+				if (i === 1) {
+					this.attributes[j].name = values[j];
+				}
+				else if (i === 2) {
+					this.attributes[j].type = values[j];
+				}
+				else {
+					this.attributes[j].data.push(values[j]);
+				}
+			}
+		}
+	}
+
+	toData(): string[][] {
+		const data = new Array<string[]>();
+		for (let rows = 0; rows < (2 + this.attributes[0].data.length); rows++) {
+			data.push([]);
+		}
+		this.attributes.forEach((attribute: Attribute) => {
+			data[0].push(attribute.name);
+			data[1].push(attribute.type);
+			attribute.data.forEach((val: string, index: number) => {
+				data[index + 2].push(val);
+			});
+		});
+		return data;
+	}
+
+	fromData(data: string[][]): void {
+		for (let col = 0; col < data[0].length; col++) {
+			if (data[0][col]){
+				const attribute = new Attribute();
+				attribute.name = data[0][col];
+				attribute.type = data[1][col];
+				for (let row = 2; row < data.length - 1; row++) {
+					attribute.data.push(data[row][col]);
+				}
+				this.attributes.push(attribute);
+			}
+		}
+	}
+
+	fromCSV(csv: string, delimiter = ';') {
+		const data = new Array<string[]>();
+		const lines = csv
+			.replace(/ +?/g, '') // remove white spaces except \n
+			.replace(/['"]+/g, '') // remove quotes
+			.split('\n'); // split in lines
+		let colCount = -1;
+		lines.forEach((line: string) => {
+			const newLine = new Array<string>();
+			const values: string[] = line.split(delimiter);
+			if (colCount === -1){
+				colCount = values.length;
+			}
+			if (values.length === colCount){	
+				values.forEach((value: string) => {
+					newLine.push(value);
+				});
+				data.push(newLine);
+			}
+		});
+		this.fromData(data);
+	}
+
+	toCSV(delimiter = ';'): string {
+		let str = '';
+		(this.toData()).forEach((line: string[]) => {
+			str += line.join(delimiter) + '\n';
+		});
+		return str;
+	}
+
+}
+
 const gutterClass = 'CodeMirror-table-edit-markers';
 const eventExecSuccessfulName = 'editor.execSuccessful';
 
@@ -282,7 +427,10 @@ export class EditorBase extends React.Component<Props, State> {
 		changed: boolean,
 	};
 
-	settings: any;
+	hotTableSettings: any;
+	relationEditorName: string;
+	hotTableComponent: React.RefObject<any>;
+	uploadCSVRef: React.RefObject<HTMLInputElement>;
 
 	constructor(props: Props) {
 		super(props);
@@ -350,6 +498,10 @@ export class EditorBase extends React.Component<Props, State> {
 		};
 		this.toggle = this.toggle.bind(this);
 		this.toggleInlineRelationEditor = this.toggleInlineRelationEditor.bind(this);
+		this.inlineEditorOk = this.inlineEditorOk.bind(this);
+		this.inlineEditorCancel = this.inlineEditorCancel.bind(this);
+		this.inlineEditorUpload = this.inlineEditorUpload.bind(this);
+		this.inlineEditorDownload = this.inlineEditorDownload.bind(this);
 		this.hinterCache = {
 			hints: [],
 			hintsFromLinter: [],
@@ -361,12 +513,13 @@ export class EditorBase extends React.Component<Props, State> {
 		this.applyHistory = this.applyHistory.bind(this);
 		this.downloadEditorText = this.downloadEditorText.bind(this);
 
-		this.settings = {
+		this.hotTableSettings = {
 			colHeaders: false,
 			rowHeaders: function (index: number) {
 				if (index === 0) {
 					return t('calc.editors.ra.inline-editor.row-name');
-				} else if (index === 1) {
+				}
+				else if (index === 1) {
 					return t('calc.editors.ra.inline-editor.row-type');
 				}
 				return (index - 1);
@@ -376,24 +529,79 @@ export class EditorBase extends React.Component<Props, State> {
 			minCols: 1,
 			minSpareRows: 1,
 			minSpareCols: 1,
-			licenseKey: 'non-commercial-and-evaluation',
 			colWidths: '100px',
-			height: function() {
+			height: function () {
 				return document.body.clientHeight * 0.7;
 			},
 			cells: function (row: number, column: number) {
-				const cellMeta = {};
 				if (row === 1) {
-					cellMeta.type = 'dropdown';
-					cellMeta.source = ['number', 'string', 'date'];
+					return {
+						type: 'dropdown',
+						source: ['number', 'string', 'date'],
+					};
 				}
-				return cellMeta;
+				return {};
 			},
 			data: [
 				[''],
 				[''],
 			],
 		};
+		this.relationEditorName = '';
+		this.hotTableComponent = React.createRef();
+		this.uploadCSVRef = React.createRef();
+	}
+	
+	
+	private getInlineRelationData(): string[][]{
+		return this.hotTableComponent.current.hotInstance.getData();
+	}
+	
+	private setInlineRelationData(data: string[][]){
+		this.hotTableComponent.current.hotInstance.loadData(data);
+	}
+
+
+	inlineEditorOk() {
+		const relation = new Relation();
+		relation.fromData(this.getInlineRelationData());
+		const { editor } = this.state;
+		const cursor = editor?.getDoc().getCursor();
+		if (editor && cursor){
+			editor.getDoc().replaceRange(relation.toString(false), cursor, cursor);
+		}
+		this.toggleInlineRelationEditor();
+		
+	}
+
+	inlineEditorCancel() {
+		this.toggleInlineRelationEditor();
+	}
+
+	inlineEditorUpload(event: any) {
+		const files = event.target.files;
+		if (files.length > 0){
+			const reader = new FileReader();
+			reader.onload = ((e: any) => {
+				const fileContent = e.target.result;
+				const relation = new Relation();
+				relation.fromCSV(fileContent);
+				relation.name = files[0].name.replace('.csv', '');
+				this.setInlineRelationData(relation.toData());
+			});
+			reader.readAsText(files[0]);
+		}
+	}
+
+	inlineEditorDownload() {
+		const relation = new Relation();
+		relation.fromData(this.getInlineRelationData());
+		const csvStr = relation.toCSV();
+		const element = document.createElement('a');
+		const a = document.createElement('a');
+		a.href = window.URL.createObjectURL(new Blob([csvStr], { 'type': 'text/csv' }));
+		a.download = this.relationEditorName + '.csv';
+		a.click();
 	}
 
 	componentDidMount() {
@@ -524,15 +732,16 @@ export class EditorBase extends React.Component<Props, State> {
 						<ModalHeader toggle={this.toggleInlineRelationEditor}>{t('calc.editors.ra.inline-editor.title')}</ModalHeader>
 						<ModalBody>
 							<div>
-								<HotTable settings={this.settings} />
+								<HotTable ref={this.hotTableComponent} settings={this.hotTableSettings} licenseKey="non-commercial-and-evaluation" />
 							</div>
 						</ModalBody>
 						<ModalFooter>
-							<Button color="light" onClick={this.toggleInlineRelationEditor}><FontAwesomeIcon icon={faDownload} /> {t('calc.editors.ra.inline-editor.button-download-csv')}</Button>
-							<Button color="light" onClick={this.toggleInlineRelationEditor}><FontAwesomeIcon icon={faUpload} /> {t('calc.editors.ra.inline-editor.button-upload-csv')}</Button>
+							<Button color="light" onClick={this.inlineEditorDownload}><FontAwesomeIcon icon={faDownload} /> {t('calc.editors.ra.inline-editor.button-download-csv')}</Button>
+							<Button color="light" onClick={() => {this.uploadCSVRef.current?.click(); }}><FontAwesomeIcon icon={faUpload} /> {t('calc.editors.ra.inline-editor.button-upload-csv')}</Button>
+							<input className="hidden" ref={this.uploadCSVRef} onChange={this.inlineEditorUpload} type="file"></input>
 							<span className="flexSpan"></span>
-							<Button color="primary" onClick={this.toggleInlineRelationEditor}><FontAwesomeIcon icon={faCheckCircle} /> {t('calc.editors.ra.inline-editor.button-ok')}</Button>
-							<Button color="secondary" onClick={this.toggleInlineRelationEditor}><FontAwesomeIcon icon={faTimesCircle} /> {t('calc.editors.ra.inline-editor.button-cancel')}</Button>
+							<Button color="primary" onClick={this.inlineEditorOk}><FontAwesomeIcon icon={faCheckCircle} /> {t('calc.editors.ra.inline-editor.button-ok')}</Button>
+							<Button color="secondary" onClick={this.inlineEditorCancel}><FontAwesomeIcon icon={faTimesCircle} /> {t('calc.editors.ra.inline-editor.button-cancel')}</Button>
 						</ModalFooter>
 					</Modal>
 				</div>

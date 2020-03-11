@@ -275,4 +275,11 @@ export const langEN = {
 	`,
 	'calc.result.modal.title': 'Result',
 	'calc.result.modal.close': 'Close',
+	'calc.editors.ra.inline-editor.title': 'Relation Editor',
+	'calc.editors.ra.inline-editor.button-download-csv': 'Download CSV',
+	'calc.editors.ra.inline-editor.button-upload-csv': 'Upload CSV',
+	'calc.editors.ra.inline-editor.button-cancel': 'Cancel',
+	'calc.editors.ra.inline-editor.button-ok': 'Ok',
+	'calc.editors.ra.inline-editor.row-name': 'Name',
+	'calc.editors.ra.inline-editor.row-type': 'Type',
 };

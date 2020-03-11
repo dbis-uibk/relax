@@ -204,4 +204,11 @@ export const langDE: Partial<typeof langEN> = {
 	`,
 	'calc.result.modal.title': 'Ergebnis',
 	'calc.result.modal.close': 'Schließen',
+	'calc.editors.ra.inline-editor.title': 'Relation Editor',
+	'calc.editors.ra.inline-editor.button-download-csv': 'CSV downloaden',
+	'calc.editors.ra.inline-editor.button-upload-csv': 'CSV uploaden',
+	'calc.editors.ra.inline-editor.button-cancel': 'Abbrechen',
+	'calc.editors.ra.inline-editor.button-ok': 'Ok',
+	'calc.editors.ra.inline-editor.row-name': 'Name',
+	'calc.editors.ra.inline-editor.row-type': 'Typ',
 };

@@ -4,7 +4,7 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { faArrowAltCircleDown, faHistory, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { faArrowAltCircleDown, faHistory, faPlayCircle, faUpload, faDownload, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DropdownList } from 'calc2/components/dropdownList';
 import { HistoryEntry } from 'calc2/components/history';
@@ -281,7 +281,7 @@ export class EditorBase extends React.Component<Props, State> {
 		hintsFromLinter: string[],
 		changed: boolean,
 	};
-	
+
 	settings: any;
 
 	constructor(props: Props) {
@@ -346,7 +346,7 @@ export class EditorBase extends React.Component<Props, State> {
 			isExecutionDisabled: false,
 			execResult: null,
 			modal: false,
-			inlineRelationModal:  false,
+			inlineRelationModal: false,
 		};
 		this.toggle = this.toggle.bind(this);
 		this.toggleInlineRelationEditor = this.toggleInlineRelationEditor.bind(this);
@@ -360,16 +360,16 @@ export class EditorBase extends React.Component<Props, State> {
 		this.exec = this.exec.bind(this);
 		this.applyHistory = this.applyHistory.bind(this);
 		this.downloadEditorText = this.downloadEditorText.bind(this);
-		
+
 		this.settings = {
 			colHeaders: false,
-			rowHeaders: function(index: number) {
-				if (index === 0){
-					return "Name";
-				}else if (index === 1){
-					return "Type"
+			rowHeaders: function (index: number) {
+				if (index === 0) {
+					return t('calc.editors.ra.inline-editor.row-name');
+				} else if (index === 1) {
+					return t('calc.editors.ra.inline-editor.row-type');
 				}
-				return (index-2)
+				return (index - 1);
 			},
 			fixedRowsTop: 2,
 			minRows: 2,
@@ -377,13 +377,23 @@ export class EditorBase extends React.Component<Props, State> {
 			minSpareRows: 1,
 			minSpareCols: 1,
 			licenseKey: 'non-commercial-and-evaluation',
-			height: 500,
-			data:  [
-				['', 'Tesla', 'Mercedes', 'Toyota', 'Volvo'],
-				['2019', 10, 11, 12, 13],
-				['2020', 20, 11, 14, 13],
-				['2021', 30, 15, 12, 13]
-			]};
+			colWidths: '100px',
+			height: function() {
+				return document.body.clientHeight * 0.7;
+			},
+			cells: function (row: number, column: number) {
+				const cellMeta = {};
+				if (row === 1) {
+					cellMeta.type = 'dropdown';
+					cellMeta.source = ['number', 'string', 'date'];
+				}
+				return cellMeta;
+			},
+			data: [
+				[''],
+				[''],
+			],
+		};
 	}
 
 	componentDidMount() {
@@ -509,18 +519,20 @@ export class EditorBase extends React.Component<Props, State> {
 							<Button color="secondary" onClick={this.toggle}>{t('calc.result.modal.close')}</Button>
 						</ModalFooter>
 					</Modal>
-					
+
 					<Modal isOpen={this.state.inlineRelationModal} toggle={this.toggleInlineRelationEditor}>
-						<ModalHeader toggle={this.toggleInlineRelationEditor}>{t('calc.result.modal.title')}</ModalHeader>
+						<ModalHeader toggle={this.toggleInlineRelationEditor}>{t('calc.editors.ra.inline-editor.title')}</ModalHeader>
 						<ModalBody>
 							<div>
 								<HotTable settings={this.settings} />
 							</div>
 						</ModalBody>
 						<ModalFooter>
-							<Button color="secondary" onClick={this.toggleInlineRelationEditor}>{t('calc.editors.ra.button-download')}</Button>
-							<span></span>
-							<Button color="secondary" onClick={this.toggleInlineRelationEditor}>{t('calc.result.modal.close')}</Button>
+							<Button color="light" onClick={this.toggleInlineRelationEditor}><FontAwesomeIcon icon={faDownload} /> {t('calc.editors.ra.inline-editor.button-download-csv')}</Button>
+							<Button color="light" onClick={this.toggleInlineRelationEditor}><FontAwesomeIcon icon={faUpload} /> {t('calc.editors.ra.inline-editor.button-upload-csv')}</Button>
+							<span className="flexSpan"></span>
+							<Button color="primary" onClick={this.toggleInlineRelationEditor}><FontAwesomeIcon icon={faCheckCircle} /> {t('calc.editors.ra.inline-editor.button-ok')}</Button>
+							<Button color="secondary" onClick={this.toggleInlineRelationEditor}><FontAwesomeIcon icon={faTimesCircle} /> {t('calc.editors.ra.inline-editor.button-cancel')}</Button>
 						</ModalFooter>
 					</Modal>
 				</div>
@@ -531,7 +543,7 @@ export class EditorBase extends React.Component<Props, State> {
 	isMobile(): boolean {
 		return (window.innerWidth <= 992);
 	}
-	
+
 	toggleInlineRelationEditor() {
 		this.setState({
 			inlineRelationModal: !this.state.inlineRelationModal,

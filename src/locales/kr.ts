@@ -229,4 +229,11 @@ export const langKR = {
 	'calc.tour.end[7]': '</ul>',
 	'calc.result.modal.title': '',
 	'calc.result.modal.close': '',
+	'calc.editors.ra.inline-editor.title': 'Relation Editor',
+	'calc.editors.ra.inline-editor.button-download-csv': 'Download CSV',
+	'calc.editors.ra.inline-editor.button-upload-csv': 'upload CSV',
+	'calc.editors.ra.inline-editor.button-cancel': 'Cancel',
+	'calc.editors.ra.inline-editor.row-name': 'Name',
+	'calc.editors.ra.inline-editor.row-type': 'Type',
+	'calc.editors.ra.inline-editor.button-ok': 'Ok',
 };

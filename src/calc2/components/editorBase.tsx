@@ -21,6 +21,7 @@ import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import { toast } from 'react-toastify';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { HotTable } from '@handsontable/react';
 
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/eclipse.css');
@@ -29,6 +30,7 @@ require('codemirror/addon/lint/lint.js');
 require('codemirror/addon/lint/lint.css');
 require('codemirror/addon/display/placeholder.js');
 require('codemirror/addon/display/autorefresh.js');
+require('handsontable/dist/handsontable.full.css');
 
 CodeMirror.defineMode('relalg', function () {
 	const keywords = [
@@ -279,6 +281,8 @@ export class EditorBase extends React.Component<Props, State> {
 		hintsFromLinter: string[],
 		changed: boolean,
 	};
+	
+	settings: any;
 
 	constructor(props: Props) {
 		super(props);
@@ -356,6 +360,30 @@ export class EditorBase extends React.Component<Props, State> {
 		this.exec = this.exec.bind(this);
 		this.applyHistory = this.applyHistory.bind(this);
 		this.downloadEditorText = this.downloadEditorText.bind(this);
+		
+		this.settings = {
+			colHeaders: false,
+			rowHeaders: function(index: number) {
+				if (index === 0){
+					return "Name";
+				}else if (index === 1){
+					return "Type"
+				}
+				return (index-2)
+			},
+			fixedRowsTop: 2,
+			minRows: 2,
+			minCols: 1,
+			minSpareRows: 1,
+			minSpareCols: 1,
+			licenseKey: 'non-commercial-and-evaluation',
+			height: 500,
+			data:  [
+				['', 'Tesla', 'Mercedes', 'Toyota', 'Volvo'],
+				['2019', 10, 11, 12, 13],
+				['2020', 20, 11, 14, 13],
+				['2021', 30, 15, 12, 13]
+			]};
 	}
 
 	componentDidMount() {
@@ -486,7 +514,7 @@ export class EditorBase extends React.Component<Props, State> {
 						<ModalHeader toggle={this.toggleInlineRelationEditor}>{t('calc.result.modal.title')}</ModalHeader>
 						<ModalBody>
 							<div>
-								<div className="grid-editor-container"><div className="editor"></div><div className="errors alert alert-danger"></div></div>
+								<HotTable settings={this.settings} />
 							</div>
 						</ModalBody>
 						<ModalFooter>

@@ -20,6 +20,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Button, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import { GroupRelationList } from '../components/groupRelationList';
 import { MenuConnected } from '../components/menu';
+import { StringStream } from 'codemirror';
 require('./calculator.scss');
 
 
@@ -55,6 +56,7 @@ export class Calculator extends React.Component<Props, State> {
 		this.getCurrentEditor = this.getCurrentEditor.bind(this);
 		this.toggleDatasetModal = this.toggleDatasetModal.bind(this);
 		this.insertRelationToggle = this.insertRelationToggle.bind(this);
+		this.loadGroupEditor = this.loadGroupEditor.bind(this);
 	}
 
 	private toggleDatasetModal() {
@@ -88,6 +90,27 @@ export class Calculator extends React.Component<Props, State> {
 			case 'group':
 				return this.refEditorGroup;
 		}
+	}
+
+	private loadGroupEditor(loadCurrentGroup: boolean) {
+		let content = `-- this is an example
+group: nameOfTheNewGroup 
+
+A = {
+a:string, b:number
+example,  42
+}`;
+		if (loadCurrentGroup === true){
+			content = this.props.group.definition;
+		}
+		this.setState({
+			activeTab: 'group',
+		}, () => {
+			setTimeout(() => {
+				this.getCurrentEditor().current.editorBase.state.editor.setValue(content);
+				this.toggleDatasetModal();
+			}, 250);
+		});
 	}
 
 	render() {
@@ -197,7 +220,7 @@ export class Calculator extends React.Component<Props, State> {
 					<ModalHeader toggle={this.toggleDatasetModal}>{translateHeader(group.groupName, locale)}</ModalHeader>
 					<ModalBody>
 						<div>
-							<MenuConnected/>
+							<MenuConnected loadGroupTab={(loadCurrentGroup: boolean) => { this.loadGroupEditor(loadCurrentGroup); }} />
 						</div>
 					</ModalBody>
 					<ModalFooter>

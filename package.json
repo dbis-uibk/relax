@@ -14,7 +14,7 @@
 	"devDependencies": {
 		"@types/bootstrap": "^4.1.0",
 		"@types/classnames": "^2.2.4",
-		"@types/codemirror": "^0.0.84",
+		"@types/codemirror": "^0.0.87",
 		"@types/i18next": "^11.3.3",
 		"@types/i18next-browser-languagedetector": "^2.0.0",
 		"@types/memoize-one": "^5.1.2",
@@ -33,7 +33,7 @@
 		"bower": "^1.8.0",
 		"classnames": "^2.2.5",
 		"clean-webpack-plugin": "^0.1.16",
-		"codemirror": "^5.30.0",
+		"codemirror": "^5.52.0",
 		"compression-webpack-plugin": "^1.1.11",
 		"connect-history-api-fallback": "^1.5.0",
 		"copy-webpack-plugin": "^4.0.1",

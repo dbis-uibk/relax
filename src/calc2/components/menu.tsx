@@ -21,6 +21,7 @@ type Props = {
 	groups: store.State['groups']['groups'],
 	current: store.State['groups']['current']
 	locale: store.State['session']['locale'],
+	loadGroupTab: Function,
 };
 
 
@@ -100,10 +101,10 @@ export class Menu extends React.Component<Props> {
 						<hr />
 						<h4><T id="calc.menu.create-own-dataset-headline" /></h4>
 						<p><T id="calc.menu.create-own-dataset-text" /> <Link to="/help#tutorial-maintainer"><T id="calc.menu.create-own-dataset-text-link" /></Link></p>
-						<button type="button" className="fullWidthBtn btn btn-secondary open-group-new-btn">
+						<button type="button" className="fullWidthBtn btn btn-secondary open-group-new-btn" onClick={() => { this.props.loadGroupTab(false); } } >
 							<i className="fa fa-plus-square-o fa-lg"></i> <span><T id="calc.menu.create-own-dataset-button-new" /></span>
 						</button>
-						<button type="button" className="fullWidthBtn btn btn-secondary open-group-current-btn">
+						<button type="button" className="fullWidthBtn btn btn-secondary open-group-current-btn" onClick={() => { this.props.loadGroupTab(true); }} >
 							<i className="fa fa-pencil-square-o fa-lg"></i> <span><T id="calc.menu.create-own-dataset-button-modify" /></span>
 						</button>
 					</div>

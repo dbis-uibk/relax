@@ -4,7 +4,7 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { faArrowAltCircleDown, faHistory, faPlayCircle, faUpload, faDownload, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faArrowAltCircleDown, faHistory, faPlayCircle, faUpload, faDownload, faCheckCircle, faTimesCircle, faPlay, faTable } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DropdownList } from 'calc2/components/dropdownList';
 import { HistoryEntry } from 'calc2/components/history';
@@ -20,8 +20,9 @@ import { forEachPreOrder } from 'db/translate/utils';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import { toast } from 'react-toastify';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Input } from 'reactstrap';
 import { HotTable } from '@handsontable/react';
+import * as ReactDOM from 'react-dom';
 
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/eclipse.css');
@@ -269,6 +270,9 @@ type State = {
 	execSuccessful: boolean,
 	isExecutionDisabled: boolean,
 	execResult: JSX.Element | null,
+	relationEditorName: string,
+	replSelStart: any,
+	replSelEnd: any,
 };
 
 
@@ -295,32 +299,26 @@ class Relation {
 		this.attributes = [];
 	}
 
-	toString(includeDataColumn = true): string {
+	toString(): string {
 		let str = this.name + ' = {\n';
 		const rows = new Array<string>();
-		for (let i = 0; i < (2 + this.attributes[0].data.length); i++) {
+		for (let i = 0; i < (1 + this.attributes[0].data.length); i++) {
 			rows.push('');
 		}
 		this.attributes.forEach((attribute: Attribute, ai: number) => {
 			if (ai > 0) {
 				rows[0] += ', ';
-				if (includeDataColumn){
-					rows[1] += ', ';
-				}
 			}
 			rows[0] += attribute.name;
-			if (includeDataColumn){
-				rows[1] += attribute.type;
-			}
 			attribute.data.forEach((val: string, index: number) => {
 				if (ai > 0) {
-					rows[index + 2] += ', ';
+					rows[index + 1] += ', ';
 				}
 				if (attribute.type === 'number') {
-					rows[index + 2] += val;
+					rows[index + 1] += val;
 				}
 				else {
-					rows[index + 2] += '\'' + val + '\'';
+					rows[index + 1] += '\'' + val + '\'';
 				}
 			});
 		});
@@ -329,33 +327,26 @@ class Relation {
 		return str;
 	}
 
-	fromString(str: string): void {
-		const lines = str
-			.replace(/ +?/g, '') // remove white spaces except \n
-			.replace(/['"]+/g, '') // remove quotes
-			.split('\n'); // split in lines
-		this.name = lines[0].replace('={', ''); // query name
-		for (let i = 0; i < lines[1].split(',').length; i++) { // add attribute instances
-			this.attributes.push(new Attribute());
+	fromTableData(newData: any) {
+		if (newData == null) {
+			return;
 		}
-		for (let i = 1; i < (lines.length - 1); i++) { // fill attribute instances
-			const values = lines[i].split(',');
-			for (let j = 0; j < values.length; j++) {
-				if (i === 1) {
-					this.attributes[j].name = values[j];
-				}
-				else if (i === 2) {
-					this.attributes[j].type = values[j];
-				}
-				else {
-					this.attributes[j].data.push(values[j]);
-				}
-			}
-		}
+		const data = new Array<string[]>();
+		data.push([]);
+		data.push([]);
+		newData.columns.forEach((col: any) => {
+			data[0].push(col.name);
+			data[1].push(col.type);
+		});
+		newData.rows.forEach((row: any) => {
+			data.push(row);
+		});
+		this.fromData(data);
 	}
 
 	toData(): string[][] {
 		const data = new Array<string[]>();
+		if (this.attributes.length === 0) { return [[]]; }
 		for (let rows = 0; rows < (2 + this.attributes[0].data.length); rows++) {
 			data.push([]);
 		}
@@ -371,12 +362,14 @@ class Relation {
 
 	fromData(data: string[][]): void {
 		for (let col = 0; col < data[0].length; col++) {
-			if (data[0][col]){
+			if (data[0][col]) {
 				const attribute = new Attribute();
 				attribute.name = data[0][col];
 				attribute.type = data[1][col];
-				for (let row = 2; row < data.length - 1; row++) {
-					attribute.data.push(data[row][col]);
+				for (let row = 2; row < data.length; row++) {
+					if (data[row][col]) {
+						attribute.data.push(data[row][col]);
+					}
 				}
 				this.attributes.push(attribute);
 			}
@@ -393,10 +386,10 @@ class Relation {
 		lines.forEach((line: string) => {
 			const newLine = new Array<string>();
 			const values: string[] = line.split(delimiter);
-			if (colCount === -1){
+			if (colCount === -1) {
 				colCount = values.length;
 			}
-			if (values.length === colCount){	
+			if (values.length === colCount) {
 				values.forEach((value: string) => {
 					newLine.push(value);
 				});
@@ -428,8 +421,7 @@ export class EditorBase extends React.Component<Props, State> {
 	};
 
 	hotTableSettings: any;
-	relationEditorName: string;
-	hotTableComponent: React.RefObject<any>;
+	hotTableComponent: React.RefObject<object>;
 	uploadCSVRef: React.RefObject<HTMLInputElement>;
 
 	constructor(props: Props) {
@@ -446,7 +438,8 @@ export class EditorBase extends React.Component<Props, State> {
 			smartIndent: true,
 			autofocus: false,
 			autoRefresh: true,
-			gutters: ['CodeMirror-lint-markers'],
+			enableInlineRelationEditor: true,
+			gutters: ['CodeMirror-lint-markers', gutterClass],
 			// lint: true,
 			mode: props.mode,
 			viewportMargin: Infinity,
@@ -480,10 +473,6 @@ export class EditorBase extends React.Component<Props, State> {
 			...props.codeMirrorOptions,
 		};
 
-		if (props.enableInlineRelationEditor) {
-			codeMirrorOptions.gutters.push(gutterClass);
-		}
-
 		this.state = {
 			editor: null,
 			codeMirrorOptions,
@@ -495,11 +484,14 @@ export class EditorBase extends React.Component<Props, State> {
 			execResult: null,
 			modal: false,
 			inlineRelationModal: false,
+			relationEditorName: '',
+			replSelStart: null,
+			replSelEnd: null,
 		};
 		this.toggle = this.toggle.bind(this);
-		this.toggleInlineRelationEditor = this.toggleInlineRelationEditor.bind(this);
 		this.inlineEditorOk = this.inlineEditorOk.bind(this);
-		this.inlineEditorCancel = this.inlineEditorCancel.bind(this);
+		this.toggleInlineRelationEditor = this.toggleInlineRelationEditor.bind(this);
+		this.inlineEditorClose = this.inlineEditorClose.bind(this);
 		this.inlineEditorUpload = this.inlineEditorUpload.bind(this);
 		this.inlineEditorDownload = this.inlineEditorDownload.bind(this);
 		this.hinterCache = {
@@ -547,40 +539,84 @@ export class EditorBase extends React.Component<Props, State> {
 				[''],
 			],
 		};
-		this.relationEditorName = '';
+		this.setState({ relationEditorName: '' });
 		this.hotTableComponent = React.createRef();
 		this.uploadCSVRef = React.createRef();
 	}
-	
-	
-	private getInlineRelationData(): string[][]{
-		return this.hotTableComponent.current.hotInstance.getData();
-	}
-	
-	private setInlineRelationData(data: string[][]){
-		this.hotTableComponent.current.hotInstance.loadData(data);
+
+
+	private getInlineRelationData(): string[][] {
+		if (this.hotTableComponent && this.hotTableComponent.current) {
+			return this.hotTableComponent.current.hotInstance.getData();
+		}
+		console.warn('Handsontable Instance not accessible yet');
+		return [[]];
 	}
 
+	private setInlineRelationData(data: string[][]) {
+		if (this.hotTableComponent && this.hotTableComponent.current) {
+			this.hotTableComponent.current.hotInstance.loadData(data);
+		}
+		else {
+			console.warn('Handsontable Instance not accassible yet');
+		}
+	}
+
+	private resetInlineEditor() {
+		this.hotTableSettings.data = [
+			[''],
+			[''],
+		];
+	}
+
+	inlineRelationEditorOpen(table: any) {
+		const relation = new Relation();
+		const { editor } = this.state;
+		if (editor) {
+			let sPos = editor.getDoc().getCursor();
+			let ePos = editor.getDoc().getCursor();
+			if (table != null) {
+				relation.fromTableData(table.content);
+				this.hotTableSettings.data = relation.toData();
+				sPos =  CodeMirror.Pos(table.line - 1, 0);
+				const i: number = (editor.getDoc().indexFromPos(sPos) + table.length + 5);
+				ePos =  editor.getDoc().posFromIndex(i);
+			}
+			console.log('TABLE', table);
+			this.setState({
+				inlineRelationModal: true,
+				relationEditorName: relation.name,
+				replSelStart: sPos,
+				replSelEnd: ePos,
+			});
+			console.log('STARTEND');
+			console.log(this.state.replSelStart);
+			console.log(this.state.replSelEnd);
+		}
+	}
 
 	inlineEditorOk() {
 		const relation = new Relation();
+		relation.name = this.state.relationEditorName;
 		relation.fromData(this.getInlineRelationData());
-		const { editor } = this.state;
-		const cursor = editor?.getDoc().getCursor();
-		if (editor && cursor){
-			editor.getDoc().replaceRange(relation.toString(false), cursor, cursor);
+		const { editor, replSelStart, replSelEnd } = this.state;
+		if (editor) {
+			editor.getDoc().replaceRange(relation.toString(), replSelStart, replSelEnd);
 		}
-		this.toggleInlineRelationEditor();
-		
+		this.inlineEditorClose();
+		this.exec(false);
 	}
 
-	inlineEditorCancel() {
-		this.toggleInlineRelationEditor();
+	inlineEditorClose() {
+		this.resetInlineEditor();
+		this.setState({
+			inlineRelationModal: false,
+		});
 	}
 
 	inlineEditorUpload(event: any) {
 		const files = event.target.files;
-		if (files.length > 0){
+		if (files.length > 0) {
 			const reader = new FileReader();
 			reader.onload = ((e: any) => {
 				const fileContent = e.target.result;
@@ -600,7 +636,7 @@ export class EditorBase extends React.Component<Props, State> {
 		const element = document.createElement('a');
 		const a = document.createElement('a');
 		a.href = window.URL.createObjectURL(new Blob([csvStr], { 'type': 'text/csv' }));
-		a.download = this.relationEditorName + '.csv';
+		a.download = this.state.relationEditorName + '.csv';
 		a.click();
 	}
 
@@ -674,7 +710,7 @@ export class EditorBase extends React.Component<Props, State> {
 							}}
 						>
 							{!!execButtonLabel
-								? <T id={execButtonLabel} />
+								? <span><FontAwesomeIcon icon={faPlayCircle} /> <T id={execButtonLabel} /></span>
 								: (
 									<>
 										<span className="glyphicon glyphicon-play"></span> <span className="query"><FontAwesomeIcon icon={faPlayCircle} /> <T id="calc.editors.ra.button-execute-query" /></span><span className="selection"><T id="calc.editors.ra.button-execute-selection" /></span>
@@ -684,7 +720,7 @@ export class EditorBase extends React.Component<Props, State> {
 						</button>
 
 						<div style={{ float: 'right' }}>
-							<button type="button" className="btn btn-default download-button hideOnSM" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faArrowAltCircleDown} /> <span className="hideOnSM"><T id="calc.editors.ra.button-download" /></span></button>
+							<Button color="Link" type="button" className="hideOnSM" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faArrowAltCircleDown} /> <span className="hideOnSM"><T id="calc.editors.ra.button-download" /></span></Button>
 
 							{disableHistory
 								? null
@@ -732,16 +768,18 @@ export class EditorBase extends React.Component<Props, State> {
 						<ModalHeader toggle={this.toggleInlineRelationEditor}>{t('calc.editors.ra.inline-editor.title')}</ModalHeader>
 						<ModalBody>
 							<div>
+								<Input placeholder={t('calc.editors.ra.inline-editor.input-relation-name')} value={this.state.relationEditorName} onChange={(e) => { this.setState({ relationEditorName: e.target.value }); }} />
+								<br />
 								<HotTable ref={this.hotTableComponent} settings={this.hotTableSettings} licenseKey="non-commercial-and-evaluation" />
 							</div>
 						</ModalBody>
 						<ModalFooter>
 							<Button color="light" onClick={this.inlineEditorDownload}><FontAwesomeIcon icon={faDownload} /> {t('calc.editors.ra.inline-editor.button-download-csv')}</Button>
-							<Button color="light" onClick={() => {this.uploadCSVRef.current?.click(); }}><FontAwesomeIcon icon={faUpload} /> {t('calc.editors.ra.inline-editor.button-upload-csv')}</Button>
+							<Button color="light" onClick={() => { this.uploadCSVRef.current?.click(); }}><FontAwesomeIcon icon={faUpload} /> {t('calc.editors.ra.inline-editor.button-upload-csv')}</Button>
 							<input className="hidden" ref={this.uploadCSVRef} onChange={this.inlineEditorUpload} type="file"></input>
 							<span className="flexSpan"></span>
 							<Button color="primary" onClick={this.inlineEditorOk}><FontAwesomeIcon icon={faCheckCircle} /> {t('calc.editors.ra.inline-editor.button-ok')}</Button>
-							<Button color="secondary" onClick={this.inlineEditorCancel}><FontAwesomeIcon icon={faTimesCircle} /> {t('calc.editors.ra.inline-editor.button-cancel')}</Button>
+							<Button color="secondary" onClick={this.inlineEditorClose}><FontAwesomeIcon icon={faTimesCircle} /> {t('calc.editors.ra.inline-editor.button-cancel')}</Button>
 						</ModalFooter>
 					</Modal>
 				</div>
@@ -754,6 +792,9 @@ export class EditorBase extends React.Component<Props, State> {
 	}
 
 	toggleInlineRelationEditor() {
+		if (this.state.inlineRelationModal === true) { // destroy data
+			this.resetInlineEditor();
+		}
 		this.setState({
 			inlineRelationModal: !this.state.inlineRelationModal,
 		});
@@ -1286,10 +1327,6 @@ export class EditorBase extends React.Component<Props, State> {
 		this.focus();
 	}
 
-	public createInlineRelationViaEditor() {
-		this.toggleInlineRelationEditor();
-	}
-
 
 	setReadOnly(enable: boolean) {
 		const { editor } = this.state;
@@ -1318,6 +1355,7 @@ export class EditorBase extends React.Component<Props, State> {
 		const getTables = function (root: relalgAst.GroupRoot | relalgAst.rootRelalg) {
 			const tables: Table[] = [];
 
+
 			// find all inline-tables within the ast
 			forEachPreOrder(root, child => {
 				if (child.type === 'table') {
@@ -1336,23 +1374,22 @@ export class EditorBase extends React.Component<Props, State> {
 					tables.push(table);
 				}
 			});
-
 			return tables;
 		};
 
 		const tables: Table[] = getTables(root);
 
-
 		this.clearInlineRelationMarkers();
-
 		for (let i = 0; i < tables.length; i++) {
-			const self = this;
-			const table = tables[i];
-			const e = $('<i class="fa fa-table" title="edit relation"></i>').click(() => {
-				self.clearInlineRelationMarkers();
+			const marker = document.createElement('div');
+			marker.style.color = '#5e5e5e';
+			marker.onclick = () => {
+				this.inlineRelationEditorOpen(tables[i]);
+			};
+			ReactDOM.render(<FontAwesomeIcon icon={faTable}></FontAwesomeIcon>, marker, () => {
+				marker.style.marginLeft = '-15px';
+				editor.setGutterMarker(tables[i].line++, gutterClass, marker);
 			});
-
-			editor.setGutterMarker(tables[i].line, gutterClass, e[0]);
 		}
 	}
 

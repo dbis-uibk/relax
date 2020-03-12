@@ -14,6 +14,8 @@ import { Relation } from 'db/exec/Relation';
 import { parseRelalgGroup } from 'db/relalg';
 import * as React from 'react';
 import Button from 'reactstrap/lib/Button';
+import { faTable } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type Props = {
 	group: Group,
@@ -68,25 +70,21 @@ export class EditorGroup extends React.Component<Props> {
 					const { groupInfo, sourceInfo } = EditorGroup.generateInfo(groupAst);
 
 					const groups = getGroupsFromGroupAst(groupAst, groupInfo, sourceInfo);
-
+					
 					// display result
 					const result = (
 						<>
 							{groups.map((group, i) => {
 								return (
 									<div key={i}>
-										<h4>{group.groupName.fallback}</h4>
+										<h4>{group.groupName.fallback} <Button color="link" onClick={() => {this.props.setDraft(group); }}><T id="calc.editors.group.button-use" /></Button></h4>
 										<ul className="table-list">
-
 											{group.tables.map((table, j) => {
 												const __html = groups[i].tables[j].relation.getResult().getHtml(); // FIXME: render here!
 												return (
 													<li key={j}>
 														<h5>{table.tableName}</h5>
 														<div dangerouslySetInnerHTML={{ __html }} />
-														<Button onClick={() => {
-															this.props.setDraft(group);
-														}}><T id="calc.editors.group.button-use" /></Button>
 													</li>
 												);
 											})}
@@ -99,7 +97,9 @@ export class EditorGroup extends React.Component<Props> {
 						</>
 					);
 
-					// TODO: load the first group
+					groupAst.groups.forEach((group: any) => {
+						self.addInlineRelationMarkers(group);
+					});
 
 					return {
 						result,
@@ -148,10 +148,10 @@ export class EditorGroup extends React.Component<Props> {
 								tooltip: 'calc.editors.group.toolbar.import-sql-content',
 							},*/
 							{
-								label: <T id="calc.editors.group.toolbar.add-new-relation" />,
+								label: <span><FontAwesomeIcon icon={faTable}></FontAwesomeIcon> <T id="calc.editors.group.toolbar.add-new-relation" /></span>,
 								onClick: () => {
 									if (this.editorBase) {
-										this.editorBase.createInlineRelationViaEditor();
+										this.editorBase.inlineRelationEditorOpen(null);
 									}
 								},
 								tooltipTitle: 'calc.editors.group.toolbar.add-new-relation',

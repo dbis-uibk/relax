@@ -554,7 +554,7 @@ export class EditorBase extends React.Component<Props, State> {
 	private getInlineRelationData(): string[][] {
 		const htc: any = this.hotTableComponent.current;
 		if (htc) {
-			return htc.getData();
+			return htc.hotInstance.getData();
 		}
 		console.warn('Handsontable Instance not accessible yet');
 		return [[]];
@@ -563,7 +563,7 @@ export class EditorBase extends React.Component<Props, State> {
 	private setInlineRelationData(data: string[][]) {
 		const htc: any = this.hotTableComponent.current;
 		if (htc) {
-			htc.loadData(data);
+			htc.hotInstance.loadData(data);
 		}
 		else {
 			console.warn('Handsontable Instance not accassible yet');

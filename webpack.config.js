@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin")
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -43,10 +43,7 @@ module.exports = (env, options) => {
 		devtool: 'cheap-module-eval-source-map',
 		plugins: [
 			// https://github.com/johnagan/clean-webpack-plugin
-			new CleanWebpackPlugin([
-				'dist/*/',
-				'dist/**/*.*',
-			], {
+			new CleanWebpackPlugin({
 					dry: !isProduction,
 					verbose: false,
 				}),

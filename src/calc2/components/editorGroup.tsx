@@ -24,11 +24,14 @@ type Props = {
 
 export class EditorGroup extends React.Component<Props> {
 	private editorBase: EditorBase | null = null;
+	autoParsingTimeout: any;
 
 	constructor(props: Props) {
 		super(props);
-
+		this.autoParsingTimeout = null;
 		this.replaceSelection = this.replaceSelection.bind(this);
+		this.resetRelalgParsingTimeout = this.resetRelalgParsingTimeout.bind(this);
+		this.resetRelalgParsingTimeout();
 	}
 
 	static generateInfo(ast: relalgAst.GroupRoot): {
@@ -57,6 +60,7 @@ export class EditorGroup extends React.Component<Props> {
 
 		return (
 			<EditorBase
+				textChange={(cm: CodeMirror.Editor) => { this.resetRelalgParsingTimeout(); }}
 				ref={ref => {
 					if (ref) {
 						this.editorBase = ref;
@@ -70,14 +74,14 @@ export class EditorGroup extends React.Component<Props> {
 					const { groupInfo, sourceInfo } = EditorGroup.generateInfo(groupAst);
 
 					const groups = getGroupsFromGroupAst(groupAst, groupInfo, sourceInfo);
-					
+
 					// display result
 					const result = (
 						<>
 							{groups.map((group, i) => {
 								return (
 									<div key={i}>
-										<h4>{group.groupName.fallback} <Button color="link" onClick={() => {this.props.setDraft(group); }}><T id="calc.editors.group.button-use" /></Button></h4>
+										<h4>{group.groupName.fallback} <Button color="link" onClick={() => { this.props.setDraft(group); }}><T id="calc.editors.group.button-use" /></Button></h4>
 										<ul className="table-list">
 											{group.tables.map((table, j) => {
 												const __html = groups[i].tables[j].relation.getResult().getHtml(); // FIXME: render here!
@@ -162,6 +166,20 @@ export class EditorGroup extends React.Component<Props> {
 				]}
 			/>
 		);
+	}
+
+	private resetRelalgParsingTimeout() {
+		this.autoParsingTimeout = setTimeout(() => {
+			let text = '';
+			const { editorBase } = this;
+			if (editorBase) {
+				text = String(editorBase.getText());
+				const groupAst = parseRelalgGroup(text);
+				groupAst.groups.forEach((group: any) => {
+					editorBase.addInlineRelationMarkers(group);
+				});
+			}
+		}, 1000);
 	}
 
 	public replaceSelection(text: string, overwrite?: string) {

@@ -100,16 +100,17 @@ A = {
 a:string, b:number
 example,  42
 }`;
-		if (loadCurrentGroup === true){
+		if (loadCurrentGroup === true) {
 			content = this.props.group.definition;
 		}
 		this.setState({
 			activeTab: 'group',
 		}, () => {
-			setTimeout(() => {
-				this.getCurrentEditor().current.editorBase.state.editor.setValue(content);
-				this.toggleDatasetModal();
-			}, 250);
+			const editor: any = this.getCurrentEditor().current;
+			if (editor) {
+				editor.editorBase.state.editor.setValue(content);
+			}
+			this.toggleDatasetModal();
 		});
 	}
 

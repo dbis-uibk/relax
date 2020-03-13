@@ -221,6 +221,7 @@ type Alert = {
 
 type Table = {
 	name: string,
+	assignmentName: string,
 	line: number,
 	column: number,
 	length: number,
@@ -228,6 +229,8 @@ type Table = {
 		columns: relalgAst.table['columns'],
 		rows: relalgAst.table['rows'],
 	},
+	start: any;
+	end: any;
 };
 
 
@@ -257,6 +260,8 @@ type Props = {
 	disableHistory?: boolean,
 
 	execButtonLabel?: LanguageKeys,
+
+	textChange: Function,
 };
 
 type State = {
@@ -469,7 +474,7 @@ export class EditorBase extends React.Component<Props, State> {
 				},
 			},
 			placeholder: t('editor.codemirror-placeholder'),
-
+			textChange: null,
 			...props.codeMirrorOptions,
 		};
 
@@ -489,11 +494,11 @@ export class EditorBase extends React.Component<Props, State> {
 			replSelEnd: null,
 		};
 		this.toggle = this.toggle.bind(this);
-		this.inlineEditorOk = this.inlineEditorOk.bind(this);
+		this.inlineRelationEditorOk = this.inlineRelationEditorOk.bind(this);
 		this.toggleInlineRelationEditor = this.toggleInlineRelationEditor.bind(this);
-		this.inlineEditorClose = this.inlineEditorClose.bind(this);
-		this.inlineEditorUpload = this.inlineEditorUpload.bind(this);
-		this.inlineEditorDownload = this.inlineEditorDownload.bind(this);
+		this.inlineRelationEditorClose = this.inlineRelationEditorClose.bind(this);
+		this.inlineRelationEditorUpload = this.inlineRelationEditorUpload.bind(this);
+		this.inlineRelationEditorDownload = this.inlineRelationEditorDownload.bind(this);
 		this.hinterCache = {
 			hints: [],
 			hintsFromLinter: [],
@@ -542,6 +547,7 @@ export class EditorBase extends React.Component<Props, State> {
 		this.setState({ relationEditorName: '' });
 		this.hotTableComponent = React.createRef();
 		this.uploadCSVRef = React.createRef();
+
 	}
 
 
@@ -562,40 +568,38 @@ export class EditorBase extends React.Component<Props, State> {
 		}
 	}
 
-	private resetInlineEditor() {
+	private resetinlineRelationEditor() {
 		this.hotTableSettings.data = [
 			[''],
 			[''],
 		];
 	}
 
-	inlineRelationEditorOpen(table: any) {
+	inlineRelationEditorOpen(table: Table) {
 		const relation = new Relation();
 		const { editor } = this.state;
 		if (editor) {
 			let sPos = editor.getDoc().getCursor();
 			let ePos = editor.getDoc().getCursor();
-			if (table != null) {
+			if (table) {
+				relation.name = table.assignmentName;
 				relation.fromTableData(table.content);
 				this.hotTableSettings.data = relation.toData();
-				sPos =  CodeMirror.Pos(table.line - 1, 0);
-				const i: number = (editor.getDoc().indexFromPos(sPos) + table.length + 5);
-				ePos =  editor.getDoc().posFromIndex(i);
+				sPos = CodeMirror.Pos(table.line - 1, 0);
+				ePos = CodeMirror.Pos(table.end.line, table.end.column);
 			}
-			console.log('TABLE', table);
 			this.setState({
 				inlineRelationModal: true,
 				relationEditorName: relation.name,
 				replSelStart: sPos,
 				replSelEnd: ePos,
 			});
-			console.log('STARTEND');
-			console.log(this.state.replSelStart);
-			console.log(this.state.replSelEnd);
 		}
 	}
 
-	inlineEditorOk() {
+
+
+	inlineRelationEditorOk() {
 		const relation = new Relation();
 		relation.name = this.state.relationEditorName;
 		relation.fromData(this.getInlineRelationData());
@@ -603,18 +607,17 @@ export class EditorBase extends React.Component<Props, State> {
 		if (editor) {
 			editor.getDoc().replaceRange(relation.toString(), replSelStart, replSelEnd);
 		}
-		this.inlineEditorClose();
-		this.exec(false);
+		this.inlineRelationEditorClose();
 	}
 
-	inlineEditorClose() {
-		this.resetInlineEditor();
+	inlineRelationEditorClose() {
+		this.resetinlineRelationEditor();
 		this.setState({
 			inlineRelationModal: false,
 		});
 	}
 
-	inlineEditorUpload(event: any) {
+	inlineRelationEditorUpload(event: any) {
 		const files = event.target.files;
 		if (files.length > 0) {
 			const reader = new FileReader();
@@ -629,7 +632,7 @@ export class EditorBase extends React.Component<Props, State> {
 		}
 	}
 
-	inlineEditorDownload() {
+	inlineRelationEditorDownload() {
 		const relation = new Relation();
 		relation.fromData(this.getInlineRelationData());
 		const csvStr = relation.toCSV();
@@ -660,6 +663,10 @@ export class EditorBase extends React.Component<Props, State> {
 			this.setState({
 				isSelectionSelected: cm.getDoc().somethingSelected(),
 			});
+		});
+
+		editor.on('change', (cm: CodeMirror.Editor) => {
+			this.props.textChange(cm);
 		});
 	}
 
@@ -774,12 +781,12 @@ export class EditorBase extends React.Component<Props, State> {
 							</div>
 						</ModalBody>
 						<ModalFooter>
-							<Button color="light" onClick={this.inlineEditorDownload}><FontAwesomeIcon icon={faDownload} /> {t('calc.editors.ra.inline-editor.button-download-csv')}</Button>
+							<Button color="light" onClick={this.inlineRelationEditorDownload}><FontAwesomeIcon icon={faDownload} /> {t('calc.editors.ra.inline-editor.button-download-csv')}</Button>
 							<Button color="light" onClick={() => { this.uploadCSVRef.current?.click(); }}><FontAwesomeIcon icon={faUpload} /> {t('calc.editors.ra.inline-editor.button-upload-csv')}</Button>
-							<input className="hidden" ref={this.uploadCSVRef} onChange={this.inlineEditorUpload} type="file"></input>
+							<input className="hidden" ref={this.uploadCSVRef} onChange={this.inlineRelationEditorUpload} type="file"></input>
 							<span className="flexSpan"></span>
-							<Button color="primary" onClick={this.inlineEditorOk}><FontAwesomeIcon icon={faCheckCircle} /> {t('calc.editors.ra.inline-editor.button-ok')}</Button>
-							<Button color="secondary" onClick={this.inlineEditorClose}><FontAwesomeIcon icon={faTimesCircle} /> {t('calc.editors.ra.inline-editor.button-cancel')}</Button>
+							<Button color="primary" onClick={this.inlineRelationEditorOk}><FontAwesomeIcon icon={faCheckCircle} /> {t('calc.editors.ra.inline-editor.button-ok')}</Button>
+							<Button color="secondary" onClick={this.inlineRelationEditorClose}><FontAwesomeIcon icon={faTimesCircle} /> {t('calc.editors.ra.inline-editor.button-cancel')}</Button>
 						</ModalFooter>
 					</Modal>
 				</div>
@@ -793,7 +800,7 @@ export class EditorBase extends React.Component<Props, State> {
 
 	toggleInlineRelationEditor() {
 		if (this.state.inlineRelationModal === true) { // destroy data
-			this.resetInlineEditor();
+			this.resetinlineRelationEditor();
 		}
 		this.setState({
 			inlineRelationModal: !this.state.inlineRelationModal,
@@ -1365,11 +1372,13 @@ export class EditorBase extends React.Component<Props, State> {
 						column: child.codeInfo.location.start.column - 1,
 						// offset: child.codeInfo.location.start.offset,
 						length: child.codeInfo.text.length,
-
+						assignmentName: child.assignmentName,
 						content: {
 							columns: child.columns,
 							rows: child.rows,
 						},
+						start: child.codeInfo.location.start,
+						end: child.codeInfo.location.end,
 					};
 					tables.push(table);
 				}

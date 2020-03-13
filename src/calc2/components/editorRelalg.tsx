@@ -59,6 +59,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 
 		return (
 			<EditorBase
+				textChange={(cm: CodeMirror.Editor) => { } }
 				ref={ref => {
 					if (ref) {
 						this.editorBase = ref;

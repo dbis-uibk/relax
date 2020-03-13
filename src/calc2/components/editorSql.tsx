@@ -51,6 +51,7 @@ export class EditorSql extends React.Component<Props> {
 
 		return (
 			<EditorBase
+				textChange={(cm: CodeMirror.Editor) => { } }
 				ref={ref => {
 					if (ref) {
 						this.editorBase = ref;

@@ -401,6 +401,7 @@ fullOuterJoinOperator
 assignment
 = n:relationName !{ usedRelationNames.push(n); } assignmentOperator e:expression
 	{
+		e.assignmentName = n;
 		return {
 			type: 'assignment',
 			name: n,

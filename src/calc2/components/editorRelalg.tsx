@@ -360,7 +360,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 								label: <FontAwesomeIcon icon={faTable} />,
 								onClick: () => {
 									if (this.editorBase) {
-										this.editorBase.inlineRelationEditorOpen('');
+										this.editorBase.inlineRelationEditorOpen(null);
 									}
 								},
 								tooltipTitle: 'calc.editors.ra.toolbar.inline-relation-editor',

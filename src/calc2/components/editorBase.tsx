@@ -527,6 +527,7 @@ export class EditorBase extends React.Component<Props, State> {
 			minSpareRows: 1,
 			minSpareCols: 1,
 			colWidths: '100px',
+			contextMenu: true,
 			height: function () {
 				return document.body.clientHeight * 0.7;
 			},
@@ -544,7 +545,6 @@ export class EditorBase extends React.Component<Props, State> {
 				[''],
 			],
 		};
-		this.setState({ relationEditorName: '' });
 		this.hotTableComponent = React.createRef();
 		this.uploadCSVRef = React.createRef();
 
@@ -552,16 +552,18 @@ export class EditorBase extends React.Component<Props, State> {
 
 
 	private getInlineRelationData(): string[][] {
-		if (this.hotTableComponent && this.hotTableComponent.current) {
-			return this.hotTableComponent.current.hotInstance.getData();
+		const htc: any = this.hotTableComponent.current;
+		if (htc) {
+			return htc.getData();
 		}
 		console.warn('Handsontable Instance not accessible yet');
 		return [[]];
 	}
 
 	private setInlineRelationData(data: string[][]) {
-		if (this.hotTableComponent && this.hotTableComponent.current) {
-			this.hotTableComponent.current.hotInstance.loadData(data);
+		const htc: any = this.hotTableComponent.current;
+		if (htc) {
+			htc.loadData(data);
 		}
 		else {
 			console.warn('Handsontable Instance not accassible yet');
@@ -575,7 +577,7 @@ export class EditorBase extends React.Component<Props, State> {
 		];
 	}
 
-	inlineRelationEditorOpen(table: Table) {
+	inlineRelationEditorOpen(table: Table | null) {
 		const relation = new Relation();
 		const { editor } = this.state;
 		if (editor) {
@@ -653,6 +655,7 @@ export class EditorBase extends React.Component<Props, State> {
 		const editor = CodeMirror.fromTextArea(textarea, this.state.codeMirrorOptions);
 		this.setState({
 			editor,
+			relationEditorName: '',
 		});
 
 		if (this.props.linterFunction != null) {
@@ -1364,15 +1367,16 @@ export class EditorBase extends React.Component<Props, State> {
 
 
 			// find all inline-tables within the ast
-			forEachPreOrder(root, child => {
-				if (child.type === 'table') {
+			forEachPreOrder(root, c => {
+				const child: any = c;
+				if (child && child.type === 'table') {
 					const table: Table = {
 						name: child.name,
 						line: child.codeInfo.location.start.line - 1,
 						column: child.codeInfo.location.start.column - 1,
 						// offset: child.codeInfo.location.start.offset,
 						length: child.codeInfo.text.length,
-						assignmentName: child.assignmentName,
+						assignmentName: child.assignmentName ? child.assignmentName : '',
 						content: {
 							columns: child.columns,
 							rows: child.rows,

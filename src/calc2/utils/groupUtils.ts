@@ -8,8 +8,9 @@ import { Group, GroupInfo, GroupSourceType, HeaderTranslated, SourceInfo } from 
 import { parseRelalgGroup, relalgFromRelalgAstNode, replaceVariables } from 'db/relax-core';
 import * as jQuery from 'jquery';
 
+const ld: any = require('../data/uibk.txt');
 const LOCAL_DATA: { [id: string]: string } = {
-  'uibk': require('../data/uibk.txt').default,
+  'uibk': ld.default ? ld.default : '',
 };
 
 export function parseGroupsFromDefinition(text: string, groupInfo: GroupInfo, sourceInfo: SourceInfo) {

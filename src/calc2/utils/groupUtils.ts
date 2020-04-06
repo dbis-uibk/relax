@@ -9,9 +9,8 @@ import { parseRelalgGroup, relalgFromRelalgAstNode, replaceVariables } from 'db/
 import * as jQuery from 'jquery';
 
 const LOCAL_DATA: { [id: string]: string } = {
-  'uibk': require('../data/uibk.txt'),
+  'uibk': require('../data/uibk.txt').default,
 };
-
 
 export function parseGroupsFromDefinition(text: string, groupInfo: GroupInfo, sourceInfo: SourceInfo) {
   const groupAst = parseRelalgGroup(text);

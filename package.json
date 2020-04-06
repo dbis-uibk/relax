@@ -61,7 +61,7 @@
 		"query-string": "^6.11.1",
 		"qunit": "^2.6.1",
 		"railroad-diagrams": "https://github.com/tabatkins/railroad-diagrams.git#gh-pages",
-		"raw-loader": "^0.5.1",
+		"raw-loader": "^4.0.0",
 		"react": "^16.13.0",
 		"react-dom": "^16.13.0",
 		"react-hot-loader": "4.12.19",

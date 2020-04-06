@@ -86,7 +86,6 @@ module.exports = (env, options) => {
 			(isProduction
 				? new CompressionPlugin({
 					test: /\.*/,
-					asset: '[path].gz[query]',
 					algorithm: 'gzip',
 					threshold: 0,
 					minRatio: 0.8,

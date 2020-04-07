@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>RelaX - relational algebra calculator</title>
+	<!-- 
+		Copyright 2016 Johannes Kessler
+		
+		This Source Code Form is subject to the terms of the Mozilla Public
+		License, v. 2.0. If a copy of the MPL was not distributed with this
+		file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+	-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description"
+		content="The relational algebra calculator helps you learn relational algebra (RelAlg) by executing it." />
+	<meta name="keywords"
+		content="relational algebra, relationale algebra, relationale algebra rechner, relational algebra online tool" />
+	<meta name="author" content="Kessler Johannes" />
+	<script>
+		(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-53545936-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+
+	<!-- Start Single Page Apps for GitHub Pages -->
+	<script type="text/javascript">
+		// Single Page Apps for GitHub Pages
+		// https://github.com/rafrex/spa-github-pages
+		// Copyright (c) 2016 Rafael Pedicini, licensed under the MIT License
+		// ----------------------------------------------------------------------
+		// This script checks to see if a redirect is present in the query string
+		// and converts it back into the correct url and adds it to the
+		// browser's history using window.history.replaceState(...),
+		// which won't cause the browser to attempt to load the new url.
+		// When the single page app is loaded further down in this file,
+		// the correct url will be waiting in the browser's history for
+		// the single page app to route accordingly.
+		(function (l) {
+			if (l.search) {
+				var q = {};
+				l.search.slice(1).split('&').forEach(function (v) {
+					var a = v.split('=');
+					q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
+				});
+				if (q.p !== undefined) {
+					window.history.replaceState(null, null,
+						l.pathname.slice(0, -1) + (q.p || '') +
+						(q.q ? ('?' + q.q) : '') +
+						l.hash
+					);
+				}
+			}
+		}(window.location))
+	</script>
+	<!-- End Single Page Apps for GitHub Pages -->
+	<style>
+		.center {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.spinnerInit {
+			background-color: #333;
+			width: 64px;
+			height: 64px;
+			border-radius: 100%;
+			-webkit-animation: sk-scaleout-init 1.0s infinite ease-in-out;
+			animation: sk-scaleout-init 1.0s infinite ease-in-out;
+		}
+
+		@-webkit-keyframes sk-scaleout-init {
+			0% {
+				-webkit-transform: scale(0)
+			}
+
+			100% {
+				-webkit-transform: scale(1.0);
+				opacity: 0;
+			}
+		}
+
+		@keyframes sk-scaleout-init {
+			0% {
+				-webkit-transform: scale(0);
+				transform: scale(0);
+			}
+
+			100% {
+				-webkit-transform: scale(1.0);
+				transform: scale(1.0);
+				opacity: 0;
+			}
+		}
+	</style>
+<link href="/calc.4158d5bebda646621ee4.css" rel="stylesheet"></head>
+
+<body>
+	<div className="maxSize" id="loadingScreen">
+		<div class="center">
+			<div class="spinnerInit"></div>
+		</div>
+	</div>
+	<div id="root"></div>
+<script type="text/javascript" src="/js/calc.4158d5bebda646621ee4.bundle.js"></script></body>
+
+</html>

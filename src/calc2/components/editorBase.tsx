@@ -23,6 +23,7 @@ import { toast } from 'react-toastify';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Input } from 'reactstrap';
 import { HotTable } from '@handsontable/react';
 import * as ReactDOM from 'react-dom';
+import Handsontable from 'handsontable';
 
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/eclipse.css');
@@ -278,6 +279,7 @@ type State = {
 	relationEditorName: string,
 	replSelStart: any,
 	replSelEnd: any,
+	hotTableSettings: any,
 };
 
 
@@ -425,8 +427,6 @@ export class EditorBase extends React.Component<Props, State> {
 		changed: boolean,
 	};
 
-	hotTableSettings: any;
-	hotTableComponent: React.RefObject<object>;
 	uploadCSVRef: React.RefObject<HTMLInputElement>;
 
 	constructor(props: Props) {
@@ -492,6 +492,41 @@ export class EditorBase extends React.Component<Props, State> {
 			relationEditorName: '',
 			replSelStart: null,
 			replSelEnd: null,
+			hotTableSettings: {
+				colHeaders: false,
+				rowHeaders: function (index: number) {
+					if (index === 0) {
+						return t('calc.editors.ra.inline-editor.row-name');
+					}
+					else if (index === 1) {
+						return t('calc.editors.ra.inline-editor.row-type');
+					}
+					return (index - 1);
+				},
+				fixedRowsTop: 2,
+				minRows: 2,
+				minCols: 1,
+				minSpareRows: 1,
+				minSpareCols: 1,
+				colWidths: '100px',
+				contextMenu: true,
+				height: function () {
+					return document.body.clientHeight * 0.7;
+				},
+				cells: function (row: number, column: number) {
+					if (row === 1) {
+						return {
+							type: 'dropdown',
+							source: ['number', 'string', 'date'],
+						};
+					}
+					return {};
+				},
+				data: [
+					[''],
+					[''],
+				],
+			},
 		};
 		this.toggle = this.toggle.bind(this);
 		this.inlineRelationEditorOk = this.inlineRelationEditorOk.bind(this);
@@ -509,72 +544,51 @@ export class EditorBase extends React.Component<Props, State> {
 		this.exec = this.exec.bind(this);
 		this.applyHistory = this.applyHistory.bind(this);
 		this.downloadEditorText = this.downloadEditorText.bind(this);
-
-		this.hotTableSettings = {
-			colHeaders: false,
-			rowHeaders: function (index: number) {
-				if (index === 0) {
-					return t('calc.editors.ra.inline-editor.row-name');
-				}
-				else if (index === 1) {
-					return t('calc.editors.ra.inline-editor.row-type');
-				}
-				return (index - 1);
-			},
-			fixedRowsTop: 2,
-			minRows: 2,
-			minCols: 1,
-			minSpareRows: 1,
-			minSpareCols: 1,
-			colWidths: '100px',
-			contextMenu: true,
-			height: function () {
-				return document.body.clientHeight * 0.7;
-			},
-			cells: function (row: number, column: number) {
-				if (row === 1) {
-					return {
-						type: 'dropdown',
-						source: ['number', 'string', 'date'],
-					};
-				}
-				return {};
-			},
-			data: [
-				[''],
-				[''],
-			],
-		};
-		this.hotTableComponent = React.createRef();
+		
 		this.uploadCSVRef = React.createRef();
 
 	}
 
 
 	private getInlineRelationData(): string[][] {
-		const htc: any = this.hotTableComponent.current;
+		/*const htc: any = this.hotTableComponent.current;
 		if (htc) {
 			return htc.hotInstance.getData();
 		}
 		console.warn('Handsontable Instance not accessible yet');
-		return [[]];
+		return [[]];*/
+		console.log(this.state.hotTableSettings.data);
+		return this.state.hotTableSettings.data;
 	}
 
 	private setInlineRelationData(data: string[][]) {
-		const htc: any = this.hotTableComponent.current;
+		/*const htc: any = this.hotTableComponent.current;
 		if (htc) {
 			htc.hotInstance.loadData(data);
 		}
 		else {
 			console.warn('Handsontable Instance not accassible yet');
-		}
+		}*/
+		console.log(this.state.hotTableSettings.data);
+		this.setState({
+			hotTableSettings: {
+				data: data,
+			},
+		}, () => {
+			console.log(this.state.hotTableSettings.data);
+		});
+		
 	}
 
 	private resetinlineRelationEditor() {
-		this.hotTableSettings.data = [
-			[''],
-			[''],
-		];
+		this.setState({
+			hotTableSettings: {
+				data: [
+					[''],
+					[''],
+				],
+			},
+		});
 	}
 
 	inlineRelationEditorOpen(table: Table | null) {
@@ -586,7 +600,7 @@ export class EditorBase extends React.Component<Props, State> {
 			if (table) {
 				relation.name = table.assignmentName;
 				relation.fromTableData(table.content);
-				this.hotTableSettings.data = relation.toData();
+				this.state.hotTableSettings.data = relation.toData();
 				sPos = CodeMirror.Pos(table.line - 1, 0);
 				ePos = CodeMirror.Pos(table.end.line, table.end.column);
 			}
@@ -780,7 +794,7 @@ export class EditorBase extends React.Component<Props, State> {
 							<div>
 								<Input placeholder={t('calc.editors.ra.inline-editor.input-relation-name')} value={this.state.relationEditorName} onChange={(e) => { this.setState({ relationEditorName: e.target.value }); }} />
 								<br />
-								<HotTable ref={this.hotTableComponent} settings={this.hotTableSettings} licenseKey="non-commercial-and-evaluation" />
+								<HotTable settings={this.state.hotTableSettings} licenseKey="non-commercial-and-evaluation" />
 							</div>
 						</ModalBody>
 						<ModalFooter>

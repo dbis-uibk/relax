@@ -90,11 +90,11 @@ export class Main extends React.Component<Props, State> {
 						<div className="view-max">
 							<Switch>
 								<Redirect exact from="/" to={`/landing`} />
-								<Route path="/landing" component={Landing} />
-								<Route path="/help" component={Help} />
-								<Redirect from="/calc" to="/calc/local/uibk/local/0" exact strict />
-								<Route path="/calc/:source/:id/:filename/:index" component={ConnectedCalc} />
-								<Route path="/calc/:source/:id" component={ConnectedCalc} />
+								<Route path="(/.*)?/landing" component={Landing} />
+								<Route path="(/.*)?/help" component={Help} />
+								<Redirect from="(/.*)?/calc" to="/calc/local/uibk/local/0" exact strict />
+								<Route path="(/.*)?/calc/:source/:id/:filename/:index" component={ConnectedCalc} />
+								<Route path="(/.*)?/calc/:source/:id" component={ConnectedCalc} />
 								<Route render={match => (
 									<span>404 {JSON.stringify(match)}</span>
 								)} />

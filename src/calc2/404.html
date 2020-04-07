@@ -26,6 +26,7 @@
       var segmentCount = 1;
 
       var l = window.location;
+      console.error("Cannot find page: ", l);
       l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
         l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/' +

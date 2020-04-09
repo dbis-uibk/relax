@@ -71,7 +71,7 @@ export class Main extends React.Component<Props, State> {
 							<NavbarToggler onClick={() => this.setState({ isNavbarOpen: !isNavbarOpen })} />
 							<Collapse isOpen={isNavbarOpen} navbar>
 								<Nav className="ml-auto" navbar>
-									<NavItem className="navItemSpace"><NavLink href="/calc"><FontAwesomeIcon icon={faCalculator} /> Calculator</NavLink></NavItem>
+									<NavItem className="navItemSpace"><NavLink href="/relax/calc"><FontAwesomeIcon icon={faCalculator} /> Calculator</NavLink></NavItem>
 									<UncontrolledDropdown nav inNavbar className="navItemSpace">
 										<DropdownToggle nav caret><FontAwesomeIcon icon={faGlobeEurope} /> <T id="calc.navigation.language" /></DropdownToggle>
 										<DropdownMenu right>
@@ -89,7 +89,8 @@ export class Main extends React.Component<Props, State> {
 						</Navbar>
 						<div className="view-max">
 							<Switch>
-								<Redirect exact from="/" to={`/landing`} />
+								<Redirect exact from="/" to={`/relax/landing`} />
+								<Redirect exact from="/relax" to={`/relax/landing`} />
 								<Route path="(/.*)?/landing" component={Landing} />
 								<Route path="(/.*)?/help" component={Help} />
 								<Redirect from="(/.*)?/calc" to="/calc/local/uibk/local/0" exact strict />

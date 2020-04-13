@@ -45,7 +45,7 @@ export class Landing extends React.Component {
 									height="120" /></a>
 							</div>
 							<p className="clearfix">
-								<Link className="btn btn-primary btn-lg" role="button" to="/calc">get started</Link>
+								<Link className="btn btn-primary btn-lg" role="button" to="/relax/calc">get started</Link>
 							</p>
 
 						</div>

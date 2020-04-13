@@ -32,6 +32,7 @@ require('codemirror/addon/lint/lint.js');
 require('codemirror/addon/lint/lint.css');
 require('codemirror/addon/display/placeholder.js');
 require('codemirror/addon/display/autorefresh.js');
+require('codemirror/mode/sql/sql.js');
 require('handsontable/dist/handsontable.full.css');
 
 CodeMirror.defineMode('relalg', function () {

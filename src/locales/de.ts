@@ -156,6 +156,7 @@ export const langDE: Partial<typeof langEN> = {
 	'calc.editors.ra.toolbar.inline-relation-editor': 'inline-Relation (Editor)',
 	'calc.editors.ra.toolbar.inline-relation-editor-content': 'eine neue inline-Relation mit dem Editor erstellen',
 	'calc.editors.ra.toolbar.insert-date': 'Datum einfügen',
+	'calc.editors.ra.toolbar.autoreplace-operators.title': 'Operatoren ersetzen',
 	'calc.editors.ra.toolbar.autoreplace-operators.header': 'Operatoren automatisch ersetzen',
 	'calc.editors.ra.toolbar.autoreplace-operators.none': 'keine Ersetzung',
 	'calc.editors.ra.toolbar.autoreplace-operators.plain2math': 'pi => π',

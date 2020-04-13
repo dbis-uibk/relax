@@ -343,8 +343,8 @@ export class EditorRelalg extends React.Component<Props, State> {
 							{
 								label: '/*',
 								onClick: item => this.replaceText(item, '/*  */'),
-								tooltipTitle: 'calc.editors.ra.toolbar.inline-relation',
-								tooltip: 'calc.editors.ra.toolbar.inline-relation-content',
+								tooltipTitle: 'calc.editors.ra.toolbar.multi-line-comment',
+								tooltip: 'calc.editors.ra.toolbar.multi-line-comment-content',
 							},
 							{
 								label: '{}',
@@ -387,8 +387,8 @@ export class EditorRelalg extends React.Component<Props, State> {
 								className: 'hideOnSM',
 								type: 'dropdown',
 								label: <FontAwesomeIcon icon={faMagic} />,
-								tooltipTitle: 'calc.editors.ra.toolbar.inline-relation-editor',
-								tooltip: 'calc.editors.ra.toolbar.inline-relation-editor-content',
+								tooltipTitle: 'calc.editors.ra.toolbar.autoreplace-operators.title',
+								tooltip: 'calc.editors.ra.toolbar.autoreplace-operators.header',
 								elements: [
 									{
 										type: 'header',

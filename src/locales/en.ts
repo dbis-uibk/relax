@@ -219,6 +219,7 @@ export const langEN = {
 	'calc.editors.ra.toolbar.inline-relation-editor-content': 'create a new inline-relation using a built in editor',
 	'calc.editors.ra.toolbar.insert-date': 'insert date',
 	'calc.editors.ra.toolbar.insert-date-content': "<span class=\"math\">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )",
+	'calc.editors.ra.toolbar.autoreplace-operators.title': 'operator replacement',
 	'calc.editors.ra.toolbar.autoreplace-operators.header': 'automatically replace operators',
 	'calc.editors.ra.toolbar.autoreplace-operators.none': 'no replacement',
 	'calc.editors.ra.toolbar.autoreplace-operators.plain2math': 'pi => π',

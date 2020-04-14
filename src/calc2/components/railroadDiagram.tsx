@@ -15,23 +15,15 @@ interface Props {
 
 export class RailroadDiagram extends React.Component<Props> {
 	componentDidMount() {
-		const node = ReactDOM.findDOMNode(this);
-		if (!node) {
-			throw new Error(`could not find node`);
-		}
-		this.props.diagram.addTo();
-	}
-
-	shouldComponentUpdate(nextProps: Readonly<Props>) {
-		return this.props.diagram !== nextProps.diagram;
-	}
-
-	componentDidUpdate() {
 		const node = ReactDOM.findDOMNode(this) as Element | null;
 		if (!node) {
 			throw new Error(`could not find node`);
 		}
 		this.props.diagram.addTo(node);
+	}
+
+	shouldComponentUpdate(nextProps: Readonly<Props>) {
+		return this.props.diagram !== nextProps.diagram;
 	}
 
 	render() {

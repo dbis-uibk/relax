@@ -21,6 +21,7 @@ import { Button, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, M
 import { GroupRelationList } from '../components/groupRelationList';
 import { MenuConnected } from '../components/menu';
 import { StringStream } from 'codemirror';
+import { Navigation } from '../components/navigation';
 require('./calculator.scss');
 
 
@@ -119,6 +120,9 @@ example,  42
 		const { activeTab } = this.state;
 
 		return (
+			<div className="view-max">
+			<Navigation></Navigation>
+			
 			<div className="calculator">
 				<ToastContainer enableMultiContainer position={toast.POSITION.TOP_RIGHT} />
 				<div className="row">
@@ -150,8 +154,8 @@ example,  42
 									<FontAwesomeIcon icon={faBars} />
 								</DropdownToggle>
 								<DropdownMenu>
-									<DropdownItem href="/calc"><FontAwesomeIcon icon={faCalculator} /> <T id="calc.navigation.calc" /></DropdownItem>
-									<DropdownItem href="/help"><FontAwesomeIcon icon={faComment} /> <T id="calc.navigation.help" /></DropdownItem>
+									<DropdownItem href="/relax/calc"><FontAwesomeIcon icon={faCalculator} /> <T id="calc.navigation.calc" /></DropdownItem>
+									<DropdownItem href="/relax/help"><FontAwesomeIcon icon={faComment} /> <T id="calc.navigation.help" /></DropdownItem>
 									<DropdownItem href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faQuestionCircle} /> <T id="calc.navigation.feedback" /></DropdownItem>
 									<DropdownItem onClick={this.toggleDatasetModal}><FontAwesomeIcon icon={faDatabase} /> <T id="calc.menu.datasets" /></DropdownItem>
 									<DropdownItem divider />
@@ -248,6 +252,7 @@ example,  42
 					</ModalFooter>
 				</Modal>
 
+			</div>
 			</div>
 		);
 	}

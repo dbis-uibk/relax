@@ -10,6 +10,8 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { RailroadDiagram } from '../components/railroadDiagram';
 import './help.css';
+import { NavigationMobile } from '../components/navigation-mobile';
+import { Navigation } from '../components/navigation';
 
 interface Props extends RouteComponentProps<{lang: string}> {
 }
@@ -72,7 +74,11 @@ export class Help extends React.Component<Props> {
 	
 	render(){
 		return (
-			<div className="container">
+			<div className="view-max">
+				<Navigation></Navigation>
+				<NavigationMobile></NavigationMobile>
+				<div className="view-content">
+					
 				<div className="row">
 					<div className="col-xs-12">
 							<h1 id="help">RelaX - Help</h1>
@@ -2638,6 +2644,7 @@ export class Help extends React.Component<Props> {
 							</p>
 						</div>
 					</div>
+				</div>
 				</div>
 			</div>
 		);

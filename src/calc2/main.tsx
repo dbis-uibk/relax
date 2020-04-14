@@ -19,6 +19,7 @@ import { i18n } from './i18n';
 import { ConnectedCalc } from './views/calc';
 import { Help } from './views/help';
 import { Landing } from './views/landing';
+
 require('calc2/style/index.scss');
 
 
@@ -40,18 +41,8 @@ export class Main extends React.Component<Props, State> {
 		this.state = {
 			isNavbarOpen: true,
 		};
-		this.changeLocale = this.changeLocale.bind(this);
 	}
-
-	private changeLocale(lang: string) {
-		if (i18n.language === lang) {
-			return;
-		}
-		if (window.confirm('Reload page to change language?')) {
-			i18n.changeLanguage(lang);
-			window.location.reload();
-		}
-	}
+		
 	
 	componentDidMount(){
 		const element = document.getElementById('loadingScreen');
@@ -66,27 +57,6 @@ export class Main extends React.Component<Props, State> {
 			<Router>
 				<Provider store={store}>
 					<I18NProvider>
-						<Navbar color="light" light expand="md">
-							<NavbarBrand href="/">RelaX</NavbarBrand>
-							<NavbarToggler onClick={() => this.setState({ isNavbarOpen: !isNavbarOpen })} />
-							<Collapse isOpen={isNavbarOpen} navbar>
-								<Nav className="ml-auto" navbar>
-									<NavItem className="navItemSpace"><NavLink href="/relax/calc"><FontAwesomeIcon icon={faCalculator} /> Calculator</NavLink></NavItem>
-									<UncontrolledDropdown nav inNavbar className="navItemSpace">
-										<DropdownToggle nav caret><FontAwesomeIcon icon={faGlobeEurope} /> <T id="calc.navigation.language" /></DropdownToggle>
-										<DropdownMenu right>
-											<DropdownItem onClick={() => this.changeLocale('en')}>en</DropdownItem>
-											<DropdownItem onClick={() => this.changeLocale('de')}>de</DropdownItem>
-											<DropdownItem onClick={() => this.changeLocale('es')}>es</DropdownItem>
-											<DropdownItem onClick={() => this.changeLocale('kr')}>kr</DropdownItem>
-										</DropdownMenu>
-									</UncontrolledDropdown>
-									<NavItem className="navItemSpace"><NavLink href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faComment} /> <T id="calc.navigation.feedback" /></NavLink></NavItem>
-									<NavItem className="navItemSpace"><NavLink href="/relax/help"><FontAwesomeIcon icon={faQuestionCircle} /> <T id="calc.navigation.help" /></NavLink></NavItem>
-								</Nav>
-							</Collapse>
-						</Navbar>
-						<div className="view-max">
 							<Switch>
 								<Redirect exact from="/" to={`/relax/landing`} />
 								<Redirect exact from="/relax" to={`/relax/landing`} />
@@ -99,7 +69,6 @@ export class Main extends React.Component<Props, State> {
 									<span>404 {JSON.stringify(match)}</span>
 								)} />
 							</Switch>
-						</div>
 					</I18NProvider>
 				</Provider>
 			</Router>

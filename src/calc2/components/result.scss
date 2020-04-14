@@ -5,23 +5,27 @@
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 .ra-result {
+	text-align: center;
 	
 	.result-table {
 		overflow-x: auto;
-
+		margin-top: 32px;
+		
 		table {
 			width: auto;
+			margin: auto;
 
+			text-align: center;
 			.null {
 				font-style: italic;
 			}
 		}
-
-		
-		// TODO: pagination was in the center
-		> .pagination {
-			text-align: center;
-			margin: 0px;
-		}
+	}
+	
+	> ul, .pagination {
+		margin: auto;
+		margin-top: 32px;
+		margin-bottom: 8px;
 	}
 }
+

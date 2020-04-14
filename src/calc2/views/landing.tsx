@@ -8,6 +8,8 @@ import * as $ from 'jquery';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import './landing.css';
+import { Navigation } from '../components/navigation';
+import { NavigationMobile } from '../components/navigation-mobile';
 
 
 export class Landing extends React.Component {
@@ -20,6 +22,11 @@ export class Landing extends React.Component {
 
 	render() {
 		return (
+			<div className="view-max">
+			<Navigation></Navigation>
+			<NavigationMobile></NavigationMobile>
+			<div className="view-content">
+				
 			<div className="container">
 				<div className="row">
 					<div className="col-md-12">
@@ -594,6 +601,8 @@ allows easy translation of the main calculator into other languages.
 						</ul>
 					</div>
 				</div>
+			</div>
+			</div>
 			</div>
 		);
 	}

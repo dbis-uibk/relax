@@ -107,6 +107,7 @@ export class EditorGroup extends React.Component<Props> {
 						result,
 					};
 				}}
+				tab="group"
 				linterFunction={(self: EditorBase, editor: CodeMirror.Editor, text: string) => {
 					const groupAst = parseRelalgGroup(text);
 					

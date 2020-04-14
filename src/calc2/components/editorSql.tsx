@@ -87,6 +87,7 @@ export class EditorSql extends React.Component<Props> {
 						),
 					};
 				}}
+				tab="sql"
 				linterFunction={(self: EditorBase, editor: CodeMirror.Editor, text: string) => {
 					const hints = [];
 

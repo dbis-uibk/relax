@@ -58,7 +58,7 @@
 		for(var i = 0; i < assignments.length; i++){
 			name = assignments[i].name;
 			if(tmp[name]){
-				error(i18n.t('db.messages.parser.error-duplicate-variable', {name: name}));
+				error(t('db.messages.parser.error-duplicate-variable', {name: name}));
 			}
 
 			tmp[name] = true;

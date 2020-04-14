@@ -100,6 +100,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 						),
 					};
 				}}
+				tab="relalg"
 				linterFunction={(self: EditorBase, editor: CodeMirror.Editor, text: string) => {
 					const hints = [];
 

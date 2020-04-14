@@ -30,8 +30,6 @@ export class EditorGroup extends React.Component<Props> {
 		super(props);
 		this.autoParsingTimeout = null;
 		this.replaceSelection = this.replaceSelection.bind(this);
-		this.resetRelalgParsingTimeout = this.resetRelalgParsingTimeout.bind(this);
-		this.resetRelalgParsingTimeout();
 	}
 
 	static generateInfo(ast: relalgAst.GroupRoot): {
@@ -60,7 +58,7 @@ export class EditorGroup extends React.Component<Props> {
 
 		return (
 			<EditorBase
-				textChange={(cm: CodeMirror.Editor) => { this.resetRelalgParsingTimeout(); }}
+				textChange={(cm: CodeMirror.Editor) => { } }
 				ref={ref => {
 					if (ref) {
 						this.editorBase = ref;
@@ -111,6 +109,10 @@ export class EditorGroup extends React.Component<Props> {
 				}}
 				linterFunction={(self: EditorBase, editor: CodeMirror.Editor, text: string) => {
 					const groupAst = parseRelalgGroup(text);
+					
+					groupAst.groups.forEach((group: any) => {
+						self.addInlineRelationMarkers(group);
+					});
 
 					const { groupInfo, sourceInfo } = EditorGroup.generateInfo(groupAst);
 					getGroupsFromGroupAst(groupAst, groupInfo, sourceInfo);
@@ -166,20 +168,6 @@ export class EditorGroup extends React.Component<Props> {
 				]}
 			/>
 		);
-	}
-
-	private resetRelalgParsingTimeout() {
-		this.autoParsingTimeout = setTimeout(() => {
-			let text = '';
-			const { editorBase } = this;
-			if (editorBase) {
-				text = String(editorBase.getText());
-				const groupAst = parseRelalgGroup(text);
-				groupAst.groups.forEach((group: any) => {
-					editorBase.addInlineRelationMarkers(group);
-				});
-			}
-		}, 1000);
 	}
 
 	public replaceSelection(text: string, overwrite?: string) {

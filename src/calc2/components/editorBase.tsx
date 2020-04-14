@@ -674,7 +674,13 @@ export class EditorBase extends React.Component<Props, State> {
 		});
 
 		if (this.props.linterFunction != null) {
-			editor.setOption('lint', true);
+			editor.setOption('lint', {
+				getAnnotations: this.linter,
+			});
+			/* Not possible to bind to scope - all tabs will get same linterFunction 
+			CodeMirror.registerHelper('lint', 'sql', (text: string) => this.linter(text));
+			CodeMirror.registerHelper('lint', 'relalg', (text: string) => this.linter(text));*/
+			
 		}
 
 		editor.on('cursorActivity', (cm) => {

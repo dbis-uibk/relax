@@ -511,9 +511,6 @@ export class EditorBase extends React.Component<Props, State> {
 				minSpareCols: 1,
 				colWidths: '100px',
 				contextMenu: true,
-				height: function () {
-					return document.body.clientHeight * 0.7;
-				},
 				cells: function (row: number, column: number) {
 					if (row === 1) {
 						return {
@@ -552,32 +549,15 @@ export class EditorBase extends React.Component<Props, State> {
 
 
 	private getInlineRelationData(): string[][] {
-		/*const htc: any = this.hotTableComponent.current;
-		if (htc) {
-			return htc.hotInstance.getData();
-		}
-		console.warn('Handsontable Instance not accessible yet');
-		return [[]];*/
-		console.log(this.state.hotTableSettings.data);
 		return this.state.hotTableSettings.data;
 	}
 
 	private setInlineRelationData(data: string[][]) {
-		/*const htc: any = this.hotTableComponent.current;
-		if (htc) {
-			htc.hotInstance.loadData(data);
-		}
-		else {
-			console.warn('Handsontable Instance not accassible yet');
-		}*/
-		console.log(this.state.hotTableSettings.data);
 		this.setState({
 			hotTableSettings: {
 				data: data,
 			},
-		}, () => {
-			console.log(this.state.hotTableSettings.data);
-		});
+		}, () => { });
 		
 	}
 
@@ -601,7 +581,6 @@ export class EditorBase extends React.Component<Props, State> {
 			if (table) {
 				relation.name = table.assignmentName;
 				relation.fromTableData(table.content);
-				this.state.hotTableSettings.data = relation.toData();
 				sPos = CodeMirror.Pos(table.line - 1, 0);
 				ePos = CodeMirror.Pos(table.end.line, table.end.column);
 			}
@@ -610,6 +589,10 @@ export class EditorBase extends React.Component<Props, State> {
 				relationEditorName: relation.name,
 				replSelStart: sPos,
 				replSelEnd: ePos,
+				hotTableSettings: {
+					height: document.body.clientHeight * 0.7,
+					data: relation.toData(),
+				},
 			});
 		}
 	}

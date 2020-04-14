@@ -79,7 +79,7 @@ export class Menu extends React.Component<Props> {
 									<ul>
 										{groups.map((group: any, i: any) => {
 											const { groupName, groupInfo } = group;
-											const path = `/calc/${groupInfo.source}/${groupInfo.id}/${groupInfo.filename}/${groupInfo.index}`;
+											const path = `/relax/calc/${groupInfo.source}/${groupInfo.id}/${groupInfo.filename}/${groupInfo.index}`;
 
 											return (
 												<li key={path} className={classNames({
@@ -96,7 +96,7 @@ export class Menu extends React.Component<Props> {
 					</div>
 					<div className="col-md-6 align-text-top align-top">
 						<h4><T id="calc.menu.load-gist-headline" /></h4>
-						<input type="text" className="form-control gist-load-input" placeholder="" data-i18n="[placeholder]calc.menu.load-gist-insert-placeholder" size={32} style={{ maxWidth: '400px' }} onChange={(event) => { this.gistLink = '/calc/gist/' + event.target.value; }} />
+						<input type="text" className="form-control gist-load-input" placeholder="" data-i18n="[placeholder]calc.menu.load-gist-insert-placeholder" size={32} style={{ maxWidth: '400px' }} onChange={(event) => { this.gistLink = '/relax/calc/gist/' + event.target.value; }} />
 						<button onClick={() => {document.location.href = this.gistLink; }} type="button" className="fullWidthBtn btn btn-secondary gist-load-btn"><T id="calc.menu.load-gist-button" /></button>
 						<hr />
 						<h4><T id="calc.menu.create-own-dataset-headline" /></h4>

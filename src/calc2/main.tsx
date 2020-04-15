@@ -66,7 +66,10 @@ export class Main extends React.Component<Props, State> {
 								<Route path="/relax/calc/:source/:id/:filename/:index" component={ConnectedCalc} />
 								<Route path="/relax/calc/:source/:id" component={ConnectedCalc} />
 								<Route render={match => (
-									<span>404 {JSON.stringify(match)}</span>
+									<div className="view-min"><h1>404</h1>
+										<p>This route doesn't exist</p>
+										<span>{JSON.stringify(match)}</span>
+									</div>
 								)} />
 							</Switch>
 					</I18NProvider>

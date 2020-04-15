@@ -63,7 +63,7 @@ export class DropdownList<V = string> extends React.Component<Props<V>, State> {
 
 		return (
 			<Dropdown isOpen={isOpen} toggle={this.toggle}>
-				<DropdownToggle caret disabled={disabled || elements.length === 0}>
+				<DropdownToggle color="" disabled={disabled || elements.length === 0}>
 					{label}
 				</DropdownToggle>
 				<DropdownMenu>
@@ -94,37 +94,5 @@ export class DropdownList<V = string> extends React.Component<Props<V>, State> {
 		);
 	}
 
-	render2() {
-		const { label, elements, value, onChange } = this.props;
-		const { id } = this;
-		return (
-			<span className="dropdown">
-				<span className="dropdown-toggle" id={id} data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{label}<span className="caret"></span></span>
-				<ul className="dropdown-menu pull-right" aria-labelledby={id}>
-					{elements.map((e, i) => {
-						if (e.type === 'separator') {
-							return <li key={i} role="separator" className="divider"></li>;
-						}
-						else if (e.type === 'header') {
-							return <li key={i} className="dropdown-header">{e.label}</li>;
-						}
-						else {
-							return (
-								<li
-									key={i}
-									className={e.value === value ? 'active' : ''}
-									onClick={event => {
-										event.preventDefault();
-										onChange && onChange(e.value);
-									}}
-								>
-									<a href="#">{e.label}</a>
-								</li>
-							);
-						}
-					})}
-				</ul>
-			</span>
-		);
-	}
+	
 }

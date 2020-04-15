@@ -327,8 +327,13 @@ $NAV_BAR_HEIGHT: 64px;
 
 
 @media only screen and (min-width: 992px) {
+	
 	.showOnSM{
 		display: none !important;
+	}
+	
+	.calculator{
+		padding-top: 32px;
 	}
 	
 	.modal .modal-dialog {
@@ -352,11 +357,17 @@ $NAV_BAR_HEIGHT: 64px;
 }
 
 .toolbar__popover {
-	min-width: 24px;
+	min-width: 30px;
+	text-align: center;
+	margin: 0px !important;
+	>span {
+		min-width: 28px;
+	}
 }
 
-.toolbar__popover__dropdown{
-	width: 64px;
+.dropdownToolbarButton > .dropdown > button {
+	all:unset;
+	min-width: 30px;
 }
 
 .fancyToastWarning{
@@ -527,4 +538,12 @@ h4 {
 
 .input-buttons {
 	margin: 8px 16px 8px 16px;
+}
+
+.exec-errors{
+	margin: 16px;
+	padding: 0px;
+	>.alert{
+		margin: 0px;
+	}
 }

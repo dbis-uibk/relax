@@ -78,7 +78,7 @@ export class Help extends React.Component<Props> {
 				<Navigation></Navigation>
 				<NavigationMobile></NavigationMobile>
 				<div className="view-content">
-					
+				<div className="container">
 				<div className="row">
 					<div className="col-xs-12">
 							<h1 id="help">RelaX - Help</h1>
@@ -2644,6 +2644,7 @@ export class Help extends React.Component<Props> {
 							</p>
 						</div>
 					</div>
+				</div>
 				</div>
 				</div>
 			</div>

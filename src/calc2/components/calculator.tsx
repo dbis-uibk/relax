@@ -122,7 +122,6 @@ example,  42
 		return (
 			<div className="view-max">
 			<Navigation></Navigation>
-			
 			<div className="calculator">
 				<ToastContainer enableMultiContainer position={toast.POSITION.TOP_RIGHT} />
 				<div className="row">

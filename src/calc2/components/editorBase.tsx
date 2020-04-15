@@ -4,7 +4,8 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { faArrowAltCircleDown, faHistory, faPlayCircle, faUpload, faDownload, faCheckCircle, faTimesCircle, faPlay, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faArrowAltCircleDown, faHistory, faPlayCircle, faUpload, faDownload, faCheckCircle, faTimesCircle, faPlay, faTable, faCheck, faCalculator, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DropdownList } from 'calc2/components/dropdownList';
 import { HistoryEntry } from 'calc2/components/history';
@@ -718,14 +719,14 @@ export class EditorBase extends React.Component<Props, State> {
 								? <span><FontAwesomeIcon icon={faPlayCircle} /> <T id={execButtonLabel} /></span>
 								: (
 									<>
-										<span className="glyphicon glyphicon-play"></span> <span className="query"><FontAwesomeIcon icon={faPlayCircle} /> <T id="calc.editors.ra.button-execute-query" /></span><span className="selection"><T id="calc.editors.ra.button-execute-selection" /></span>
+										<span className="glyphicon glyphicon-play"></span> <span className="query"><FontAwesomeIcon icon={faPlay} /> <T id="calc.editors.ra.button-execute-query" /></span><span className="selection"><T id="calc.editors.ra.button-execute-selection" /></span>
 									</>
 								)
 							}
 						</button>
 
 						<div style={{ float: 'right' }}>
-							<Button color="Link" type="button" className="hideOnSM" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faArrowAltCircleDown} /> <span className="hideOnSM"><T id="calc.editors.ra.button-download" /></span></Button>
+							<Button color="Link" type="button" className="hideOnSM" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faDownload} /> <span className="hideOnSM"><T id="calc.editors.ra.button-download" /></span></Button>
 
 							{disableHistory
 								? null
@@ -763,7 +764,6 @@ export class EditorBase extends React.Component<Props, State> {
 							</div>
 						</ModalBody>
 						<ModalFooter>
-							<Button color="secondary" onClick={this.toggle}>{t('calc.editors.ra.button-download')}</Button>
 							<span></span>
 							<Button color="secondary" onClick={this.toggle}>{t('calc.result.modal.close')}</Button>
 						</ModalFooter>
@@ -817,7 +817,7 @@ export class EditorBase extends React.Component<Props, State> {
 		this.replaceAll(h.code);
 	}
 
-	forceLinterRun() {
+	public forceLinterRun() {
 		// remove and insert text to force linter to run
 		const { editor } = this.state;
 		if (!editor) {

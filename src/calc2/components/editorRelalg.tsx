@@ -13,7 +13,7 @@ import * as CodeMirror from 'codemirror';
 import { Relation } from 'db/exec/Relation';
 import { AutoreplaceOperatorsMode, parseRelalg, queryWithReplacedOperatorsFromAst, relalgFromRelalgAstRoot, replaceVariables } from 'db/relalg';
 import * as React from 'react';
-import { faCalendarAlt, faTable, faMagic, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faTable, faMagic, faExternalLinkAlt, faPaste } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NonTerminal } from 'railroad-diagrams';
 
@@ -375,7 +375,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 							},
 							{
 								className: 'showOnSM',
-								label: <FontAwesomeIcon className="editorButtonOnSM" icon={faExternalLinkAlt} />,
+								label: <FontAwesomeIcon className="editorButtonOnSM" icon={faPaste} />,
 								onClick:  () => { this.props.relInsertModalToggle(); },
 								tooltipTitle: 'calc.editors.insert-relation-title',
 								tooltip: 'calc.editors.insert-relation-tooltip',
@@ -385,9 +385,9 @@ export class EditorRelalg extends React.Component<Props, State> {
 					{
 						items: [
 							{
-								className: 'hideOnSM',
+								className: 'dropdownToolbarButton',
 								type: 'dropdown',
-								label: <FontAwesomeIcon icon={faMagic} />,
+								label: <FontAwesomeIcon className="editorButtonOnSM" icon={faMagic} />,
 								tooltipTitle: 'calc.editors.ra.toolbar.autoreplace-operators.title',
 								tooltip: 'calc.editors.ra.toolbar.autoreplace-operators.header',
 								elements: [
@@ -415,6 +415,10 @@ export class EditorRelalg extends React.Component<Props, State> {
 								onChange: (value: string) => {
 									this.setState({
 										autoreplaceOperatorsMode: value as AutoreplaceOperatorsMode,
+									}, () => {
+										if(this.editorBase){
+											this.editorBase.forceLinterRun();
+										}
 									});
 								},
 							},

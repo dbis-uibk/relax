@@ -83,6 +83,7 @@ export function* rootSaga() {
 			}
 			catch (e) {
 				console.error('could not fetch group', e);
+				window.alert('Could not fetch group!\nDefault group loaded.\n' + e);
 			}
 		}
 	});

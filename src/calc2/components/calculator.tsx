@@ -224,7 +224,7 @@ example,  42
 					<ModalHeader toggle={this.toggleDatasetModal}>{translateHeader(group.groupName, locale)}</ModalHeader>
 					<ModalBody>
 						<div>
-							<MenuConnected loadGroupTab={(loadCurrentGroup: boolean) => { this.loadGroupEditor(loadCurrentGroup); }} />
+							<MenuConnected datasetLoaded={() => { this.setState({ datasetModal: false }); }} loadGroupTab={(loadCurrentGroup: boolean) => { this.loadGroupEditor(loadCurrentGroup); }} />
 						</div>
 					</ModalBody>
 					<ModalFooter>

@@ -22,6 +22,7 @@ type Props = {
 	current: store.State['groups']['current']
 	locale: store.State['session']['locale'],
 	loadGroupTab: Function,
+	datasetLoaded: Function,
 };
 
 
@@ -85,7 +86,7 @@ export class Menu extends React.Component<Props> {
 												<li key={path} className={classNames({
 													active: current && current.group.groupInfo === group.groupInfo,
 												})}>
-													<NavLink to={path}>{translateHeader(groupName, locale)}</NavLink>
+													<NavLink to={path} onClick={()=>{this.props.datasetLoaded();}}>{translateHeader(groupName, locale)}</NavLink>
 												</li>
 											);
 										})}
@@ -97,7 +98,7 @@ export class Menu extends React.Component<Props> {
 					<div className="col-md-6 align-text-top align-top">
 						<h4><T id="calc.menu.load-gist-headline" /></h4>
 						<input type="text" className="form-control gist-load-input" placeholder="" data-i18n="[placeholder]calc.menu.load-gist-insert-placeholder" size={32} onChange={(event) => { this.gistLink = '/relax/calc/gist/' + event.target.value; }} />
-						<button onClick={() => {document.location.href = this.gistLink; }} type="button" className="fullWidthBtn btn btn-secondary gist-load-btn"><T id="calc.menu.load-gist-button" /></button>
+						<button onClick={() => {document.location.href = this.gistLink; this.props.datasetLoaded(); }} type="button" className="fullWidthBtn btn btn-secondary gist-load-btn"><T id="calc.menu.load-gist-button" /></button>
 						<hr />
 						<h4><T id="calc.menu.create-own-dataset-headline" /></h4>
 						<p><T id="calc.menu.create-own-dataset-text" /> <Link to="/help#tutorial-maintainer"><T id="calc.menu.create-own-dataset-text-link" /></Link></p>

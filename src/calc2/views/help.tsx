@@ -78,9 +78,7 @@ export class Help extends React.Component<Props> {
 				<Navigation></Navigation>
 				<NavigationMobile></NavigationMobile>
 				<div className="view-content">
-				<div className="container">
-				<div className="row">
-					<div className="col-xs-12">
+					<div className="container">
 							<h1 id="help">RelaX - Help</h1>
 
 							<div id="toc"></div>
@@ -199,7 +197,7 @@ export class Help extends React.Component<Props> {
 				)</code>
 
 							In the following table you can see a list of all supported substitutions:
-							<table className="table table-condensed">
+							<div className="scroll-x"><table className="table table-condensed">
 								<thead>
 								<tr>
 									<th>classNameical notation</th>
@@ -314,7 +312,7 @@ export class Help extends React.Component<Props> {
 									</td>
 								</tr>
 								</tbody>
-							</table>
+							</table></div>
 
 
 							<ul>
@@ -624,14 +622,14 @@ export class Help extends React.Component<Props> {
 
 							<div>
 								<h4 id="relalg-assignment">assignment</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>syntax</th>
 											<td><code><i>NAME</i> <strong>=</strong> <i>EXPRESSION</i></code></td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 
 								<div>
 									<p>Defines a new local variable with the name <i>NAME</i>; its content is defined by
@@ -694,14 +692,14 @@ export class Help extends React.Component<Props> {
 
 							<div>
 								<h4 id="relalg-comment-sl">single-line comment</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>syntax</th>
 											<td><code><strong>-- </strong><i>COMMENT_TEXT</i><i>EXPRESSION</i></code></td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>
 									<p>the '--' must be followed by at least one whitespace charater! inserts a comment; its text goes
 										until the end of the line</p>
@@ -717,14 +715,14 @@ export class Help extends React.Component<Props> {
 
 							<div>
 								<h4 id="relalg-relation-name">pre defined relation</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>syntax</th>
 											<td><code><i>RELATION_NAME</i></code></td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>
 									<p>Uses a pre defined relation with the name <i>RELATION_NAME</i></p>
 
@@ -737,7 +735,7 @@ export class Help extends React.Component<Props> {
 
 							<div>
 								<h4 id="relalg-comment-ml">multi-line comment</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>syntax</th>
@@ -746,7 +744,7 @@ export class Help extends React.Component<Props> {
 
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>
 									<p>inserts a comment that can span multiple lines</p>
 
@@ -764,7 +762,7 @@ export class Help extends React.Component<Props> {
 
 							<div>
 								<h4 id="relalg-inline-relation">inline-relation</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>syntax</th>
@@ -776,7 +774,7 @@ export class Help extends React.Component<Props> {
 											</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>
 									<p>The inline-relation is a temporary relation that can be defined directly in the statement. It is
 										only valid in the defining statement</p>
@@ -928,7 +926,7 @@ export class Help extends React.Component<Props> {
 
 							<div>
 								<h4 id="relalg-operations-projection">projection</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -945,7 +943,7 @@ export class Help extends React.Component<Props> {
 											</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<p>The argument is a subset of columns of the schema of the <i>CHILD_EXPRESSION</i> or a <a
 										href="#relalg-valueexpr">value expression</a></p>
 
@@ -993,7 +991,7 @@ export class Help extends React.Component<Props> {
 
 							<div>
 								<h4 id="relalg-operations-selection">selection</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1010,7 +1008,7 @@ export class Help extends React.Component<Props> {
 											</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 
 								<p>The argument is a <a href="#relalg-valueexpr">boolean expression</a> that each row of <i>CHILD_EXPRESSION</i>
 									is checked on</p>
@@ -1040,7 +1038,7 @@ export class Help extends React.Component<Props> {
 
 							<div>
 								<h4 id="relalg-operations-renamerelation">rename relation</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1057,7 +1055,7 @@ export class Help extends React.Component<Props> {
 											</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 
 								<div>
 									The argument is the new name for the Relation returned by <i>CHILD_EXPRESSION</i>
@@ -1081,7 +1079,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-renamecolumn">rename column</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1103,7 +1101,7 @@ export class Help extends React.Component<Props> {
 											</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>
 									The argument is the old and the new column names in a list (see example) <br />
 									"←" can be substituted with "{'<'}-"
@@ -1145,7 +1143,7 @@ export class Help extends React.Component<Props> {
 
 							<div>
 								<h4 id="relalg-operations-orderby">order by</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1162,7 +1160,7 @@ export class Help extends React.Component<Props> {
 											</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 
 								<div>
 									The argument is a list of columns by which the relation should be ordered (see examples)
@@ -1197,7 +1195,7 @@ export class Help extends React.Component<Props> {
 
 							<div>
 								<h4 id="relalg-operations-groupby">group by</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1214,7 +1212,7 @@ export class Help extends React.Component<Props> {
 											</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>
 									The argument is a list of columns to group by, separated by commas followed by a semicolon
 									<br />and a list of aggregate functions to apply with their new name in form <span>AGG( COLUMN ) -> NEW_NAME</span>
@@ -1227,7 +1225,7 @@ export class Help extends React.Component<Props> {
 									<p>If no grouping columns are provided the entire relation is the group.</p>
 
 									<div>supported aggregate functions by type:
-										<table className="table">
+										<div className="scroll-x"><table className="table">
 											<thead>
 												<tr>
 													<td>&nbsp;</td>
@@ -1274,7 +1272,7 @@ export class Help extends React.Component<Props> {
 													<td>no</td>
 												</tr>
 											</tbody>
-										</table>
+										</table></div>
 									</div>
 
 									<div className="too-wide">
@@ -1320,7 +1318,7 @@ export class Help extends React.Component<Props> {
 
 							<div>
 								<h4 id="relalg-operations-intersection">intersection - &cap;</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1331,7 +1329,7 @@ export class Help extends React.Component<Props> {
 											<td>intersect</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>no argument
 
 									<div className="example">
@@ -1353,7 +1351,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-union">union - &cup;</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1364,7 +1362,7 @@ export class Help extends React.Component<Props> {
 											<td>union</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>no argument
 
 									<div className="example">
@@ -1386,7 +1384,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-division">division</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1397,7 +1395,7 @@ export class Help extends React.Component<Props> {
 											<td>/</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>no argument
 
 									<div className="example">
@@ -1419,7 +1417,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-subtraction">subtraction / set-difference</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>-</th>
@@ -1432,7 +1430,7 @@ export class Help extends React.Component<Props> {
 											</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>no argument
 
 									<div className="example">
@@ -1456,7 +1454,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-crossjoin">cross product</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1467,7 +1465,7 @@ export class Help extends React.Component<Props> {
 											<td>cross join</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>no argument
 									<div className="too-wide">
 										<RailroadDiagram 
@@ -1483,7 +1481,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-innerjoin">Theta-join / θ-join</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1494,7 +1492,7 @@ export class Help extends React.Component<Props> {
 											<td>join<br />inner join</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>join condition
 									<div className="too-wide">
 										<RailroadDiagram 
@@ -1529,7 +1527,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-naturaljoin">natural join</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1540,7 +1538,7 @@ export class Help extends React.Component<Props> {
 											<td>join<br />natural join</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>no argument
 
 									<div className="example">
@@ -1562,7 +1560,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-leftjoin">left outer join</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1573,7 +1571,7 @@ export class Help extends React.Component<Props> {
 											<td>left outer join<br />left join</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>optional join condition; if no join condition is given it acts as a natural left outer join
 									<div className="too-wide">
 										<RailroadDiagram 
@@ -1594,7 +1592,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-rightjoin">right outer join</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1605,7 +1603,7 @@ export class Help extends React.Component<Props> {
 											<td>right outer join<br />right join</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>optional join condition; if no join condition is given it acts as a natural right outer join
 									<div className="too-wide">
 										<RailroadDiagram 
@@ -1626,7 +1624,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-fulljoin">full outer join</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1637,7 +1635,7 @@ export class Help extends React.Component<Props> {
 											<td>full outer join</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>optional join condition; if no join condition is given it acts as a natural full outer join
 									<div className="too-wide">
 										<RailroadDiagram 
@@ -1658,7 +1656,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-leftsemijoin">left semi join</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1669,7 +1667,7 @@ export class Help extends React.Component<Props> {
 											<td>left semi join</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>no argument
 									<div className="too-wide">
 										<RailroadDiagram 
@@ -1685,7 +1683,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-rightsemijoin">right semi join</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1696,7 +1694,7 @@ export class Help extends React.Component<Props> {
 											<td>right semi join</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>no argument
 									<div className="too-wide">
 										<RailroadDiagram 
@@ -1712,7 +1710,7 @@ export class Help extends React.Component<Props> {
 							</div>
 							<div>
 								<h4 id="relalg-operations-antijoin">anti semi join</h4>
-								<table className="table table-nonfluid">
+								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
 											<th>symbol</th>
@@ -1723,7 +1721,7 @@ export class Help extends React.Component<Props> {
 											<td>anti semi join<br />anti join</td>
 										</tr>
 									</tbody>
-								</table>
+								</table></div>
 								<div>no argument
 									<br />
 
@@ -1751,7 +1749,7 @@ export class Help extends React.Component<Props> {
 								<br />All operators are left associative.
 							</p>
 
-							<table className="table">
+							<div className="scroll-x"><table className="table">
 								<thead>
 									<tr>
 										<th>order of precedence</th>
@@ -1806,7 +1804,7 @@ export class Help extends React.Component<Props> {
 										</td>
 									</tr>
 								</tbody>
-							</table>
+							</table></div>
 
 							<div className="example">
 								<code>A join B x C</code>
@@ -1861,7 +1859,7 @@ export class Help extends React.Component<Props> {
 							defined by the outer most expression.
 
 							The following operators can be used:
-							<table className="table">
+							<div className="scroll-x"><table className="table">
 								<thead>
 									<tr>
 										<th>syntax</th>
@@ -2101,11 +2099,11 @@ export class Help extends React.Component<Props> {
 									</td>
 								</tr>
 								</tbody>
-							</table>
+							</table></div>
 
 							The operator precedence is the same as used in <a
 								href="https://dev.mysql.com/doc/refman/5.7/en/operator-precedence.html">MySQL</a> (from strong to weak):
-							<table className="table">
+							<div className="scroll-x"><table className="table">
 								<thead>
 								<tr>
 									<th>order of precedence</th>
@@ -2154,7 +2152,7 @@ export class Help extends React.Component<Props> {
 									<td>OR, ||</td>
 								</tr>
 								</tbody>
-							</table>
+							</table></div>
 
 
 							<h2 id="sql-reference">Reference - SQL</h2>
@@ -2646,8 +2644,6 @@ export class Help extends React.Component<Props> {
 					</div>
 				</div>
 				</div>
-				</div>
-			</div>
 		);
 	}
 }

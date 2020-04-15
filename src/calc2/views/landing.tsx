@@ -26,10 +26,9 @@ export class Landing extends React.Component {
 			<Navigation></Navigation>
 			<NavigationMobile></NavigationMobile>
 			<div className="view-content">
-				
 			<div className="container">
-				<div className="row">
-					<div className="col-md-12">
+			<div className="row">
+			<div className="col-md-12">
 
 						<div className="jumbotron">
 							<h1>RelaX - relational algebra calculator</h1>
@@ -101,6 +100,7 @@ export class Landing extends React.Component {
 							*/}
 
 							Subjects =
+							<div className="scroll-x">
 							<table className="table table-condensed table-inline">
 								<thead>
 									<tr>
@@ -127,8 +127,10 @@ export class Landing extends React.Component {
 									</tr>
 								</tbody>
 							</table>
-
+							</div>
+							
 							Students =
+							<div className="scroll-x">
 							<table className="table table-condensed table-inline">
 								<thead>
 									<tr>
@@ -155,8 +157,10 @@ export class Landing extends React.Component {
 									</tr>
 								</tbody>
 							</table>
-
+							</div>
+							
 							Marks =
+							<div className="scroll-x">
 							<table className="table table-condensed table-inline">
 								<thead>
 									<tr>
@@ -203,7 +207,8 @@ export class Landing extends React.Component {
 									</tr>
 								</tbody>
 							</table>
-
+							</div>
+							
 							<br />
 
 							<div>
@@ -218,7 +223,7 @@ export class Landing extends React.Component {
 							</div>
 							=
 							<button type="button" className="btn" id="exec1">execute</button>
-
+							<div className="scroll-x">
 							<table className="table table-condensed table-inline hidden">
 								<thead>
 									<tr>
@@ -240,6 +245,7 @@ export class Landing extends React.Component {
 									</tr>
 								</tbody>
 							</table>
+							</div>
 						</div>
 
 						<h2>Calculator features:</h2>
@@ -290,7 +296,7 @@ export class Landing extends React.Component {
 
 						<h2>Available data</h2>
 						You can either use one of the following datasets or create a new one.
-
+						<div className="scroll-x">
 						<table className="table">
 							<thead>
 								<tr>
@@ -343,6 +349,7 @@ export class Landing extends React.Component {
 								</tr>
 							</tbody>
 						</table>
+						</div>
 
 						<h2>What it is not:</h2>
 
@@ -350,7 +357,7 @@ export class Landing extends React.Component {
 							The goal of the implementation was to create a tool to support people to learn RelAlg.
 						</p>
 
-
+						<div className="scroll-x">
 						<table className="table table-condensed">
 							<thead>
 								<tr>
@@ -405,6 +412,7 @@ export class Landing extends React.Component {
 								</tr>
 							</tbody>
 						</table>
+						</div>
 
 						<h2 id="changelog">Changelog</h2>
 						<ul>
@@ -600,7 +608,7 @@ allows easy translation of the main calculator into other languages.
 								href="https://github.com/tabatkins/railroad-diagrams">tabatkins/railroad-diagrams</a></li>
 						</ul>
 					</div>
-				</div>
+			</div>
 			</div>
 			</div>
 			</div>

@@ -16,7 +16,7 @@ body {
 .row {
 	margin: 0px;
 	padding: 0px;
-	margin-bottom: 50px;
+	margin-bottom: 16px;
 	width: 100% !important;
 }
 
@@ -214,14 +214,18 @@ $NAV_BAR_HEIGHT: 64px;
 }
 
 .view-content{
-	width: 100%;
+	width: 100% !important;
 	height: calc(100% - #{$NAV_BAR_HEIGHT});
 	margin: 0px;
-	padding: 0px;
-	padding-top: 32px;
+	padding: 32px 0px 0px 0px;
 	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
+.calculator {
+	overflow-y: auto;
+	height: calc(100% - #{$NAV_BAR_HEIGHT});
+}
 
 .download-button{
 	margin-right: 16px;
@@ -242,6 +246,9 @@ $NAV_BAR_HEIGHT: 64px;
 	}
 	.groups-container{
 		display: none !important;
+	}
+	.calculator{
+		height: 100%;
 	}
 	
 	$NAV_TABS_HEIGHT: 42px;
@@ -323,6 +330,10 @@ $NAV_BAR_HEIGHT: 64px;
 	overflow-y: auto;
 	}
 	
+	.scroll-x {
+		text-align: center;
+	}
+	
 }
 
 
@@ -345,6 +356,17 @@ $NAV_BAR_HEIGHT: 64px;
 	}
 	.mobileNavbar {
 		display: none;
+	}
+	
+	.scroll-x {
+		display: inline;
+	}
+	
+	table.table-inline {
+		width: auto !important;
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: 42px;
 	}
 
 }
@@ -546,4 +568,8 @@ h4 {
 	>.alert{
 		margin: 0px;
 	}
+}
+
+.scroll-x {
+	overflow-x: auto;
 }

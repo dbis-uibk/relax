@@ -76,13 +76,6 @@ code {
 	list-style-type: none;
 }
 
-table.table-inline {
-	width: auto !important;
-	display: inline-block;
-	vertical-align: middle;
-	margin-right: 42px;
-}
-
 .hidden {
 	display: none;
 }

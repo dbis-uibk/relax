@@ -41,8 +41,7 @@ export class TablePagination extends React.Component<Props, State> {
 
 	render() {
 		const { currentPage, total, maxLinesPerPage } = this.props;
-		const maxPages = total / maxLinesPerPage;
-
+		const maxPages = total / (maxLinesPerPage+1);
 		const pages: JSX.Element[] = [];
 		for (let i = Math.max(currentPage - 2, 0); i <= Math.min(currentPage + 2, maxPages); i++) {
 			pages.push(

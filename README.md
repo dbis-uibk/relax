@@ -27,7 +27,7 @@ A relational algebra calculator
 ### Add a new Language
 * Open `src/locales/languages.csv` as csv with e.g. libreoffice (use ',' as delimiter and '"' as string marker)
 * Every column represents a language, every row a value
-* Create a new column (enter the country code as first row)
+* Create a new column (use the country code as first row/header cell)
 * Insert a string for every language key there is (pay attention to {{variables}} as they must stay untouched)
 * When finished, execute the script `writeLanguageFiles.py` which generates the json files based on the csv
 * In `src/calc2/i18n.tsx` add an import for this file as well as initializing it in the i18n init function (see other languages for examples)

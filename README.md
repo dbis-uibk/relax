@@ -9,10 +9,27 @@ A relational algebra calculator
 * Execute `yarn serve` to locally run the webapp on port 8088
 * (Optional) open folder with https://code.visualstudio.com/ and install the workspace recommended extensions (includes tasks)
 
+## How to Release
+* Use `yarn build` to create release build in `dist` folder
+* Copy the content of your `dist` folder somewhere outside of the repository
+* Checkout the branch `gh-pages`
+* Remove everything there and pase content of the former `dist` folder
+* Push to github (the person doing this must be an administrator of the project)
+
 ## Contributions
 * Contributions are **highly appreciated**
 * Please create a **pull request** for the **development** branch
-* To add a new language, just copy an existing file in `src/locales` e.g. `src/locales/en.ts` and rewrite the phrases
+
+### Add a new Language
+* Open `src/locales/languages.csv` as csv with e.g. libreoffice (use ',' as delimiter and '"' as string marker)
+* Every column represents a language, every row a value
+* Create a new column (enter the country code as first row)
+* Insert a string for every language key there is (pay attention to {{variables}} as they must stay untouched)
+* When finished, execute the script `writeLanguageFiles.py` which generates the json files based on the csv
+* In `src/calc2/i18n.tsx` add an import for this file as well as initializing it in the i18n init function (see other languages for examples)
+* Add a new dropdown entry to `src/calc2/calculator.entry.tsx` and `src/calc2/calculator.entry.tsx`
+* Test your language
+* Create a pull request to the development branch
 
 ## Features
 

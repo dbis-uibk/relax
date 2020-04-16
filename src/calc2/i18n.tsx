@@ -7,10 +7,10 @@
 import * as i18next from 'i18next';
 import * as LanguageDetector from 'i18next-browser-languagedetector';
 import * as React from 'react';
-import { langDE } from '../locales/de';
-import { langEN } from '../locales/en';
-import { langES } from '../locales/es';
-import { langKR } from '../locales/kr';
+const langDE = require('../locales/de.json');
+const langEN = require('../locales/en.json');
+const langES = require('../locales/es.json');
+const langKR = require('../locales/kr.json');
 
 export type LanguageKeys = keyof typeof langEN;
 

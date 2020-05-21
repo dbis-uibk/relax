@@ -184,7 +184,7 @@ export abstract class RANodeNullary extends RANode {
 				<span>
 					<span class="math">${this._functionName}</span>
 				</span>
-			${wrap ? '(' : ''}`
+			${wrap ? ')' : ''}`
 		);
 	}
 }
@@ -267,7 +267,7 @@ export abstract class RANodeBinary extends RANode {
 					<sub>${this.getArgumentHtml()}</sub>
 					${printChildren === true ? this.getChild2().getFormulaHtml(printChildren, true) : ''}
 				</span>
-			${wrap ? '(' : ''}`
+			${wrap ? ')' : ''}`
 		);
 	}
 }

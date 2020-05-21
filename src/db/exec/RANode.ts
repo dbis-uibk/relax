@@ -220,7 +220,7 @@ export abstract class RANodeUnary extends RANode {
 					<sub>${this.getArgumentHtml()}</sub>
 					${printChildren === true ? this.getChild().getFormulaHtml(printChildren, true) : ''}
 				</span>
-			${wrap ? '(' : ''}`
+			${wrap ? ')' : ''}`
 		);
 	}
 }

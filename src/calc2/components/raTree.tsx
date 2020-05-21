@@ -118,7 +118,8 @@ export class RaTree extends React.Component<Props> {
 						>
 
 							<a className="formula">
-								{fromVariableMarker}<span dangerouslySetInnerHTML={{ __html: n.getFormulaHtml(false, false) }} />
+								{fromVariableMarker}<span dangerouslySetInnerHTML={{ __html: n.getFormulaHtml(false, false) }} /><br/>
+								<span className="resultCountLabel">{`${n.getResultNumRows()} row${n.getResultNumRows() === 1 ? '' : 's'}`}</span>
 							</a>
 
 						</Popover>

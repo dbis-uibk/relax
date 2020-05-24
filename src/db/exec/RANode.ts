@@ -257,7 +257,7 @@ export abstract class RANodeBinary extends RANode {
 	}
 
 	getFormulaHtml(printChildren: boolean = true, isChildElement: boolean = true): string {
-		const wrap = this._wrappedInParentheses === true && isChildElement === true;
+		const wrap = this._wrappedInParentheses === true || isChildElement === true;
 		return (
 			`${wrap ? '(' : ''}
 

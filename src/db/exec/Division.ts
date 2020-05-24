@@ -68,7 +68,7 @@ export class Division extends RANodeBinary {
 		}
 
 
-		// (R % S) := (pi r'(R)) - ( ( (pi r'(R) x (S) )) - (R) )
+		// (R % S) := (pi r'(R)) -  pi r'( ( (pi r'(R)) x (S) ) - (R) )
 		this._delegate = new Difference(
 			new Projection(this._child, schema.getColumns()).setCodeInfoObject(this._codeInfo),
 			new Projection(

@@ -48,7 +48,7 @@ export class Menu extends React.Component<Props> {
 				category = i18n.t('calc.maintainer-groups.temp');
 			}
 			else if (group.category) {
-				category = t(group.category);
+				category = t({lang: '', fallback: group.groupInfo.maintainerGroup});
 			}
 
 			const groups = [
@@ -66,7 +66,6 @@ export class Menu extends React.Component<Props> {
 	render(): JSX.Element {
 		const { current, locale } = this.props;
 		const groupsByHeadlineName = this.getGroupsByHeadlineName(this.props.groups, locale);
-
 		return (
 			<div className="container">
 				<div className="row">
@@ -86,7 +85,7 @@ export class Menu extends React.Component<Props> {
 												<li key={path} className={classNames({
 													active: current && current.group.groupInfo === group.groupInfo,
 												})}>
-													<NavLink to={path} onClick={()=>{this.props.datasetLoaded();}}>{translateHeader(groupName, locale)}</NavLink>
+													<NavLink to={path} onClick={()=>{this.props.datasetLoaded(); }}>{translateHeader(groupName, locale)}</NavLink>
 												</li>
 											);
 										})}

@@ -41,6 +41,8 @@ export class EditorGroup extends React.Component<Props> {
 			id: 'draft',
 			filename: 'draft',
 			index: 0,
+			maintainer: '',
+			maintainerGroup: '',
 		};
 		const sourceInfo: SourceInfo = {};
 

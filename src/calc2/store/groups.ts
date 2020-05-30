@@ -30,7 +30,7 @@ export type Action = (
 export function* rootSaga() {
 
 	yield saga.takeEvery('GROUPS_LOAD_REQUEST', function* (action: GROUPS_LOAD_REQUEST) {
-		const { source, id, setCurrent } = action;
+		const { source, id, setCurrent, maintainer, maintainerGroup} = action;
 
 		const state: store.State = yield saga.select();
 
@@ -61,8 +61,7 @@ export function* rootSaga() {
 					throw new Error(`unsupported source-type ${source}`);
 				}
 
-				const loadedGroups: Group[] = yield saga.call(loadGroupsFromSource, source, id);
-
+				const loadedGroups: Group[] = yield saga.call(loadGroupsFromSource, source, id, maintainer, maintainerGroup);
 				const success: GROUPS_LOAD_SUCCESS = {
 					type: 'GROUPS_LOAD_SUCCESS',
 					loadedGroups,
@@ -126,6 +125,8 @@ export type GroupInfo = {
 	filename: string,
 	/** nth definition within the file */
 	index: number,
+	maintainer: string,
+	maintainerGroup: string,
 };
 export type SourceInfo = {
 	author?: string,
@@ -141,6 +142,8 @@ export type GROUPS_LOAD_REQUEST = {
 	type: 'GROUPS_LOAD_REQUEST',
 	source: string,
 	id: string,
+	maintainer: string,
+	maintainerGroup: string,
 
 	setCurrent?: 'first' | {
 		filename: string,
@@ -176,6 +179,8 @@ function loadGroup(
 	id: string,
 	filename: string,
 	index: number | string,
+	maintainer: string,
+	maintainerGroup: string,
 ): GROUP_SET_CURRENT {
 	if (
 		source !== 'gist'
@@ -184,7 +189,6 @@ function loadGroup(
 	) {
 		throw new Error(`invalid source ${source}`);
 	}
-
 	try {
 		const action: GROUP_SET_CURRENT = {
 			type: 'GROUP_SET_CURRENT',
@@ -236,17 +240,47 @@ export function loadStaticGroups() {
 				source: 'gist',
 				id: '7d1871f79a8bcb4788de',
 			},
+			{
+				maintainerGroup: t('calc.maintainer-groups.uibk'),
+				maintainer: '<a href="https://gist.github.com/michaelrampl">Michael Rampl</a>',
+
+				source: 'gist',
+				id: 'b58108eacc9c5916726b2327789204ab',
+			},
+			{
+				maintainerGroup: t('calc.maintainer-groups.uibk'),
+				maintainer: '<a href="https://gist.github.com/michaelrampl">Michael Rampl</a>',
+
+				source: 'gist',
+				id: '963d8b886fb468d742c71d34ba0dbbed',
+			},
+			{
+				maintainerGroup: t('calc.maintainer-groups.saarland'),
+				maintainer: '<a href="https://gist.github.com/jensdittrich">Jens Dittrich</a>',
+
+				source: 'gist',
+				id: '41cf5ce652756d9331eec7562644e074',
+			},
+			{
+				maintainerGroup: t('calc.maintainer-groups.saarland'),
+				maintainer: '<a href="https://gist.github.com/jensdittrich">Jens Dittrich</a>',
+
+				source: 'gist',
+				id: 'c306ecf21c6e6d175508d3ac6b4355e7',
+			},
 		];
 
 	let first: boolean = true;
 
 	const actions: GROUPS_LOAD_REQUEST[] = (
-		groups.map(({ source, id }) => {
+		groups.map(({ source, id, maintainer, maintainerGroup}) => {
 			const action: GROUPS_LOAD_REQUEST = {
 				type: 'GROUPS_LOAD_REQUEST',
 				source,
 				id,
 				setCurrent: first ? 'first' : undefined,
+				maintainer,
+				maintainerGroup,
 			};
 
 			first = false;
@@ -254,6 +288,7 @@ export function loadStaticGroups() {
 			return action;
 		})
 	);
+	
 
 	return actions;
 }
@@ -295,6 +330,7 @@ export function reduce(oldState: State | undefined, action: store.Action): State
 
 		case 'GROUPS_LOAD_SUCCESS': {
 			// merge new groups
+			
 			const { loadedGroups } = action;
 			let newState = oldState;
 

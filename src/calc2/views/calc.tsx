@@ -25,6 +25,8 @@ type Props = RouteComponentProps<{
 		id: string,
 		filename: string,
 		index: number,
+		maintainer: string,
+		maintainerGroup: string,
 	): void,
 };
 
@@ -56,7 +58,7 @@ export class Calc extends React.Component<Props> {
 	private loadGroup(props: Props) {
 		const { source, id, filename, index } = props.match.params;
 
-		this.props.loadGroup(source, id, filename, Number.parseInt(index, 10));
+		this.props.loadGroup(source, id, filename, Number.parseInt(index, 10), '', '');
 		// TODO: display errors
 	}
 
@@ -105,11 +107,15 @@ export const ConnectedCalc = connect((state: store.State) => {
 			id: string,
 			filename: string,
 			index: number,
+			maintainer: string,
+			maintainerGroup: string,
 		) => {
 			const action: GROUPS_LOAD_REQUEST = {
 				type: 'GROUPS_LOAD_REQUEST',
 				source,
 				id,
+				maintainer,
+				maintainerGroup,
 				setCurrent: {
 					filename,
 					index,

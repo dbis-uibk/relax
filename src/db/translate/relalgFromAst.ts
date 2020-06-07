@@ -638,7 +638,8 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 				{
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
-					const node = new AntiJoin(child, child2);
+					const condition = parseJoinCondition(n.arg);
+					const node = new AntiJoin(child, child2, condition);
 					setAdditionalData(n, node);
 					return node;
 				}

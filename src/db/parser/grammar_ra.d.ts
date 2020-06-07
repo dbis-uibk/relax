@@ -267,6 +267,7 @@ declare module relalgAst {
 
 	interface antiJoin extends binaryRelalgOperation {
 		type: 'antiJoin'
+		arg: booleanExpr
 	}
 
 	interface leftOuterJoin extends binaryRelalgOperation {

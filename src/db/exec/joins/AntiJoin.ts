@@ -6,27 +6,39 @@
 
 import { RANode, Session } from '../RANode';
 import { Schema } from '../Schema';
-import { Join } from './Join';
+import { Join, JoinCondition } from './Join';
+import * as i18n from 'i18next';
 
 /**
  * relational algebra anti-join operator
  */
 export class AntiJoin extends Join {
-	constructor(child: RANode, child2: RANode) {
-		super(child, child2, '▷', {
-			type: 'natural',
-			restrictToColumns: null,
-		}, false);
+	constructor(child: RANode, child2: RANode, condition: JoinCondition) {
+		super(child, child2, '▷', condition, false, true);
 	}
 
 	_checkSchema(schemaA: Schema, schemaB: Schema): void {
-		// schema of anti join is always the left operands schema
+		try {
 
-		this._schema = schemaA.copy();
-		this._rowCreatorNotMatched = function (rowA: any[], rowB: any[]): any[] {
-			return rowA; // take left side only
-		};
-		this._rowCreatorMatched = null;
+			// check columns appearing in both schemas
+			const conflicts = schemaA.getConflictingColumnsArray(schemaB);
+			if (conflicts.length > 0) {
+				this.throwExecutionError(i18n.t('db.messages.exec.error-join-would-produce-non-unique-columns', { conflicts: conflicts.join(', ') }));
+			}
+
+			this._schema = this._child.getSchema().copy();
+			this._rowCreatorMatched = function (rowA: any[], rowB: any[]): any[] {
+				return rowA;
+			};
+
+			this._rowCreatorNotMatched = function (rowA: any[], rowB: any[]): any[] {
+				return rowA;
+			};
+		}
+		catch (e) {
+			// throw (new) error in the join-context
+			this.throwExecutionError(e.message);
+		}
 	}
 
 	getResult(session?: Session) {

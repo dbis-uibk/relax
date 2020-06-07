@@ -588,10 +588,8 @@ booleanExprWithTrailingWhitspace
 		the user has to wrap it in parentheses
 		*/
 		if(a.type === 'valueExpr' && a.func === 'columnValue' && !a.wrappedInParentheses && a.args[1] === null){
-			//console.log('relation detected?', usedRelationNames);
 			for(var i = 0; i < usedRelationNames.length; i++){
 				if(usedRelationNames[i] === a.args[0]){
-					//console.log('relation detected!', usedRelationNames);
 					return false;
 				}
 			}
@@ -905,10 +903,10 @@ rightSemiJoin
 	}
 
 antiJoin
-= o:antiJoinOperator c:expression_precedence1
+= o:antiJoinOperator  a:booleanExprWithTrailingWhitspace? c:expression_precedence1
 	{
 		operatorPositions.push(o);
-		return {type: 'antiJoin', child2: c, codeInfo: getCodeInfo()};
+		return {type: 'antiJoin', child2: c, arg:a, codeInfo: getCodeInfo()};
 	}
 
 division

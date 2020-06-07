@@ -39,6 +39,7 @@ export abstract class Join extends RANodeBinary {
 	_joinConditionBooleanExpr: ValueExpr.ValueExpr | null = null;
 	_joinConditionEvaluator: null | ((rowA: Data[], rowB: Data[], rowNumberA: number, session: Session) => boolean) = null;
 	_isRightJoin: boolean;
+	_isAntiJoin: boolean;
 	_schema: Schema | null = null;
 	_rowCreatorMatched: null | ((rowA: Data[], rowB: Data[]) => Data[]) = null;
 	_rowCreatorNotMatched: null | ((rowA: Data[], rowB: Data[]) => Data[]) = null; // used for outer joins
@@ -53,9 +54,10 @@ export abstract class Join extends RANodeBinary {
 		 */
 		joinCondition: JoinCondition,
 		isRightJoin: boolean,
+		isAntiJoin = false,
 	) {
 		super(functionName, child, child2);
-
+		this._isAntiJoin = isAntiJoin;
 		this._isRightJoin = isRightJoin;
 		this._joinConditionOptions = joinCondition;
 	}
@@ -136,6 +138,7 @@ export abstract class Join extends RANodeBinary {
 			this.getChild2(),
 			resultTable,
 			this._isRightJoin,
+			this._isAntiJoin,
 			this._joinConditionEvaluator,
 			this._rowCreatorMatched,
 			this._rowCreatorNotMatched,
@@ -192,6 +195,7 @@ export abstract class Join extends RANodeBinary {
 		childB: RANode,
 		targetTable: Table,
 		isRightJoin: boolean,
+		isAntiJoin: boolean,
 		evalJoinCondition: (rowA: Data[], rowB: Data[], rowNumberA: number, session: Session) => boolean,
 		createRowToAddIfMatched: null | ((rowA: Data[], rowB: Data[]) => Data[]),
 		createRowToAddIfNOTMatched: null | ((rowA: Data[], rowB: Data[]) => Data[]),
@@ -213,29 +217,38 @@ export abstract class Join extends RANodeBinary {
 			for (let i = 0; i < numRowsA; i++) {
 				const rowA = orgA.getRow(i);
 				let match = false;
-
 				for (let j = 0; j < numRowsB; j++) {
 					const rowB = orgB.getRow(j);
-
 					if (evalJoinCondition(rowA, rowB, i, session) !== true) {
 						continue;
 					}
 					else {
 						// add row
 						match = true;
-						if (createRowToAddIfMatched !== null) {
-							const row = createRowToAddIfMatched(rowA, rowB);
-							targetTable.addRow(row);
+						if (isAntiJoin === false) {
+							if (createRowToAddIfMatched !== null) {
+								const row = createRowToAddIfMatched(rowA, rowB);
+								targetTable.addRow(row);
+							}
 						}
 					}
 				}
-
-				if (match === false && createRowToAddIfNOTMatched !== null) {
-					const row = createRowToAddIfNOTMatched(rowA, nullArrayRight!);
-					if (row === null) {
-						continue;
+				if (isAntiJoin === false) {
+					if (match === false && createRowToAddIfNOTMatched !== null) {
+						const row = createRowToAddIfNOTMatched(rowA, nullArrayRight!);
+						if (row === null) {
+							continue;
+						}
+						targetTable.addRow(row);
 					}
-					targetTable.addRow(row);
+				} else {
+					if (match === false && createRowToAddIfNOTMatched !== null) {
+						const row = createRowToAddIfNOTMatched(rowA, nullArrayRight!);
+						if (row === null) {
+							continue;
+						}
+						targetTable.addRow(row);
+					}
 				}
 			}
 		}

@@ -213,10 +213,13 @@ export abstract class Join extends RANodeBinary {
 			if (createRowToAddIfNOTMatched !== null) {
 				nullArrayRight = Join.createNullArray(targetTable.getSchema().getSize() - numColsA); // == size of new A
 			}
-
+			const antiJoinDict: { [index: number]: boolean } = {};
 			for (let i = 0; i < numRowsA; i++) {
 				const rowA = orgA.getRow(i);
 				let match = false;
+				if (isAntiJoin) {
+					antiJoinDict[i] = false;
+				}
 				for (let j = 0; j < numRowsB; j++) {
 					const rowB = orgB.getRow(j);
 					if (evalJoinCondition(rowA, rowB, i, session) !== true) {
@@ -225,29 +228,32 @@ export abstract class Join extends RANodeBinary {
 					else {
 						// add row
 						match = true;
-						if (isAntiJoin === false) {
-							if (createRowToAddIfMatched !== null) {
-								const row = createRowToAddIfMatched(rowA, rowB);
+						if (createRowToAddIfMatched !== null) {
+							const row = createRowToAddIfMatched(rowA, rowB);
+							if (isAntiJoin) {
+								antiJoinDict[i] = false;
+							} else {
 								targetTable.addRow(row);
 							}
 						}
 					}
 				}
-				if (isAntiJoin === false) {
-					if (match === false && createRowToAddIfNOTMatched !== null) {
-						const row = createRowToAddIfNOTMatched(rowA, nullArrayRight!);
-						if (row === null) {
-							continue;
-						}
+				if (match === false && createRowToAddIfNOTMatched !== null) {
+					const row = createRowToAddIfNOTMatched(rowA, nullArrayRight!);
+					if (row === null) {
+						continue;
+					}
+					if (isAntiJoin) {
+						antiJoinDict[i] = true;
+					} else {
 						targetTable.addRow(row);
 					}
-				} else {
-					if (match === false && createRowToAddIfNOTMatched !== null) {
-						const row = createRowToAddIfNOTMatched(rowA, nullArrayRight!);
-						if (row === null) {
-							continue;
-						}
-						targetTable.addRow(row);
+				}
+			}
+			if (isAntiJoin) {
+				for (let i = 0; i < numRowsA; i++) {
+					if (antiJoinDict[i] === true) {
+						targetTable.addRow(orgA.getRow(i));
 					}
 				}
 			}

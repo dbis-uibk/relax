@@ -18,14 +18,8 @@ export class AntiJoin extends Join {
 	}
 
 	_checkSchema(schemaA: Schema, schemaB: Schema): void {
+		console.log('_joinConditionOptions', this._joinConditionOptions.type);
 		try {
-
-			// check columns appearing in both schemas
-			const conflicts = schemaA.getConflictingColumnsArray(schemaB);
-			if (conflicts.length > 0) {
-				this.throwExecutionError(i18n.t('db.messages.exec.error-join-would-produce-non-unique-columns', { conflicts: conflicts.join(', ') }));
-			}
-
 			this._schema = this._child.getSchema().copy();
 			this._rowCreatorMatched = function (rowA: any[], rowB: any[]): any[] {
 				return rowA;

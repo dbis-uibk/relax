@@ -11,6 +11,7 @@ import { RANode, RANodeBinary, Session } from '../RANode';
 import { Data, Schema } from '../Schema';
 import { Table } from '../Table';
 import * as ValueExpr from '../ValueExpr';
+import { bool } from 'prop-types';
 
 
 export type JoinCondition = {
@@ -308,9 +309,23 @@ export abstract class Join extends RANodeBinary {
 		}
 	}
 
+	static checkForDuplicates(schema: Schema): boolean {
+		const cols: { [name: string]: boolean; } = {};
+		for (let i = 0; i < schema.getSize(); i++) {
+			const name = schema.getColumn(i).getName();
+			if (name in cols) {
+				return true;
+			}
+			cols[name] = true;
+		}
+		return false;
+	}
+
 	static getNaturalJoinConditionArray(schemaA: Schema, schemaB: Schema, restrictToColumns: string[] | null = null) {
 		const numColsA = schemaA.getSize();
 		const conditions: ValueExpr.ValueExpr[] = [];
+		const hasDuplicateCols = Join.checkForDuplicates(schemaA) || Join.checkForDuplicates(schemaB);
+		
 
 		// find columns with the same name in schemaA and schemaB
 		for (let i = 0; i < numColsA; i++) {
@@ -319,9 +334,13 @@ export abstract class Join extends RANodeBinary {
 				// skip all but certain columns (for joins with USING())
 				continue;
 			}
-			const indices = schemaB.getColumnIndexArray(a.getName(), null);
-			if (indices.length === 0) {
-				continue;
+			
+			let indices = [];
+			if (hasDuplicateCols) {
+				console.log('DUPLICATE ROWS');
+				indices = schemaB.getColumnIndexArray(a.getName(), a.getRelAlias());
+			} else {
+				indices = schemaB.getColumnIndexArray(a.getName(), null);
 			}
 
 			for (let j = 0; j < indices.length; j++) {

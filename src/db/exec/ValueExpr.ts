@@ -11,6 +11,7 @@ import * as i18n from 'i18next';
 import { CodeInfo } from './CodeInfo';
 import { Tuple } from './Table';
 import { Session } from './RANode';
+import { Join } from './joins/Join';
 
 
 // type DataType = 'string' | 'number' | 'boolean' | 'date' | 'null';
@@ -238,7 +239,8 @@ export class ValueExprColumnValue extends ValueExpr {
 		else {
 			if (schemaB.getColumnIndex(name, relAlias, false) !== -1) {
 				// ambiguous!!
-				throw new Error('column ' + relAlias + '.' + name + ' found in both schemas: ' + schemaA.toString() + ' ' + schemaB.toString());
+				// throw new Error('column ' + relAlias + '.' + name + ' found in both schemas: ' + schemaA.toString() + ' ' + schemaB.toString());
+				return index; // deactivated error logic to allow join conditions after cross joins which may result in duplicate columns
 			}
 			else {
 				return index;
@@ -1000,8 +1002,8 @@ export class ValueExprGeneric extends ValueExpr {
 				case 'upper':
 				case 'lower':
 				case 'date':
-				//case 'coalesce':
-				//	return printFunction.call(this);
+				// case 'coalesce':
+				// 	return printFunction.call(this);
 				case 'strlen':
 					return printFunction.call(this, 'length');
 

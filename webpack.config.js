@@ -40,7 +40,7 @@ module.exports = (env, options) => {
 			filename: isProduction ? "js/[name].[hash].bundle.js" : "js/[name].bundle.js",
 			publicPath: isProduction ? "/relax/" : "/",
 		},
-		devtool: isProduction ? 'source-map' : 'cheap-module-eval-source-map',
+		devtool: isProduction ? '' : 'cheap-module-eval-source-map',
 		plugins: [
 			// https://github.com/johnagan/clean-webpack-plugin
 			new CleanWebpackPlugin({

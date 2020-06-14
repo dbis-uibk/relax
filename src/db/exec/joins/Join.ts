@@ -337,7 +337,6 @@ export abstract class Join extends RANodeBinary {
 			
 			let indices = [];
 			if (hasDuplicateCols) {
-				console.log('DUPLICATE ROWS');
 				indices = schemaB.getColumnIndexArray(a.getName(), a.getRelAlias());
 			} else {
 				indices = schemaB.getColumnIndexArray(a.getName(), null);

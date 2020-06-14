@@ -18,7 +18,6 @@ export class AntiJoin extends Join {
 	}
 
 	_checkSchema(schemaA: Schema, schemaB: Schema): void {
-		console.log('_joinConditionOptions', this._joinConditionOptions.type);
 		try {
 			this._schema = this._child.getSchema().copy();
 			this._rowCreatorMatched = function (rowA: any[], rowB: any[]): any[] {

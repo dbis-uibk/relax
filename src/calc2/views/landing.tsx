@@ -41,12 +41,9 @@ export class Landing extends React.Component {
 
 							<div id="logos">
 								<a href="http://dbis-informatik.uibk.ac.at/" target="_blank"><img
-									src="assets/logos/dbis_x120.png" alt="Databases and Information Systems (DBIS)"
+									src="assets/logos/Logos_blue_large.png" alt="Databases and Information Systems (DBIS)"
 									width="159" height="120" /></a>
-								<a href="http://informatik.uibk.ac.at/" target="_blank"><img src="assets/logos/ifi_x120.png"
-									alt="Institute of Computer Science - University of Innsbruck"
-									width="129" height="120" /></a>
-								<a href="http://www.uibk.ac.at/" target="_blank"><img src="assets/logos/uibk_x120.png"
+								<a href="http://www.uibk.ac.at/" target="_blank"><img src="assets/logos/Logos_uni_uni_2017_rgb.png"
 									alt="University of Innsbruck" width="60"
 									height="120" /></a>
 							</div>

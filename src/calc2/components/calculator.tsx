@@ -128,7 +128,7 @@ example,  42
 					<div className="d-none d-xs-block d-sm-block d-md-block col-lg-1 col-xl-2"></div>
 					<div className="groups-container col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
 						<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" onClick={this.toggleDatasetModal} style={{ width: '100%', textAlign: 'left', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-							<span>{translateHeader(group.groupName, locale)}</span>
+							<span>Select DB ({translateHeader(group.groupName, locale)})</span>
 							<span className="caret" style={{ display: 'block', position: 'absolute', top: '50%', right: '10px' }}></span>
 						</button>
 

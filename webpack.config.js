@@ -98,7 +98,7 @@ module.exports = (env, options) => {
 			// https://github.com/kevlened/copy-webpack-plugin
 			new CopyWebpackPlugin([
 				{ from: 'src/calc2/manifest.json', to: './' },
-				{ from: 'resources/icon/*', to: './assets/icon/', flatten: true },
+				{ from: 'resources/favicon/*', to: './assets/favicon/', flatten: true },
 				{ from: 'resources/logos/*', to: './assets/logos/', flatten: true },
 			]),
 

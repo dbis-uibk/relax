@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
-import csv, json
+import csv
+import json
 
 delimiter = ','
 quotechar = '"'
+
 
 def CsvToJson():
     language_data = {
@@ -11,6 +13,7 @@ def CsvToJson():
         "de": {},
         "es": {},
         "kr": {},
+        "pt": {},
     }
     with open('languages.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=delimiter)
@@ -25,8 +28,10 @@ def CsvToJson():
         with open('%s.json' % li, 'w') as json_file:
             json.dump(language_data[li], json_file)
 
+
 def main():
     CsvToJson()
+
 
 if __name__ == "__main__":
     main()

@@ -33,18 +33,18 @@ type State = {
 
 
 export class Main extends React.Component<Props, State> {
-	
 
-	
+
+
 	constructor(props: Props) {
 		super(props);
 		this.state = {
 			isNavbarOpen: true,
 		};
 	}
-		
-	
-	componentDidMount(){
+
+
+	componentDidMount() {
 		const element = document.getElementById('loadingScreen');
 		element?.parentNode?.removeChild(element);
 	}
@@ -57,21 +57,21 @@ export class Main extends React.Component<Props, State> {
 			<Router>
 				<Provider store={store}>
 					<I18NProvider>
-							<Switch>
-								<Redirect exact from="/" to={`/relax/landing`} />
-								<Redirect exact from="/relax" to={`/relax/landing`} />
-								<Route path="/relax/landing" component={Landing} />
-								<Route path="/relax/help" component={Help} />
-								<Redirect from="/relax/calc" to="/relax/calc/local/uibk/local/0" exact strict />
-								<Route path="/relax/calc/:source/:id/:filename/:index" component={ConnectedCalc} />
-								<Route path="/relax/calc/:source/:id" component={ConnectedCalc} />
-								<Route render={match => (
-									<div className="view-min"><h1>404</h1>
-										<p>This route doesn't exist</p>
-										<span>{JSON.stringify(match)}</span>
-									</div>
-								)} />
-							</Switch>
+						<Switch>
+							<Redirect exact from="/" to={`/relax/landing`} />
+							<Redirect exact from="/relax" to={`/relax/landing`} />
+							<Route path="/relax/landing" component={Landing} />
+							<Route path="/relax/help" component={Help} />
+							<Redirect from="/relax/calc" to="/relax/calc/local/uibk/local/0" exact strict />
+							<Route path="/relax/calc/:source/:id/:filename/:index" component={ConnectedCalc} />
+							<Route path="/relax/calc/:source/:id" component={ConnectedCalc} />
+							<Route render={match => (
+								<div className="view-min"><h1>404</h1>
+									<p>This route doesn't exist</p>
+									<span>{JSON.stringify(match)}</span>
+								</div>
+							)} />
+						</Switch>
 					</I18NProvider>
 				</Provider>
 			</Router>

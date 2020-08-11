@@ -75,17 +75,17 @@ editor.alert-message-headers.success,Success,Sucesso,Erfolg,Éxito,성공,,,,
 editor.alert-message-headers.info,Info,Info,Info,Info,정보,,,,
 editor.alert-message-headers.warning,Warning,Perigo,Warnung,Advertencia,경고,,,,
 editor.alert-message-headers.error,Error,Erro,Fehler,Error, 에러 ,,,,
-editor.inline-relation-editor.button-ok,ok,ok,ok,ok,ok,,,,
-editor.inline-relation-editor.button-cancel,cancel,cancelar,abbrechen,cancelar,취소,,,,
+editor.inline-relation-editor.button-ok,ok,Ok,ok,ok,ok,,,,
+editor.inline-relation-editor.button-cancel,cancel,Cancelar,abbrechen,cancelar,취소,,,,
 editor.inline-relation-editor.placeholder-column-name-and-types,columnName:type,columnName:type,spaltenName:datenTyp,nombreColumna:tipo,열 이름:타입,,,,
-editor.inline-relation-editor.enter-your-data,please enter your data,"Por favor, insira seus dados",bitte Daten eingeben,por favor ingrese los datos,데이터를 입력하라,,,,
+editor.inline-relation-editor.enter-your-data,please enter your data,"por favor, insira seus dados",bitte Daten eingeben,por favor ingrese los datos,데이터를 입력하라,,,,
 editor.inline-relation-editor.error-column-name-missing,column name missing in column {{index}},nome da coluna ausente na coluna {{index}},Spaltenname fehlt in Spalte {{index}},nombre de columna ausente en columna {{index}},열 이름이 열 __index__에 없다,,,,
 editor.inline-relation-editor.error-wrong-quoted-string,string must not contain single and double quotes,string não deve conter aspas simples e duplas,Zeichenketten dürfen keine doppelten oder einfache Anführungszeichen enthalten,cadena de caracteres no debe contener comillas simples y dobles,문자열은 작은따음표와 큰따음표를 포함할 수 없다.,,,,
 editor.error-no-query-found,no query found,nenhuma consulta encontrada,keine Abfrage gefunden,no se encontró la consulta,쿼리를 찾을 수 없다,,,,
 editor.pegjs-error.or,or,ou,oder,ó,또는,,,,
 editor.pegjs-error.no-input-found,no input found,nenhuma entrada encontrada,keine Eingabe gefunden,no se encontró la entrada,입력을 찾을 수 없음,,,,
 editor.pegjs-error.end-of-input,end of input,fim da entrada,Ende der Eingabe,fin de entrada,입력의 끝,,,,
-editor.pegjs-error.expected-found,Expected {{expected}} but {{found}} found.,"Esperado {{expected}}, mas {{found}} encontrado.",Erwarte {{expected}} aber {{found}} gefunden.,Se esperaba {{expected}} pero se encontró {{found}} .,예상 된 __expected__이지만 __found__이 발견됨.,,,,
+editor.pegjs-error.expected-found,Expected {{expected}} but {{found}} found.,"esperado {{expected}}, mas {{found}} encontrado.",Erwarte {{expected}} aber {{found}} gefunden.,Se esperaba {{expected}} pero se encontró {{found}} .,예상 된 __expected__이지만 __found__이 발견됨.,,,,
 editor.error-at-line-x,at line {{line}},na linha {{line}},in Zeile {{line}},en la línea {{line}},__line__ 줄에서,,,,
 calc.messages.error-query-missing,no query found,nenhuma consulta encontrada,keine Abfrage gefunden,no se encontró la consulta,쿼리를 찾을 수 없음,,,,
 calc.messages.error-query-missing-assignments-found,"only assignments found; query is missing <a href=""help.htm#relalg-assignment"" target=""_blank"">Help - Assignments</a>","apenas atribuições encontradas; falta a consulta <a href=""help.htm#relalg-assignment"" target=""_blank""> Ajuda - Tarefas </a>","nur Zuweisungen gefunden; die eigentliche Abfrage fehlt <a href=""help.htm#relalg-assignment"" target=""_blank"">Help - Assignments (en)</a>","solo se encontraron asignaciones; a la consulta le falta <a href=""help.htm#relalg-assignment"" target=""_blank"">Help - Assignments</a>","쿼리를 찾을 수 없음 <a href=""help.htm#relalg-assignment"" target=""_blank"">Help - Assignments</a>",,,,
@@ -93,7 +93,7 @@ calc.messages.gist-load-success,gist loaded successfully,gist carregado com suce
 calc.menu.headline,load a Dataset,Carregue um Dataset,Datensätze,cargar un Dataset,데이터셋 불러오기,,,,
 calc.menu.datasets,Datasets,Datasets,Datensätze,Datasets,데이터셋 불러오기,,,,
 calc.menu.load-gist-headline,Load dataset stored in a gist,Carregar Dataset armazenado em um gist,Datensatz aus gist laden,cargar dataset guardado en un gist,gist에 저장된 데이터셋 불러오기,,,,
-calc.menu.load-gist-button,load,carregar,laden,cargar,불러오기,,,,
+calc.menu.load-gist-button,load,Carregar,laden,cargar,불러오기,,,,
 calc.menu.load-gist-insert-placeholder,gist ID,gist ID,gist ID,ID de gist,gist 아이디,,,,
 calc.menu.create-own-dataset-headline,Create your own Dataset,Crie seu próprio Dataset,Eigenen Datensatz erstellen,Crear tu propio Dataset,데이터셋 생성하기,,,,
 calc.menu.create-own-dataset-text,"You can create your own dataset and share it with others. Learn more about it in the  <a href=""help.htm#tutorial-maintainer"">Maintainer Tutorial</a>",Você pode criar seu próprio conjunto de dados e compartilhá-lo com outras pessoas. Saiba mais sobre isso no ,"Sie können Ihren eigenen Datensatz erstellen und ihn mit anderen teilen. Lernen Sie mehr darüber  im  <a href=""help.htm#tutorial-maintainer"">Maintainer Tutorial</a>","Puedes crear tu propio dataset y compartirlo con otras personas. 
@@ -115,14 +115,14 @@ calc.editors.insert-relation-title,Insert,Inserir,Einfügen,Insertar,Insert,,,,
 calc.editors.insert-relation-tooltip,Insert relation or column names,Inserir relação ou nomes de coluna,Beziehungs- oder Spaltennamen einfügen,Insertar nombres de relaciones o columnas,Insert relation or column names,,,,
 calc.editors.group.tab-name,Group Editor,Editor de Grupo,Datensatz Editor,Editor de Grupo,그룹 에디터,,,,
 calc.editors.group.tab-name-short,GE,EG,DS,EG,그룹 에디터,,,,
-calc.editors.group.toolbar.import-sql,import SQL-dump,importar SQL-dump,SQL-dump importieren,importar SQL-dump,SQL-덤프 가져오기,,,,
-calc.editors.group.toolbar.import-sql-content,import SQL-dump,importar SQL-dump,SQL-dump importieren,importar SQL-dump,SQL-컨텐트 가져오기,,,,
+calc.editors.group.toolbar.import-sql,import SQL-dump,Importar SQL-dump,SQL-dump importieren,importar SQL-dump,SQL-덤프 가져오기,,,,
+calc.editors.group.toolbar.import-sql-content,import SQL-dump,Importar SQL-dump,SQL-dump importieren,importar SQL-dump,SQL-컨텐트 가져오기,,,,
 calc.editors.group.toolbar.add-new-relation,add new relation,+ nova relação,neue Relation hinzufügen,agregar nueva relación,새로운 릴레이션 추가,,,,
-calc.editors.group.toolbar.add-new-relation-content,open relation editor,abrir editor de relações,Relationseditor öffnen,abrir editor de relaciones,릴레이션 에디터 열기,,,,
-calc.editors.group.button-download,download,download,download,descargar,다운로드,,,,
+calc.editors.group.toolbar.add-new-relation-content,open relation editor,Abrir editor de relações,Relationseditor öffnen,abrir editor de relaciones,릴레이션 에디터 열기,,,,
+calc.editors.group.button-download,download,Download,download,descargar,다운로드,,,,
 calc.editors.group.button-exec,preview,Visualizar,Vorschau,vista previa,preview,,,,
-calc.editors.group.button-use,use Group in editor,use Grupo no Editor,Datensatz im Editor verwenden,utilizar Grupo en editor,에디터에서 그룹 사용하기,,,,
-calc.editors.group.button-use_plural,use first Group in editor,use o primeiro Grupo no Editor,Datensatz im Editor verwenden,utilizar Grupos en editor,에디터에서 여러 그룹 사용하기,,,,
+calc.editors.group.button-use,use Group in editor,Use Grupo no Editor,Datensatz im Editor verwenden,utilizar Grupo en editor,에디터에서 그룹 사용하기,,,,
+calc.editors.group.button-use_plural,use first Group in editor,Use o primeiro Grupo no Editor,Datensatz im Editor verwenden,utilizar Grupos en editor,에디터에서 여러 그룹 사용하기,,,,
 calc.editors.group.sql-import-group-name-placeholder,Name of the group (imported from SQL),Nome do grupo (importado de SQL),Name des Datensatzes (importiert),Nombre del grupo (importado de SQL),그룹 이름(SQL로부터 불러옴),,,,
 calc.editors.group.new-group-example-group,"-- this is an example
 
@@ -165,16 +165,16 @@ A = {
 	a:string, b:number
 	example,  42
 }",,,,
-calc.editors.group.modal-sqldump.modal-title,Import SQL-Dump,importar SQL-dump,SQL-Dump importieren,Importar SQL-Dump,SQL-Dump 가져오기,,,,
+calc.editors.group.modal-sqldump.modal-title,Import SQL-Dump,Importar SQL-dump,SQL-Dump importieren,Importar SQL-Dump,SQL-Dump 가져오기,,,,
 calc.editors.group.modal-sqldump.button-close,Close,Fechar,schließen,Cerrar,닫기,,,,
-calc.editors.group.modal-sqldump.button-cancel,cancel,cancelar,abbrechen,cancelar,취소,,,,
-calc.editors.group.modal-sqldump.button-import-sql,import SQL,importar SQL,importieren,importar SQL,SQL 가져오기,,,,
-calc.editors.group.modal-sqldump.description,Put your SQL-Dump here to create a group.,Put your SQL-Dump here to create a group.,Kopieren Sie den SQL-Dump hier her um einen Datensatz daraus zu erstellen.,Ponga su SQL-Dump aquí para crear un grupo.,그룹을 생성하려면 SQL-Dump 이곳에 가져와라,,,,
-calc.editors.ra.tab-name,Relational Algebra,Relational Algebra,Relationale Algebra,Álgebra Relacional,관계 대수,,,,
-calc.editors.ra.tab-name-short,RelAlg,RelAlg,RelAlg,ÁlgRel,관계 대수,,,,
-calc.editors.ra.button-execute-query,execute query,execute query,Query ausführen,executar consulta,쿼리 실행,,,,
-calc.editors.ra.button-execute-selection,execute selection,execute selection,Markierung ausführen,executar selección,셀렉션 실행,,,,
-calc.editors.ra.button-download,download,download,download,descargar,다운로드,,,,
+calc.editors.group.modal-sqldump.button-cancel,cancel,Cancelar,abbrechen,cancelar,취소,,,,
+calc.editors.group.modal-sqldump.button-import-sql,import SQL,Importar SQL,importieren,importar SQL,SQL 가져오기,,,,
+calc.editors.group.modal-sqldump.description,Put your SQL-Dump here to create a group.,Coloque seu SQL-Dump aqui para criar um grupo.,Kopieren Sie den SQL-Dump hier her um einen Datensatz daraus zu erstellen.,Ponga su SQL-Dump aquí para crear un grupo.,그룹을 생성하려면 SQL-Dump 이곳에 가져와라,,,,
+calc.editors.ra.tab-name,Relational Algebra,Álgebra Relacional,Relationale Algebra,Álgebra Relacional,관계 대수,,,,
+calc.editors.ra.tab-name-short,RelAlg,AlgRel,RelAlg,ÁlgRel,관계 대수,,,,
+calc.editors.ra.button-execute-query,execute query,Executar consulta,Query ausführen,executar consulta,쿼리 실행,,,,
+calc.editors.ra.button-execute-selection,execute selection,Executar seleção,Markierung ausführen,executar selección,셀렉션 실행,,,,
+calc.editors.ra.button-download,download,Download,download,descargar,다운로드,,,,
 calc.editors.ra.toolbar.projection,projection,Projeção,Projektion,proyección,프로젝션,,,,
 calc.editors.ra.toolbar.projection-content,"<b class=""math"">&pi;</b> a, b <b>(</b> A <b>)</b>
 <br><b>pi</b> a, b A","<b class=""math"">&pi;</b> a, b <b>(</b> A <b>)</b>
@@ -182,54 +182,54 @@ calc.editors.ra.toolbar.projection-content,"<b class=""math"">&pi;</b> a, b <b>(
 <br><b>pi</b> a, b A","<b class=""math"">&pi;</b> a, b <b>(</b> A <b>)</b>
 <br><b>pi</b> a, b A","<b class=""math"">&pi;</b> a, b <b>(</b> A <b>)</b>
 <br><b>pi</b> a, b A",,,,
-calc.editors.ra.toolbar.selection,selection,selection,Selektion,selección,셀렉션,,,,
+calc.editors.ra.toolbar.selection,selection,Seleção,Selektion,selección,셀렉션,,,,
 calc.editors.ra.toolbar.selection-content,"<b class=""math"">&sigma;</b> a < b ∧ b <span class=""math"">≠<span> c <b>(</b> A <b>)</b>
 <br><b>sigma</b> a < b and b != c A","<b class=""math"">&sigma;</b> a < b ∧ b <span class=""math"">≠<span> c <b>(</b> A <b>)</b>
 <br><b>sigma</b> a < b and b != c A","<b class=""math"">&sigma;</b> a < b ∧ b <span class=""math"">≠<span> c <b>(</b> A <b>)</b>
 <br><b>sigma</b> a < b and b != c A","<b class=""math"">&sigma;</b> a < b ∧ b <span class=""math"">≠<span> c <b>(</b> A <b>)</b>
 <br><b>sigma</b> a < b and b != c A","<b class=""math"">&sigma;</b> a < b ∧ b <span class=""math"">≠<span> c <b>(</b> A <b>)</b>
 <br><b>sigma</b> a < b and b != c A",,,,
-calc.editors.ra.toolbar.rename,rename relation / rename columns,rename relation / rename columns,Umbenennen (Relationen/Spalten),renombrar relación / renombrar columnas,릴레이션 이름 변경 / 열 이름 변경,,,,
+calc.editors.ra.toolbar.rename,rename relation / rename columns,renomear relação / renomear colunas,Umbenennen (Relationen/Spalten),renombrar relación / renombrar columnas,릴레이션 이름 변경 / 열 이름 변경,,,,
 calc.editors.ra.toolbar.rename-content,"<div><span class=""math"">&sigma;</span> x.a > 1 ( <b class=""math"">&rho;</b> x <b>(</b> A <b>)</b> )</div>
 <div class=""math"">&sigma; A.y > 2 ( <b class=""math"">rho</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div><span class=""math"">&sigma;</span> x.a > 1 ( <b class=""math"">&rho;</b> x <b>(</b> A <b>)</b> )</div>
 <div class=""math"">&sigma; A.y > 2 ( <b class=""math"">rho</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div><span class=""math"">&sigma;</span> x.a > 1 ( <b class=""math"">&rho;</b> x <b>(</b> A <b>)</b> )</div>
 <div class=""math"">&sigma; A.y > 2 ( <b class=""math"">rho</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div><span class=""math"">&sigma;</span> x.a > 1 ( <b class=""math"">&rho;</b> x <b>(</b> A <b>)</b> )</div>
 <div class=""math"">&sigma; A.y > 2 ( <b class=""math"">rho</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div><span class=""math"">&sigma;</span> x.a > 1 ( <b class=""math"">&rho;</b> x <b>(</b> A <b>)</b> )</div>
 <div class=""math"">&sigma; A.y > 2 ( <b class=""math"">rho</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>",,,,
-calc.editors.ra.toolbar.rename-columns-operator,rename columns operator,rename columns operator,Umbenennung von Spalten,renombrar operador de columnas,열 연산자 변경,,,,
+calc.editors.ra.toolbar.rename-columns-operator,rename columns operator,operador renomear colunas,Umbenennung von Spalten,renombrar operador de columnas,열 연산자 변경,,,,
 calc.editors.ra.toolbar.rename-columns-operator-content,"<div class=""math"">&sigma; A.y > 2 ( <b>&rho;</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div class=""math"">&sigma; A.y > 2 ( <b>&rho;</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div class=""math"">&sigma; A.y > 2 ( <b>&rho;</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div class=""math"">&sigma; A.y > 2 ( <b>&rho;</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div class=""math"">&sigma; A.y > 2 ( <b>&rho;</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>",,,,
-calc.editors.ra.toolbar.orderBy,order by,order by,Sortieren,ordenar por,정렬,,,,
+calc.editors.ra.toolbar.orderBy,order by,ordenar (order by),Sortieren,ordenar por,정렬,,,,
 calc.editors.ra.toolbar.orderBy-content,"<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>","<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>",,"<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>","<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>",,,,
-calc.editors.ra.toolbar.groupBy,group by,group by,Gruppieren,agrupar por,그룹화,,,,
+calc.editors.ra.toolbar.groupBy,group by,agrupar (group by),Gruppieren,agrupar por,그룹화,,,,
 calc.editors.ra.toolbar.groupBy-content,"<div><b class=""math"">&gamma;</b> a, b<b>;</b> count(c)→c ( A )</div>
 <div><b class=""math"">gamma</b> count(a)->x, sum(b)->y ( A )</div>","<div><b class=""math"">&gamma;</b> a, b<b>;</b> count(c)→c ( A )</div>
 <div><b class=""math"">gamma</b> count(a)->x, sum(b)->y ( A )</div>","<div><b class=""math"">&gamma;</b> a, b<b>;</b> count(c)→c ( A )</div>
 <div><b class=""math"">gamma</b> count(a)->x, sum(b)->y ( A )</div>","<div><b class=""math"">&gamma;</b> a, b<b>;</b> count(c)→c ( A )</div>
 <div><b class=""math"">gamma</b> count(a)->x, sum(b)->y ( A )</div>","<div><b class=""math"">&gamma;</b> a, b<b>;</b> count(c)→c ( A )</div>
 <div><b class=""math"">gamma</b> count(a)->x, sum(b)->y ( A )</div>",,,,
-calc.editors.ra.toolbar.and,and,and,Und,y,논리곱,,,,
+calc.editors.ra.toolbar.and,and,e,Und,y,논리곱,,,,
 calc.editors.ra.toolbar.and-content,"<div><span class=""math"">&sigma;</span> a < b <b class=""math"">∧</b> b <span class=""math"">≠</span> c ( A )</div>","<div><span class=""math"">&sigma;</span> a < b <b class=""math"">∧</b> b <span class=""math"">≠</span> c ( A )</div>","<div><span class=""math"">&sigma;</span> a < b <b class=""math"">∧</b> b <span class=""math"">≠</span> c ( A )</div>","<div><span class=""math"">&sigma;</span> a < b <b class=""math"">∧</b> b <span class=""math"">≠</span> c ( A )</div>","<div><span class=""math"">&sigma;</span> a < b <b class=""math"">∧</b> b <span class=""math"">≠</span> c ( A )</div>",,,,
-calc.editors.ra.toolbar.xor,xor,xor,Xor,xor,배타적 논리,,,,
+calc.editors.ra.toolbar.xor,xor,ou exclusivo (xor),Xor,xor,배타적 논리,,,,
 calc.editors.ra.toolbar.xor-content,"<div><span class=""math"">&sigma;</span> a < b <b class=""math"">⊕</b> b <span class=""math"">≠</span> c ( A )</div>","<div><span class=""math"">&sigma;</span> a < b <b class=""math"">⊕</b> b <span class=""math"">≠</span> c ( A )</div>","<div><span class=""math"">&sigma;</span> a < b <b class=""math"">⊕</b> b <span class=""math"">≠</span> c ( A )</div>","<div><span class=""math"">&sigma;</span> a < b <b class=""math"">⊕</b> b <span class=""math"">≠</span> c ( A )</div>","<div><span class=""math"">&sigma;</span> a < b <b class=""math"">⊕</b> b <span class=""math"">≠</span> c ( A )</div>",,,,
-calc.editors.ra.toolbar.or,or,or,Oder,ó,논리합,,,,
+calc.editors.ra.toolbar.or,or,ou,Oder,ó,논리합,,,,
 calc.editors.ra.toolbar.or-content,"<div><span class=""math"">&sigma;</span> a < b <b class=""math"">∨</b> b <span class=""math"">≠</span> c ( A )</div>","<div><span class=""math"">&sigma;</span> a < b <b class=""math"">∨</b> b <span class=""math"">≠</span> c ( A )</div>","<div><span class=""math"">&sigma;</span> a < b <b class=""math"">∨</b> b <span class=""math"">≠</span> c ( A )</div>","<div><span class=""math"">&sigma;</span> a < b <b class=""math"">∨</b> b <span class=""math"">≠</span> c ( A )</div>","<div><span class=""math"">&sigma;</span> a < b <b class=""math"">∨</b> b <span class=""math"">≠</span> c ( A )</div>",,,,
-calc.editors.ra.toolbar.not,not,not,Verneinung,no,논리적 부정,,,,
+calc.editors.ra.toolbar.not,not,não,Verneinung,no,논리적 부정,,,,
 calc.editors.ra.toolbar.not-content,<div>&sigma,<div>&sigma, <b>¬</b>(a < b) ( A )</div>,<div>&sigma, <b>¬</b>(a < b) ( A )</div>,<div>&sigma, <b>¬</b>(a < b) ( A )</div>,<div>&sigma, <b>¬</b>(a < b) ( A )</div>
-calc.editors.ra.toolbar.equals,equals,equals,Gleich,igual,등호,,,,
+calc.editors.ra.toolbar.equals,equals,igual,Gleich,igual,등호,,,,
 calc.editors.ra.toolbar.equals-content,<div>&sigma,<div>&sigma, a <b>=</b> b ( A )</div>,<div>&sigma, a <b>=</b> b ( A )</div>,<div>&sigma, a <b>=</b> b ( A )</div>,<div>&sigma, a <b>=</b> b ( A )</div>
-calc.editors.ra.toolbar.not-equals,not equals,not equals,Ungleich,no es igual,부등호,,,,
+calc.editors.ra.toolbar.not-equals,not equals,não igual,Ungleich,no es igual,부등호,,,,
 calc.editors.ra.toolbar.not-equals-content,<div>&sigma,<div>&sigma, a <b>≠</b> 'text' ( A )</div>,<div>&sigma, a <b>≠</b> 'text' ( A )</div>,<div>&sigma, a <b>≠</b> 'text' ( A )</div>,<div>&sigma, a <b>≠</b> 'text' ( A )</div>
-calc.editors.ra.toolbar.greater-or-equals,greater or equals,greater or equals,Größer-Gleich,mayor ó igual,크거나 같다,,,,
+calc.editors.ra.toolbar.greater-or-equals,greater or equals,maior ou igual,Größer-Gleich,mayor ó igual,크거나 같다,,,,
 calc.editors.ra.toolbar.greater-or-equals-content,<div>&sigma,<div>&sigma, a <b>≥</b> 42 ( A )</div>,<div>&sigma, a <b>≥</b> 42 ( A )</div>,<div>&sigma, a <b>≥</b> 42 ( A )</div>,<div>&sigma, a <b>≥</b> 42 ( A )</div>
-calc.editors.ra.toolbar.lesser-or-equals,lesser or equals,lesser or equals,Kleiner-Gleich,menor ó igual,작거나 같다,,,,
+calc.editors.ra.toolbar.lesser-or-equals,lesser or equals,menor ou igual,Kleiner-Gleich,menor ó igual,작거나 같다,,,,
 calc.editors.ra.toolbar.lesser-or-equals-content,<div>&sigma,<div>&sigma, a <b>≤</b> 42 ( A )</div>,<div>&sigma, a <b>≤</b> 42 ( A )</div>,<div>&sigma, a <b>≤</b> 42 ( A )</div>,<div>&sigma, a <b>≤</b> 42 ( A )</div>
-calc.editors.ra.toolbar.intersect,intersect,intersect,Schnittmenge,intersecta,교집합,,,,
+calc.editors.ra.toolbar.intersect,intersect,intersecção,Schnittmenge,intersecta,교집합,,,,
 calc.editors.ra.toolbar.intersect-content,"<div><b>(</b> A <b>) <span class=""math"">&cap;</span> (</b> B <b>)</b></div>","<div><b>(</b> A <b>) <span class=""math"">&cap;</span> (</b> B <b>)</b></div>","<div><b>(</b> A <b>) <span class=""math"">&cap;</span> (</b> B <b>)</b></div>","<div><b>(</b> A <b>) <span class=""math"">&cap;</span> (</b> B <b>)</b></div>","<div><b>(</b> A <b>) <span class=""math"">&cap;</span> (</b> B <b>)</b></div>",,,,
-calc.editors.ra.toolbar.union,union,union,Vereinigung,unión,합집합,,,,
+calc.editors.ra.toolbar.union,union,união,Vereinigung,unión,합집합,,,,
 calc.editors.ra.toolbar.union-content,"<div><b>(</b> A <b>) <span class=""math"">&cup;</span> (</b> B <b>)</b></div>","<div><b>(</b> A <b>) <span class=""math"">&cup;</span> (</b> B <b>)</b></div>","<div><b>(</b> A <b>) <span class=""math"">&cup;</span> (</b> B <b>)</b></div>","<div><b>(</b> A <b>) <span class=""math"">&cup;</span> (</b> B <b>)</b></div>","<div><b>(</b> A <b>) <span class=""math"">&cup;</span> (</b> B <b>)</b></div>",,,,
-calc.editors.ra.toolbar.division,division,division,Division (Relationen),división,디비전,,,,
+calc.editors.ra.toolbar.division,division,divisão,Division (Relationen),división,디비전,,,,
 calc.editors.ra.toolbar.division-content,<div><b>(</b> A <b>) ÷ (</b> B <b>)</b></div>,<div><b>(</b> A <b>) ÷ (</b> B <b>)</b></div>,<div><b>(</b> A <b>) ÷ (</b> B <b>)</b></div>,<div><b>(</b> A <b>) ÷ (</b> B <b>)</b></div>,<div><b>(</b> A <b>) ÷ (</b> B <b>)</b></div>,,,,
-calc.editors.ra.toolbar.subtraction,subtraction,subtraction,Mengendifferenz,resta,차집합,,,,
+calc.editors.ra.toolbar.subtraction,subtraction,subtração,Mengendifferenz,resta,차집합,,,,
 calc.editors.ra.toolbar.subtraction-content,"<div><b>(</b> A <b>) - (</b> B <b>)</b></div>
 <div><b>(</b> A <b>) 
  (</b> B <b>)</b></div>","<div><b>(</b> A <b>) - (</b> B <b>)</b></div>
@@ -241,7 +241,7 @@ calc.editors.ra.toolbar.subtraction-content,"<div><b>(</b> A <b>) - (</b> B <b>)
 ","<div><b>(</b> A <b>) - (</b> B <b>)</b></div>
 <div><b>(</b> A <b>) \ (</b> B <b>)</b></div>
 ",,,,
-calc.editors.ra.toolbar.cross-join,cross join,cross join,cross join (Kreuzprodukt),cross join (cruzado),카디션 프로덕트,,,,
+calc.editors.ra.toolbar.cross-join,cross join,junção cruzada (cross join),cross join (Kreuzprodukt),cross join (cruzado),카디션 프로덕트,,,,
 calc.editors.ra.toolbar.cross-join-content,"<div><b>(</b> A <b>) <b class=""math"">⨯</b> (</b> B <b>)</b></div>","<div><b>(</b> A <b>) <b class=""math"">⨯</b> (</b> B <b>)</b></div>","<div><b>(</b> A <b>) <b class=""math"">⨯</b> (</b> B <b>)</b></div>","<div><b>(</b> A <b>) <b class=""math"">⨯</b> (</b> B <b>)</b></div>","<div><b>(</b> A <b>) <b class=""math"">⨯</b> (</b> B <b>)</b></div>",,,,
 calc.editors.ra.toolbar.natural-join,natural join / θ-join,natural join / θ-join,natural join / θ-join,natural join / θ-join,자연 조인 / θ-조인,,,,
 calc.editors.ra.toolbar.natural-join-content,"<div><b>(</b> A <b>) <b class=""math"">⋈</b> (</b> B <b>)</b></div>
@@ -283,7 +283,7 @@ calc.editors.ra.toolbar.right-semi-join,right semi join,right semi join,right se
 calc.editors.ra.toolbar.right-semi-join-content,"<div><b>(</b> A <b class=""math"">) ⋊ (</b> B <b>)</b></div>","<div><b>(</b> A <b class=""math"">) ⋊ (</b> B <b>)</b></div>","<div><b>(</b> A <b class=""math"">) ⋊ (</b> B <b>)</b></div>","<div><b>(</b> A <b class=""math"">) ⋊ (</b> B <b>)</b></div>","<div><b>(</b> A <b class=""math"">) ⋊ (</b> B <b>)</b></div>",,,,
 calc.editors.ra.toolbar.anti-join,anti join,anti join,anti join,anti join,안티 조인,,,,
 calc.editors.ra.toolbar.anti-join-content,"<div><b>(</b> A <b class=""math"">) ▷ (</b> B <b>)</b></div>","<div><b>(</b> A <b class=""math"">) ▷ (</b> B <b>)</b></div>","<div><b>(</b> A <b class=""math"">) ▷ (</b> B <b>)</b></div>","<div><b>(</b> A <b class=""math"">) ▷ (</b> B <b>)</b></div>","<div><b>(</b> A <b class=""math"">) ▷ (</b> B <b>)</b></div>",,,,
-calc.editors.ra.toolbar.assignment,assignment,assignment,Zuweisung,asignación,할당,,,,
+calc.editors.ra.toolbar.assignment,assignment,atribuição,Zuweisung,asignación,할당,,,,
 calc.editors.ra.toolbar.assignment-content,"<div><b>X = </b> pi a ( A )
 <br /><b>Y = </b> pi b ( b )
 <br />( X ) <span class=""math"">&cup;</span> ( Y )<br /></div>","<div><b>X = </b> pi a ( A )
@@ -295,50 +295,50 @@ calc.editors.ra.toolbar.assignment-content,"<div><b>X = </b> pi a ( A )
 <br />( X ) <span class=""math"">&cup;</span> ( Y )<br /></div>","<div><b>X = </b> pi a ( A )
 <br /><b>Y = </b> pi b ( b )
 <br />( X ) <span class=""math"">&cup;</span> ( Y )<br /></div>",,,,
-calc.editors.ra.toolbar.single-line-comment,single-line comment,single-line comment,Kommentar einzeilig,comentario de una línea,한 줄 주석,,,,
-calc.editors.ra.toolbar.single-line-comment-content,"<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>","<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>","<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>","<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>","<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>",,,,
-calc.editors.ra.toolbar.multi-line-comment,multi-line comment,multi-line comment,Kommentar mehrzeilig,comentario de múltiples líneas,여러 줄 주석,,,,
-calc.editors.ra.toolbar.multi-line-comment-content,"<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A","<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A","<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A","<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A","<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A",,,,
-calc.editors.ra.toolbar.inline-relation,inline-relation,inline-relation,inline-Relation,inline-relation,인라인-릴레이션,,,,
+calc.editors.ra.toolbar.single-line-comment,single-line comment,comentário em linha,Kommentar einzeilig,comentario de una línea,한 줄 주석,,,,
+calc.editors.ra.toolbar.single-line-comment-content,"<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>","<span class=""math"">&pi;</span> a, b A <b>-- comentário útil</b>","<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>","<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>","<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>",,,,
+calc.editors.ra.toolbar.multi-line-comment,multi-line comment,comentário multilinha,Kommentar mehrzeilig,comentario de múltiples líneas,여러 줄 주석,,,,
+calc.editors.ra.toolbar.multi-line-comment-content,"<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A","<b>/* este é um comentário longo,<br>muito longo*/</b><br><span class=""math"">&pi;</span> a, b A","<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A","<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A","<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A",,,,
+calc.editors.ra.toolbar.inline-relation,inline-relation,relação aninhada,inline-Relation,inline-relation,인라인-릴레이션,,,,
 calc.editors.ra.toolbar.inline-relation-content,"&sigma; a = 'test' (<b>{<br>a:string, b:number, X.c:date<br>a, 1, 1970-01-01<br>}</b>)","&sigma; a = 'test' (<b>{<br>a:string, b:number, X.c:date<br>a, 1, 1970-01-01<br>}</b>)","&sigma; a = 'test' (<b>{<br>a:string, b:number, X.c:date<br>a, 1, 1970-01-01<br>}</b>)","&sigma; a = 'test' (<b>{<br>a:string, b:number, X.c:date<br>a, 1, 1970-01-01<br>}</b>)","&sigma; a = 'test' (<b>{<br>a:string, b:number, X.c:date<br>a, 1, 1970-01-01<br>}</b>)",,,,
-calc.editors.ra.toolbar.inline-relation-editor,inline-relation (editor),inline-relation (editor),inline-Relation (Editor),inline-relation (editor),인라인-릴레이션 (에디터),,,,
-calc.editors.ra.toolbar.inline-relation-editor-content,create a new inline-relation using a built in editor,create a new inline-relation using a built in editor,eine neue inline-Relation mit dem Editor erstellen,crear nuevo inline-relation utilizando editor incorporado,create a new inline-relation using a built in editor,,,,
-calc.editors.ra.toolbar.insert-date,insert date,insert date,Datum einfügen,insertar fecha,날짜 삽입,,,,
+calc.editors.ra.toolbar.inline-relation-editor,inline-relation (editor),relação aninhada (editor),inline-Relation (Editor),inline-relation (editor),인라인-릴레이션 (에디터),,,,
+calc.editors.ra.toolbar.inline-relation-editor-content,create a new inline-relation using a built in editor,criar uma nova relação aninhada usando o editor,eine neue inline-Relation mit dem Editor erstellen,crear nuevo inline-relation utilizando editor incorporado,create a new inline-relation using a built in editor,,,,
+calc.editors.ra.toolbar.insert-date,insert date,inserir data,Datum einfügen,insertar fecha,날짜 삽입,,,,
 calc.editors.ra.toolbar.insert-date-content,"<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )","<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )","<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )",,"<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )",,,,
-calc.editors.ra.toolbar.autoreplace-operators.title,operator replacement,operator replacement,Operatoren ersetzen,,operator replacement,,,,
-calc.editors.ra.toolbar.autoreplace-operators.header,automatically replace operators,automatically replace operators,Operatoren automatisch ersetzen,,automatically replace operators,,,,
-calc.editors.ra.toolbar.autoreplace-operators.none,no replacement,no replacement,keine Ersetzung,,no replacement,,,,
+calc.editors.ra.toolbar.autoreplace-operators.title,operator replacement,substituição de operador,Operatoren ersetzen,,operator replacement,,,,
+calc.editors.ra.toolbar.autoreplace-operators.header,automatically replace operators,substituir operadores automaticamente,Operatoren automatisch ersetzen,,automatically replace operators,,,,
+calc.editors.ra.toolbar.autoreplace-operators.none,no replacement,sem substituição,keine Ersetzung,,no replacement,,,,
 calc.editors.ra.toolbar.autoreplace-operators.plain2math,pi => π,pi => π,pi => π,,pi => π,,,,
 calc.editors.ra.toolbar.autoreplace-operators.math2plain,π => pi,π => pi,π => pi,,π => pi,,,,
 calc.editors.sql.tab-name,SQL,SQL,SQL,SQL,SQL,,,,
 calc.editors.sql.tab-name-short,SQL,SQL,SQL,SQL,SQL,,,,
-calc.editors.sql.button-execute-query,execute query,executar consulta,Query ausführen,ejecutar consulta,쿼리 실행,,,,
-calc.editors.sql.button-execute-selection,execute selection,executar seleção,Markierung ausführen,ejecutar selección,셀렉션 실행,,,,
-calc.editors.sql.button-download,download,download,download,descargar,다운로드,,,,
-calc.editors.sql.toolbar.select,select clause,select clause,select-Klausel,seleccionar cláusula,select  문,,,,
+calc.editors.sql.button-execute-query,execute query,Executar consulta,Query ausführen,ejecutar consulta,쿼리 실행,,,,
+calc.editors.sql.button-execute-selection,execute selection,Executar seleção,Markierung ausführen,ejecutar selección,셀렉션 실행,,,,
+calc.editors.sql.button-download,download,Download,download,descargar,다운로드,,,,
+calc.editors.sql.toolbar.select,select clause,cláusula select,select-Klausel,seleccionar cláusula,select  문,,,,
 calc.editors.sql.toolbar.select-content,"<p>SELECT * FROM A</p><div>SELECT a, A.b, A.c FROM A</div>","<p>SELECT * FROM A</p><div>SELECT a, A.b, A.c FROM A</div>","<p>SELECT * FROM A</p><div>SELECT a, A.b, A.c FROM A</div>","<p>SELECT * FROM A</p><div>SELECT a, A.b, A.c FROM A</div>","<p>SELECT * FROM A</p><div>SELECT a, A.b, A.c FROM A</div>",,,,
-calc.editors.sql.toolbar.from,from clause,from clause,from-Klausel,cláusula from (desde),from 문,,,,
+calc.editors.sql.toolbar.from,from clause,cláusula from,from-Klausel,cláusula from (desde),from 문,,,,
 calc.editors.sql.toolbar.from-content,"<div>SELECT * <br>FROM A, B as b<br>INNER JOIN C NATURAL</div>","<div>SELECT * <br>FROM A, B as b<br>INNER JOIN C NATURAL</div>","<div>SELECT * <br>FROM A, B as b<br>INNER JOIN C NATURAL</div>","<div>SELECT * <br>FROM A, B as b<br>INNER JOIN C NATURAL</div>","<div>SELECT * <br>FROM A, B as b<br>INNER JOIN C NATURAL</div>",,,,
-calc.editors.sql.toolbar.where,where  clause,where  clause,where-Klausel,cláusula where (donde),where 문,,,,
+calc.editors.sql.toolbar.where,where  clause,cláusula where,where-Klausel,cláusula where (donde),where 문,,,,
 calc.editors.sql.toolbar.where-content,"SELECT * FROM A, B <br>where A.a = B.a or false","SELECT * FROM A, B <br>where A.a = B.a or false","SELECT * FROM A, B <br>where A.a = B.a or false","SELECT * FROM A, B <br>where A.a = B.a or false","SELECT * FROM A, B <br>where A.a = B.a or false",,,,
-calc.editors.sql.toolbar.group-by,group by clause,group by clause,group-b-Klausel,cláusula agrupar por,group by 문,,,,
+calc.editors.sql.toolbar.group-by,group by clause,cláusula group by,group-b-Klausel,cláusula agrupar por,group by 문,,,,
 calc.editors.sql.toolbar.group-by-content,"SELECT a, COUNT(b) as num <br>FROM A <br>GROUP BY a","SELECT a, COUNT(b) as num <br>FROM A <br>GROUP BY a","SELECT a, COUNT(b) as num <br>FROM A <br>GROUP BY a","SELECT a, COUNT(b) as num <br>FROM A <br>GROUP BY a","SELECT a, COUNT(b) as num <br>FROM A <br>GROUP BY a",,,,
-calc.editors.sql.toolbar.having,having  clause,having  clause,having-Klausel,teniendo cláusula,having 문,,,,
+calc.editors.sql.toolbar.having,having  clause,cáusula having  clause,having-Klausel,teniendo cláusula,having 문,,,,
 calc.editors.sql.toolbar.having-content,"SELECT a, SUM(b) as sum <br>FROM A <br>GROUP BY a<br>having sum > 10","SELECT a, SUM(b) as sum <br>FROM A <br>GROUP BY a<br>having sum > 10","SELECT a, SUM(b) as sum <br>FROM A <br>GROUP BY a<br>having sum > 10","SELECT a, SUM(b) as sum <br>FROM A <br>GROUP BY a<br>having sum > 10","SELECT a, SUM(b) as sum <br>FROM A <br>GROUP BY a<br>having sum > 10",,,,
-calc.editors.sql.toolbar.order-by,order by  clause,order by  clause,order-by-Klausel,cláusula ordenar por,order by 문,,,,
+calc.editors.sql.toolbar.order-by,order by  clause,cláusula order by,order-by-Klausel,cláusula ordenar por,order by 문,,,,
 calc.editors.sql.toolbar.order-by-content,"<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>","<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>","<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>","<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>","<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>",,,,
-calc.editors.sql.toolbar.limit,limit clause,limit clause,limit-Klausel,cláusula límite,limit 문,,,,
+calc.editors.sql.toolbar.limit,limit clause,cláusula limit,limit-Klausel,cláusula límite,limit 문,,,,
 calc.editors.sql.toolbar.limit-content,SELECT * FROM A <br>LIMIT 10 OFFSET 0,SELECT * FROM A <br>LIMIT 10 OFFSET 0,SELECT * FROM A <br>LIMIT 10 OFFSET 0,SELECT * FROM A <br>LIMIT 10 OFFSET 0,SELECT * FROM A <br>LIMIT 10 OFFSET 0,,,,
-calc.editors.sql.toolbar.insert-date,insert date,insert date,Datum einfügen,insertar fecha,insert date,,,,
+calc.editors.sql.toolbar.insert-date,insert date,inserir data,Datum einfügen,insertar fecha,insert date,,,,
 calc.editors.sql.toolbar.insert-date-content,"select * from A
 where a &lt; <b>date(""1970-01-01"")</b>","select * from A
 where a &lt; <b>date(""1970-01-01"")</b>","select * from A
 where a &lt; <b>date(""1970-01-01"")</b>","select * from A
 where a &lt; <b>date(""1970-01-01"")</b>","select * from A
 where a &lt; <b>date(""1970-01-01"")</b>",,,,
-calc.result.modal.title,Result,Result,Ergebnis,Resultado,Result,,,,
+calc.result.modal.title,Result,Resultado,Ergebnis,Resultado,Result,,,,
 calc.result.modal.close,Close,Fechar,Schließen,Cerrar,Close,,,,
-calc.editors.ra.inline-editor.title,Relation Editor,Relation Editor,Relation Editor,Editor de relaciones,Relation Editor,,,,
+calc.editors.ra.inline-editor.title,Relation Editor,Editor de Relação,Relation Editor,Editor de relaciones,Relation Editor,,,,
 calc.editors.ra.inline-editor.button-download-csv,Download CSV,Download CSV,CSV downloaden,Descargar CSV,Download CSV,,,,
 calc.editors.ra.inline-editor.button-upload-csv,Upload CSV,Upload CSV,CSV uploaden,Subir CSV,upload CSV,,,,
 calc.editors.ra.inline-editor.button-cancel,Cancel,Cancelar,Abbrechen,Cancelar,Cancel,,,,

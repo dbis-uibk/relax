@@ -11,6 +11,7 @@ import langDE from '../locales/de.json';
 import langEN from '../locales/en.json';
 import langES from '../locales/es.json';
 import langKR from '../locales/kr.json';
+import langPT from '../locales/pt.json';
 
 export type LanguageKeys = keyof typeof langEN;
 
@@ -30,9 +31,11 @@ export const i18n = i18next
 			kr: {
 				translations: langKR,
 			},
+			pt: {
+				translations: langPT,
+			},
 		},
 		fallbackLng: 'en',
-
 		nsSeparator: ':',
 		keySeparator: false,
 		defaultNS: 'translations',

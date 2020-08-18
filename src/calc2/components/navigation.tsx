@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { Navbar, NavbarBrand, Nav, NavItem, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import NavLink from 'reactstrap/lib/NavLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalculator, faGlobeEurope, faComment, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCalculator, faGlobeEurope, faComment, faQuestionCircle, faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import { T, i18n } from '../i18n';
 
 type Props = {
@@ -50,7 +50,7 @@ export class Navigation extends React.Component<Props, State> {
                     </UncontrolledDropdown>
                     <NavItem className="navItemSpace"><NavLink href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faComment} /> <T id="calc.navigation.feedback" /></NavLink></NavItem>
                     <NavItem className="navItemSpace"><NavLink href="/relax/help"><FontAwesomeIcon icon={faQuestionCircle} /> <T id="calc.navigation.help" /></NavLink></NavItem>
-                    <NavItem className="navItemSpace"><NavLink href="/relax/imprint"><FontAwesomeIcon icon={faQuestionCircle} /> <T id="calc.navigation.imprint" /></NavLink></NavItem>
+                    <NavItem className="navItemSpace"><NavLink href="/relax/imprint"><FontAwesomeIcon icon={faAddressCard} /> <T id="calc.navigation.imprint" /></NavLink></NavItem>
                 </Nav>
             </Navbar>
         );

@@ -29,28 +29,22 @@ export class Landing extends React.Component {
 			<div className="container">
 			<div className="row">
 			<div className="col-md-12">
-
-						<div className="jumbotron">
-							<h1>RelaX - relational algebra calculator</h1>
-
-							<p>calculates any relational algebra statement like
-								<code><span>( &sigma; <sub>a &gt; 42</sub> ( A ) ) <span className="math">⋈</span> ( &pi; <sub>a,
-									b</sub> ( B ) )</span></code>
-								on a set of relations.
-							</p>
-
-							<div id="logos">
+						<div className="jumbotron" id="landing-header-bar">
+							<div className="col-md-12 ct" id="logos">
 								<a href="http://dbis-informatik.uibk.ac.at/" target="_blank"><img
 									src="assets/logos/Logos_blue_large.png" alt="Databases and Information Systems (DBIS)"
 									width="159" height="120" /></a>
-								<a href="http://www.uibk.ac.at/" target="_blank"><img src="assets/logos/Logos_uni_uni_2017_rgb.png"
+								<a href="http://www.uibk.ac.at/" target="_blank"><img src="assets/logos/Logos_uni_uni_2017_rgb_transparent.png"
 									alt="University of Innsbruck" width="300"
 									height="120" /></a>
 							</div>
-							<p className="clearfix">
-								<Link className="btn btn-primary btn-lg getStartedBtn" role="button" to="/relax/calc">get started</Link>
-							</p>
-
+							<div className="col-md-12 ct">
+								<h1 id="heading">RelaX - relational algebra calculator</h1>
+								<p>calculates any relational algebra statement like <code><span>( &sigma; <sub>a &gt; 42</sub> ( A ) ) <span className="math">⋈</span> ( &pi; <sub>a,b</sub> ( B ) )</span></code> on a set of relations.</p>
+							</div>
+							<div className="col-md-12 ct">
+								<Link className="btn btn-primary btn-lg getStartedBtn" role="button" to="/relax/calc">Get Started</Link>
+							</div>
 						</div>
 
 						<h2>What is the relational algebra calculator?</h2>

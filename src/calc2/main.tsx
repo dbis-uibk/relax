@@ -19,6 +19,7 @@ import { i18n } from './i18n';
 import { ConnectedCalc } from './views/calc';
 import { Help } from './views/help';
 import { Landing } from './views/landing';
+import { Imprint } from './views/imprint';
 
 require('calc2/style/index.scss');
 
@@ -62,6 +63,7 @@ export class Main extends React.Component<Props, State> {
 								<Redirect exact from="/relax" to={`/relax/landing`} />
 								<Route path="/relax/landing" component={Landing} />
 								<Route path="/relax/help" component={Help} />
+								<Route path="/relax/imprint" component={Imprint} />
 								<Redirect from="/relax/calc" to="/relax/calc/local/uibk/local/0" exact strict />
 								<Route path="/relax/calc/:source/:id/:filename/:index" component={ConnectedCalc} />
 								<Route path="/relax/calc/:source/:id" component={ConnectedCalc} />

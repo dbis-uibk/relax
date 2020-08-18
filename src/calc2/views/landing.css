@@ -84,11 +84,33 @@ code {
 	white-space: pre-wrap;
 }
 
+.getStartedBtn {
+	width: 200px;
+	margin-top: 20px;
+}
+
+#heading {
+	margin-top: 20px;
+}
+
+
+
+#landing-header-bar {
+	margin: 0px;
+}
+
+#logos img {
+	margin-left: 8px;
+}
 
 @media only screen and (max-width: 991px) {
 	.getStartedBtn {
-		width: 60%;
-		margin-top: 16px;
-		margin-left: 20%;
+		width: 80%;
+	}
+	#logos img {
+		margin: 0px;
+		width: 100%;
+		height: auto;
 	}
 }
+

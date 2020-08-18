@@ -49,6 +49,7 @@ export class Navigation extends React.Component<Props, State> {
                     </UncontrolledDropdown>
                     <NavItem className="navItemSpace"><NavLink href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faComment} /> <T id="calc.navigation.feedback" /></NavLink></NavItem>
                     <NavItem className="navItemSpace"><NavLink href="/relax/help"><FontAwesomeIcon icon={faQuestionCircle} /> <T id="calc.navigation.help" /></NavLink></NavItem>
+                    <NavItem className="navItemSpace"><NavLink href="/relax/imprint"><FontAwesomeIcon icon={faQuestionCircle} /> <T id="calc.navigation.imprint" /></NavLink></NavItem>
                 </Nav>
             </Navbar>
         );

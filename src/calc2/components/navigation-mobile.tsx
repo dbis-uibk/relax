@@ -42,6 +42,7 @@ export class NavigationMobile extends React.Component<Props, State> {
                     <DropdownMenu>
                         <DropdownItem href="/relax/calc"><FontAwesomeIcon icon={faCalculator} /> <T id="calc.navigation.calc" /></DropdownItem>
                         <DropdownItem href="/relax/help"><FontAwesomeIcon icon={faComment} /> <T id="calc.navigation.help" /></DropdownItem>
+                        <DropdownItem href="/relax/imprint"><FontAwesomeIcon icon={faComment} /> <T id="calc.navigation.imprint" /></DropdownItem>
                         <DropdownItem href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faQuestionCircle} /> <T id="calc.navigation.feedback" /></DropdownItem>
                         <DropdownItem divider />
                         <DropdownItem onClick={() => this.changeLocale('en')}>en</DropdownItem>

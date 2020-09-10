@@ -612,8 +612,7 @@ export class Help extends React.Component<Props> {
 
 							<p>For example the simple bank definition of this tutorial has been published as a <a
 									href="https://gist.github.com/ragtime/2cfb981fbc5676182d64">Gist with the ID
-								2cfb981fbc5676182d64</a> and can therefore be loaded directly by appending <code>?data=gist:2cfb981fbc5676182d64</code>
-								to the url of the calculator.</p>
+								2cfb981fbc5676182d64</a> and can therefore be loaded directly with modifying the url by replacing all after <code>\<domain?>/relax/calc/</code> with <code>/gist/2cfb981fbc5676182d64</code>.</p>
 
 
 							<h2 id="relalg-reference">Reference - relational algebra</h2>

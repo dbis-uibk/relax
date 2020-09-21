@@ -10,6 +10,8 @@ import { Group, GROUPS_LOAD_REQUEST, GROUP_SET_DRAFT } from 'calc2/store/groups'
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
+import { Api } from './api';
+import queryString from 'query-string'
 
 type Props = RouteComponentProps<{
 	source: string,
@@ -19,6 +21,7 @@ type Props = RouteComponentProps<{
 }> & {
 	groups: store.State['groups'],
 	locale: store.State['session']['locale'],
+	params: any,
 	setDraft(draft: Group): void,
 	loadGroup(
 		source: GROUPS_LOAD_REQUEST['source'],
@@ -33,10 +36,20 @@ type Props = RouteComponentProps<{
 export class Calc extends React.Component<Props> {
 	
 	private init: boolean;
+	private apiView: boolean = false;
+	private params: any = {};
 	
 	constructor(props: Props) {
 		super(props);
 		this.init = false;
+	}
+
+	componentDidMount() {
+		/*this.setState({
+			params: queryString.parse(this.props.location.search)
+		})*/
+		this.apiView = this.props.location.pathname.split("/")[2] == "api"
+		this.params = queryString.parse(this.props.location.search)
 	}
 
 	componentDidUpdate(prevProps: Props): void {
@@ -81,13 +94,23 @@ export class Calc extends React.Component<Props> {
 		const { current } = this.props.groups;
 
 		if (current !== null) {
-			return (
-				<Calculator
-					group={current.group}
-					locale={locale}
-					setDraft={this.props.setDraft}
-				/>
-			);
+			if (this.apiView == true) {
+				return (
+					<Api
+						group={current.group}
+						locale={locale}
+						params={this.params}
+					/>
+				);
+			} else {
+				return (
+					<Calculator
+						group={current.group}
+						locale={locale}
+						setDraft={this.props.setDraft}
+					/>
+				);
+			}
 		}
 		else {
 			return <div>loading ...</div>;

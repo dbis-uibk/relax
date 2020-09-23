@@ -241,18 +241,18 @@ export function loadStaticGroups() {
 				id: '7d1871f79a8bcb4788de',
 			},
 			{
-				maintainerGroup: t('calc.maintainer-groups.uibk'),
-				maintainer: '<a href="https://gist.github.com/michaelrampl">Michael Rampl</a>',
+				maintainerGroup: t('calc.maintainer-groups.karlsruhe'),
+				maintainer: '<a href="https://github.com/jstoess">Jan Stoess</a>',
 
 				source: 'gist',
-				id: 'b58108eacc9c5916726b2327789204ab',
+				id: '4f7866c17624ca9dfa85ed2482078be8',
 			},
 			{
-				maintainerGroup: t('calc.maintainer-groups.uibk'),
-				maintainer: '<a href="https://gist.github.com/michaelrampl">Michael Rampl</a>',
+				maintainerGroup: t('calc.maintainer-groups.karlsruhe'),
+				maintainer: '<a href="https://github.com/jstoess">Jan Stoess</a>',
 
 				source: 'gist',
-				id: '963d8b886fb468d742c71d34ba0dbbed',
+				id: 'a287f5ad991c08a74f55c06789c95508',
 			},
 			{
 				maintainerGroup: t('calc.maintainer-groups.saarland'),

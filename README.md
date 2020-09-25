@@ -21,7 +21,7 @@ A relational algebra calculator
 * Push to github (the person doing this must be an administrator of the project)
 
 ## Contributions
-* Contributions are **highly appreciated**
+* Contributions are **highly appreciated** :D
 * Please create a **pull request** for the **development** branch
 
 ### Add a new Language

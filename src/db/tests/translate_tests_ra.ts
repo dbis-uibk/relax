@@ -526,6 +526,38 @@ QUnit.test('test difference 2', function (assert) {
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
+QUnit.test('test difference 3', function (assert) {
+	const srcTableA = exec_ra(`{
+		A.b, A.d
+
+		2,   2
+		1,   2
+		3,   3
+	}`, {});
+
+	const srcTableB = exec_ra(`{
+		B.b, B.d
+
+		2,   4
+	}`, {});
+
+	const query = '(A) - (B)';
+	const root = exec_ra(query, {
+		A: new Relation('A', srcTableA),
+		B: new Relation('B', srcTableB),
+	});
+
+	const ref = exec_ra(`{
+		A.b, A.d
+
+		2,   2
+		1,   2
+		3,   3
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
 QUnit.test('test renameColumns 0', function (assert) {
 	const relations = getTestRelations();
 	const query = 'sigma false (rho x<-b, y<-d (S))';

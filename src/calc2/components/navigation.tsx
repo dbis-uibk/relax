@@ -41,7 +41,7 @@ export class Navigation extends React.Component<Props, State> {
     render() {
         return (
             <Navbar color="light" light expand="md" className="desktopNavbar">
-                <NavbarBrand href="/">RelaX</NavbarBrand>
+                <NavbarBrand href="/relax/">RelaX</NavbarBrand>
                 <Nav className="ml-auto" navbar>
                     <NavItem className="navItemSpace"><NavLink href="/relax/calc"><FontAwesomeIcon icon={faCalculator} /> Calculator</NavLink></NavItem>
                     <UncontrolledDropdown nav inNavbar className="navItemSpace">

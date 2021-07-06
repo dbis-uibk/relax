@@ -68,16 +68,39 @@ export function* rootSaga() {
 				};
 				yield saga.put(success);
 				if (setCurrent !== undefined && loadedGroups.length > 0) {
-					const { source, id, filename } = loadedGroups[0].groupInfo;
+					// In case the :filename and :index are set in the URL,
+					// it's necessary to set the correct group accordingly
+					if (setCurrent && setCurrent != 'first' && 
+						setCurrent.filename && setCurrent.index) {
+						for(var i=0;i<loadedGroups.length;i++) {
+							const g = loadedGroups[i];
+							const { source, id, filename, index } = g.groupInfo;
+							if (filename == setCurrent.filename && index == setCurrent.index) {
+								const setCurrent: GROUP_SET_CURRENT = {
+									type: 'GROUP_SET_CURRENT',
+									source,
+									id,
+									filename,
+									index,
+								};
+								yield saga.put(setCurrent);
+								break;
+							}
+						}
+					}
+					// Otherwise, just try using the first group
+					else {
+						const { source, id, filename } = loadedGroups[0].groupInfo;
 
-					const setCurrent: GROUP_SET_CURRENT = {
-						type: 'GROUP_SET_CURRENT',
-						source,
-						id,
-						filename,
-						index: 0,
-					};
-					yield saga.put(setCurrent);
+						const setCurrent: GROUP_SET_CURRENT = {
+							type: 'GROUP_SET_CURRENT',
+							source,
+							id,
+							filename,
+							index: 0,
+						};
+						yield saga.put(setCurrent);
+					}
 				}
 			}
 			catch (e) {

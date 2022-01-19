@@ -30,7 +30,7 @@
 		for(var i = 0; i < assignments.length; i++){
 			name = assignments[i].name;
 			if(tmp[name])
-				error(i18n.t('db.messages.parser.error-duplicate-variable', {name: name}));
+				error(t('db.messages.parser.error-duplicate-variable', {name: name}));
 
 			tmp[name] = true;
 		}
@@ -125,7 +125,7 @@ _nc 'optional whitespace without comments'
 
 string 'string'
 = '"' [^"^\n]* '"'
-    { error(i18n.t('db.messages.parser.error-sql-string-use-single-quotes')); }
+    { error(t('db.messages.parser.error-sql-string-use-single-quotes')); }
 / '\'' a:$[^'^\n]* '\''
 	{ return a; }
 
@@ -154,7 +154,7 @@ relationName 'relationName'
 	{
 		var b = a.toLowerCase();
 		if(b === 'true' || b === 'false')
-			error(i18n.t('db.messages.parser.error-sql-invalid-relation-name', {str: a}));
+			error(t('db.messages.parser.error-sql-invalid-relation-name', {str: a}));
 		return a;
 	}
 
@@ -163,7 +163,7 @@ unqualifiedColumnName
 	{
 		var b = a.toLowerCase();
 		if(b === 'true' || b === 'false')
-			error(i18n.t('db.messages.parser.error-sql-invalid-column-name', {str: a}));
+			error(t('db.messages.parser.error-sql-invalid-column-name', {str: a}));
 		return a;
 	}
 
@@ -194,7 +194,7 @@ date 'date in ISO format (YYYY-MM-DD)'
 		var date = new Date(year, month, day);
 
 		if(date.getFullYear() != year || date.getMonth() != month ||  date.getDate() != day){
-			error(i18n.t('db.messages.parser.error-invalid-date-format', {str: text()}));
+			error(t('db.messages.parser.error-invalid-date-format', {str: text()}));
 		}
 		return date;
 	}
@@ -511,11 +511,11 @@ h:(__ having)?
 		}
 
 		if(numAggregationColumns > 0 && numAggregationColumns != s.arg.length && g === null){
-			error(i18n.t('db.messages.parser.error-sql-group-by-missing'));
+			error(t('db.messages.parser.error-sql-group-by-missing'));
 		}
 
 		if(h && !g && numAggregationColumns === 0){
-			error(i18n.t('db.messages.parser.error-sql-having-without-group-by'));
+			error(t('db.messages.parser.error-sql-having-without-group-by'));
 		}
 
 
@@ -696,7 +696,7 @@ limitArg
 / a:integer
 	{
 		if(a < 0)
-			error(i18n.t('db.messages.parser.error-sql-negative-limit'));
+			error(t('db.messages.parser.error-sql-negative-limit'));
 		return a;
 	}
 
@@ -745,7 +745,7 @@ fetchFirstLimit
 = 'fetch'i __ ('first'i / 'next'i) __ l:integer __ ('rows'i / 'row'i) __ 'only'i
 	{
 		if(l < 0)
-			error(i18n.t('db.messages.parser.error-sql-negative-limit'));
+			error(t('db.messages.parser.error-sql-negative-limit'));
 		return l;
 	}
 
@@ -951,7 +951,7 @@ dbDumpRoot
 
 					// type check
 					if(row.length !== tables[e.name].columns.length)
-						error(i18n.t('db.messages.parser.error-sqldump-invalid-column-number', {line: e.codeInfo.line}));
+						error(t('db.messages.parser.error-sqldump-invalid-column-number', {line: e.codeInfo.line}));
 
 					for(k = 0; k < row.length; k++){
 						type = tables[e.name].columns[k].type;
@@ -962,17 +962,17 @@ dbDumpRoot
 						switch(type){
 							case 'number':
 								if(typeof row[k] !== 'number')
-									error(i18n.t('db.messages.parser.error-sqldump-invalid-type', {line: e.codeInfo.line}));
+									error(t('db.messages.parser.error-sqldump-invalid-type', {line: e.codeInfo.line}));
 								break;
 
 							case 'string':
 								if(typeof row[k] !== 'string')
-									error(i18n.t('db.messages.parser.error-sqldump-invalid-type', {line: e.codeInfo.line}));
+									error(t('db.messages.parser.error-sqldump-invalid-type', {line: e.codeInfo.line}));
 								break;
 
 							case 'date':
 								if(row[k] instanceof Date === false)
-									error(i18n.t('db.messages.parser.error-sqldump-invalid-type', {line: e.codeInfo.line}));
+									error(t('db.messages.parser.error-sqldump-invalid-type', {line: e.codeInfo.line}));
 								break;
 						}
 					}
@@ -1137,11 +1137,11 @@ insertStmt
 
 		for(i = 1; i < insert.values.length; i++){
 			if(insert.values[i].length !== numCols)
-				error(i18n.t('db.messages.parser.error-sqldump-insert-wrong-number-columns'));
+				error(t('db.messages.parser.error-sqldump-insert-wrong-number-columns'));
 		}
 
 		if(cols && insert.columns.length !== numCols)
-			error(i18n.t('db.messages.parser.error-sqldump-insert-wrong-number-columns'));
+			error(t('db.messages.parser.error-sqldump-insert-wrong-number-columns'));
 
 
 		return insert;
@@ -1257,7 +1257,7 @@ expr_rest_boolean_comparison
 / _ o:('like'i / 'ilike'i) _ right:valueExprConstants
 	{
 		if(right.datatype !== 'string'){
-			error(i18n.t('db.messages.parser.error-valueexpr-like-operand-no-string'));
+			error(t('db.messages.parser.error-valueexpr-like-operand-no-string'));
 		}
 		return {
 			type: 'valueExpr',

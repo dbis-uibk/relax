@@ -88,7 +88,7 @@
 		"@fortawesome/free-solid-svg-icons": "^5.12.1",
 		"@fortawesome/react-fontawesome": "^0.1.9",
 		"@handsontable/react": "^3.1.2",
-		"handsontable": "^7.4.2",
+		"handsontable": "^10.0.0",
 		"react-toastify": "^5.5.0",
 		"serialize-javascript": "^3.1.0",
 		"svgo": "^1.3.2",

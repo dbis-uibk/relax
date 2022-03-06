@@ -142,15 +142,9 @@ export class Popover extends React.Component<Props, State> {
 
 	render() {
 		const { id, isOpen } = this.state;
-		console.log(this.state);
-		console.log(this.props);
-		
-		
-		const { title, className = ''} = this.props;
-		let {placement} = this.props;
-		const body = this.body(this.props.body, isOpen);
 
-		if(!placement) placement = 'top'
+		const { title, className = '', placement} = this.props;
+		const body = this.body(this.props.body, isOpen);
 
 		return (
 			<>

@@ -134,7 +134,9 @@ export const langES: Partial<typeof langEN> = {
   'calc.editors.ra.tab-name-short': 'ÁlgRel',
   'calc.editors.ra.button-execute-query': 'executar consulta',
   'calc.editors.ra.button-execute-selection': 'executar selección',
-  'calc.editors.ra.button-download': 'descargar',
+  'calc.editors.ra.button-download': 'Descargar',
+  'calc.editors.ra.button-download-csv': 'Resultado',
+  'calc.editors.ra.button-download-query': "Query",
 
 
   'calc.editors.ra.toolbar.projection': 'proyección',

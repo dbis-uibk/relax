@@ -106,6 +106,8 @@ export const langKR = {
 	'calc.editors.ra.button-execute-query': '쿼리 실행',
 	'calc.editors.ra.button-execute-selection': '셀렉션 실행',
 	'calc.editors.ra.button-download': '다운로드',
+    'calc.editors.ra.button-download-csv': '결과',
+    'calc.editors.ra.button-download-query': '쿼리',
 	'calc.editors.ra.toolbar.projection': '프로젝션',
 	'calc.editors.ra.toolbar.projection-content[0]': '<b class="math">&pi;</b> a, b <b>(</b> A <b>)</b>',
 	'calc.editors.ra.toolbar.projection-content[1]': '<br><b>pi</b> a, b A',

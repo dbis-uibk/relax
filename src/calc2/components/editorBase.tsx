@@ -4,7 +4,7 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { faArrowAltCircleDown, faHistory, faPlayCircle, faUpload, faDownload, faCheckCircle, faTimesCircle, faPlay, faTable, faCheck, faCalculator, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { faArrowAltCircleDown, faHistory, faPlayCircle, faUpload, faDownload, faCheckCircle, faTimesCircle, faPlay, faTable, faCheck, faCalculator, faCheckSquare, faFileCsv, faTruckPickup, faFileDownload } from '@fortawesome/free-solid-svg-icons';
 import { } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DropdownList } from 'calc2/components/dropdownList';
@@ -25,6 +25,7 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Input } from 'react
 import { HotTable } from '@handsontable/react';
 import * as ReactDOM from 'react-dom';
 import Handsontable from 'handsontable';
+import memoize from 'memoize-one';
 
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/eclipse.css');
@@ -286,6 +287,7 @@ type State = {
 	relationEditorName: string,
 	replSelStart: any,
 	replSelEnd: any,
+	queryResult: any
 };
 
 
@@ -535,6 +537,7 @@ export class EditorBase extends React.Component<Props, State> {
 			relationEditorName: '',
 			replSelStart: null,
 			replSelEnd: null,
+			queryResult: null
 		};
 		this.toggle = this.toggle.bind(this);
 		this.inlineRelationEditorOk = this.inlineRelationEditorOk.bind(this);
@@ -552,6 +555,7 @@ export class EditorBase extends React.Component<Props, State> {
 		this.exec = this.exec.bind(this);
 		this.applyHistory = this.applyHistory.bind(this);
 		this.downloadEditorText = this.downloadEditorText.bind(this);
+		this.downloadQueryResult = this.downloadQueryResult.bind(this);
 		
 		this.uploadCSVRef = React.createRef();
 
@@ -672,6 +676,7 @@ export class EditorBase extends React.Component<Props, State> {
 		});
 	}
 
+
 	render() {
 		const {
 			execErrors,
@@ -681,6 +686,7 @@ export class EditorBase extends React.Component<Props, State> {
 			execSuccessful,
 			isExecutionDisabled,
 			execResult,
+			queryResult
 		} = this.state;
 		const {
 			toolbar,
@@ -729,9 +735,33 @@ export class EditorBase extends React.Component<Props, State> {
 						</button>
 
 						<div style={{ float: 'right' }}>
-							<Button color="Link" type="button" className="hideOnSM" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faDownload} /> <span className="hideOnSM"><T id="calc.editors.ra.button-download" /></span></Button>
+							<div className='btn-group history-container'>
+								<DropdownList
+									label={<span><FontAwesomeIcon icon={faDownload} /> <span className="hideOnSM"><T id="calc.editors.ra.button-download" /></span></span>}
+									elements={[
+									{
+										label: (
+											<>
+											<div color="Link" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faFileDownload} /> <span><T id="calc.editors.ra.button-download-query" /></span></div>
+											</>
+											),
+									 	value: ''
+									},
+									{
+										label: (
+											<>
+											<div color="Link" onClick={this.downloadQueryResult}><FontAwesomeIcon icon={faFileCsv} /> <span ><T id="calc.editors.ra.button-download-csv" /></span></div>
+											</>
+											),
+									 	value: ''
+									}
+									]
+										
+									}
+									/>
+							</div>
 
-							{disableHistory
+								{disableHistory
 								? null
 								: (
 									<div className="btn-group history-container">
@@ -938,6 +968,46 @@ export class EditorBase extends React.Component<Props, State> {
 	}
 
 
+	downloadQueryResult() {
+		let filename = 'result.csv';
+		const {queryResult} = this.state;
+		if(!queryResult) {
+			console.warn('no query result...');
+			return;
+		}
+		const generateCsv = (schema: any, rows: any) => {
+
+			// https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
+			const arrayToCsv = (data: any) => {
+				return data.map((row: any) =>
+					row
+					.map(String)  // convert every value to String
+					.map((v:any) => v.replaceAll('"', '""'))  // escape double colons
+					.map((v:any) => `"${v}"`)  // quote it
+					.join(',')  // comma-separated
+				  ).join('\r\n');  // rows starting on new lines	
+			}
+			let headers: string[] = [];
+			schema._relAliases.forEach((r: any,i:number) => {
+				headers.push(`${r}.${schema._names[i]}`)
+			})
+			
+			let csv: string;
+			csv = arrayToCsv([headers]);
+			csv += '\r\n' + arrayToCsv(rows);
+			return csv;
+		
+		}
+		
+		let csv = generateCsv(queryResult._schema, queryResult._rows)
+		
+		const a = document.createElement('a');
+		a.href = window.URL.createObjectURL(new Blob([csv], { 'type': 'text/plain' }));
+		a.download = filename;
+		a.click();
+	}
+
+
 	downloadEditorText() {
 		let filename = 'query';
 		const { editor } = this.state;
@@ -1047,6 +1117,26 @@ export class EditorBase extends React.Component<Props, State> {
 		}
 	}
 
+
+	getResultForCsv(activeNode: RANode) {
+		let result = memoize(
+			(node: RANode) => {
+				try {
+					node.check();
+					return node.getResult();
+				}
+				catch (e) {
+					console.error(e);
+					return null;
+				}
+			},
+		);
+		this.setState({
+			queryResult: result(activeNode)
+		})
+		
+	
+	}
 
 	genericHint(cm: CodeMirror.Editor) {
 		const { getHintsFunction } = this.props;
@@ -1160,6 +1250,8 @@ export class EditorBase extends React.Component<Props, State> {
 			this.clearExecutionAlerts();
 			try {
 				const { result } = this.props.execFunction(this, query, offset);
+				this.getResultForCsv(result.props.root)
+				
 				this.setState({
 					execResult: result,
 				});

@@ -86,7 +86,7 @@ export const langDE: Partial<typeof langEN> = {
 	'calc.menu.load-gist-button': 'laden',
 	'calc.menu.load-gist-insert-placeholder': 'gist ID',
 	'calc.menu.create-own-dataset-headline': 'Eigenen Datensatz erstellen',
-	'calc.menu.create-own-dataset-text': 'Sie können Ihren eigenen Datensatz erstellen und mit anderen teilen. Lernen Sie mehr darüber im ',
+	'calc.menu.create-own-dataset-text': 'Sie können Ihren eigenen Datensatz erstellen und mit anderen teilen. Lernen Sie mehr darüber im',
 	'calc.menu.create-own-dataset-text-link': 'Maintainer Tutorial (en)',
 	'calc.menu.create-own-dataset-button-new': 'neuen Datensatz erstellen',
 	'calc.menu.create-own-dataset-button-modify': 'aktuellen Datensatz abändern',

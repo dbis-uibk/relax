@@ -97,7 +97,7 @@ export const langES: Partial<typeof langEN> = {
   'calc.menu.create-own-dataset-headline': 'Crear tu propio Dataset',
   'calc.menu.create-own-dataset-text': [
     'Puedes crear tu propio dataset y compartirlo con otras personas. ',
-    'Aprende más acerca de ésto en <a href="help.htm#tutorial-maintainer">Maintainer Tutorial</a>',
+    'Aprende más acerca de ésto en',
   ].join('\n'),
   'calc.menu.create-own-dataset-button-new': 'crear nuevo Dataset',
   'calc.menu.create-own-dataset-button-modify': 'modificar Dataset actual',

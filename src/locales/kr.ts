@@ -70,7 +70,7 @@ export const langKR = {
 	'calc.menu.load-gist-insert-placeholder': 'gist 아이디',
 	'calc.menu.create-own-dataset-headline': '데이터셋 생성하기',
 	'calc.menu.create-own-dataset-text[0]': '데이터셋을 만들고 다른 사람과 공유할 수 있습니다. ',
-	'calc.menu.create-own-dataset-text[1]': '이에 대해 더 알고 싶으면 <a href="help.htm#tutorial-maintainer">Maintainer Tutorial</a>',
+	'calc.menu.create-own-dataset-text[1]': '이에 대해 더 알고 싶으면',
 	'calc.menu.create-own-dataset-button-new': '새로운 데이터셋 생성',
 	'calc.menu.create-own-dataset-button-modify': '현재 데이터셋 수정',
 	'calc.navigation.take-a-tour': '둘러보기',

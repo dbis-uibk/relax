@@ -70,7 +70,7 @@
     "calc.menu.load-gist-button": "불러오기",
     "calc.menu.load-gist-insert-placeholder": "gist 아이디",
     "calc.menu.create-own-dataset-headline": "데이터셋 생성하기",
-    "calc.menu.create-own-dataset-text": "You can create your own dataset and share it with others. Learn more about it in the  <a href=\"help.htm#tutorial-maintainer\">Maintainer Tutorial</a>",
+    "calc.menu.create-own-dataset-text": "You can create your own dataset and share it with others. Learn more about it in the",
     "calc.menu.create-own-dataset-text-link": "Maintainer Tutorial",
     "calc.menu.create-own-dataset-button-new": "새로운 데이터셋 생성",
     "calc.menu.create-own-dataset-button-modify": "현재 데이터셋 수정",

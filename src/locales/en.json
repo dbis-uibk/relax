@@ -70,7 +70,7 @@
     "calc.menu.load-gist-button": "load",
     "calc.menu.load-gist-insert-placeholder": "gist ID",
     "calc.menu.create-own-dataset-headline": "Create your own Dataset",
-    "calc.menu.create-own-dataset-text": "You can create your own dataset and share it with others. Learn more about it in the  <a href=\"help.htm#tutorial-maintainer\">Maintainer Tutorial</a>",
+    "calc.menu.create-own-dataset-text": "You can create your own dataset and share it with others. Learn more about it in the",
     "calc.menu.create-own-dataset-text-link": "Maintainer Tutorial",
     "calc.menu.create-own-dataset-button-new": "create new Dataset",
     "calc.menu.create-own-dataset-button-modify": "modify current Dataset",

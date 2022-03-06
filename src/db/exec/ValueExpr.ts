@@ -1002,8 +1002,7 @@ export class ValueExprGeneric extends ValueExpr {
 				case 'upper':
 				case 'lower':
 				case 'date':
-				// case 'coalesce':
-				// 	return printFunction.call(this);
+					return printFunction.call(this, _func.toUpperCase());
 				case 'strlen':
 					return printFunction.call(this, 'length');
 

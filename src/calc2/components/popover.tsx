@@ -142,7 +142,8 @@ export class Popover extends React.Component<Props, State> {
 
 	render() {
 		const { id, isOpen } = this.state;
-		const { title, className = '' } = this.props;
+
+		const { title, className = '', placement} = this.props;
 		const body = this.body(this.props.body, isOpen);
 
 		return (
@@ -160,6 +161,7 @@ export class Popover extends React.Component<Props, State> {
 					<ReactStrapPopover
 						target={`#${id}`}
 						isOpen={isOpen}
+						placement={'top'}
 						className={`popover__inside ${className}`}
 					>
 						<PopoverHeader>{title}</PopoverHeader>

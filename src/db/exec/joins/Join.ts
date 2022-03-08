@@ -262,7 +262,7 @@ export abstract class Join extends RANodeBinary {
 		else { // right (outer) joins
 			let nullArrayLeft: null[];
 			if (createRowToAddIfNOTMatched !== null) {
-				nullArrayLeft = Join.createNullArray(targetTable.getSchema().getSize() - numColsA); // == size of new B
+				nullArrayLeft = Join.createNullArray(targetTable.getSchema().getSize() - numColsB); // == size of new B
 			}
 
 			for (let i = 0; i < numRowsB; i++) {

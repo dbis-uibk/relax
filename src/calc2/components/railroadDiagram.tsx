@@ -5,7 +5,8 @@
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { Diagram } from 'railroad-diagrams';
-import 'railroad-diagrams/railroad-diagrams.css';
+// import '../../../node_modules/railroad-diagrams/railroad-diagrams.css';
+// import '../noderailroad-diagrams/railroad-diagrams.css' from 'railroad-diagrams';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 

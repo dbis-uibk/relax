@@ -185,14 +185,14 @@ export class Help extends React.Component<Props> {
 							</p>
 
 							<code className="example block">&pi; R.a, S.a, S.b
-				&sigma; R.a = S.a ∧ ( R.a > 5 ∨ R.a {'<'} 0 ) (
+				&sigma; R.a = S.a ∧ ( R.a {'>'} 5 ∨ R.a {'<'} 0 ) (
 					R ⨯ S
 				)</code>
 
 							is equivalent to:
 
 							<code className="example block">pi R.a, S.a, S.b
-				sigma R.a = S.a and ( R.a > 5 or R.a {'<'} 0 ) (
+				sigma R.a = S.a and ( R.a {'>'} 5 or R.a {'<'} 0 ) (
 					R cross join S
 				)</code>
 
@@ -307,8 +307,8 @@ export class Help extends React.Component<Props> {
 								</tr>
 								<tr>
 									<td className="math">→</td>
-									<td>->
-										<code className="example block">pi a -> new_name ( R )</code>
+									<td>-{'>'}
+										<code className="example block">pi a -{'>'} new_name ( R )</code>
 									</td>
 								</tr>
 								</tbody>
@@ -413,12 +413,12 @@ export class Help extends React.Component<Props> {
 
 							<p>The next example uses a more complex expression to get all accounts with a balance over 100 or under
 								-100.</p>
-							<code className="example block">sigma balance > 100 or (balance*-1 > 100) ( Accounts )
+							<code className="example block">sigma balance {'>'} 100 or (balance*-1 {'>'} 100) ( Accounts )
 				-- (balance {'<'} -100) would also be correct</code>
 
 							<p>As a shorter alternative you can use a <a href="#relalg-valueexpr">function in your expression</a> to get
 								the same result:</p>
-							<code className="example block">sigma abs(balance) > 100 ( Accounts )</code>
+							<code className="example block">sigma abs(balance) {'>'} 100 ( Accounts )</code>
 
 
 							<h2 id="tutorial-maintainer">Tutorial - maintainer</h2>
@@ -461,7 +461,7 @@ export class Help extends React.Component<Props> {
 								in double brackets instead of using the colon.</p>
 
 							<code className="example block">group: bank example
-				description[[ the data for this dataset was generated using {'<'}http://www.generatedata.com/>
+				description[[ the data for this dataset was generated using {'<'}http://www.generatedata.com/{'>'}
 
 				* the relation _Customers_ contains basic information about the customers of the bank.
 				The relation _Accounts_ contains the basic information of a single account.
@@ -640,7 +640,7 @@ export class Help extends React.Component<Props> {
 
 									<div className="example">
 										<code>TestA = &pi; a,b R
-				TestB = &sigma; d > 0 S
+				TestB = &sigma; d {'>'} 0 S
 
 				-- statement using the variable
 				TestA join TestB</code>
@@ -769,7 +769,7 @@ export class Help extends React.Component<Props> {
 					<i>ROW_1</i>
 					<i>ROW_2</i>
 					...
-					<b>}</b></code>
+					<b>{'}'}</b></code>
 											</td>
 										</tr>
 									</tbody>
@@ -957,7 +957,7 @@ export class Help extends React.Component<Props> {
 								Expressions can be used to create more complex statements using one or more columns of a single row.
 
 								<div className="example">
-									<code>pi c.id, lower(username)->user, concat(firstname, concat(' ', lastname))->fullname (
+									<code>pi c.id, lower(username)-{'>'}user, concat(firstname, concat(' ', lastname))-{'>'}fullname (
 					&rho; c ( Customer )
 				)</code>
 								</div>
@@ -1003,7 +1003,7 @@ export class Help extends React.Component<Props> {
 										<tr>
 											<th>example</th>
 											<td>
-												<code className="relalg">sigma a > 2 ( R )</code>
+												<code className="relalg">sigma a {'>'} 2 ( R )</code>
 											</td>
 										</tr>
 									</tbody>
@@ -1016,7 +1016,7 @@ export class Help extends React.Component<Props> {
 									<code>&sigma; firstname = 'Bob' or firstname = 'Alice' ( Customer )</code>
 								</div>
 								<div className="example">
-									<code>&sigma; (id > 10 and id {'<'} 100) or id = 42 ( Customer )</code>
+									<code>&sigma; (id {'>'} 10 and id {'<'} 100) or id = 42 ( Customer )</code>
 								</div>
 								<div className="example">
 									Selecting all customers with a firstname that has an even length.
@@ -1207,18 +1207,18 @@ export class Help extends React.Component<Props> {
 										<tr>
 											<th>example</th>
 											<td>
-												<code className="relalg">gamma a, count(*)->x ( R )</code>
+												<code className="relalg">gamma a, count(*)-{'>'}x ( R )</code>
 											</td>
 										</tr>
 									</tbody>
 								</table></div>
 								<div>
 									The argument is a list of columns to group by, separated by commas followed by a semicolon
-									<br />and a list of aggregate functions to apply with their new name in form <span>AGG( COLUMN ) -> NEW_NAME</span>
+									<br />and a list of aggregate functions to apply with their new name in form <span>AGG( COLUMN ) -{'>'} NEW_NAME</span>
 
 									<div className="example">
 										order the result by the first column (default is ascending) and the second column descending:
-										<code>&gamma; a, b ; sum(c)->x ( Customer )</code>
+										<code>&gamma; a, b ; sum(c)-{'>'}x ( Customer )</code>
 									</div>
 
 									<p>If no grouping columns are provided the entire relation is the group.</p>
@@ -1892,9 +1892,9 @@ export class Help extends React.Component<Props> {
 										<code>a = b
 				a != b
 				a {'<'} b
-				a > b
+				a {'>'} b
 				a {'<'}= b
-				a >= b
+				a {'>'}= b
 				a != b</code>
 									</td>
 									<td>boolean</td>
@@ -2132,7 +2132,7 @@ export class Help extends React.Component<Props> {
 								</tr>
 								<tr>
 									<td>5</td>
-									<td>= (comparison), >=, >, {'<'}=, {'<'}, {'<'}>, !=, LIKE, ILIKE</td>
+									<td>= (comparison), {'>'}=, {'>'}, {'<'}=, {'<'}, {'<'}{'>'}, !=, LIKE, ILIKE</td>
 								</tr>
 								<tr>
 									<td>6</td>
@@ -2186,11 +2186,11 @@ export class Help extends React.Component<Props> {
 				[ <a href="#sql-groupby">GROUP BY</a> <strong>column</strong> [, ...] ]
 				[ <a href="#sql-having">HAVING</a> <strong>condition</strong> ]
 				[ {'{'} <a href="#sql-setoperators">UNION</a> | <a href="#sql-setoperators">INTERSECT</a> | <a
-						href="#sql-setoperators">EXCEPT</a> } [ ALL | DISTINCT ] <strong>select</strong> ]
+						href="#sql-setoperators">EXCEPT</a>  {'}'} [ ALL | DISTINCT ] <strong>select</strong> ]
 				[ <a href="#sql-orderby">ORDER BY</a> <strong>column</strong> [ ASC | DESC ] [, ...] ]
-				[ <a href="#sql-limit">LIMIT</a> {'{'} <strong>count</strong> | ALL } ]
+				[ <a href="#sql-limit">LIMIT</a> {'{'} <strong>count</strong> | ALL  {'}'} ]
 				[ <a href="#sql-limit">OFFSET</a> <strong>start</strong> [ ROW | ROWS ] ]
-				[ <a href="#sql-limit">FETCH</a> {'{'} FIRST | NEXT } [ <strong>count</strong> ] {'{'} ROW | ROWS } ONLY ]
+				[ <a href="#sql-limit">FETCH</a> {'{'} FIRST | NEXT  {'}'} [ <strong>count</strong> ] {'{'} ROW | ROWS {'}'} ONLY ]
 
 				where <strong>from_item</strong> can be one of:
 
@@ -2203,10 +2203,10 @@ export class Help extends React.Component<Props> {
 				<strong>from_item</strong> [ INNER ] JOIN <strong>from_item</strong> NATURAL
 				<strong>from_item</strong> [ INNER ] JOIN <strong>from_item</strong> USING ( join_column [, ...] )
 				<strong>from_item</strong>
-				<strong>from_item</strong> {'{'} LEFT | RIGHT | FULL } [ OUTER ] JOIN ON join_condition
+				<strong>from_item</strong> {'{'} LEFT | RIGHT | FULL {'}'} [ OUTER ] JOIN ON join_condition
 				<strong>from_item</strong>
-				<strong>from_item</strong> {'{'} LEFT | RIGHT | FULL } [ OUTER ] JOIN NATURAL <strong>from_item</strong>
-				<strong>from_item</strong> {'{'} LEFT | RIGHT | FULL } [ OUTER ] JOIN USING ( join_column [, ...] ) <strong>from_item</strong>
+				<strong>from_item</strong> {'{'} LEFT | RIGHT | FULL {'}'} [ OUTER ] JOIN NATURAL <strong>from_item</strong>
+				<strong>from_item</strong> {'{'} LEFT | RIGHT | FULL {'}'}  [ OUTER ] JOIN USING ( join_column [, ...] ) <strong>from_item</strong>
 
 				and <strong>with_query</strong> is:
 
@@ -2503,7 +2503,7 @@ export class Help extends React.Component<Props> {
 								translation into "classNameical" relational algebra. Therefore the learning effect for users of this tool
 								would not be that big.</p>
 							<code className="example sql">select distinct *
-				from R, (select * from S where a > 0) as x
+				from R, (select * from S where a &gt; 0) as x
 				where x.a = R.a</code>
 
 							<h4 id="sql-where">WHERE</h4>

@@ -123,8 +123,9 @@ export const langEN = {
 	'calc.editors.ra.tab-name-short': 'RelAlg',
 	'calc.editors.ra.button-execute-query': 'execute query',
 	'calc.editors.ra.button-execute-selection': 'execute selection',
-	'calc.editors.ra.button-download': 'Download',
-	'calc.editors.ra.button-download-csv': 'Result',
+	'calc.editors.ra.button-download': 'Download CSV',
+	'calc.editors.ra.button-download-csv': 'Result (CSV)',
+	'calc.editors.ra.button-download-jpg': 'Result (JPG)',
 	'calc.editors.ra.button-download-query': 'Query',
 	'calc.editors.ra.toolbar.projection': 'projection',
 	'calc.editors.ra.toolbar.projection-content': `

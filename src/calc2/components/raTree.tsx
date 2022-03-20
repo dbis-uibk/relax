@@ -5,7 +5,7 @@
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { Popover } from 'calc2/components/popover';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import { RANode, RANodeBinary, RANodeUnary } from 'db/exec/RANode';
 import * as React from 'react';
 

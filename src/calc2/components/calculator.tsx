@@ -13,7 +13,7 @@ import { i18n, T, t } from 'calc2/i18n';
 import * as store from 'calc2/store';
 import { Group } from 'calc2/store/groups';
 import { translateHeader } from 'calc2/utils/misc';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import * as React from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,6 +22,7 @@ import { GroupRelationList } from '../components/groupRelationList';
 import { MenuConnected } from '../components/menu';
 import { StringStream } from 'codemirror';
 import { Navigation } from '../components/navigation';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 require('./calculator.scss');
 
 
@@ -150,13 +151,13 @@ example,  42
 						<Nav tabs>
 							<UncontrolledDropdown nav inNavbar className="showOnSM">
 								<DropdownToggle nav>
-									<FontAwesomeIcon icon={faBars} />
+									<FontAwesomeIcon icon={faBars as IconProp} />
 								</DropdownToggle>
 								<DropdownMenu>
-									<DropdownItem href="/relax/calc"><FontAwesomeIcon icon={faCalculator} /> <T id="calc.navigation.calc" /></DropdownItem>
-									<DropdownItem href="/relax/help"><FontAwesomeIcon icon={faComment} /> <T id="calc.navigation.help" /></DropdownItem>
-									<DropdownItem href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faQuestionCircle} /> <T id="calc.navigation.feedback" /></DropdownItem>
-									<DropdownItem onClick={this.toggleDatasetModal}><FontAwesomeIcon icon={faDatabase} /> <T id="calc.menu.datasets" /></DropdownItem>
+									<DropdownItem href="/relax/calc"><FontAwesomeIcon icon={faCalculator as IconProp} /> <T id="calc.navigation.calc" /></DropdownItem>
+									<DropdownItem href="/relax/help"><FontAwesomeIcon icon={faComment as IconProp } /> <T id="calc.navigation.help" /></DropdownItem>
+									<DropdownItem href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faQuestionCircle as IconProp} /> <T id="calc.navigation.feedback" /></DropdownItem>
+									<DropdownItem onClick={this.toggleDatasetModal}><FontAwesomeIcon icon={faDatabase as IconProp} /> <T id="calc.menu.datasets" /></DropdownItem>
 									<DropdownItem divider />
 									<DropdownItem onClick={() => this.changeLocale('en')}>en</DropdownItem>
 									<DropdownItem onClick={() => this.changeLocale('de')}>de</DropdownItem>

@@ -11,6 +11,7 @@ import NavLink from 'reactstrap/lib/NavLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalculator, faGlobeEurope, faComment, faQuestionCircle, faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import { T, i18n } from '../i18n';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 type Props = {
 
@@ -43,9 +44,9 @@ export class Navigation extends React.Component<Props, State> {
             <Navbar color="light" light expand="md" className="desktopNavbar">
                 <NavbarBrand href="/">RelaX</NavbarBrand>
                 <Nav className="ml-auto" navbar>
-                    <NavItem className="navItemSpace"><NavLink href="/relax/calc"><FontAwesomeIcon icon={faCalculator} /> Calculator</NavLink></NavItem>
+                    <NavItem className="navItemSpace"><NavLink href="/relax/calc"><FontAwesomeIcon icon={faCalculator  as IconProp} /> Calculator</NavLink></NavItem>
                     <UncontrolledDropdown nav inNavbar className="navItemSpace">
-                        <DropdownToggle nav caret><FontAwesomeIcon icon={faGlobeEurope} /> <T id="calc.navigation.language" /></DropdownToggle>
+                        <DropdownToggle nav caret><FontAwesomeIcon icon={faGlobeEurope as IconProp} /> <T id="calc.navigation.language" /></DropdownToggle>
                         <DropdownMenu right>
                             <DropdownItem onClick={() => this.changeLocale('en')}>en</DropdownItem>
                             <DropdownItem onClick={() => this.changeLocale('de')}>de</DropdownItem>
@@ -54,9 +55,9 @@ export class Navigation extends React.Component<Props, State> {
                             <DropdownItem onClick={() => this.changeLocale('pt')}>pt</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
-                    <NavItem className="navItemSpace"><NavLink href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faComment} /> <T id="calc.navigation.feedback" /></NavLink></NavItem>
-                    <NavItem className="navItemSpace"><NavLink href="/relax/help"><FontAwesomeIcon icon={faQuestionCircle} /> <T id="calc.navigation.help" /></NavLink></NavItem>
-                    <NavItem className="navItemSpace"><NavLink href="/relax/imprint"><FontAwesomeIcon icon={faAddressCard} /> <T id="calc.navigation.imprint" /></NavLink></NavItem>
+                    <NavItem className="navItemSpace"><NavLink href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faComment as IconProp} /> <T id="calc.navigation.feedback" /></NavLink></NavItem>
+                    <NavItem className="navItemSpace"><NavLink href="/relax/help"><FontAwesomeIcon icon={faQuestionCircle as IconProp} /> <T id="calc.navigation.help" /></NavLink></NavItem>
+                    <NavItem className="navItemSpace"><NavLink href="/relax/imprint"><FontAwesomeIcon icon={faAddressCard as IconProp} /> <T id="calc.navigation.imprint" /></NavLink></NavItem>
                 </Nav>
             </Navbar>
         );

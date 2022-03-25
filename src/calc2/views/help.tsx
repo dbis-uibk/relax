@@ -1207,7 +1207,7 @@ export class Help extends React.Component<Props> {
 										<tr>
 											<th>example</th>
 											<td>
-												<code className="relalg">gamma a, count(*)-{'>'}x ( R )</code>
+												<code className="relalg">gamma a; count(*)-{'>'}x ( R )</code>
 											</td>
 										</tr>
 									</tbody>

@@ -866,6 +866,7 @@ export class Help extends React.Component<Props> {
 									So a relational algebra expression is recursively defined as follows:
 
 									<div className="too-wide">
+										{/** 
 										<RailroadDiagram 
 											diagram={Diagram(
 													Choice(
@@ -910,6 +911,7 @@ export class Help extends React.Component<Props> {
 															),
 													),
 											)} />
+											*/}
 									</div>
 								</div>
 							</div>
@@ -1273,7 +1275,7 @@ export class Help extends React.Component<Props> {
 											</tbody>
 										</table></div>
 									</div>
-
+								{/*
 									<div className="too-wide">
 										<RailroadDiagram 
 											diagram={Diagram(
@@ -1302,7 +1304,7 @@ export class Help extends React.Component<Props> {
 															NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													),
 											)} />
-									</div>
+																									</div> */}
 								</div>
 							</div>
 
@@ -1494,6 +1496,7 @@ export class Help extends React.Component<Props> {
 								</table></div>
 								<div>join condition
 									<div className="too-wide">
+										{/*
 										<RailroadDiagram 
 											diagram={Diagram(
 													Stack(
@@ -1507,6 +1510,7 @@ export class Help extends React.Component<Props> {
 															NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													),
 											)} />
+											*/}
 									</div>
 								</div>
 
@@ -1546,6 +1550,7 @@ export class Help extends React.Component<Props> {
 									</div>
 
 									<div className="too-wide">
+										{/** 
 										<RailroadDiagram 
 											diagram={Diagram(
 													NonTerminal('RA-expression', '#relalg-relalgexpr'),
@@ -1554,6 +1559,7 @@ export class Help extends React.Component<Props> {
 													),
 													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 											)} />
+											*/}
 									</div>
 								</div>
 							</div>
@@ -1573,6 +1579,7 @@ export class Help extends React.Component<Props> {
 								</table></div>
 								<div>optional join condition; if no join condition is given it acts as a natural left outer join
 									<div className="too-wide">
+										{/**
 										<RailroadDiagram 
 											diagram={Diagram(
 													Stack(
@@ -1586,6 +1593,8 @@ export class Help extends React.Component<Props> {
 															NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													),
 											)} />
+
+											 */}
 									</div>
 								</div>
 							</div>
@@ -1605,6 +1614,7 @@ export class Help extends React.Component<Props> {
 								</table></div>
 								<div>optional join condition; if no join condition is given it acts as a natural right outer join
 									<div className="too-wide">
+										{/** 
 										<RailroadDiagram 
 											diagram={Diagram(
 													Stack(
@@ -1618,6 +1628,7 @@ export class Help extends React.Component<Props> {
 															NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													),
 											)} />
+											 */}
 									</div>
 								</div>
 							</div>
@@ -1637,6 +1648,7 @@ export class Help extends React.Component<Props> {
 								</table></div>
 								<div>optional join condition; if no join condition is given it acts as a natural full outer join
 									<div className="too-wide">
+											 {/*
 										<RailroadDiagram 
 											diagram={Diagram(
 													Stack(
@@ -1650,6 +1662,7 @@ export class Help extends React.Component<Props> {
 															NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													),
 											)} />
+											 */}
 									</div>
 								</div>
 							</div>
@@ -1669,6 +1682,7 @@ export class Help extends React.Component<Props> {
 								</table></div>
 								<div>no argument
 									<div className="too-wide">
+										 {/*
 										<RailroadDiagram 
 											diagram={
 											Diagram(
@@ -1678,6 +1692,7 @@ export class Help extends React.Component<Props> {
 													),
 													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 											)} />
+											 */}
 								</div>
 							</div>
 							<div>
@@ -1696,6 +1711,7 @@ export class Help extends React.Component<Props> {
 								</table></div>
 								<div>no argument
 									<div className="too-wide">
+										 {/*
 										<RailroadDiagram 
 											diagram={Diagram(
 													NonTerminal('RA-expression', '#relalg-relalgexpr'),
@@ -1704,6 +1720,7 @@ export class Help extends React.Component<Props> {
 													),
 													NonTerminal('RA-expression', '#relalg-relalgexpr'),
 											)} />
+											 */}
 									</div>
 								</div>
 							</div>
@@ -1725,6 +1742,7 @@ export class Help extends React.Component<Props> {
 									<br />
 
 									<div className="too-wide">
+										{/*
 										<RailroadDiagram 
 											diagram={Diagram(
 													Stack(
@@ -1737,6 +1755,7 @@ export class Help extends React.Component<Props> {
 															NonTerminal('RA-expression', '#relalg-relalgexpr'),
 													),
 											)} />
+																	*/}
 									</div>
 								</div>
 							</div>
@@ -2213,6 +2232,7 @@ export class Help extends React.Component<Props> {
 				<strong>with_query_name</strong> AS ( <strong>select</strong> )</code>
 
 							<div className="too-wide">
+								{/*
 								<RailroadDiagram 
 										diagram={Diagram(
 											Stack(
@@ -2406,6 +2426,7 @@ export class Help extends React.Component<Props> {
 													),
 											),
 									)} />
+																	*/}
 							</div>
 
 							<h3 id="sql-translation">Semantic and Translation to relational algebra</h3>

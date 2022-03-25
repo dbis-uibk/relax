@@ -5,10 +5,9 @@
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { Diagram } from 'railroad-diagrams';
-// import '../../../node_modules/railroad-diagrams/railroad-diagrams.css';
-// import '../noderailroad-diagrams/railroad-diagrams.css' from 'railroad-diagrams';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import 'railroad-diagrams/railroad-diagrams.css';
 
 interface Props {
 	diagram: Diagram,
@@ -16,6 +15,7 @@ interface Props {
 
 export class RailroadDiagram extends React.Component<Props> {
 	componentDidMount() {
+		
 		const node = ReactDOM.findDOMNode(this) as Element | null;
 		if (!node) {
 			throw new Error(`could not find node`);
@@ -28,6 +28,7 @@ export class RailroadDiagram extends React.Component<Props> {
 	}
 
 	render() {
+		console.log('mounted..');
 		return (
 			<div />
 		);

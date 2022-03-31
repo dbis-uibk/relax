@@ -980,9 +980,6 @@ export class EditorBase extends React.Component<Props, State> {
 
 
 	downloadQueryResult($event: any) {
-		console.log($event);
-		console.log($event.currentTarget);
-
 
 		const mode = $event.currentTarget.getAttribute('data-id');
 		if(!mode) { return; }

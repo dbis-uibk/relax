@@ -15,7 +15,6 @@ import { AutoreplaceOperatorsMode, parseRelalg, queryWithReplacedOperatorsFromAs
 import * as React from 'react';
 import { faCalendarAlt, faTable, faMagic, faExternalLinkAlt, faPaste } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NonTerminal } from 'railroad-diagrams';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const NUM_TREE_LABEL_COLORS = 6;

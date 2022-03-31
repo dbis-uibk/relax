@@ -4588,9 +4588,10 @@ qunit@^2.6.1:
     node-watch "0.7.3"
     tiny-glob "0.2.9"
 
-"railroad-diagrams@https://github.com/tabatkins/railroad-diagrams.git#gh-pages":
-  version "1.1.0"
-  resolved "https://github.com/tabatkins/railroad-diagrams.git#ed13ca8844a5fa9e11737ad388f4b566d46de649"
+railroad-diagrams@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/railroad-diagrams/-/railroad-diagrams-1.0.0.tgz#eb7e6267548ddedfb899c1b90e57374559cddb7e"
+  integrity sha1-635iZ1SN3t+4mcG5Dlc3RVnN234=
 
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"

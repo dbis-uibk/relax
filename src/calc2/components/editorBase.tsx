@@ -1001,7 +1001,7 @@ export class EditorBase extends React.Component<Props, State> {
 				return data.map((row: any) =>
 					row
 					.map(String)  // convert every value to String
-					.map((v: any) => v.replaceAll('"', '""'))  // escape double colons
+					.map((v: any) => this.replaceAllImpl(v, '"', '""'))  // escape double colons
 					.map((v: any) => `"${v}"`)  // quote it
 					.join(','),  // comma-separated
 				  ).join('\r\n');  // rows starting on new lines	
@@ -1470,6 +1470,15 @@ export class EditorBase extends React.Component<Props, State> {
 		this.focus();
 	}
 
+	
+	// needed as String.protoype.replaceAll() not yet compatible (ECMA 2021)
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll
+	public replaceAllImpl(text: string, toReplace: string, replaceWith: string) {
+		while(text.includes(toReplace)) {
+			text = text.replace(toReplace, replaceWith);
+		}
+		return text;
+	}
 
 	setReadOnly(enable: boolean) {
 		const { editor } = this.state;

@@ -16,6 +16,7 @@ import * as React from 'react';
 import Button from 'reactstrap/lib/Button';
 import { faTable } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 type Props = {
 	group: Group,
@@ -157,7 +158,7 @@ export class EditorGroup extends React.Component<Props> {
 								tooltip: 'calc.editors.group.toolbar.import-sql-content',
 							},*/
 							{
-								label: <span><FontAwesomeIcon icon={faTable}></FontAwesomeIcon> <T id="calc.editors.group.toolbar.add-new-relation" /></span>,
+								label: <span><FontAwesomeIcon icon={faTable as IconProp}></FontAwesomeIcon> <T id="calc.editors.group.toolbar.add-new-relation" /></span>,
 								onClick: () => {
 									if (this.editorBase) {
 										this.editorBase.inlineRelationEditorOpen(null);

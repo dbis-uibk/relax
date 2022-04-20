@@ -4,6 +4,7 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EditorBase, getColumnNamesFromRaRoot, getHintsFromGroup } from 'calc2/components/editorBase';
@@ -171,7 +172,7 @@ export class EditorSql extends React.Component<Props> {
 								tooltip: 'calc.editors.sql.toolbar.limit',
 							},
 							{
-								label: <FontAwesomeIcon className="showOnSM" icon={faExternalLinkAlt} />,
+								label: <FontAwesomeIcon className="showOnSM" icon={faExternalLinkAlt  as IconProp} />,
 								onClick: item => this.props.relInsertModalToggle,
 								tooltipTitle: 'calc.editors.insert-relation-title',
 								tooltip: 'calc.editors.insert-relation-tooltip',

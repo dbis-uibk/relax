@@ -8,7 +8,7 @@ import { i18n, T } from 'calc2/i18n';
 import * as store from 'calc2/store';
 import { Group, HeaderTranslated } from 'calc2/store/groups';
 import { translateHeader } from 'calc2/utils/misc';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as Immutable from 'immutable';
 import memoize from 'memoize-one';
 import * as React from 'react';

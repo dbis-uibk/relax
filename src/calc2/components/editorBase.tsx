@@ -4,15 +4,15 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { faArrowAltCircleDown, faHistory, faPlayCircle, faUpload, faDownload, faCheckCircle, faTimesCircle, faPlay, faTable, faCheck, faCalculator, faCheckSquare, faFileCsv, faTruckPickup, faFileDownload } from '@fortawesome/free-solid-svg-icons';
-import { } from '@fortawesome/fontawesome-svg-core';
+import { faArrowAltCircleDown, faHistory, faPlayCircle, faUpload, faDownload, faCheckCircle, faTimesCircle, faPlay, faTable, faCheck, faCalculator, faCheckSquare, faFileCsv, faTruckPickup, faFileDownload, faImage } from '@fortawesome/free-solid-svg-icons';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DropdownList } from 'calc2/components/dropdownList';
 import { HistoryEntry } from 'calc2/components/history';
 import { Group as ToolbarGroup, Item, Toolbar } from 'calc2/components/toolbar';
 import { LanguageKeys, t, T } from 'calc2/i18n';
 import { Group } from 'calc2/store/groups';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as CodeMirror from 'codemirror';
 import 'codemirror/addon/hint/show-hint';
 import { RANode, RANodeBinary, RANodeUnary } from 'db/exec/RANode';
@@ -26,6 +26,9 @@ import { HotTable } from '@handsontable/react';
 import * as ReactDOM from 'react-dom';
 import Handsontable from 'handsontable';
 import memoize from 'memoize-one';
+
+import html2canvas from 'html2canvas';
+import { data } from 'jquery';
 
 require('codemirror/lib/codemirror.css');
 require('codemirror/theme/eclipse.css');
@@ -287,7 +290,7 @@ type State = {
 	relationEditorName: string,
 	replSelStart: any,
 	replSelEnd: any,
-	queryResult: any
+	queryResult: any,
 };
 
 
@@ -537,7 +540,7 @@ export class EditorBase extends React.Component<Props, State> {
 			relationEditorName: '',
 			replSelStart: null,
 			replSelEnd: null,
-			queryResult: null
+			queryResult: null,
 		};
 		this.toggle = this.toggle.bind(this);
 		this.inlineRelationEditorOk = this.inlineRelationEditorOk.bind(this);
@@ -686,7 +689,7 @@ export class EditorBase extends React.Component<Props, State> {
 			execSuccessful,
 			isExecutionDisabled,
 			execResult,
-			queryResult
+			queryResult,
 		} = this.state;
 		const {
 			toolbar,
@@ -725,36 +728,44 @@ export class EditorBase extends React.Component<Props, State> {
 							}}
 						>
 							{!!execButtonLabel
-								? <span><FontAwesomeIcon icon={faPlayCircle} /> <T id={execButtonLabel} /></span>
+								? <span><FontAwesomeIcon icon={faPlayCircle  as IconProp} /> <T id={execButtonLabel} /></span>
 								: (
 									<>
-										<span className="glyphicon glyphicon-play"></span> <span className="query"><FontAwesomeIcon icon={faPlay} /> <T id="calc.editors.ra.button-execute-query" /></span><span className="selection"><T id="calc.editors.ra.button-execute-selection" /></span>
+										<span className="glyphicon glyphicon-play"></span> <span className="query"><FontAwesomeIcon icon={faPlay as IconProp} /> <T id="calc.editors.ra.button-execute-query" /></span><span className="selection"><T id="calc.editors.ra.button-execute-selection" /></span>
 									</>
 								)
 							}
 						</button>
 
 						<div style={{ float: 'right' }}>
-							<div className='btn-group history-container'>
+							<div className="btn-group history-container">
 								<DropdownList
-									label={<span><FontAwesomeIcon icon={faDownload} /> <span className="hideOnSM"><T id="calc.editors.ra.button-download" /></span></span>}
+									label={<span><FontAwesomeIcon icon={faDownload as IconProp} /> <span className="hideOnSM"><T id="calc.editors.ra.button-download" /></span></span>}
 									elements={[
 									{
 										label: (
 											<>
-											<div color="Link" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faFileDownload} /> <span><T id="calc.editors.ra.button-download-query" /></span></div>
+											<div color="Link" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faFileDownload  as IconProp} /> <span><T id="calc.editors.ra.button-download-query" /></span></div>
 											</>
 											),
-									 	value: ''
+									 	value: '',
 									},
 									{
 										label: (
 											<>
-											<div color="Link" onClick={this.downloadQueryResult}><FontAwesomeIcon icon={faFileCsv} /> <span ><T id="calc.editors.ra.button-download-csv" /></span></div>
+											<div color="Link" onClick={this.downloadQueryResult} id="downloadQueryCsv" data-id="csv"><FontAwesomeIcon icon={faFileCsv  as IconProp} /> <span ><T id="calc.editors.ra.button-download-csv" /></span></div>
 											</>
 											),
-									 	value: ''
-									}
+									 	value: '',
+									},
+									{
+										label: (
+											<>
+											<div color="Link" onClick={this.downloadQueryResult} data-id="jpg"><FontAwesomeIcon icon={faImage  as IconProp}/> <span ><T id="calc.editors.ra.button-download-jpg" /></span></div>
+											</>
+											),
+									 	value: '',
+									},
 									]
 										
 									}
@@ -766,7 +777,7 @@ export class EditorBase extends React.Component<Props, State> {
 								: (
 									<div className="btn-group history-container">
 										<DropdownList
-											label={<span><FontAwesomeIcon icon={faHistory} /> <span className="hideOnSM"><T id="calc.editors.button-history" /></span></span>}
+											label={<span><FontAwesomeIcon icon={faHistory  as IconProp} /> <span className="hideOnSM"><T id="calc.editors.button-history" /></span></span>}
 											elements={history.map(h => ({
 												label: (
 													<>
@@ -815,12 +826,12 @@ export class EditorBase extends React.Component<Props, State> {
 							</div>
 						</ModalBody>
 						<ModalFooter>
-							<Button color="light" onClick={this.inlineRelationEditorDownload}><FontAwesomeIcon icon={faDownload} /> {t('calc.editors.ra.inline-editor.button-download-csv')}</Button>
-							<Button color="light" onClick={() => { this.uploadCSVRef.current?.click(); }}><FontAwesomeIcon icon={faUpload} /> {t('calc.editors.ra.inline-editor.button-upload-csv')}</Button>
+							<Button color="light" onClick={this.inlineRelationEditorDownload}><FontAwesomeIcon icon={faDownload  as IconProp} /> {t('calc.editors.ra.inline-editor.button-download-csv')}</Button>
+							<Button color="light" onClick={() => { this.uploadCSVRef.current?.click(); }}><FontAwesomeIcon icon={faUpload  as IconProp} /> {t('calc.editors.ra.inline-editor.button-upload-csv')}</Button>
 							<input className="hidden" ref={this.uploadCSVRef} onChange={this.inlineRelationEditorUpload} type="file"></input>
 							<span className="flexSpan"></span>
-							<Button color="primary" onClick={this.inlineRelationEditorOk}><FontAwesomeIcon icon={faCheckCircle} /> {t('calc.editors.ra.inline-editor.button-ok')}</Button>
-							<Button color="secondary" onClick={this.inlineRelationEditorClose}><FontAwesomeIcon icon={faTimesCircle} /> {t('calc.editors.ra.inline-editor.button-cancel')}</Button>
+							<Button color="primary" onClick={this.inlineRelationEditorOk}><FontAwesomeIcon icon={faCheckCircle  as IconProp} /> {t('calc.editors.ra.inline-editor.button-ok')}</Button>
+							<Button color="secondary" onClick={this.inlineRelationEditorClose}><FontAwesomeIcon icon={faTimesCircle  as IconProp} /> {t('calc.editors.ra.inline-editor.button-cancel')}</Button>
 						</ModalFooter>
 					</Modal>
 				</div>
@@ -968,13 +979,18 @@ export class EditorBase extends React.Component<Props, State> {
 	}
 
 
-	downloadQueryResult() {
-		let filename = 'result.csv';
+	downloadQueryResult($event: any) {
+
+		const mode = $event.currentTarget.getAttribute('data-id');
+		if(!mode) { return; }
+
 		const {queryResult} = this.state;
 		if(!queryResult) {
 			console.warn('no query result...');
 			return;
 		}
+
+
 		const generateCsv = (schema: any, rows: any) => {
 
 			// https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
@@ -982,29 +998,53 @@ export class EditorBase extends React.Component<Props, State> {
 				return data.map((row: any) =>
 					row
 					.map(String)  // convert every value to String
-					.map((v:any) => v.replaceAll('"', '""'))  // escape double colons
-					.map((v:any) => `"${v}"`)  // quote it
-					.join(',')  // comma-separated
+					.map((v: any) => this.replaceAllImpl(v, '"', '""'))  // escape double colons
+					.map((v: any) => `"${v}"`)  // quote it
+					.join(','),  // comma-separated
 				  ).join('\r\n');  // rows starting on new lines	
-			}
-			let headers: string[] = [];
-			schema._relAliases.forEach((r: any,i:number) => {
-				headers.push(`${r}.${schema._names[i]}`)
-			})
+			};
+			const headers: string[] = [];
+			schema._relAliases.forEach((r: any, i: number) => {
+				headers.push(`${r}.${schema._names[i]}`);
+			});
 			
 			let csv: string;
 			csv = arrayToCsv([headers]);
 			csv += '\r\n' + arrayToCsv(rows);
 			return csv;
 		
+		};
+
+		const filename = 'result.csv';
+
+
+		switch(mode) {
+			case 'jpg':
+				const imgDiv = document.getElementsByClassName('ra-tree')[0] as HTMLElement;
+				if(imgDiv) {
+					html2canvas(imgDiv).then(canvas => {
+						const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
+						const d = document.createElement('a');
+						d.href = dataUrl;
+						d.download = 'result.jpg';
+						document.body.appendChild(d);
+						d.click();
+					});
+				} 
+				else {
+					return ;
+				}
+				break;
+			case 'csv':
+				const csv = generateCsv(queryResult._schema, queryResult._rows);
+				const a = document.createElement('a');
+				a.href = window.URL.createObjectURL(new Blob([csv], { 'type': 'text/plain' }));
+				a.download = filename;
+				a.click();
+				break;
+			default:
+				return;	
 		}
-		
-		let csv = generateCsv(queryResult._schema, queryResult._rows)
-		
-		const a = document.createElement('a');
-		a.href = window.URL.createObjectURL(new Blob([csv], { 'type': 'text/plain' }));
-		a.download = filename;
-		a.click();
 	}
 
 
@@ -1119,7 +1159,7 @@ export class EditorBase extends React.Component<Props, State> {
 
 
 	getResultForCsv(activeNode: RANode) {
-		let result = memoize(
+		const result = memoize(
 			(node: RANode) => {
 				try {
 					node.check();
@@ -1132,8 +1172,8 @@ export class EditorBase extends React.Component<Props, State> {
 			},
 		);
 		this.setState({
-			queryResult: result(activeNode)
-		})
+			queryResult: result(activeNode),
+		});
 		
 	
 	}
@@ -1250,7 +1290,7 @@ export class EditorBase extends React.Component<Props, State> {
 			this.clearExecutionAlerts();
 			try {
 				const { result } = this.props.execFunction(this, query, offset);
-				this.getResultForCsv(result.props.root)
+				this.getResultForCsv(result.props.root);
 				
 				this.setState({
 					execResult: result,
@@ -1427,6 +1467,15 @@ export class EditorBase extends React.Component<Props, State> {
 		this.focus();
 	}
 
+	
+	// needed as String.protoype.replaceAll() not yet compatible (ECMA 2021)
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll
+	public replaceAllImpl(text: string, toReplace: string, replaceWith: string) {
+		while(text.includes(toReplace)) {
+			text = text.replace(toReplace, replaceWith);
+		}
+		return text;
+	}
 
 	setReadOnly(enable: boolean) {
 		const { editor } = this.state;
@@ -1489,7 +1538,7 @@ export class EditorBase extends React.Component<Props, State> {
 			marker.onclick = () => {
 				this.inlineRelationEditorOpen(tables[i]);
 			};
-			ReactDOM.render(<FontAwesomeIcon icon={faTable}></FontAwesomeIcon>, marker, () => {
+			ReactDOM.render(<FontAwesomeIcon icon={faTable as IconProp}></FontAwesomeIcon>, marker, () => {
 				marker.style.marginLeft = '-15px';
 				editor.setGutterMarker(tables[i].line++, gutterClass, marker);
 			});

@@ -422,7 +422,7 @@ export class Landing extends React.Component {
 									<li>
 										added support for the <a href="/relax/help#relalg-valueexpr">LIKE-operator</a> for SQL and
 										relational algebra
-										<br />e.g. <code>pi 'abc' like 'a%'->x R</code>
+										<br />e.g. <code>pi 'abc' like 'a%'-&gt;x R</code>
 									</li>
 									<li>added translation support for the calculator using <a href="http://i18next.com/"
 										target="_blank">i18next</a>. This

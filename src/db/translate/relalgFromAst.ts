@@ -69,7 +69,6 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 
 	function rec(nRaw: sqlAst.astNode | any): RANode {
 		let node: RANode | null = null;
-
 		switch (nRaw.type) {
 			case 'relation':
 				{
@@ -139,7 +138,18 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 			case 'crossJoin':
 				{
 					const n: any = nRaw;
+					// check out size of resulting cross join!
+					const rec1: any = rec(n.child);
+					const rec2: any = rec(n.child2);
+					const probableJoinCount = getRowLength(rec1) * getRowLength(rec2);
+					
+					// tried and tested with multiple devices / browsers
+					// this seems to be where the browser starts to freeze up
+					if(probableJoinCount > 1000000) {
+						alert('The CrossJoin may cause the browser to crash. Alternatively try using an INNER JOIN');
+					}
 					node = new CrossJoin(rec(n.child), rec(n.child2));
+
 				}
 				break;
 
@@ -227,6 +237,8 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 		if (!node) {
 			throw new Error(`should not happen`);
 		}
+
+
 
 		if (nRaw.wrappedInParentheses === true) {
 			node.setWrappedInParentheses(true);
@@ -386,6 +398,19 @@ function recValueExpr(n: relalgAst.valueExpr | sqlAst.valueExpr): ValueExpr.Valu
 	}
 	return node;
 }
+
+function getRowLength(node: any, length: number = 0): number {
+	if(!node) { return 0; }
+	if(node._table) {
+		return node._table._rows.length;
+	}
+	if(node._child) {
+		return getRowLength(node._child) * getRowLength(node._child2);	
+	}
+	return 0;
+}
+
+
 
 function setAdditionalData<T extends RANode>(astNode: relalgAst.relalgOperation, node: T): void {
 	node.setCodeInfoObject(astNode.codeInfo);

@@ -50,7 +50,10 @@ export abstract class RANode {
 	_resultNumRows: number = -1;
 	_wrappedInParentheses: boolean = false;
 	_warnings: Warning[] = [];
+	_executionTime: any;
 
+	// TODO: add execution time!
+	
 	constructor(functionName = '') {
 		this._functionName = functionName;
 	}

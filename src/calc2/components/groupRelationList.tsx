@@ -18,11 +18,12 @@ interface Props {
 	onElementClick: Function | null,
 }
 
+// @ts-ignore
 export const GroupRelationList: React.StatelessComponent<Props> = ({ tables, replace, onElementClick }) => (
 	
 	<div className="groupRelationList">
 		<ul>
-			{tables.map((table) => {
+			{tables.map((table: any) => {
 				const { columnNames, columnTypes, tableName } = table;
 				return (
 					<li key={tableName}>
@@ -33,7 +34,7 @@ export const GroupRelationList: React.StatelessComponent<Props> = ({ tables, rep
 							}
 						}}>{tableName}</span>
 						<ul>
-							{table.columnNames.map((name, i) => (
+							{table.columnNames.map((name: any, i: number) => (
 								<li key={name}><span className="clickable" onClick={() => {
 									replace && replace(name); 
 									if (onElementClick){

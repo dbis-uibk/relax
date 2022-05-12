@@ -187,10 +187,10 @@ declare module 'codemirror' {
 }
 
 
-const ExecutionAlert: React.SFC<{ alert: Alert, editor: CodeMirror.Editor | null }> = (props) => {
+const ExecutionAlert: React.FunctionComponent<{ alert: Alert, editor: CodeMirror.Editor | null }> = (props) => {
 	const { editor } = props;
 	const { type, message, position } = props.alert;
-	const name = {
+	const name: Object = {
 		'error': t('editor.alert-message-headers.error'),
 		'warning': t('editor.alert-message-headers.warning'),
 	}[type];
@@ -203,6 +203,7 @@ const ExecutionAlert: React.SFC<{ alert: Alert, editor: CodeMirror.Editor | null
 		>
 			{position
 				? (
+					// @ts-ignore
 					<strong>{name}: <a onClick={event => {
 						if (!editor) {
 							console.warn(`editor not initialized yet`);
@@ -216,6 +217,7 @@ const ExecutionAlert: React.SFC<{ alert: Alert, editor: CodeMirror.Editor | null
 						return false;
 					}} href="#">{t('editor.error-at-line-x', { line: (position.line + 1) })}</a>: {message}</strong>
 				)
+				// @ts-ignore
 				: <strong>{name}: {message}</strong>
 			}
 		</div>
@@ -707,7 +709,7 @@ export class EditorBase extends React.Component<Props, State> {
 					<div className="exec-errors">
 						{execErrors.map((alert, i) => <ExecutionAlert key={i} alert={alert} editor={editor} />)}
 					</div>
-
+					
 
 					<div className="input-buttons">
 						<button
@@ -1290,6 +1292,7 @@ export class EditorBase extends React.Component<Props, State> {
 			this.clearExecutionAlerts();
 			try {
 				const { result } = this.props.execFunction(this, query, offset);
+				console.log(result);
 				this.getResultForCsv(result.props.root);
 				
 				this.setState({

@@ -54,10 +54,12 @@ const {
 /**
  * exposes the i18n instance
  */
-export const I18NProvider: React.FunctionComponent<{}> = props => {
+export const I18NProvider: React.FunctionComponent<{
+	children: any;
+}> = props => {
 	return (
 		<Provider value={i18n}>
-			{props.children}
+			{props?.children}
 		</Provider>
 	);
 };

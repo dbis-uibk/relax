@@ -126,6 +126,8 @@ export abstract class Join extends RANodeBinary {
 	_getResult(session: Session | undefined, doEliminateDuplicateRows: boolean) {
 		session = this._returnOrCreateSession(session);
 
+		
+
 		if (this._joinConditionEvaluator === null) {
 			throw new Error(`check not called`);
 		}

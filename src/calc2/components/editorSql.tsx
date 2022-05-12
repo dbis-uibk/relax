@@ -50,6 +50,7 @@ export class EditorSql extends React.Component<Props> {
 			relations[table.tableName] = table.relation;
 		});
 
+		
 		return (
 			<EditorBase
 				textChange={(cm: CodeMirror.Editor) => { } }
@@ -59,6 +60,7 @@ export class EditorSql extends React.Component<Props> {
 					}
 				}}
 				mode="text/x-mysql"
+				// @ts-ignore
 				execFunction={(self: EditorBase, text: string, offset) => {
 					const ast = parseSQLSelect(text);
 					replaceVariables(ast, relations);
@@ -74,19 +76,24 @@ export class EditorSql extends React.Component<Props> {
 
 
 					const root = relalgFromSQLAstRoot(ast, relations);
-					root.check();
+					if (root) {
+						//console.log('Time: ' + (d2.getMilliseconds() - d.getMilliseconds()));
+						root.check();
 
-					self.historyAddEntry(text);
+						self.historyAddEntry(text);
 
-					// calc.displayRaResult(root);
-					return {
-						result: (
-							<Result
-								root={root}
-								numTreeLabelColors={NUM_TREE_LABEL_COLORS}
-							/>
-						),
-					};
+						// calc.displayRaResult(root);
+						return {
+							result: (
+								<Result
+									root={root}
+									numTreeLabelColors={NUM_TREE_LABEL_COLORS}
+								/>
+							),
+						};
+					}
+					
+		
 				}}
 				tab="sql"
 				linterFunction={(self: EditorBase, editor: CodeMirror.Editor, text: string) => {

@@ -100,7 +100,7 @@ export class Menu extends React.Component<Props> {
 						<button onClick={() => {document.location.href = this.gistLink; this.props.datasetLoaded(); }} type="button" className="fullWidthBtn btn btn-secondary gist-load-btn"><T id="calc.menu.load-gist-button" /></button>
 						<hr />
 						<h4><T id="calc.menu.create-own-dataset-headline" /></h4>
-						<p><T id="calc.menu.create-own-dataset-text" /> <Link to="/help#tutorial-maintainer"><T id="calc.menu.create-own-dataset-text-link" /></Link></p>
+						<p><T id="calc.menu.create-own-dataset-text" /> <Link to="/relax/help#tutorial-maintainer"><T id="calc.menu.create-own-dataset-text-link" /></Link></p>
 						<button type="button" className="fullWidthBtn btn btn-secondary open-group-new-btn" onClick={() => { this.props.loadGroupTab(false); } } >
 							<i className="fa fa-plus-square-o fa-lg"></i> <span><T id="calc.menu.create-own-dataset-button-new" /></span>
 						</button>

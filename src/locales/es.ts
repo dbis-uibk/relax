@@ -136,7 +136,6 @@ export const langES: Partial<typeof langEN> = {
   'calc.editors.ra.button-execute-selection': 'executar selección',
   'calc.editors.ra.button-download': 'Descargar',
   'calc.editors.ra.button-download-csv': 'Resultado (CSV)',
-  'calc.editors.button-history': 'Resultado (JPG)',
   'calc.editors.ra.button-download-query': 'Query',
 
 

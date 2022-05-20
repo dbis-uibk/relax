@@ -86,6 +86,7 @@ export const langEN = {
 	'calc.menu.load-gist-headline': 'Load dataset stored in a gist',
 	'calc.menu.load-gist-button': 'load',
 	'calc.menu.load-gist-insert-placeholder': 'gist ID',
+	'calc.menu.recently-used': 'Recently used gists',
 	'calc.menu.create-own-dataset-headline': 'Create your own Dataset',
 	'calc.menu.create-own-dataset-text': 'You can create your own dataset and share it with others. Learn more about it in the ',
 	'calc.menu.create-own-dataset-text-link': 'Maintainer Tutorial',

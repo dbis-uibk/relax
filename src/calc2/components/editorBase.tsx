@@ -1118,8 +1118,6 @@ export class EditorBase extends React.Component<Props, State> {
 		catch (e) {
 			const found = [];
 
-			console.log(e);
-
 			const error = EditorBase._generateErrorFromException(e, 0, 0);
 			const messageWithoutHtml = $('<span>').append(error.message).text();
 
@@ -1292,7 +1290,6 @@ export class EditorBase extends React.Component<Props, State> {
 			this.clearExecutionAlerts();
 			try {
 				const { result } = this.props.execFunction(this, query, offset);
-				console.log(result);
 				this.getResultForCsv(result.props.root);
 				
 				this.setState({

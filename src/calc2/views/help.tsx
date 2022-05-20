@@ -334,14 +334,14 @@ export class Help extends React.Component<Props> {
 
 							<h3 id="tutorial-user-relalg">Relational algebra</h3>
 
-							<p>For this Part we use the <a href="calc.htm?data=gist:2cfb981fbc5676182d64">&quot;bank example&quot;
+							<p>For this Part we use the <a href="calc/gist/2cfb981fbc5676182d64">&quot;bank example&quot;
 								Dataset</a> with 3 relations: <i>Customers</i>, <i>Accounts</i> and <i>PremiumCustomers</i>. By
 								convention relations start with a uppercase letter and attributes with a lower case letter.</p>
 
 							<h4>Open and inspect dataset</h4>
 
 							<p>Open the dataset used in this tutorial using the following link to the <a
-									href="calc.htm?data=gist:2cfb981fbc5676182d64">&quot;bank example&quot; Dataset</a>.</p>
+									href="calc/gist/2cfb981fbc5676182d64">&quot;bank example&quot; Dataset</a>.</p>
 
 							<p>You find the relations and their attributes listed on the side and if you hover a relations name a
 								preview of the first view tuples is displayed.</p>
@@ -609,7 +609,7 @@ export class Help extends React.Component<Props> {
 								the last slash.</p>
 
 							<p>This ID can then be shared and loaded in the interface or the calculator can be called directly with a
-								specific ID by using using the parameter <code>?data=gist:xxxxxxxxxxxxxx</code>.</p>
+								specific ID by using using the parameter <code>/calc/gist/xxxxxxxxxxxx</code>.</p>
 
 							<p>For example the simple bank definition of this tutorial has been published as a <a
 									href="https://gist.github.com/ragtime/2cfb981fbc5676182d64">Gist with the ID

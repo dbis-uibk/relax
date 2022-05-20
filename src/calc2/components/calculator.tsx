@@ -20,7 +20,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Button, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalFooter, ModalHeader, Nav, NavItem, NavLink, TabContent, TabPane, UncontrolledDropdown } from 'reactstrap';
 import { GroupRelationList } from '../components/groupRelationList';
 import { MenuConnected } from '../components/menu';
-import { StringStream } from 'codemirror';
 import { Navigation } from '../components/navigation';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 require('./calculator.scss');
@@ -102,7 +101,7 @@ A = {
 a:string, b:number
 example,  42
 }`;
-		if (loadCurrentGroup === true) {
+		if (loadCurrentGroup) {
 			content = this.props.group.definition;
 		}
 		this.setState({

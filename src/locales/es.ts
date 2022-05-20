@@ -94,7 +94,8 @@ export const langES: Partial<typeof langEN> = {
   'calc.menu.load-gist-headline': 'cargar dataset guardado en un gist',
   'calc.menu.load-gist-button': 'cargar',
   'calc.menu.load-gist-insert-placeholder': 'ID de gist',
-  'calc.menu.create-own-dataset-headline': 'Crear tu propio Dataset',
+	'calc.menu.recently-used': 'Gists utilizados recientemente',
+	'calc.menu.create-own-dataset-headline': 'Crear tu propio Dataset',
   'calc.menu.create-own-dataset-text': [
     'Puedes crear tu propio dataset y compartirlo con otras personas. ',
     'Aprende más acerca de ésto en',

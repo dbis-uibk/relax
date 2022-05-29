@@ -96,7 +96,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 							<Result
 								root={root}
 								numTreeLabelColors={NUM_TREE_LABEL_COLORS}
-								execTime={20}
+								execTime={self.state.execTime == null ? 0 : self.state.execTime}
 							/>
 						),
 					};

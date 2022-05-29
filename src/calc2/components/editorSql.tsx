@@ -78,7 +78,6 @@ export class EditorSql extends React.Component<Props> {
 
 					const root = relalgFromSQLAstRoot(ast, relations);
 					if (root) {
-						console.log(self.state.execTime)
 						root.check();
 
 						self.historyAddEntry(text);

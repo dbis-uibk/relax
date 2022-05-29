@@ -215,5 +215,6 @@
     "calc.editors.ra.inline-editor.row-name": "Name",
     "calc.editors.ra.inline-editor.row-type": "Typ",
     "calc.editors.ra.inline-editor.input-relation-name": "Relations Name",
-    "calc.navigation.imprint": "Impressum"
-  }
+    "calc.navigation.imprint": "Impressum",
+	"calc.result.exec.time": "Ausführungszeit: "
+}

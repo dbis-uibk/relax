@@ -288,4 +288,5 @@ export const langEN = {
 	'calc.editors.ra.inline-editor.row-name': 'Name',
 	'calc.editors.ra.inline-editor.row-type': 'Type',
 	'calc.editors.ra.inline-editor.input-relation-name': 'Relation Name',
+	'calc.result.exec.time': 'Execution Time: ',
 };

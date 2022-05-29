@@ -294,4 +294,5 @@ export const langES: Partial<typeof langEN> = {
 	'calc.editors.ra.inline-editor.row-name': 'Nombre',
 	'calc.editors.ra.inline-editor.row-type': 'Escriba',
 	'calc.editors.ra.inline-editor.input-relation-name': 'Nombre de la relación',
+	'calc.result.exec.time': 'Tiempo de consulta',
 };

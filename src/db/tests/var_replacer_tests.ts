@@ -555,7 +555,6 @@ QUnit.test('extract operators with the tracer', function (assert) {
 	const ast = relalgjs.parseRelalg(query);
 
 	assert.equal(ast.operatorPositions.length, 2);
-	console.log(ast.operatorPositions);
 	assert.deepEqual(ast.operatorPositions, [
 		{
 			type: 'nodeInfo',

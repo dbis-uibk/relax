@@ -213,5 +213,6 @@
     "calc.editors.ra.inline-editor.row-name": "Nome",
     "calc.editors.ra.inline-editor.row-type": "Tipo",
     "calc.editors.ra.inline-editor.input-relation-name": "Nome da Relação",
-    "calc.navigation.imprint": "Impressão"
+    "calc.navigation.imprint": "Impressão",
+	"calc.result.exec.time": "Execution time:"
   }

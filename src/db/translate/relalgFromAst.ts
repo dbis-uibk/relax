@@ -69,6 +69,7 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 
 	function rec(nRaw: sqlAst.astNode | any): RANode {
 		let node: RANode | null = null;
+		
 		switch (nRaw.type) {
 			case 'relation':
 				{

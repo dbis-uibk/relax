@@ -16,7 +16,7 @@ import classNames from 'classnames';
 import * as CodeMirror from 'codemirror';
 import 'codemirror/addon/hint/show-hint';
 import { RANode, RANodeBinary, RANodeUnary } from 'db/exec/RANode';
-import { parseRelalg, textFromRelalgAstRoot } from 'db/relalg';
+import {executeRelalg, parseRelalg, textFromRelalgAstRoot} from 'db/relalg';
 import { forEachPreOrder } from 'db/translate/utils';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
@@ -293,6 +293,7 @@ type State = {
 	replSelStart: any,
 	replSelEnd: any,
 	queryResult: any,
+	execTime: any
 };
 
 
@@ -543,6 +544,7 @@ export class EditorBase extends React.Component<Props, State> {
 			replSelStart: null,
 			replSelEnd: null,
 			queryResult: null,
+			execTime: null
 		};
 		this.toggle = this.toggle.bind(this);
 		this.inlineRelationEditorOk = this.inlineRelationEditorOk.bind(this);
@@ -691,6 +693,7 @@ export class EditorBase extends React.Component<Props, State> {
 			execSuccessful,
 			isExecutionDisabled,
 			execResult,
+			execTime,
 			queryResult,
 		} = this.state;
 		const {
@@ -802,6 +805,7 @@ export class EditorBase extends React.Component<Props, State> {
 						</div>
 					</div>
 					<div className="exec-result">{execResult}</div>
+					<div>{execTime}</div>
 					<Modal isOpen={this.state.modal} toggle={this.toggle} className="showOnSM">
 						<ModalHeader toggle={this.toggle}>{t('calc.result.modal.title')}</ModalHeader>
 						<ModalBody>
@@ -1289,11 +1293,14 @@ export class EditorBase extends React.Component<Props, State> {
 			}
 			this.clearExecutionAlerts();
 			try {
+				const start = Date.now();
 				const { result } = this.props.execFunction(this, query, offset);
+				const end = Date.now() - start;
 				this.getResultForCsv(result.props.root);
-				
+				console.log(result)
 				this.setState({
 					execResult: result,
+					execTime: end
 				});
 				const event = new CustomEvent(eventExecSuccessfulName, {
 					'detail': {

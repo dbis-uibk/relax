@@ -10,6 +10,7 @@ import { RANode } from 'db/exec/RANode';
 import { Table } from 'db/exec/Table';
 import memoize from 'memoize-one';
 import * as React from 'react';
+import {t} from "calc2/i18n";
 
 require('./result.scss');
 
@@ -18,11 +19,13 @@ const maxLinesPerPage = 10;
 type Props = {
 	root: RANode,
 	numTreeLabelColors: number,
+	execTime?: any
 };
 
 type State = {
 	result: null | Table,
 	activeNode: RANode,
+	execTime: any
 };
 
 export class Result extends React.Component<Props, State> {
@@ -45,6 +48,7 @@ export class Result extends React.Component<Props, State> {
 		this.state = {
 			activeNode: props.root,
 			result: null,
+			execTime: null
 		};
 
 		this.setActiveNode = this.setActiveNode.bind(this);
@@ -57,8 +61,9 @@ export class Result extends React.Component<Props, State> {
 	}
 
 	render() {
-		const { root, numTreeLabelColors } = this.props;
+		const { root, numTreeLabelColors,execTime } = this.props;
 		const { activeNode } = this.state;
+		console.log(this.props)
 
 		const result = this.result(activeNode);
 
@@ -81,6 +86,9 @@ export class Result extends React.Component<Props, State> {
 								__html: activeNode.getFormulaHtml(true, false),
 							}}
 						/>
+						<div>
+							{t('calc.result.exec.time')} {execTime} ms
+						</div>
 						<div className="result-table">
 							{result
 								? (

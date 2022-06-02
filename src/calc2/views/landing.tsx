@@ -407,6 +407,13 @@ export class Landing extends React.Component {
 
 						<h2 id="changelog">Changelog</h2>
 						<ul>
+							<li>0.22 - Released *****
+								<ul>
+									<li>execution time has been added</li>
+								</ul>
+							</li>
+							
+							
 							<li>0.21 - Released 26.05.2022
 								<ul>
 									<li>added option of downloading the result (jpg or csv)</li>

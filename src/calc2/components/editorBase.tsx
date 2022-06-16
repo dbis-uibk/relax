@@ -16,7 +16,7 @@ import classNames from 'classnames';
 import * as CodeMirror from 'codemirror';
 import 'codemirror/addon/hint/show-hint';
 import { RANode, RANodeBinary, RANodeUnary } from 'db/exec/RANode';
-import {executeRelalg, parseRelalg, textFromRelalgAstRoot} from 'db/relalg';
+import { executeRelalg, parseRelalg, textFromRelalgAstRoot } from 'db/relalg';
 import { forEachPreOrder } from 'db/translate/utils';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
@@ -293,7 +293,7 @@ type State = {
 	replSelStart: any,
 	replSelEnd: any,
 	queryResult: any,
-	execTime: any
+	execTime: any,
 };
 
 
@@ -316,6 +316,7 @@ class Relation {
 	attributes: Attribute[];
 
 	constructor() {
+		console.log('called constructor...');
 		this.name = '';
 		this.attributes = [];
 	}
@@ -329,6 +330,7 @@ class Relation {
 			str = '{ ';
 		}
 		const rows = new Array<string>();
+		console.log(this.attributes);
 		for (let i = 0; i < (1 + this.attributes[0].data.length); i++) {
 			rows.push('');
 		}
@@ -388,19 +390,23 @@ class Relation {
 	}
 
 	fromData(data: string[][]): void {
-		for (let col = 0; col < data[0].length; col++) {
-			if (data[0][col]) {
-				const attribute = new Attribute();
-				attribute.name = data[0][col];
-				attribute.type = data[1][col];
-				for (let row = 2; row < data.length; row++) {
-					if (data[row][col]) {
-						attribute.data.push(data[row][col]);
+		if(data.length > 0) {
+			for (let col = 0; col < data[0].length; col++) {
+				if (data[0][col]) {
+					const attribute = new Attribute();
+					attribute.name = data[0][col];
+					attribute.type = data[1][col];
+					for (let row = 2; row < data.length; row++) {
+						if (data[row][col]) {
+							attribute.data.push(data[row][col]);
+						}
 					}
+					this.attributes.push(attribute);
 				}
-				this.attributes.push(attribute);
 			}
+			console.log(this.attributes);
 		}
+
 	}
 
 	fromCSV(csv: string, delimiter = ';') {
@@ -544,7 +550,7 @@ export class EditorBase extends React.Component<Props, State> {
 			replSelStart: null,
 			replSelEnd: null,
 			queryResult: null,
-			execTime: null
+			execTime: null,
 		};
 		this.toggle = this.toggle.bind(this);
 		this.inlineRelationEditorOk = this.inlineRelationEditorOk.bind(this);
@@ -570,6 +576,7 @@ export class EditorBase extends React.Component<Props, State> {
 
 
 	private getInlineRelationData(): string[][] {
+		if(this.hotTableSettings.datta) { return this.hotTableSettings.datta; }
 		return this.hotTableSettings.data;
 	}
 
@@ -1297,10 +1304,10 @@ export class EditorBase extends React.Component<Props, State> {
 				const { result } = this.props.execFunction(this, query, offset);
 				const end = Date.now() - start;
 				this.getResultForCsv(result.props.root);
-				console.log(result)
+				console.log(result);
 				this.setState({
 					execResult: result,
-					execTime: end
+					execTime: end,
 				});
 				const event = new CustomEvent(eventExecSuccessfulName, {
 					'detail': {

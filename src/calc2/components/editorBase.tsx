@@ -316,7 +316,6 @@ class Relation {
 	attributes: Attribute[];
 
 	constructor() {
-		console.log('called constructor...');
 		this.name = '';
 		this.attributes = [];
 	}
@@ -330,7 +329,6 @@ class Relation {
 			str = '{ ';
 		}
 		const rows = new Array<string>();
-		console.log(this.attributes);
 		for (let i = 0; i < (1 + this.attributes[0].data.length); i++) {
 			rows.push('');
 		}
@@ -404,7 +402,6 @@ class Relation {
 					this.attributes.push(attribute);
 				}
 			}
-			console.log(this.attributes);
 		}
 
 	}
@@ -1304,7 +1301,6 @@ export class EditorBase extends React.Component<Props, State> {
 				const { result } = this.props.execFunction(this, query, offset);
 				const end = Date.now() - start;
 				this.getResultForCsv(result.props.root);
-				console.log(result);
 				this.setState({
 					execResult: result,
 					execTime: end,

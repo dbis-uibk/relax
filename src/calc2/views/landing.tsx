@@ -407,6 +407,11 @@ export class Landing extends React.Component {
 
 						<h2 id="changelog">Changelog</h2>
 						<ul>
+							<li>0.24 - Released 17.06.2022
+								<ul>
+									<li>Fixed problem when replacing multiple operators | #174</li>
+								</ul>
+							</li>
 							<li>0.23 - Released 16.06.2022
 								<ul>
 									<li>Added dataset from OTH Regensburg - Webshop</li>

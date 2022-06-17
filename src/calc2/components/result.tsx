@@ -61,9 +61,8 @@ export class Result extends React.Component<Props, State> {
 	}
 
 	render() {
-		const { root, numTreeLabelColors,execTime } = this.props;
+		const { root, numTreeLabelColors, execTime } = this.props;
 		const { activeNode } = this.state;
-		console.log(this.props)
 
 		const result = this.result(activeNode);
 

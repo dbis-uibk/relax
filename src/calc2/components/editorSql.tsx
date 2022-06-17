@@ -64,7 +64,6 @@ export class EditorSql extends React.Component<Props> {
 				execFunction={(self: EditorBase, text: string, offset) => {
 					const ast = parseSQLSelect(text);
 					replaceVariables(ast, relations);
-					console.log(self.state)
 
 					if (ast.child === null) {
 						if (ast.assignments.length > 0) {

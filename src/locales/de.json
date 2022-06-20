@@ -69,6 +69,7 @@
 	"calc.menu.load-gist-headline": "Datensatz aus gist laden",
 	"calc.menu.load-gist-button": "laden",
 	"calc.menu.load-gist-insert-placeholder": "gist ID",
+	"calc.menu.recently-used": "Zuletzt verwendete Gists",
 	"calc.menu.create-own-dataset-headline": "Eigenen Datensatz erstellen",
 	"calc.menu.create-own-dataset-text": "Sie k\u00f6nnen Ihren eigenen Datensatz erstellen und ihn mit anderen teilen. Lernen Sie mehr dar\u00fcber  im  <a href=\"help.htm#tutorial-maintainer\">Maintainer Tutorial</a>",
 	"calc.menu.create-own-dataset-text-link": "Maintainer Tutorial (en)",
@@ -94,7 +95,8 @@
 	"calc.editors.group.toolbar.import-sql-content": "SQL-dump importieren",
 	"calc.editors.group.toolbar.add-new-relation": "neue Relation hinzuf\u00fcgen",
 	"calc.editors.group.toolbar.add-new-relation-content": "Relationseditor \u00f6ffnen",
-	"calc.editors.group.button-download": "download",
+	"calc.editors.group.button-download": "download query",
+	"calc.editors.group.button-download-result": "download result",
 	"calc.editors.group.button-exec": "Vorschau",
 	"calc.editors.group.button-use": "Datensatz im Editor verwenden",
 	"calc.editors.group.button-use_plural": "Datensatz im Editor verwenden",
@@ -109,7 +111,10 @@
 	"calc.editors.ra.tab-name-short": "RelAlg",
 	"calc.editors.ra.button-execute-query": "Query ausf\u00fchren",
 	"calc.editors.ra.button-execute-selection": "Markierung ausf\u00fchren",
-	"calc.editors.ra.button-download": "download",
+	"calc.editors.ra.button-download": "Download",
+	"calc.editors.ra.button-download-csv": "Ergebnis (CSV)",
+	"calc.editors.ra.button-download-jpg": "Ergebnis (JPG)",
+	"calc.editors.ra.button-download-query": "Query",
 	"calc.editors.ra.toolbar.projection": "Projektion",
 	"calc.editors.ra.toolbar.projection-content": "<b class=\"math\">&pi;</b> a, b <b>(</b> A <b>)</b>\n<br><b>pi</b> a, b A",
 	"calc.editors.ra.toolbar.selection": "Selektion",
@@ -212,5 +217,6 @@
 	"calc.editors.ra.inline-editor.row-name": "Name",
 	"calc.editors.ra.inline-editor.row-type": "Typ",
 	"calc.editors.ra.inline-editor.input-relation-name": "Relations Name",
-	"calc.navigation.imprint": "Impressum"
+	"calc.navigation.imprint": "Impressum",
+	"calc.result.exec.time": "Ausführungszeit: "
 }

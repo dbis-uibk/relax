@@ -69,6 +69,7 @@
 	"calc.menu.load-gist-headline": "Carregar Dataset armazenado em um gist",
 	"calc.menu.load-gist-button": "Carregar",
 	"calc.menu.load-gist-insert-placeholder": "gist ID",
+	"calc.menu.recently-used": "Recently used gists",
 	"calc.menu.create-own-dataset-headline": "Crie seu pr\u00f3prio Dataset",
 	"calc.menu.create-own-dataset-text": "Voc\u00ea pode criar seu pr\u00f3prio conjunto de dados e compartilh\u00e1-lo com outras pessoas. Saiba mais sobre isso no ",
 	"calc.menu.create-own-dataset-text-link": "Tutorial de manuten\u00e7\u00e3o",
@@ -110,6 +111,9 @@
 	"calc.editors.ra.button-execute-query": "Executar consulta",
 	"calc.editors.ra.button-execute-selection": "Executar sele\u00e7\u00e3o",
 	"calc.editors.ra.button-download": "Download",
+	"calc.editors.ra.button-download-csv": "Resultado (CSV)",
+	"calc.editors.ra.button-download-jpg": "Resultado (JPG)",
+	"calc.editors.ra.button-download-query": "Query",
 	"calc.editors.ra.toolbar.projection": "Proje\u00e7\u00e3o",
 	"calc.editors.ra.toolbar.projection-content": "<b class=\"math\">&pi;</b> a, b <b>(</b> A <b>)</b>\n<br><b>pi</b> a, b A",
 	"calc.editors.ra.toolbar.selection": "Sele\u00e7\u00e3o",
@@ -212,5 +216,6 @@
 	"calc.editors.ra.inline-editor.row-name": "Nome",
 	"calc.editors.ra.inline-editor.row-type": "Tipo",
 	"calc.editors.ra.inline-editor.input-relation-name": "Nome da Rela\u00e7\u00e3o",
-	"calc.navigation.imprint": "Impress\u00e3o"
+	"calc.navigation.imprint": "Impress\u00e3o",
+	"calc.result.exec.time": "Execution time:"
 }

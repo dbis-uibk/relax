@@ -59,7 +59,7 @@
 	"editor.pegjs-error.or": "\ub610\ub294",
 	"editor.pegjs-error.no-input-found": "\uc785\ub825\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc74c",
 	"editor.pegjs-error.end-of-input": "\uc785\ub825\uc758 \ub05d",
-	"editor.pegjs-error.expected-found": " Option 1: \uc608\uc0c1 \ub41c __expected__\uc774\uc9c0\ub9cc __found__\uc774 \ubc1c\uacac\ub428. Option 2: Whitespace required before opening parenthesis '(' of 'relationName'.",
+	"editor.pegjs-error.expected-found": "Option 1: \uc608\uc0c1 \ub41c __expected__\uc774\uc9c0\ub9cc __found__\uc774 \ubc1c\uacac\ub428. Option 2: Whitespace required before opening parenthesis '(' of 'relationName'.",
 	"editor.error-at-line-x": "__line__ \uc904\uc5d0\uc11c",
 	"calc.messages.error-query-missing": "\ucffc\ub9ac\ub97c \ucc3e\uc744 \uc218 \uc5c6\uc74c",
 	"calc.messages.error-query-missing-assignments-found": "\ucffc\ub9ac\ub97c \ucc3e\uc744 \uc218 \uc5c6\uc74c <a href=\"help.htm#relalg-assignment\" target=\"_blank\">Help - Assignments</a>",
@@ -69,6 +69,7 @@
 	"calc.menu.load-gist-headline": "gist\uc5d0 \uc800\uc7a5\ub41c \ub370\uc774\ud130\uc14b \ubd88\ub7ec\uc624\uae30",
 	"calc.menu.load-gist-button": "\ubd88\ub7ec\uc624\uae30",
 	"calc.menu.load-gist-insert-placeholder": "gist \uc544\uc774\ub514",
+	"calc.menu.recently-used": "Recently used gists",
 	"calc.menu.create-own-dataset-headline": "\ub370\uc774\ud130\uc14b \uc0dd\uc131\ud558\uae30",
 	"calc.menu.create-own-dataset-text": "You can create your own dataset and share it with others. Learn more about it in the  <a href=\"help.htm#tutorial-maintainer\">Maintainer Tutorial</a>",
 	"calc.menu.create-own-dataset-text-link": "Maintainer Tutorial",
@@ -110,6 +111,9 @@
 	"calc.editors.ra.button-execute-query": "\ucffc\ub9ac \uc2e4\ud589",
 	"calc.editors.ra.button-execute-selection": "\uc140\ub809\uc158 \uc2e4\ud589",
 	"calc.editors.ra.button-download": "\ub2e4\uc6b4\ub85c\ub4dc",
+	"calc.editors.ra.button-download-csv": "결과 (CSV)",
+	"calc.editors.ra.button-download-jpg": "결과 (JPG)",
+	"calc.editors.ra.button-download-query": "쿼리",
 	"calc.editors.ra.toolbar.projection": "\ud504\ub85c\uc81d\uc158",
 	"calc.editors.ra.toolbar.projection-content": "<b class=\"math\">&pi;</b> a, b <b>(</b> A <b>)</b>\n<br><b>pi</b> a, b A",
 	"calc.editors.ra.toolbar.selection": "\uc140\ub809\uc158",
@@ -212,5 +216,6 @@
 	"calc.editors.ra.inline-editor.row-name": "Name",
 	"calc.editors.ra.inline-editor.row-type": "Type",
 	"calc.editors.ra.inline-editor.input-relation-name": "Relation Name",
-	"calc.navigation.imprint": "Imprint"
+	"calc.navigation.imprint": "Imprint",
+	"calc.result.exec.time": "Execution time:"
 }

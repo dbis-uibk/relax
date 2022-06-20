@@ -59,7 +59,7 @@
 	"editor.pegjs-error.or": "\u00f3",
 	"editor.pegjs-error.no-input-found": "no se encontr\u00f3 la entrada",
 	"editor.pegjs-error.end-of-input": "fin de entrada",
-	"editor.pegjs-error.expected-found": " Opci\u00f3n 1: Se esperaba {{expected}} pero se encontr\u00f3 {{found}} . Opti\u00f3n 2: Se requiere un espacio en blanco antes de abrir el par\u00e9ntesis '(' de 'relationName'.",
+	"editor.pegjs-error.expected-found": "Opci\u00f3n 1: Se esperaba {{expected}} pero se encontr\u00f3 {{found}} . Opti\u00f3n 2: Se requiere un espacio en blanco antes de abrir el par\u00e9ntesis '(' de 'relationName'.",
 	"editor.error-at-line-x": "en la l\u00ednea {{line}}",
 	"calc.messages.error-query-missing": "no se encontr\u00f3 la consulta",
 	"calc.messages.error-query-missing-assignments-found": "solo se encontraron asignaciones; a la consulta le falta <a href=\"help.htm#relalg-assignment\" target=\"_blank\">Help - Assignments</a>",
@@ -69,6 +69,7 @@
 	"calc.menu.load-gist-headline": "cargar dataset guardado en un gist",
 	"calc.menu.load-gist-button": "cargar",
 	"calc.menu.load-gist-insert-placeholder": "ID de gist",
+	"calc.menu.recently-used": "Gists utilizados recientemente",
 	"calc.menu.create-own-dataset-headline": "Crear tu propio Dataset",
 	"calc.menu.create-own-dataset-text": "Puedes crear tu propio dataset y compartirlo con otras personas. \nAprende m\u00e1s acerca de \u00e9sto en <a href=\"help.htm#tutorial-maintainer\">Maintainer Tutorial</a>",
 	"calc.menu.create-own-dataset-text-link": "Tutorial de mantenimiento (en)",
@@ -94,7 +95,7 @@
 	"calc.editors.group.toolbar.import-sql-content": "importar SQL-dump",
 	"calc.editors.group.toolbar.add-new-relation": "agregar nueva relaci\u00f3n",
 	"calc.editors.group.toolbar.add-new-relation-content": "abrir editor de relaciones",
-	"calc.editors.group.button-download": "descargar",
+	"calc.editors.group.button-download": "Descargar",
 	"calc.editors.group.button-exec": "vista previa",
 	"calc.editors.group.button-use": "utilizar Grupo en editor",
 	"calc.editors.group.button-use_plural": "utilizar Grupos en editor",
@@ -110,6 +111,9 @@
 	"calc.editors.ra.button-execute-query": "executar consulta",
 	"calc.editors.ra.button-execute-selection": "executar selecci\u00f3n",
 	"calc.editors.ra.button-download": "descargar",
+	"calc.editors.ra.button-download-csv": "Resultado (CSV)",
+	"calc.editors.ra.button-download-jpg": "Resultado (JPG)",
+	"calc.editors.ra.button-download-query": "Query",
 	"calc.editors.ra.toolbar.projection": "proyecci\u00f3n",
 	"calc.editors.ra.toolbar.projection-content": "<b class=\"math\">&pi;</b> a, b <b>(</b> A <b>)</b>\n<br><b>pi</b> a, b A",
 	"calc.editors.ra.toolbar.selection": "selecci\u00f3n",
@@ -212,5 +216,6 @@
 	"calc.editors.ra.inline-editor.row-name": "Nombre",
 	"calc.editors.ra.inline-editor.row-type": "Escriba",
 	"calc.editors.ra.inline-editor.input-relation-name": "Nombre de la relaci\u00f3n",
-	"calc.navigation.imprint": "Imprimir"
+	"calc.navigation.imprint": "Imprimir",
+	"calc.result.exec.time": "Tiempo de consulta"
 }

@@ -291,6 +291,17 @@ export function loadStaticGroups() {
 				source: 'gist',
 				id: 'c306ecf21c6e6d175508d3ac6b4355e7',
 			},
+		{
+			maintainerGroup: 'OTH Regensburg',
+			maintainer: '<a href="https://gist.github.com/jschildgen">Johannes Schildgen</a>',
+
+			source: 'gist',
+			id: 'd67f16874b528abc6e6c88d07a50b2dc',
+		},
+		
+		
+		
+		
 		];
 
 	let first: boolean = true;

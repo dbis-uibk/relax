@@ -96,6 +96,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 							<Result
 								root={root}
 								numTreeLabelColors={NUM_TREE_LABEL_COLORS}
+								execTime={self.state.execTime == null ? 0 : self.state.execTime}
 							/>
 						),
 					};
@@ -127,9 +128,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 					// replace text (text-magic)
 					if (editor.getDoc().somethingSelected() === false) {
 						const cursorOld: { line: number, ch: number } = editor.getDoc().getCursor();
-
 						const { query, cursor } = queryWithReplacedOperatorsFromAst(text, ast.operatorPositions, { line: cursorOld.line + 1, column: cursorOld.ch + 1 }, autoreplaceOperatorsMode);
-
 						if (query !== text) {
 							editor.setValue(query);
 							editor.getDoc().setCursor({ line: cursor.line - 1, ch: cursor.column - 1 });

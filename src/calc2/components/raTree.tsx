@@ -97,6 +97,7 @@ export class RaTree extends React.Component<Props> {
 							? <pre>{n.getMetaData('inlineRelationDefinition')}</pre>
 							: null
 						}
+						
 					</div>
 				);
 			};

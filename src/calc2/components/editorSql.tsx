@@ -43,7 +43,7 @@ export class EditorSql extends React.Component<Props> {
 	render() {
 		const autoreplaceOperatorsMode: 'none' | 'header' | 'plain2math' | 'math2plain' = 'none';
 		const { group } = this.props;
-
+		
 		// TODO: move to state
 		const relations: { [name: string]: Relation } = {};
 		group.tables.forEach(table => {
@@ -77,7 +77,6 @@ export class EditorSql extends React.Component<Props> {
 
 					const root = relalgFromSQLAstRoot(ast, relations);
 					if (root) {
-						//console.log('Time: ' + (d2.getMilliseconds() - d.getMilliseconds()));
 						root.check();
 
 						self.historyAddEntry(text);
@@ -88,6 +87,7 @@ export class EditorSql extends React.Component<Props> {
 								<Result
 									root={root}
 									numTreeLabelColors={NUM_TREE_LABEL_COLORS}
+									execTime={self.state.execTime == null ? 0 : self.state.execTime}
 								/>
 							),
 						};

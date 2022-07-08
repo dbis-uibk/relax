@@ -8,7 +8,7 @@ import { i18n, T } from 'calc2/i18n';
 import * as store from 'calc2/store';
 import { Group, HeaderTranslated } from 'calc2/store/groups';
 import { translateHeader } from 'calc2/utils/misc';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as Immutable from 'immutable';
 import memoize from 'memoize-one';
 import * as React from 'react';
@@ -66,6 +66,14 @@ export class Menu extends React.Component<Props> {
 	render(): JSX.Element {
 		const { current, locale } = this.props;
 		const groupsByHeadlineName = this.getGroupsByHeadlineName(this.props.groups, locale);
+
+		let recentlyUsedGroups = [];
+		const rug = localStorage.getItem('groups');
+		if(rug) {
+			recentlyUsedGroups = JSON.parse(rug);
+		}
+		
+		
 		return (
 			<div className="container">
 				<div className="row">
@@ -98,9 +106,22 @@ export class Menu extends React.Component<Props> {
 						<h4><T id="calc.menu.load-gist-headline" /></h4>
 						<input type="text" className="form-control gist-load-input" placeholder="" data-i18n="[placeholder]calc.menu.load-gist-insert-placeholder" size={32} onChange={(event) => { this.gistLink = '/relax/calc/gist/' + event.target.value; }} />
 						<button onClick={() => {document.location.href = this.gistLink; this.props.datasetLoaded(); }} type="button" className="fullWidthBtn btn btn-secondary gist-load-btn"><T id="calc.menu.load-gist-button" /></button>
+
+						<hr />
+						<h4><T id="calc.menu.recently-used" /></h4>
+						<ul>
+							{
+								recentlyUsedGroups.reverse().map((el: any) => 
+									<li key={el.name}>
+										<NavLink to={'/relax/calc/gist/'+el.group.groupInfo.id} onClick={()=>{this.props.datasetLoaded(); document.location.href = '/relax/calc/gist/'+el.group.groupInfo.id; }}>{el.name}</NavLink>
+									</li>,
+								)
+							}
+							
+						</ul>
 						<hr />
 						<h4><T id="calc.menu.create-own-dataset-headline" /></h4>
-						<p><T id="calc.menu.create-own-dataset-text" /> <Link to="/help#tutorial-maintainer"><T id="calc.menu.create-own-dataset-text-link" /></Link></p>
+						<p><T id="calc.menu.create-own-dataset-text" /> <Link to="/relax/help#tutorial-maintainer"><T id="calc.menu.create-own-dataset-text-link" /></Link></p>
 						<button type="button" className="fullWidthBtn btn btn-secondary open-group-new-btn" onClick={() => { this.props.loadGroupTab(false); } } >
 							<i className="fa fa-plus-square-o fa-lg"></i> <span><T id="calc.menu.create-own-dataset-button-new" /></span>
 						</button>

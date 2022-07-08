@@ -56,7 +56,7 @@ function parseJoinCondition(condition: relalgAst.booleanExpr | string[] | null):
 
 
 // translate a SQL-AST to RA
-export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql, relations: { [key: string]: Relation }): RANode {
+export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: { [key: string]: Relation }): RANode {
 	'use strict';
 
 	function setCodeInfoFromNode(raNode: RANode, astNode: sqlAst.astNode) {
@@ -67,13 +67,13 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql, relations: { [key:
 		raNode.setCodeInfoObject(astNode.codeInfo);
 	}
 
-	function rec(nRaw: sqlAst.astNode): RANode {
+	function rec(nRaw: sqlAst.astNode | any): RANode {
 		let node: RANode | null = null;
-
+		
 		switch (nRaw.type) {
 			case 'relation':
 				{
-					const n = nRaw;
+					const n: any = nRaw;
 					if (typeof (relations[n.name]) === 'undefined') {
 						throw new ExecutionError(i18n.t('db.messages.translate.error-relation-not-found', { name: n.name }), n.codeInfo);
 					}
@@ -88,7 +88,7 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql, relations: { [key:
 
 			case 'statement':
 				{
-					const n = nRaw;
+					const n: any = nRaw;
 					node = parseStatement(n);
 
 					if (n.select.distinct === false) {
@@ -99,14 +99,14 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql, relations: { [key:
 
 			case 'renameRelation':
 				{
-					const n = nRaw;
+					const n: any = nRaw;
 					node = new RenameRelation(rec(n.child), n.newRelAlias);
 				}
 				break;
 
 			case 'relationFromSubstatement':
 				{
-					const n = nRaw;
+					const n: any = nRaw;
 					const rel = rec(n.statement);
 					node = new RenameRelation(rel, n.relAlias);
 				}
@@ -117,7 +117,7 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql, relations: { [key:
 			case 'rightOuterJoin':
 			case 'fullOuterJoin':
 				{
-					const n = nRaw;
+					const n: any = nRaw;
 					const condition: JoinCondition = parseJoinCondition(n.cond);
 					switch (n.type) {
 						case 'innerJoin':
@@ -138,14 +138,25 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql, relations: { [key:
 
 			case 'crossJoin':
 				{
-					const n = nRaw;
+					const n: any = nRaw;
+					// check out size of resulting cross join!
+					const rec1: any = rec(n.child);
+					const rec2: any = rec(n.child2);
+					const probableJoinCount = getRowLength(rec1) * getRowLength(rec2);
+					
+					// tried and tested with multiple devices / browsers
+					// this seems to be where the browser starts to freeze up
+					if(probableJoinCount > 1000000) {
+						alert('The CrossJoin may cause the browser to crash. Alternatively try using an INNER JOIN');
+					}
 					node = new CrossJoin(rec(n.child), rec(n.child2));
+
 				}
 				break;
 
 			case 'naturalJoin':
 				{
-					const n = nRaw;
+					const n: any = nRaw;
 					node = new InnerJoin(rec(n.child), rec(n.child2), {
 						type: 'natural',
 						restrictToColumns: null,
@@ -157,7 +168,7 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql, relations: { [key:
 			case 'intersect':
 			case 'except':
 				{
-					const n = nRaw;
+					const n: any = nRaw;
 					switch (n.type) {
 						case 'union':
 							node = new Union(rec(n.child), rec(n.child2));
@@ -181,7 +192,7 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql, relations: { [key:
 
 			case 'orderBy':
 				{
-					const n = nRaw;
+					const n: any = nRaw;
 					const orderCols = [];
 					const orderAsc = [];
 					for (let i = 0; i < n.arg.value.length; i++) {
@@ -196,7 +207,7 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql, relations: { [key:
 
 			case 'limit':
 				{
-					const n = nRaw;
+					const n: any = nRaw;
 					const limit = n.limit;
 					const offset = n.offset;
 
@@ -227,6 +238,8 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql, relations: { [key:
 		if (!node) {
 			throw new Error(`should not happen`);
 		}
+
+
 
 		if (nRaw.wrappedInParentheses === true) {
 			node.setWrappedInParentheses(true);
@@ -386,6 +399,19 @@ function recValueExpr(n: relalgAst.valueExpr | sqlAst.valueExpr): ValueExpr.Valu
 	}
 	return node;
 }
+
+function getRowLength(node: any, length: number = 0): number {
+	if(!node) { return 0; }
+	if(node._table) {
+		return node._table._rows.length;
+	}
+	if(node._child) {
+		return getRowLength(node._child) * getRowLength(node._child2);	
+	}
+	return 0;
+}
+
+
 
 function setAdditionalData<T extends RANode>(astNode: relalgAst.relalgOperation, node: T): void {
 	node.setCodeInfoObject(astNode.codeInfo);

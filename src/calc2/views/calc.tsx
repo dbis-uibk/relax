@@ -119,6 +119,24 @@ export class Calc extends React.Component<Props> {
 }
 
 export const ConnectedCalc = connect((state: store.State) => {
+
+	// save current dataset to local storage to be shown as 'recently used groups'
+	const lsGists = localStorage.getItem('groups');
+	
+	if(state.groups.current && Object.keys(state.groups.current.group.sourceInfo).length > 0) {
+		if(!lsGists) {
+			localStorage.setItem('groups', JSON.stringify([{name: state.groups.current.group.groupName.fallback, group: state.groups.current.group}]));
+		} 
+		else {
+			let parsedGroups = JSON.parse(lsGists) as any[];
+			// remove group from and add again to maintain order
+			parsedGroups = parsedGroups.filter(r => r.name !== state!.groups!.current!.group.groupName.fallback);
+			parsedGroups.push({name: state.groups.current.group.groupName.fallback, group: state.groups.current.group});
+			localStorage.setItem('groups', JSON.stringify(parsedGroups));
+		}
+	}
+	
+	
 	return {
 		groups: state.groups,
 		locale: state.session.locale,

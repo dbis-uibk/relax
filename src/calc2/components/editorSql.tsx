@@ -4,6 +4,7 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EditorBase, getColumnNamesFromRaRoot, getHintsFromGroup } from 'calc2/components/editorBase';
@@ -42,13 +43,14 @@ export class EditorSql extends React.Component<Props> {
 	render() {
 		const autoreplaceOperatorsMode: 'none' | 'header' | 'plain2math' | 'math2plain' = 'none';
 		const { group } = this.props;
-
+		
 		// TODO: move to state
 		const relations: { [name: string]: Relation } = {};
 		group.tables.forEach(table => {
 			relations[table.tableName] = table.relation;
 		});
 
+		
 		return (
 			<EditorBase
 				textChange={(cm: CodeMirror.Editor) => { } }
@@ -58,6 +60,7 @@ export class EditorSql extends React.Component<Props> {
 					}
 				}}
 				mode="text/x-mysql"
+				// @ts-ignore
 				execFunction={(self: EditorBase, text: string, offset) => {
 					const ast = parseSQLSelect(text);
 					replaceVariables(ast, relations);
@@ -73,19 +76,24 @@ export class EditorSql extends React.Component<Props> {
 
 
 					const root = relalgFromSQLAstRoot(ast, relations);
-					root.check();
+					if (root) {
+						root.check();
 
-					self.historyAddEntry(text);
+						self.historyAddEntry(text);
 
-					// calc.displayRaResult(root);
-					return {
-						result: (
-							<Result
-								root={root}
-								numTreeLabelColors={NUM_TREE_LABEL_COLORS}
-							/>
-						),
-					};
+						// calc.displayRaResult(root);
+						return {
+							result: (
+								<Result
+									root={root}
+									numTreeLabelColors={NUM_TREE_LABEL_COLORS}
+									execTime={self.state.execTime == null ? 0 : self.state.execTime}
+								/>
+							),
+						};
+					}
+					
+		
 				}}
 				tab="sql"
 				linterFunction={(self: EditorBase, editor: CodeMirror.Editor, text: string) => {
@@ -171,7 +179,7 @@ export class EditorSql extends React.Component<Props> {
 								tooltip: 'calc.editors.sql.toolbar.limit',
 							},
 							{
-								label: <FontAwesomeIcon className="showOnSM" icon={faExternalLinkAlt} />,
+								label: <FontAwesomeIcon className="showOnSM" icon={faExternalLinkAlt  as IconProp} />,
 								onClick: item => this.props.relInsertModalToggle,
 								tooltipTitle: 'calc.editors.insert-relation-title',
 								tooltip: 'calc.editors.insert-relation-tooltip',

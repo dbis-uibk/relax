@@ -407,6 +407,40 @@ export class Landing extends React.Component {
 
 						<h2 id="changelog">Changelog</h2>
 						<ul>
+							<li>0.24 - Released 17.06.2022
+								<ul>
+									<li>Fixed problem when replacing multiple operators | #174</li>
+								</ul>
+							</li>
+							<li>0.23 - Released 16.06.2022
+								<ul>
+									<li>Added dataset from OTH Regensburg - Webshop</li>
+									<li>Fixed problem with inline relation editor | #173</li>
+								</ul>
+							</li>
+							<li>0.22 - Released 01.06.2022
+								<ul>
+									<li>execution time has been added</li>
+								</ul>
+							</li>
+							
+							
+							<li>0.21 - Released 26.05.2022
+								<ul>
+									<li>added option of downloading the result (jpg or csv)</li>
+									<li>fixed typos and broken links in the documentation</li>
+									<li>added warning messages on large cross joins</li>
+									<li>fixed missed up attribute order on right outer joins</li>
+									<li>fixed set difference</li>
+									<li>fixed missing pages when displaying relations</li>
+									<li>going forward the changelog will include dates</li>
+									<li>added recently used gists</li>
+								</ul>
+							</li>
+							
+							
+							
+							
 							<li>0.20
 								<ul>
 									<li>added option to automatically replace operators in relational algebra: all plaintext-syntax operators get replaced with the equivalent mathematical symbol or vice versa.</li>
@@ -422,7 +456,7 @@ export class Landing extends React.Component {
 									<li>
 										added support for the <a href="/relax/help#relalg-valueexpr">LIKE-operator</a> for SQL and
 										relational algebra
-										<br />e.g. <code>pi 'abc' like 'a%'->x R</code>
+										<br />e.g. <code>pi 'abc' like 'a%'-&gt;x R</code>
 									</li>
 									<li>added translation support for the calculator using <a href="http://i18next.com/"
 										target="_blank">i18next</a>. This

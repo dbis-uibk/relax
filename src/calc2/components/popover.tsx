@@ -41,6 +41,7 @@ type Props = {
 	placement: Placement,
 	className?: string,
 	onClick?: React.EventHandler<React.MouseEvent>,
+	children?: any,
 };
 type State = {
 	id: string,
@@ -142,7 +143,8 @@ export class Popover extends React.Component<Props, State> {
 
 	render() {
 		const { id, isOpen } = this.state;
-		const { title, className = '' } = this.props;
+
+		const { title, className = '', placement} = this.props;
 		const body = this.body(this.props.body, isOpen);
 
 		return (
@@ -156,10 +158,11 @@ export class Popover extends React.Component<Props, State> {
 					id={id}
 					className={`popover__outside ${className}`}
 				>
-					{React.Children.only(this.props.children)}
+					{React.Children.only(this.props['children'])}
 					<ReactStrapPopover
 						target={`#${id}`}
 						isOpen={isOpen}
+						placement={'top'}
 						className={`popover__inside ${className}`}
 					>
 						<PopoverHeader>{title}</PopoverHeader>

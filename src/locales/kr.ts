@@ -70,7 +70,7 @@ export const langKR = {
 	'calc.menu.load-gist-insert-placeholder': 'gist 아이디',
 	'calc.menu.create-own-dataset-headline': '데이터셋 생성하기',
 	'calc.menu.create-own-dataset-text[0]': '데이터셋을 만들고 다른 사람과 공유할 수 있습니다. ',
-	'calc.menu.create-own-dataset-text[1]': '이에 대해 더 알고 싶으면 <a href="help.htm#tutorial-maintainer">Maintainer Tutorial</a>',
+	'calc.menu.create-own-dataset-text[1]': '이에 대해 더 알고 싶으면',
 	'calc.menu.create-own-dataset-button-new': '새로운 데이터셋 생성',
 	'calc.menu.create-own-dataset-button-modify': '현재 데이터셋 수정',
 	'calc.navigation.take-a-tour': '둘러보기',
@@ -106,6 +106,9 @@ export const langKR = {
 	'calc.editors.ra.button-execute-query': '쿼리 실행',
 	'calc.editors.ra.button-execute-selection': '셀렉션 실행',
 	'calc.editors.ra.button-download': '다운로드',
+    'calc.editors.ra.button-download-csv': '결과 (CSV)',
+	'calc.editors.ra.button-download-jpg': '결과 (JPG)',
+    'calc.editors.ra.button-download-query': '쿼리',
 	'calc.editors.ra.toolbar.projection': '프로젝션',
 	'calc.editors.ra.toolbar.projection-content[0]': '<b class="math">&pi;</b> a, b <b>(</b> A <b>)</b>',
 	'calc.editors.ra.toolbar.projection-content[1]': '<br><b>pi</b> a, b A',
@@ -237,4 +240,5 @@ export const langKR = {
 	'calc.editors.ra.inline-editor.row-type': 'Type',
 	'calc.editors.ra.inline-editor.button-ok': 'Ok',
 	'calc.editors.ra.inline-editor.input-relation-name': 'Relation Name',
+	'calc.result.exec.time': 'Execution time:'
 };

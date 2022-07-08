@@ -15,7 +15,7 @@ import { AutoreplaceOperatorsMode, parseRelalg, queryWithReplacedOperatorsFromAs
 import * as React from 'react';
 import { faCalendarAlt, faTable, faMagic, faExternalLinkAlt, faPaste } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NonTerminal } from 'railroad-diagrams';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const NUM_TREE_LABEL_COLORS = 6;
 export const KEYWORDS_RELALG = [
@@ -96,6 +96,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 							<Result
 								root={root}
 								numTreeLabelColors={NUM_TREE_LABEL_COLORS}
+								execTime={self.state.execTime == null ? 0 : self.state.execTime}
 							/>
 						),
 					};
@@ -127,9 +128,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 					// replace text (text-magic)
 					if (editor.getDoc().somethingSelected() === false) {
 						const cursorOld: { line: number, ch: number } = editor.getDoc().getCursor();
-
 						const { query, cursor } = queryWithReplacedOperatorsFromAst(text, ast.operatorPositions, { line: cursorOld.line + 1, column: cursorOld.ch + 1 }, autoreplaceOperatorsMode);
-
 						if (query !== text) {
 							editor.setValue(query);
 							editor.getDoc().setCursor({ line: cursor.line - 1, ch: cursor.column - 1 });
@@ -364,7 +363,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 					{
 						items: [
 							{
-								label: <FontAwesomeIcon icon={faTable} />,
+								label: <FontAwesomeIcon icon={faTable as IconProp} />,
 								onClick: () => {
 									if (this.editorBase) {
 										this.editorBase.inlineRelationEditorOpen(null);
@@ -374,14 +373,14 @@ export class EditorRelalg extends React.Component<Props, State> {
 								tooltip: 'calc.editors.ra.toolbar.inline-relation-editor-content',
 							},
 							{
-								label: <FontAwesomeIcon icon={faCalendarAlt} />,
+								label: <FontAwesomeIcon icon={faCalendarAlt  as IconProp} />,
 								onClick: item => this.replaceText(item, `date('1970-01-01')`),
 								tooltipTitle: 'calc.editors.ra.toolbar.insert-date',
 								tooltip: 'calc.editors.ra.toolbar.insert-date-content',
 							},
 							{
 								className: 'showOnSM',
-								label: <FontAwesomeIcon className="editorButtonOnSM" icon={faPaste} />,
+								label: <FontAwesomeIcon className="editorButtonOnSM" icon={faPaste as IconProp} />,
 								onClick:  () => { this.props.relInsertModalToggle(); },
 								tooltipTitle: 'calc.editors.insert-relation-title',
 								tooltip: 'calc.editors.insert-relation-tooltip',
@@ -393,7 +392,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 							{
 								className: 'dropdownToolbarButton',
 								type: 'dropdown',
-								label: <FontAwesomeIcon className="editorButtonOnSM" icon={faMagic} />,
+								label: <FontAwesomeIcon className="editorButtonOnSM" icon={faMagic  as IconProp} />,
 								tooltipTitle: 'calc.editors.ra.toolbar.autoreplace-operators.title',
 								tooltip: 'calc.editors.ra.toolbar.autoreplace-operators.header',
 								elements: [

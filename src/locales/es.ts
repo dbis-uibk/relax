@@ -94,10 +94,11 @@ export const langES: Partial<typeof langEN> = {
   'calc.menu.load-gist-headline': 'cargar dataset guardado en un gist',
   'calc.menu.load-gist-button': 'cargar',
   'calc.menu.load-gist-insert-placeholder': 'ID de gist',
-  'calc.menu.create-own-dataset-headline': 'Crear tu propio Dataset',
+	'calc.menu.recently-used': 'Gists utilizados recientemente',
+	'calc.menu.create-own-dataset-headline': 'Crear tu propio Dataset',
   'calc.menu.create-own-dataset-text': [
     'Puedes crear tu propio dataset y compartirlo con otras personas. ',
-    'Aprende más acerca de ésto en <a href="help.htm#tutorial-maintainer">Maintainer Tutorial</a>',
+    'Aprende más acerca de ésto en',
   ].join('\n'),
   'calc.menu.create-own-dataset-button-new': 'crear nuevo Dataset',
   'calc.menu.create-own-dataset-button-modify': 'modificar Dataset actual',
@@ -134,7 +135,9 @@ export const langES: Partial<typeof langEN> = {
   'calc.editors.ra.tab-name-short': 'ÁlgRel',
   'calc.editors.ra.button-execute-query': 'executar consulta',
   'calc.editors.ra.button-execute-selection': 'executar selección',
-  'calc.editors.ra.button-download': 'descargar',
+  'calc.editors.ra.button-download': 'Descargar',
+  'calc.editors.ra.button-download-csv': 'Resultado (CSV)',
+  'calc.editors.ra.button-download-query': 'Query',
 
 
   'calc.editors.ra.toolbar.projection': 'proyección',
@@ -291,4 +294,5 @@ export const langES: Partial<typeof langEN> = {
 	'calc.editors.ra.inline-editor.row-name': 'Nombre',
 	'calc.editors.ra.inline-editor.row-type': 'Escriba',
 	'calc.editors.ra.inline-editor.input-relation-name': 'Nombre de la relación',
+	'calc.result.exec.time': 'Tiempo de consulta',
 };

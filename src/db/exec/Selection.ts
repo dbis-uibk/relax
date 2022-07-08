@@ -33,7 +33,6 @@ export class Selection extends RANodeUnary {
 
 	getResult(session?: Session) {
 		session = this._returnOrCreateSession(session);
-
 		const res = new Table();
 		const org = this.getChild().getResult(session);
 		res.setSchema(org.getSchema());

@@ -5,7 +5,7 @@
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { T } from 'calc2/i18n';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as CodeMirror from 'codemirror';
 import { Editor } from 'codemirror';
 // add colorize

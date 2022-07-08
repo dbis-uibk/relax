@@ -12,6 +12,8 @@ import { Data, Schema } from '../Schema';
 import { Table } from '../Table';
 import * as ValueExpr from '../ValueExpr';
 import { bool } from 'prop-types';
+import Handsontable from "handsontable";
+//import Date = Handsontable._editors.Date;
 
 
 export type JoinCondition = {
@@ -44,6 +46,8 @@ export abstract class Join extends RANodeBinary {
 	_schema: Schema | null = null;
 	_rowCreatorMatched: null | ((rowA: Data[], rowB: Data[]) => Data[]) = null;
 	_rowCreatorNotMatched: null | ((rowA: Data[], rowB: Data[]) => Data[]) = null; // used for outer joins
+	_executionStart: any;
+	_executedEnd: any;
 
 	constructor(
 		child: RANode,
@@ -126,12 +130,15 @@ export abstract class Join extends RANodeBinary {
 	_getResult(session: Session | undefined, doEliminateDuplicateRows: boolean) {
 		session = this._returnOrCreateSession(session);
 
+		
+
 		if (this._joinConditionEvaluator === null) {
 			throw new Error(`check not called`);
 		}
 
 		const resultTable = new Table();
 		resultTable.setSchema(this.getSchema());
+		this._executionStart = Date.now();
 
 		Join.calcNestedLoopJoin(
 			session,
@@ -151,6 +158,7 @@ export abstract class Join extends RANodeBinary {
 		}
 
 		this.setResultNumRows(resultTable.getNumRows());
+		this._executedEnd = Date.now() - this._executionStart;
 		return resultTable;
 	}
 
@@ -262,7 +270,7 @@ export abstract class Join extends RANodeBinary {
 		else { // right (outer) joins
 			let nullArrayLeft: null[];
 			if (createRowToAddIfNOTMatched !== null) {
-				nullArrayLeft = Join.createNullArray(targetTable.getSchema().getSize() - numColsA); // == size of new B
+				nullArrayLeft = Join.createNullArray(targetTable.getSchema().getSize() - numColsB); // == size of new B
 			}
 
 			for (let i = 0; i < numRowsB; i++) {

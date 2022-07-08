@@ -86,6 +86,7 @@ export const langEN = {
 	'calc.menu.load-gist-headline': 'Load dataset stored in a gist',
 	'calc.menu.load-gist-button': 'load',
 	'calc.menu.load-gist-insert-placeholder': 'gist ID',
+	'calc.menu.recently-used': 'Recently used gists',
 	'calc.menu.create-own-dataset-headline': 'Create your own Dataset',
 	'calc.menu.create-own-dataset-text': 'You can create your own dataset and share it with others. Learn more about it in the ',
 	'calc.menu.create-own-dataset-text-link': 'Maintainer Tutorial',
@@ -123,7 +124,10 @@ export const langEN = {
 	'calc.editors.ra.tab-name-short': 'RelAlg',
 	'calc.editors.ra.button-execute-query': 'execute query',
 	'calc.editors.ra.button-execute-selection': 'execute selection',
-	'calc.editors.ra.button-download': 'download',
+	'calc.editors.ra.button-download': 'Download CSV',
+	'calc.editors.ra.button-download-csv': 'Result (CSV)',
+	'calc.editors.ra.button-download-jpg': 'Result (JPG)',
+	'calc.editors.ra.button-download-query': 'Query',
 	'calc.editors.ra.toolbar.projection': 'projection',
 	'calc.editors.ra.toolbar.projection-content': `
 		<b class=\"math\">&pi;</b> a, b <b>(</b> A <b>)</b>
@@ -284,4 +288,5 @@ export const langEN = {
 	'calc.editors.ra.inline-editor.row-name': 'Name',
 	'calc.editors.ra.inline-editor.row-type': 'Type',
 	'calc.editors.ra.inline-editor.input-relation-name': 'Relation Name',
+	'calc.result.exec.time': 'Execution Time: ',
 };

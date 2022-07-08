@@ -82,11 +82,10 @@ export function queryWithReplacedOperatorsFromAst(
 			'fullOuterJoinOperator': '⟗',
 		},
 	};
-
 	for (let i = operatorPositions.length - 1; i >= 0; i--) {
 		const op = operatorPositions[i];
 		const location = op.location; // = location without surrounding whitespace
-		const left = query.substr(0, location.start.offset);
+		const left = query.substr(0, location.start.offset - 1); // fixed offset | #174
 		const right = query.substring(location.end.offset);
 		const newOperator = (newOperators[mode] as any)[op.name]; // TODO: fix typings
 		const oldOperator = query.substring(location.start.offset, location.end.offset);
@@ -121,7 +120,6 @@ export function queryWithReplacedOperatorsFromAst(
 				cursor.line -= location.end.line - location.start.line;
 			}
 		}
-
 		// update query
 		query = left + newOperator + right;
 	}

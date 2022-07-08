@@ -25,13 +25,9 @@ export class Table {
 		}
 
 		for (let i = 0; i < rowA.length; i++) {
-			let found = false;
-			for (let j = 0; j < rowB.length; j++) {
-				if (rowA[i] === rowB[j]) {
-					found = true;
-				}
+			if (rowA[i] !== rowB[i]) {
+				return false;
 			}
-			if (!found) { return false; }
 		}
 
 		return true;

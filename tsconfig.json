@@ -22,7 +22,7 @@
 				"src/*"
 			]
 		},
-		"strict": true,
+		"strict": false,
 		"strictNullChecks": true,
 		"noImplicitAny": true,
 		"lib": [

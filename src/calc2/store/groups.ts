@@ -290,11 +290,9 @@ export function loadStaticGroups() {
 				source: 'gist',
 				id: 'd37f667154aec34f5c4954723ae01db9',
 			},
-	];
 		{
 			maintainerGroup: 'OTH Regensburg',
 			maintainer: '<a href="https://gist.github.com/jschildgen">Johannes Schildgen</a>',
-
 			source: 'gist',
 			id: 'd67f16874b528abc6e6c88d07a50b2dc',
 		},

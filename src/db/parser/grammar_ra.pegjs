@@ -24,7 +24,7 @@
 	}
 	
 	/** merges the codeInfo objects of a binary operation 
-	 * it is asumed that the right node follows the left one
+	 * it is assumed that the right node follows the left one
 	 */
 	function mergeCodeInfo(left, right){
 		var out = {
@@ -336,7 +336,7 @@ differenceOperator
 	{ return o; }
 
 crossJoinOperator
-= _ o:(('⨯' / 'x') { return getNodeInfo('crossJoinOperator'); }) __
+= _ o:(('⨯' / 'x') { return getNodeInfo('crossJoinOperator'); }) __?
 	{ return o; }
 / __ o:(('cross'i __ 'join'i) { return getNodeInfo('crossJoinOperator'); }) __
 	{ return o; }
@@ -607,7 +607,7 @@ booleanExprWithTrailingWhitspace
 
 // multiple (optional) assignments followed by a expression (using the variables)
 root
-= _ a2:(assignment __)* a:assignment _
+= _ a2:(assignment __?)* a:assignment _ //toDo: checken, ob whitespace zwingend nötig oder nicht
 	{
 		var assignments = [a];
 		for(var i in a2){
@@ -624,7 +624,7 @@ root
 			codeInfo: getCodeInfo()
 		};
 	}
-/ _ a:(assignment __)* e:expression? _
+/ _ a:(assignment __?)* e:expression? _ //toDo: checken, ob whitespace zwingend nötig oder nicht
 	{
 		var assignments = [];
 		for(var i = 0; i < a.length; i++){
@@ -661,7 +661,7 @@ groupRoot
 	}
 
 tableGroupHeaders
-= a:tableGroupHeader b:(__ tableGroupHeader)*
+= a:tableGroupHeader b:(__? tableGroupHeader)* //toDo: checken, ob whitespace zwingend nötig oder nicht
 	{
 		var headers = [];
 		
@@ -709,7 +709,7 @@ tableGroupHeader
 	}
 
 tableGroup
-= _ headers:tableGroupHeaders a:(__ assignment)+
+= _ headers:tableGroupHeaders a:(__? assignment)+ //toDo: checken, ob whitespace zwingend nötig oder nicht
 	{
 		var assignments = [];
 		for(var i = 0; i < a.length; i++){
@@ -925,7 +925,7 @@ division
 
 
 projection
-= o:pi a:listOfNamedColumnExpressions __ c:expression_precedence1
+= o:pi a:listOfNamedColumnExpressions __? c:expression_precedence1
 	{
 		operatorPositions.push(o);
 		return {
@@ -937,7 +937,7 @@ projection
 	}
 
 selection
-= o:sigma a:booleanExpr __ c:expression_precedence1
+= o:sigma a:booleanExpr __? c:expression_precedence1
 	{
 		operatorPositions.push(o);
 		return {
@@ -949,7 +949,7 @@ selection
 	}
 
 renameColumns
-= o:rho a:listOfColAssignments __ c:expression_precedence1
+= o:rho a:listOfColAssignments __? c:expression_precedence1
 	{
 		operatorPositions.push(o);
 		return {
@@ -961,7 +961,7 @@ renameColumns
 	}
 
 renameRelation
-= o:rho a:relationName __ c:expression_precedence1
+= o:rho a:relationName __? c:expression_precedence1
 	{
 		operatorPositions.push(o);
 		return {
@@ -972,8 +972,9 @@ renameRelation
 		};
 	}
 
+//toDo: __? oder nicht?
 groupBy
-= o:gamma arg:listOfColumns _ ';' _ arg2:listOfAggFunctionArguments __ c:expression_precedence1
+= o:gamma arg:listOfColumns _ ';' _ arg2:listOfAggFunctionArguments __? c:expression_precedence1
 	{
 		operatorPositions.push(o);
 		return {
@@ -984,7 +985,7 @@ groupBy
 			codeInfo: getCodeInfo(),
 		};
 	}
-/ o:gamma (_ ';')? _ arg2:listOfAggFunctionArguments __ child:expression_precedence1
+/ o:gamma (_ ';')? _ arg2:listOfAggFunctionArguments __? child:expression_precedence1
 	{
 		operatorPositions.push(o);
 		return {
@@ -997,7 +998,7 @@ groupBy
 	}
 
 orderBy
-= o:tau a:listOfOrderByArgs __ c:expression_precedence1
+= o:tau a:listOfOrderByArgs __? c:expression_precedence1 //toDo: __? oder nicht?
 	{
 		operatorPositions.push(o);
 		return {

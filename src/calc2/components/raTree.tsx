@@ -8,6 +8,7 @@ import { Popover } from 'calc2/components/popover';
 import classNames from 'classnames';
 import { RANode, RANodeBinary, RANodeUnary } from 'db/exec/RANode';
 import * as React from 'react';
+import { t } from 'calc2/i18n';
 
 require('./raTree.scss');
 // require('./raTreeFamilyTree.scss');
@@ -97,6 +98,7 @@ export class RaTree extends React.Component<Props> {
 							? <pre>{n.getMetaData('inlineRelationDefinition')}</pre>
 							: null
 						}
+						<p>{t('calc.result.exec.time')} {n._execTime}ms</p>
 						
 					</div>
 				);

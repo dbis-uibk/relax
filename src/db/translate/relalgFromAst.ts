@@ -69,11 +69,11 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 
 	function rec(nRaw: sqlAst.astNode | any): RANode {
 		let node: RANode | null = null;
-		
 		switch (nRaw.type) {
 			case 'relation':
 				{
 					const n: any = nRaw;
+					const start = Date.now();
 					if (typeof (relations[n.name]) === 'undefined') {
 						throw new ExecutionError(i18n.t('db.messages.translate.error-relation-not-found', { name: n.name }), n.codeInfo);
 					}
@@ -83,14 +83,17 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 						break;
 					}
 					node = new RenameRelation(rel, n.relAlias);
+					node._execTime = Date.now() - start;
+		
 				}
 				break;
 
 			case 'statement':
 				{
+					const start = Date.now();
 					const n: any = nRaw;
 					node = parseStatement(n);
-
+					node._execTime = Date.now() - start;
 					if (n.select.distinct === false) {
 						node.addWarning(i18n.t('db.messages.translate.warning-distinct-missing'), n.codeInfo);
 					}
@@ -99,16 +102,20 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 
 			case 'renameRelation':
 				{
+					const start = Date.now();
 					const n: any = nRaw;
 					node = new RenameRelation(rec(n.child), n.newRelAlias);
+					node._execTime = Date.now() - start;
 				}
 				break;
 
 			case 'relationFromSubstatement':
 				{
+					const start = Date.now();
 					const n: any = nRaw;
 					const rel = rec(n.statement);
 					node = new RenameRelation(rel, n.relAlias);
+					node._execTime = Date.now() - start;
 				}
 				break;
 
@@ -117,20 +124,25 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 			case 'rightOuterJoin':
 			case 'fullOuterJoin':
 				{
+					const start = Date.now();
 					const n: any = nRaw;
 					const condition: JoinCondition = parseJoinCondition(n.cond);
 					switch (n.type) {
 						case 'innerJoin':
 							node = new InnerJoin(rec(n.child), rec(n.child2), condition);
+							node._execTime = Date.now() - start;
 							break;
 						case 'leftOuterJoin':
 							node = new LeftOuterJoin(rec(n.child), rec(n.child2), condition);
+							node._execTime = Date.now() - start;
 							break;
 						case 'rightOuterJoin':
 							node = new RightOuterJoin(rec(n.child), rec(n.child2), condition);
+							node._execTime = Date.now() - start;
 							break;
 						case 'fullOuterJoin':
 							node = new FullOuterJoin(rec(n.child), rec(n.child2), condition);
+							node._execTime = Date.now() - start;
 							break;
 					}
 				}
@@ -138,6 +150,7 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 
 			case 'crossJoin':
 				{
+					const start = Date.now();
 					const n: any = nRaw;
 					// check out size of resulting cross join!
 					const rec1: any = rec(n.child);
@@ -150,17 +163,19 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 						alert('The CrossJoin may cause the browser to crash. Alternatively try using an INNER JOIN');
 					}
 					node = new CrossJoin(rec(n.child), rec(n.child2));
-
+					node._execTime = Date.now() - start;
 				}
 				break;
 
 			case 'naturalJoin':
 				{
+					const start = Date.now();
 					const n: any = nRaw;
 					node = new InnerJoin(rec(n.child), rec(n.child2), {
 						type: 'natural',
 						restrictToColumns: null,
 					});
+					node._execTime = Date.now() - start;
 				}
 				break;
 
@@ -168,16 +183,20 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 			case 'intersect':
 			case 'except':
 				{
+					const start = Date.now();
 					const n: any = nRaw;
 					switch (n.type) {
 						case 'union':
 							node = new Union(rec(n.child), rec(n.child2));
+							node._execTime = Date.now() - start;
 							break;
 						case 'intersect':
 							node = new Intersect(rec(n.child), rec(n.child2));
+							node._execTime = Date.now() - start;
 							break;
 						case 'except':
 							node = new Difference(rec(n.child), rec(n.child2));
+							node._execTime = Date.now() - start;
 							break;
 					}
 
@@ -192,6 +211,7 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 
 			case 'orderBy':
 				{
+					const start = Date.now();
 					const n: any = nRaw;
 					const orderCols = [];
 					const orderAsc = [];
@@ -202,11 +222,13 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 						orderCols.push(new Column(e.col.name, e.col.relAlias));
 					}
 					node = new OrderBy(rec(n.child), orderCols, orderAsc);
+					node._execTime = Date.now() - start;
 				}
 				break;
 
 			case 'limit':
 				{
+					const start = Date.now();
 					const n: any = nRaw;
 					const limit = n.limit;
 					const offset = n.offset;
@@ -219,6 +241,7 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 					if (limit === -1) {
 						// === LIMIT ALL => only offset
 						node = new Selection(rec(n.child), conditionOffset);
+						node._execTime = Date.now() - start;
 					}
 					else {
 						// limit and offset
@@ -227,6 +250,7 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 							new ValueExpr.ValueExprGeneric('number', 'constant', [limit + offset]),
 						]);
 						node = new Selection(rec(n.child), new ValueExpr.ValueExprGeneric('boolean', 'and', [conditionOffset, conditionLimit]));
+						node._execTime = Date.now() - start;
 					}
 					break;
 				}
@@ -465,7 +489,7 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 						const col = n.columns[i];
 						schema.addColumn(col.name, col.relAlias, col.type);
 					}
-
+					const start = Date.now();
 					const rel = new Relation(n.name);
 					rel.setSchema(schema, true);
 					rel.addRows(n.rows);
@@ -473,16 +497,19 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					rel.setMetaData('inlineRelationDefinition', n.codeInfo.text);
 					// TODO: inlineRelationDefinition should be replaced; there should be a generic way to get the definition of a node
 					const node = rel;
+					node._execTime = Date.now() - start;
 					setAdditionalData(n, node);
 					return node;
 				}
 
 			case 'selection':
 				{
+					// TODO: Missing here...
 					const child = recRANode(n.child);
 					const condition = recValueExpr(n.arg);
 					const node = new Selection(child, condition);
 					setAdditionalData(n, node);
+		
 					return node;
 				}
 

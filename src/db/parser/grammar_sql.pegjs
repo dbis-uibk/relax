@@ -166,7 +166,7 @@ unqualifiedColumnName
 			error(t('db.messages.parser.error-sql-invalid-column-name', {str: a}));
 		return a;
 	}
-
+	
 relation
 = a:relationName
 	{
@@ -437,8 +437,6 @@ select
 			codeInfo: getCodeInfo()
 		};
 	}
-
-
 orderBy
 = 'order'i __ 'by'i __ arg:listOfOrderByArgs
 	{

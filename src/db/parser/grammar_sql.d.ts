@@ -25,6 +25,7 @@ declare module sqlAst {
 		| rootSql
 		| statement
 		| valueExpr
+		
 		;
 
 	type sqlClause

@@ -1265,7 +1265,6 @@ export class EditorBase extends React.Component<Props, State> {
 
 
 	exec(selectionOnly: boolean) {
-		console.log(' i guess im not here ...');
 		const { editor } = this.state;
 		if (!editor) {
 			throw new Error(`editor not initialized yet`);

@@ -80,11 +80,11 @@ export function relalgFromSQLAstRoot(astRoot: sqlAst.rootSql | any, relations: {
 					const rel = relations[n.name].copy();
 					if (n.relAlias === null) {
 						node = rel;
+						node._execTime = Date.now() - start;
 						break;
 					}
 					node = new RenameRelation(rel, n.relAlias);
 					node._execTime = Date.now() - start;
-		
 				}
 				break;
 
@@ -505,17 +505,19 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 			case 'selection':
 				{
 					// TODO: Missing here...
+					const start = Date.now();
 					const child = recRANode(n.child);
 					const condition = recValueExpr(n.arg);
 					const node = new Selection(child, condition);
 					setAdditionalData(n, node);
-		
+					node._execTime = Date.now() - start;
 					return node;
 				}
 
 			case 'projection':
 				{
 					const child = recRANode(n.child);
+					const start = Date.now();
 					const projections: (Column | {
 						name: string | number,
 						relAlias: string,
@@ -544,11 +546,13 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 
 					const node = new Projection(child, projections);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
 					return node;
 				}
 
 			case 'orderBy':
 				{
+					const start = Date.now();
 					const child = recRANode(n.child);
 					const orderCols: Column[] = [];
 					const orderAsc: boolean[] = [];
@@ -562,58 +566,76 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 
 					const node = new OrderBy(child, orderCols, orderAsc);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'groupBy':
 				{
+					const start = Date.now();
 					const child = recRANode(n.child);
 					const aggregateFunctions = n.aggregate;
 					const groupByCols = n.group;
 
 					const node = new GroupBy(child, groupByCols, aggregateFunctions);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'union':
 				{
+					const start = Date.now();
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new Union(child, child2);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'intersect':
 				{
+					const start = Date.now();
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new Intersect(child, child2);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'division':
 				{
+					const start = Date.now();
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new Division(child, child2);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'difference':
 				{
+					const start = Date.now();
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new Difference(child, child2);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'renameColumns':
 				{
+					const start = Date.now();
 					const ren = new RenameColumns(recRANode(n.child));
 
 					for (let i = 0; i < n.arg.length; i++) {
@@ -624,19 +646,25 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 
 					const node = ren;
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'renameRelation':
 				{
+					const start = Date.now();
 					const child = recRANode(n.child);
 					const node = new RenameRelation(child, n.newRelAlias);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'thetaJoin':
 				{
+					const start = Date.now();
 					const condition: JoinCondition = {
 						type: 'theta',
 						joinExpression: recValueExpr(n.arg),
@@ -645,20 +673,28 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child2 = recRANode(n.child2);
 					const node = new InnerJoin(child, child2, condition);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'crossJoin':
 				{
+					const start = Date.now();
+
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new CrossJoin(child, child2);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'naturalJoin':
 				{
+					const start = Date.now();
+
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new InnerJoin(child, child2, {
@@ -666,64 +702,90 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 						restrictToColumns: null,
 					});
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'leftSemiJoin':
 				{
+					const start = Date.now();
+
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new SemiJoin(child, child2, true);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'rightSemiJoin':
 				{
+					const start = Date.now();
+
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new SemiJoin(child, child2, false);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'antiJoin':
 				{
+					const start = Date.now();
+
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
 					const node = new AntiJoin(child, child2, condition);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'leftOuterJoin':
 				{
+					const start = Date.now();
+
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
 					const node = new LeftOuterJoin(child, child2, condition);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'rightOuterJoin':
 				{
+					const start = Date.now();
+
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
 					const node = new RightOuterJoin(child, child2, condition);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 
 			case 'fullOuterJoin':
 				{
+					const start = Date.now();
+
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
 					const node = new FullOuterJoin(child, child2, condition);
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 		}

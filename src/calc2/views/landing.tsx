@@ -407,6 +407,16 @@ export class Landing extends React.Component {
 
 						<h2 id="changelog">Changelog</h2>
 						<ul>
+							<li>0.26 - Released 17.07.2022
+								<ul>
+									<li>Execution time | #156</li>
+								</ul>
+							</li>
+							<li>0.25 - Released 08.07.2022
+								<ul>
+									<li>Increased white space tolerance | #169</li>
+								</ul>
+							</li>
 							<li>0.24 - Released 17.06.2022
 								<ul>
 									<li>Fixed problem when replacing multiple operators | #174</li>

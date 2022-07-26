@@ -17,7 +17,7 @@ A relational algebra calculator
 * Use `yarn build` to create release build in the `dist` folder
 * Copy the content of your `dist` folder somewhere outside of the repository
 * Checkout the branch `gh-pages`
-* Remove everything there and pase content of the former `dist` folder
+* Remove everything there and paste content of the former `dist` folder
 * Push to github (the person doing this must be an administrator of the project)
 
 ## Contributions

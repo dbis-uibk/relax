@@ -291,17 +291,34 @@ export function loadStaticGroups() {
 				source: 'gist',
 				id: 'c306ecf21c6e6d175508d3ac6b4355e7',
 			},
+
+			{
+				maintainerGroup: t('calc.maintainer-groups.hsd'),
+				maintainer: '<a href="https://gist.github.com/mafo3186">Mareike Focken</a>',
+	
+				source: 'gist',
+				id: 'dd9b9e4a5bd3b9a5265104e4c8f171c6',
+			},
+			{
+				maintainerGroup: t('calc.maintainer-groups.hsd'),
+				maintainer: '<a href="https://gist.github.com/mafo3186">Mareike Focken</a>',
+	
+				source: 'gist',
+				id: '7716a847139f098709a88f1835d5b08b',
+			},
+			{
+				maintainerGroup: t('calc.maintainer-groups.hsd'),
+				maintainer: '<a href="https://gist.github.com/mafo3186">Mareike Focken</a>',
+	
+				source: 'gist',
+				id: 'd37f667154aec34f5c4954723ae01db9',
+			},
 		{
 			maintainerGroup: 'OTH Regensburg',
 			maintainer: '<a href="https://gist.github.com/jschildgen">Johannes Schildgen</a>',
-
 			source: 'gist',
 			id: 'd67f16874b528abc6e6c88d07a50b2dc',
 		},
-		
-		
-		
-		
 		];
 
 	let first: boolean = true;

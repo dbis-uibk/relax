@@ -66,6 +66,7 @@ export class Result extends React.Component<Props, State> {
 
 		const result = this.result(activeNode);
 
+
 		return (
 			<div className="ra-result clearfix">
 				<div>

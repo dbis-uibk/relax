@@ -64,6 +64,7 @@ export class EditorSql extends React.Component<Props> {
 				execFunction={(self: EditorBase, text: string, offset) => {
 					const ast = parseSQLSelect(text);
 					replaceVariables(ast, relations);
+			
 
 					if (ast.child === null) {
 						if (ast.assignments.length > 0) {
@@ -76,8 +77,10 @@ export class EditorSql extends React.Component<Props> {
 
 
 					const root = relalgFromSQLAstRoot(ast, relations);
+			
 					if (root) {
 						root.check();
+						
 
 						self.historyAddEntry(text);
 
@@ -98,6 +101,7 @@ export class EditorSql extends React.Component<Props> {
 				tab="sql"
 				linterFunction={(self: EditorBase, editor: CodeMirror.Editor, text: string) => {
 					const hints = [];
+
 
 					const ast = parseSQLSelect(text);
 					replaceVariables(ast, relations);

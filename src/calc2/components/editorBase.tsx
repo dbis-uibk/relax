@@ -1113,6 +1113,7 @@ export class EditorBase extends React.Component<Props, State> {
 		try {
 			const hintsFromLinter = this.props.linterFunction(this, editor, text);
 
+
 			if (hintsFromLinter.length === 0 && this.hinterCache.hintsFromLinter.length === 0) {
 				// no hint recreation needed
 			}
@@ -1125,7 +1126,7 @@ export class EditorBase extends React.Component<Props, State> {
 		}
 		catch (e) {
 			const found = [];
-
+	
 			const error = EditorBase._generateErrorFromException(e, 0, 0);
 			const messageWithoutHtml = $('<span>').append(error.message).text();
 
@@ -1286,6 +1287,7 @@ export class EditorBase extends React.Component<Props, State> {
 			};
 			if (selectionOnly !== true) { // execute whole text
 				query = editor.getValue();
+		
 			}
 			else { // execute selection
 				query = editor.getDoc().getSelection();
@@ -1344,6 +1346,7 @@ export class EditorBase extends React.Component<Props, State> {
 			return `<span class="math">${String.fromCharCode(parseInt(group0.substr(2), 16))}</span>`;
 		});
 
+
 		// try to get position information from error
 		let location = null;
 
@@ -1380,6 +1383,7 @@ export class EditorBase extends React.Component<Props, State> {
 	 */
 	static buildTranslatedPegJsMessage(expected: PEG.ExpectedItem[], found: string) {
 		function cleanupExpected(expected: PEG.ExpectedItem[]) {
+
 			let i = 1;
 
 			expected.sort((a, b) => {
@@ -1433,6 +1437,7 @@ export class EditorBase extends React.Component<Props, State> {
 			}
 
 			const expectedDescriptions = new Array(expected.length);
+	
 			// expectedDesc, foundDesc, i;
 
 			for (let i = 0; i < expected.length; i++) {
@@ -1446,7 +1451,6 @@ export class EditorBase extends React.Component<Props, State> {
 			);
 
 			const foundDesc = found ? `"${stringEscape(found)}"` : t('editor.pegjs-error.end-of-input');
-
 			return t('editor.pegjs-error.expected-found', { expected: expectedDesc, found: foundDesc });
 		}
 

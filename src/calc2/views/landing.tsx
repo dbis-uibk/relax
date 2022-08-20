@@ -407,6 +407,12 @@ export class Landing extends React.Component {
 
 						<h2 id="changelog">Changelog</h2>
 						<ul>
+							<li>0.27 - Released 20.08.2022
+								<ul>
+									<li>Added Dark Mode Support | #150</li>
+									<li>Fixed capitalization in english | #78</li>
+								</ul>
+							</li>
 							<li>0.26 - Released 17.07.2022
 								<ul>
 									<li>Execution time | #156</li>

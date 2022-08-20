@@ -809,7 +809,6 @@ export class EditorBase extends React.Component<Props, State> {
 						</div>
 					</div>
 					<div className="exec-result">{execResult}</div>
-					<div>{execTime}</div>
 					<Modal isOpen={this.state.modal} toggle={this.toggle} className="showOnSM">
 						<ModalHeader toggle={this.toggle}>{t('calc.result.modal.title')}</ModalHeader>
 						<ModalBody>

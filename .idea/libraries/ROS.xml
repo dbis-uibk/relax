@@ -1,8 +1,0 @@
-<component name="libraryTable">
-  <library name="ROS">
-    <CLASSES>
-      <root url="file:///opt/ros/foxy" />
-    </CLASSES>
-    <SOURCES />
-  </library>
-</component>

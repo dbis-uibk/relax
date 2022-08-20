@@ -4,7 +4,7 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-declare module sqlAst {
+declare namespace sqlAst {
 
 	interface CodeInfo extends relalgAst.CodeInfo { }
 
@@ -194,59 +194,59 @@ declare module sqlAst {
 		type: 'relation',
 		name: string,
 		relAlias: string,
-	}
+	};
 
 	type renameRelation = abstractSqlOperation & {
 		type: 'renameRelation',
 		child: sqlClause,
 		newRelAlias: string,
-	}
+	};
 
 	type relationFromSubstatement = abstractSqlOperation & {
 		type: 'relationFromSubstatement',
 		statement: statement,
 		relAlias: string,
 
-		codeInfo: CodeInfo
-	}
+		codeInfo: CodeInfo,
+	};
 
 	type binarySqlOperation = abstractSqlOperation & {
 		child: sqlOperation
-		child2: sqlOperation
-	}
+		child2: sqlOperation,
+	};
 
 	// joins
 	type innerAndOuterJoins = binarySqlOperation & {
 		type: 'innerJoin' | 'leftOuterJoin' | 'rightOuterJoin' | 'fullOuterJoin',
-		cond: booleanExpr | string[] | null
-	}
+		cond: booleanExpr | string[] | null,
+	};
 
 	type crossJoin = binarySqlOperation & {
-		type: 'crossJoin'
-	}
+		type: 'crossJoin',
+	};
 
 	/**
 	* cond is always null
 	*/
 	type naturalJoin = binarySqlOperation & {
 		type: 'naturalJoin'
-		cond: any
-	}
+		cond: any,
+	};
 
 	type union = binarySqlOperation & {
 		type: 'union',
-		all: boolean
-	}
+		all: boolean,
+	};
 
 	type intersect = binarySqlOperation & {
 		type: 'intersect',
-		all: boolean
-	}
+		all: boolean,
+	};
 
 	type except = binarySqlOperation & {
 		type: 'except',
-		all: boolean
-	}
+		all: boolean,
+	};
 
 	interface orderByArg {
 		col: columnName,
@@ -259,8 +259,8 @@ declare module sqlAst {
 		arg: {
 			value: orderByArg[];
 			codeInfo: CodeInfo;
-		}
-	}
+		},
+	};
 
 	/**
 	 * limit is -1 for no limit (= only offset)

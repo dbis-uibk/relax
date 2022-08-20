@@ -81,7 +81,7 @@ export const langEN = {
 	'calc.messages.error-query-missing': 'no query found',
 	'calc.messages.error-query-missing-assignments-found': 'only assignments found; query is missing <a href="help.htm#relalg-assignment" target="_blank">Help - Assignments</a>',
 	'calc.messages.gist-load-success': 'gist loaded successfully',
-	'calc.menu.headline': 'load a Dataset',
+	'calc.menu.headline': 'Load a Dataset',
 	'calc.menu.datasets': 'Datasets',
 	'calc.menu.load-gist-headline': 'Load dataset stored in a gist',
 	'calc.menu.load-gist-button': 'load',

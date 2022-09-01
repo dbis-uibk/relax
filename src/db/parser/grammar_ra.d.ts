@@ -326,6 +326,8 @@ declare module relalgAst {
 		headers: GroupHeader[],
 		assignments: assignment[],
 		codeInfo: CodeInfo,
+		exampleSql?: string,
+		exampleRA?: string;
 	}
 
 

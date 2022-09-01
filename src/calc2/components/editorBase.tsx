@@ -276,6 +276,10 @@ type Props = {
 	execButtonLabel?: LanguageKeys,
 
 	textChange: Function,
+	
+	exampleSql?: string,
+	
+	exampleRA?: string
 };
 
 type State = {
@@ -294,6 +298,8 @@ type State = {
 	replSelEnd: any,
 	queryResult: any,
 	execTime: any,
+	addedExampleSqlQuery: boolean,
+	addedExampleRAQuery: boolean
 };
 
 
@@ -548,6 +554,8 @@ export class EditorBase extends React.Component<Props, State> {
 			replSelEnd: null,
 			queryResult: null,
 			execTime: null,
+			addedExampleSqlQuery: false,
+			addedExampleRAQuery: false
 		};
 		this.toggle = this.toggle.bind(this);
 		this.inlineRelationEditorOk = this.inlineRelationEditorOk.bind(this);
@@ -568,7 +576,7 @@ export class EditorBase extends React.Component<Props, State> {
 		this.downloadQueryResult = this.downloadQueryResult.bind(this);
 		
 		this.uploadCSVRef = React.createRef();
-
+		
 	}
 
 
@@ -652,6 +660,22 @@ export class EditorBase extends React.Component<Props, State> {
 		a.download = this.state.relationEditorName + '.csv';
 		a.click();
 	}
+	
+	// setting example queries..
+	componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
+		if(prevState.editor) {
+			if(this.props.exampleSql && this.props.exampleSql !== '' && !this.state.addedExampleSqlQuery && this.props.tab === 'sql') {
+				this.replaceAll(this.props.exampleSql)
+				this.setState({addedExampleSqlQuery: true});
+			}
+			if(this.props.exampleRA && this.props.exampleRA !== '' && !this.state.addedExampleRAQuery && this.props.tab === 'relalg') {
+				this.replaceAll(this.props.exampleRA);
+				// TODO: maybe auto format / replace ?
+				this.setState({addedExampleRAQuery: true});
+			}
+		}
+	}
+
 
 	componentDidMount() {
 		const node = findDOMNode(this) as Element;
@@ -685,6 +709,8 @@ export class EditorBase extends React.Component<Props, State> {
 		editor.on('change', (cm: CodeMirror.Editor) => {
 			this.props.textChange(cm);
 		});
+	
+
 	}
 
 

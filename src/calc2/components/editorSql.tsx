@@ -43,7 +43,6 @@ export class EditorSql extends React.Component<Props> {
 	render() {
 		const autoreplaceOperatorsMode: 'none' | 'header' | 'plain2math' | 'math2plain' = 'none';
 		const { group } = this.props;
-		
 		// TODO: move to state
 		const relations: { [name: string]: Relation } = {};
 		group.tables.forEach(table => {
@@ -54,6 +53,8 @@ export class EditorSql extends React.Component<Props> {
 		return (
 			<EditorBase
 				textChange={(cm: CodeMirror.Editor) => { } }
+				exampleSql={group.exampleSQL}
+				exampleRA={group.exampleRA}
 				ref={ref => {
 					if (ref) {
 						this.editorBase = ref;

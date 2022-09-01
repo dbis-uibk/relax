@@ -897,6 +897,11 @@ body.dark-theme {
 		transition: all .2s linear;
 		color: #656161;
 		background-color: rgb(31, 31, 31);
+		
+		.dropdown-item {
+			color: #656161;
+		}
+		
 	}
 	
 	.dropdown-item:hover {

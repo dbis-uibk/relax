@@ -47,10 +47,13 @@ export class EditorRelalg extends React.Component<Props, State> {
 		this.replaceText = this.replaceText.bind(this);
 	}
 
+	
+	
+	
+
 	render() {
 		const { group } = this.props;
 		const { autoreplaceOperatorsMode } = this.state;
-
 		// TODO: move to state
 		const relations: { [name: string]: Relation } = {};
 		group.tables.forEach(table => {
@@ -59,6 +62,8 @@ export class EditorRelalg extends React.Component<Props, State> {
 
 		return (
 			<EditorBase
+				exampleRA={group.exampleRA}
+				exampleSql={group.exampleSQL}
 				textChange={(cm: CodeMirror.Editor) => { } }
 				ref={ref => {
 					if (ref) {

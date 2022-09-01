@@ -53,6 +53,7 @@ export class Calculator extends React.Component<Props, State> {
 			datasetModal: false,
 			relationModal: false,
 		};
+		
 
 		this.getCurrentEditor = this.getCurrentEditor.bind(this);
 		this.toggleDatasetModal = this.toggleDatasetModal.bind(this);

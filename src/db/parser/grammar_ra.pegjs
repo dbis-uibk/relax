@@ -121,6 +121,7 @@
 			const groupHeader = groups[i].headers.find(g => g.name === 'group');
 			if(!groupHeader){
 				continue;
+				
 			}
 			const name = groupHeader.text;
 
@@ -225,6 +226,8 @@ boolean
 assignmentOperator
 = _ '=' _
 
+testQueryOperator
+= _ '-' _
 
 relationName 'relationName'
 = !(RESERVED_KEYWORD !([0-9a-zA-Z_]+)) a:$([a-zA-Z]+ $[0-9a-zA-Z_]*)
@@ -646,14 +649,14 @@ groupRoot
 = _nc a:(_nc tableGroup)+ _nc
 	{
 		var groups = [];
+		
 		for(var i = 0; i < a.length; i++){
 			groups.push(a[i][1]);
 		}
-
 		checkGroupNamesUnique(groups);
 
 		return {
-			type: 'groupRoot',
+			type: 'Root',
 			groups: groups,
 
 			codeInfo: getCodeInfo()
@@ -685,6 +688,20 @@ isoLanguageCode
 		return lang.toLocalLowerCase();
 	}
 
+
+exampleSql
+ = a:('exampleSql' + ' - {') query:$[0-9 * a-z A-Z ( ) \n = . , ; - / \t]+ '}'
+{
+	return query;
+}  
+
+
+exampleQueryRelAlg
+ = ('exampleRelAlg' + ' - {') query:$[0-9 * a-z A-Z ( ) \n = . , ; - / \t]+ '}'
+{
+	return query;
+}  
+
 tableGroupHeader
 = &([a-z@]+ ':') name:$[a-z]+ lang:('@' isoLanguageCode)? ':' text:$(!(endOfLine) .)*
 	{
@@ -709,8 +726,10 @@ tableGroupHeader
 	}
 
 tableGroup
-= _ headers:tableGroupHeaders a:(__? assignment)+ //toDo: checken, ob whitespace zwingend nötig oder nicht
+= _ headers:tableGroupHeaders s:(__? exampleSql)* r:(__? exampleQueryRelAlg)* a:(__? assignment)+ //toDo: checken, ob whitespace zwingend nötig oder nicht
 	{
+	
+	
 		var assignments = [];
 		for(var i = 0; i < a.length; i++){
 			assignments.push(a[i][1]);
@@ -746,11 +765,31 @@ tableGroup
 			error(t('error-group-header-name-empty'));
 		}
 
+		// check for exampleSql
+		let exampleSql = '';
+		if(s && s.length > 0) {
+			if(Array.isArray(s)) {
+				exampleSql = s[0][1]
+			}
+		}
+		exampleSql = exampleSql.trim();
+		
+		// check for exampleRelAlg
+		let exampleRelAlg = '';
+		if(r && r.length > 0) {
+    	if(Array.isArray(r)) {
+    			exampleRelAlg = r[0][1]
+    	}
+    }
+		exampleRelAlg = exampleRelAlg.trim();
+		
+
 		return {
 			type: 'tableGroup',
 			headers: headers,
 			assignments: assignments,
-
+			exampleSql: exampleSql,
+			exampleRA: exampleRelAlg,
 			codeInfo: getCodeInfo()
 		};
 	}
@@ -1767,3 +1806,4 @@ RESERVED_KEYWORD_RELALG
 / 'true'i
 / 'false'i
 / 'null'i
+

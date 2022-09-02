@@ -139,8 +139,10 @@ export type Group = {
 
 	groupInfo: GroupInfo,
 	sourceInfo: SourceInfo,
-
 	isDraft?: boolean,
+	exampleSQL?: string,
+	exampleRA?: string;
+	
 };
 export type GroupInfo = {
 	source: GroupSourceType,

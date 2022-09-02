@@ -84,10 +84,7 @@ export class Calc extends React.Component<Props> {
 		const { params } = this.props.match;
 		const { params: nextParams } = nextProps.match;
 		if (
-			false
-			|| nextParams.source !== params.source
-			|| nextParams.id !== params.id
-			|| nextParams.filename !== params.filename
+			nextParams.source !== params.source || nextParams.id !== params.id || nextParams.filename !== params.filename
 			|| nextParams.index !== params.index
 		) {
 			// change/load
@@ -127,6 +124,7 @@ export const ConnectedCalc = connect((state: store.State) => {
 
 	// save current dataset to local storage to be shown as 'recently used groups'
 	const lsGists = localStorage.getItem('groups');
+	
 	
 	if(state.groups.current && Object.keys(state.groups.current.group.sourceInfo).length > 0) {
 		if(!lsGists) {

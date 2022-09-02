@@ -75,6 +75,7 @@ export class EditorGroup extends React.Component<Props> {
 					const { groupInfo, sourceInfo } = EditorGroup.generateInfo(groupAst);
 
 					const groups = getGroupsFromGroupAst(groupAst, groupInfo, sourceInfo);
+	
 
 					// display result
 					const result = (

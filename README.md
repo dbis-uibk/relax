@@ -82,6 +82,36 @@ The qualifier of each column is its tables name and is automatically added at ru
         }
         C = A x B
 
+
+It is also possible to define example queries in both relational algebra and SQL.
+These will be automatically loaded into the editor when the group is loaded for the first time.
+
+
+        group:sample group
+        description:this is the <b>description</b>
+	    
+        exampleSql - {
+          Select * from A where a = 1
+        }
+
+ 	    exampleRelAlg - {
+          sigma R.a = 1 R
+        }       
+
+        A = {a, b
+            1, 2
+            3, 4
+        }
+        B = {a, c, d
+            1, 'test', 1970-01-01
+			3, 'test2', null
+			42, 'test3', null
+        }
+        C = A x B
+
+
+
+
 ### Github Gist
 
 The program can load groups from a gist.

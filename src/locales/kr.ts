@@ -240,5 +240,6 @@ export const langKR = {
 	'calc.editors.ra.inline-editor.row-type': 'Type',
 	'calc.editors.ra.inline-editor.button-ok': 'Ok',
 	'calc.editors.ra.inline-editor.input-relation-name': 'Relation Name',
-	'calc.result.exec.time': 'Execution time:'
+	'calc.result.exec.time': 'Execution time:',
+	'local.change': '언어를 변경하려면 페이지를 새로고침하시겠습니까?',
 };

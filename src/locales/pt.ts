@@ -310,5 +310,6 @@ export const langPT = {
     'calc.editors.ra.toolbar.inline-relation': 'rela\u00e7\u00e3o aninhada',
     'calc.editors.group.new-group-example-group':
       '\u2013 este \u00e9 um exemplo\n\ngroup: nomeDoNovoGrupo \n\n\nA = {\n\ta:string, b:number\n\texemplo,  42\n}',
+	'local.change': 'Recarregar página para alterar o idioma?'
   };
   

@@ -70,7 +70,7 @@ export class Navigation extends React.Component<Props, State> {
         if (i18n.language === lang) {
             return;
         }
-        if (window.confirm('Reload page to change language?')) {
+        if (window.confirm(i18n.t('local.change'))) {
             i18n.changeLanguage(lang);
             window.location.reload();
         }

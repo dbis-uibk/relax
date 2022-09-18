@@ -186,7 +186,6 @@ module.exports = (env, options) => {
 
 		devServer: {
 			contentBase: path.join(__dirname, "dist"),
-			compress: true,
 			port: 8088,
 			clientLogLevel: 'info',
 			compress: true,

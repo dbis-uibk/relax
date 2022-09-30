@@ -236,6 +236,22 @@ $NAV_BAR_HEIGHT: 64px;
 	margin-right: 16px;
 }
 
+// needed because of bootstrap update 4 -> 5
+.ml-auto {
+	margin-left: auto;
+}
+.text-right {
+	text-align: right;
+}
+.mr-2 {
+	margin-right: 0.5rem;
+}
+.mt-2 {
+	margin-top: 0.5rem;
+}
+
+
+
 @media only screen and (max-width: 991px) {
 	/*.navbar {
 		display: none;

@@ -321,8 +321,8 @@ export class TaskMenu extends React.Component<Props, State> {
 					{t('task-menu.exercises')}
 				</p>
 
-				<Offcanvas show={this.state.show} onHide={this.handleClose} >
-					<div className="text-right">
+				<Offcanvas show={this.state.show} onHide={this.handleClose} placement="end">
+					<div className="text-right mr-2 mt-2">
 						<FontAwesomeIcon icon={faTimes  as IconProp} onClick={this.handleClose} className="offcanvas-close"/>
 					</div>
 	

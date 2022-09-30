@@ -219,4 +219,9 @@ export const langDE: Partial<typeof langEN> = {
 	'calc.editors.ra.inline-editor.input-relation-name': 'Relations Name',
 	'calc.result.exec.time': 'Ausführungszeit: ',
 	'local.change': 'Seite neu laden um Sprache zu ändern?',
+	'task-menu.exercises.no-exercises.header': 'Aufgaben sind noch nicht geladen.',
+	'task-menu.exercises.no-exercises.header.load': 'Aufgaben laden',
+	'task-menu.exercises.task.check': 'Überprüfen',
+	'task-menu.exercises.task.download': 'Download',
+	'task-menu.exercises' : 'Aufgaben',
 };

@@ -1,0 +1,15 @@
+{
+	"title": "Test Example 1",
+	"body": "This is an example body text for an exercise.",
+	"checkingActive": true,
+	"checkingMode": "query",
+	"tasks": [
+		{
+			"title": "1a",
+			"body": "Return all records that are in the relation R",
+			"expectedOutput": "Select * from R",
+			"hint": "Use Select!",
+			"output": "RESULT"
+		}
+	]
+}

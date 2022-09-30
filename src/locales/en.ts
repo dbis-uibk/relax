@@ -290,4 +290,9 @@ export const langEN = {
 	'calc.editors.ra.inline-editor.input-relation-name': 'Relation Name',
 	'calc.result.exec.time': 'Execution Time: ',
 	'local.change': 'Reload page to change language?',
+	'task-menu.exercises.no-exercises.header': 'Exercises have not yet been loaded.',
+	'task-menu.exercises.no-exercises.header.load': 'Load exercises',
+	'task-menu.exercises.task.check': 'Check',
+	'task-menu.exercises.task.download': 'Download',
+	'task-menu.exercises' : 'Exercises',
 };

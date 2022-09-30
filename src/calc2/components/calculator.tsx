@@ -22,6 +22,7 @@ import { GroupRelationList } from '../components/groupRelationList';
 import { MenuConnected } from '../components/menu';
 import { Navigation } from '../components/navigation';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { TaskMenu } from 'calc2/components/exercises';
 require('./calculator.scss');
 
 
@@ -35,6 +36,7 @@ type State = {
 	activeTab: 'relalg' | 'sql' | 'group',
 	datasetModal: boolean,
 	relationModal: boolean,
+	result: any; // needed for taskmenu checking
 };
 
 
@@ -42,7 +44,9 @@ export class Calculator extends React.Component<Props, State> {
 	private refEditorRelalg = React.createRef<EditorRelalg>();
 	private refEditorSql = React.createRef<EditorSql>();
 	private refEditorGroup = React.createRef<EditorGroup>();
-
+	private offCanvas = React.createRef<TaskMenu>();
+	
+	
 	constructor(props: Props) {
 		super(props);
 
@@ -52,6 +56,7 @@ export class Calculator extends React.Component<Props, State> {
 			activeTab: 'relalg',
 			datasetModal: false,
 			relationModal: false,
+			result: undefined,
 		};
 		
 
@@ -92,6 +97,18 @@ export class Calculator extends React.Component<Props, State> {
 				return this.refEditorGroup;
 		}
 	}
+	
+	
+	setQueryResult(result: any) {
+		this.setState({result: result});
+	}
+	
+	getQueryResult() {
+		// gets query to send to TaskMenu for checking
+		return this.state.result;
+	}
+	
+	
 
 	private loadGroupEditor(loadCurrentGroup: boolean) {
 		let content = `-- this is an example
@@ -122,6 +139,7 @@ example,  42
 		return (
 			<div className="view-max">
 			<Navigation></Navigation>
+			
 			<div className="calculator">
 				<ToastContainer enableMultiContainer position={toast.POSITION.TOP_RIGHT} />
 				<div className="row">
@@ -131,8 +149,15 @@ example,  42
 							<span>Select DB ({translateHeader(group.groupName, locale)})</span>
 							<span className="caret" style={{ display: 'block', position: 'absolute', top: '50%', right: '10px' }}></span>
 						</button>
-
+						
 						<div>
+							<TaskMenu
+								getQuery={this.getQueryResult.bind(this)}
+								result = {this.state.result}
+							>
+							</TaskMenu>
+							
+							
 							{/* this is the actual list of relation/columns */}
 							<GroupRelationList
 								tables={group.tables}
@@ -198,6 +223,7 @@ example,  42
 									group={group}
 									ref={this.refEditorRelalg}
 									relInsertModalToggle={this.insertRelationToggle}
+									getResult={this.setQueryResult.bind(this)}
 								/>
 							</TabPane>
 							<TabPane tabId="sql">
@@ -205,6 +231,7 @@ example,  42
 									group={group}
 									ref={this.refEditorSql}
 									relInsertModalToggle={this.insertRelationToggle}
+									getResult={this.setQueryResult.bind(this)}
 								/>
 							</TabPane>
 							<TabPane tabId="group">
@@ -219,6 +246,8 @@ example,  42
 
 					</div>
 				</div>
+
+			
 
 				<Modal isOpen={this.state.datasetModal} toggle={this.toggleDatasetModal}>
 					<ModalHeader toggle={this.toggleDatasetModal}>{translateHeader(group.groupName, locale)}</ModalHeader>

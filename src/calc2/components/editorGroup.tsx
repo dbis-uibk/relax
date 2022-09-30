@@ -171,9 +171,15 @@ export class EditorGroup extends React.Component<Props> {
 						],
 					},
 				]}
-			/>
+			 setQueryResult={this.getResult.bind(this)}/>
 		);
 	}
+	
+	
+	getResult(data: any) {
+		console.log(data);
+	}
+	
 
 	public replaceSelection(text: string, overwrite?: string) {
 		if (this.editorBase) {

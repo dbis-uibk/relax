@@ -279,7 +279,9 @@ type Props = {
 	
 	exampleSql?: string,
 	
-	exampleRA?: string
+	exampleRA?: string,
+	
+	setQueryResult: any,
 };
 
 type State = {
@@ -299,7 +301,7 @@ type State = {
 	queryResult: any,
 	execTime: any,
 	addedExampleSqlQuery: boolean,
-	addedExampleRAQuery: boolean
+	addedExampleRAQuery: boolean,
 };
 
 
@@ -555,7 +557,7 @@ export class EditorBase extends React.Component<Props, State> {
 			queryResult: null,
 			execTime: null,
 			addedExampleSqlQuery: false,
-			addedExampleRAQuery: false
+			addedExampleRAQuery: false,
 		};
 		this.toggle = this.toggle.bind(this);
 		this.inlineRelationEditorOk = this.inlineRelationEditorOk.bind(this);
@@ -563,6 +565,9 @@ export class EditorBase extends React.Component<Props, State> {
 		this.inlineRelationEditorClose = this.inlineRelationEditorClose.bind(this);
 		this.inlineRelationEditorUpload = this.inlineRelationEditorUpload.bind(this);
 		this.inlineRelationEditorDownload = this.inlineRelationEditorDownload.bind(this);
+		this.focus = this.focus.bind(this);
+		
+		
 		this.hinterCache = {
 			hints: [],
 			hintsFromLinter: [],
@@ -653,8 +658,8 @@ export class EditorBase extends React.Component<Props, State> {
 	inlineRelationEditorDownload() {
 		const relation = new Relation();
 		relation.fromData(this.getInlineRelationData());
+		console.log(relation);
 		const csvStr = relation.toCSV();
-		const element = document.createElement('a');
 		const a = document.createElement('a');
 		a.href = window.URL.createObjectURL(new Blob([csvStr], { 'type': 'text/csv' }));
 		a.download = this.state.relationEditorName + '.csv';
@@ -665,7 +670,7 @@ export class EditorBase extends React.Component<Props, State> {
 	componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
 		if(prevState.editor) {
 			if(this.props.exampleSql && this.props.exampleSql !== '' && !this.state.addedExampleSqlQuery && this.props.tab === 'sql') {
-				this.replaceAll(this.props.exampleSql)
+				this.replaceAll(this.props.exampleSql);
 				this.setState({addedExampleSqlQuery: true});
 			}
 			if(this.props.exampleRA && this.props.exampleRA !== '' && !this.state.addedExampleRAQuery && this.props.tab === 'relalg') {
@@ -712,6 +717,7 @@ export class EditorBase extends React.Component<Props, State> {
 	
 
 	}
+	
 
 
 	render() {
@@ -733,11 +739,11 @@ export class EditorBase extends React.Component<Props, State> {
 		} = this.props;
 
 		return (
-			<div>
+			<div onFocus={this.focus}>
 				<div className="editor-base">
 					<Toolbar groups={toolbar} />
 
-					<textarea />
+					<textarea/>
 
 					<div className="exec-errors">
 						{execErrors.map((alert, i) => <ExecutionAlert key={i} alert={alert} editor={editor} />)}
@@ -993,13 +999,14 @@ export class EditorBase extends React.Component<Props, State> {
 		return editor.getValue();
 	}
 
-	focus() {
+	focus(event?: React.FocusEvent) {
 		const { editor } = this.state;
 		if (!editor) {
 			console.warn(`editor not initialized yet`);
 			return;
 		}
-
+		console.log('focused!');
+		console.log(event);
 		editor.focus();
 	}
 
@@ -1192,7 +1199,7 @@ export class EditorBase extends React.Component<Props, State> {
 	}
 
 
-	getResultForCsv(activeNode: RANode) {
+	async getResultForCsv(activeNode: RANode) {
 		const result = memoize(
 			(node: RANode) => {
 				try {
@@ -1208,6 +1215,7 @@ export class EditorBase extends React.Component<Props, State> {
 		this.setState({
 			queryResult: result(activeNode),
 		});
+		return result(activeNode);
 		
 	
 	}
@@ -1303,7 +1311,7 @@ export class EditorBase extends React.Component<Props, State> {
 					<div className="rect4"></div>
 					<div className="rect5"></div>
 				</div>),
-		}, () => {
+		}, async () => {
 			this.clearExecutionAlerts();
 			let query = '';
 			let offset = {
@@ -1312,8 +1320,8 @@ export class EditorBase extends React.Component<Props, State> {
 			};
 			if (selectionOnly !== true) { // execute whole text
 				query = editor.getValue();
-		
-			}
+
+			} 
 			else { // execute selection
 				query = editor.getDoc().getSelection();
 				offset = editor.getDoc().getCursor('from');
@@ -1325,9 +1333,16 @@ export class EditorBase extends React.Component<Props, State> {
 			this.clearExecutionAlerts();
 			try {
 				const start = Date.now();
-				const { result } = this.props.execFunction(this, query, offset);
+				const {result} = this.props.execFunction(this, query, offset);
 				const end = Date.now() - start;
-				this.getResultForCsv(result.props.root);
+				const csvRes = await this.getResultForCsv(result.props.root);
+				this.props.setQueryResult(
+					{
+						result: csvRes,
+						query: query,
+					},
+				);
+				
 				this.setState({
 					execResult: result,
 					execTime: end,
@@ -1340,8 +1355,7 @@ export class EditorBase extends React.Component<Props, State> {
 				document.dispatchEvent(event);
 				this.toggle();
 				return true;
-			}
-			catch (e) {
+			} catch (e) {
 				console.error(e, e.stack);
 				const error = EditorBase._generateErrorFromException(e, offset.line, offset.ch);
 				this.addExecutionError(error.message, error.codemirrorPositions ? error.codemirrorPositions.from : undefined);

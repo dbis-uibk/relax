@@ -615,7 +615,215 @@ export class Help extends React.Component<Props> {
 									href="https://gist.github.com/ragtime/2cfb981fbc5676182d64">Gist with the ID
 								2cfb981fbc5676182d64</a> and can therefore be loaded directly with modifying the url by replacing all after <code>DOMAIN/relax/calc/</code> with <code>/gist/2cfb981fbc5676182d64</code>.</p>
 
-
+						<h3>Exercises</h3>
+						<p>As of 0.30 the ability to import exercises has been introduced. With exercises users can view the tasks assigned to them directly in RelaX. You have the option of also directly checking the result. A new link has been added directly under the "Select DB.." Button. From here the user can upload the exercise sheet, or if already uploaded - can see the current exercise. The exercise sheet should be in form of a JSON file. An exercise sheet can contain one or more tasks.</p>
+						<p>All keys, types and explanations and examples can be seen in the table below. You can also find an example below.</p>
+						<h4>Exercise File</h4>
+						<table className="table table-condensed">
+							<tbody>
+							<tr>
+								<td>
+									<strong>Key</strong>
+								</td>
+								<td>
+									<strong>Type</strong>
+								</td>
+								<td>
+									<strong>Explanation</strong>
+								</td>
+								<td>
+									<strong>Example</strong>
+								</td>
+							</tr>
+							<tr>
+								<td>"title"</td>
+								<td>string</td>
+								<td>Title of the exercise</td>
+								<td>"Exercise 1"</td>
+							</tr>
+							<tr>
+								<td>"body"</td>
+								<td>string</td>
+								<td>Body text of the exercise</td>
+								<td>"This is an example body text for an exercise."</td>
+							</tr>
+							<tr>
+								<td>"checkingActive"</td>
+								<td>boolean</td>
+								<td>Should the user be able to check if his solution is correct</td>
+								<td>true/false</td>
+							</tr>
+							<tr>
+								<td>"checkingMode"</td>
+								<td>"query" | "rowCount" | "result"</td>
+								<td>How should the exercises be checked? (See "Checking Modes" below)</td>
+								<td>"query"</td>
+							</tr>
+							<tr>
+								<td>"tasks"</td>
+								<td>object array (Task)</td>
+								<td>See Tasks below</td>
+								<td>[]&nbsp;</td>
+							</tr>
+							</tbody>
+						</table>
+						<br /><br />
+						<h4>Checking Modes</h4>
+						<table className="table table-condensed">
+							<tbody>
+							<tr>
+								<td>
+									<strong>Key</strong>
+								</td>
+								<td>
+									<strong>Explanation</strong>
+								</td>
+								<td>
+									<strong>Example</strong>
+								</td>
+							</tr>
+							<tr>
+								<td>"query"</td>
+								<td>The exact query the user has used will be checked against the one defined in the task.&nbsp;</td>
+								<td>Select * from R</td>
+							</tr>
+							<tr>
+								<td>"rowCount"</td>
+								<td>The number of rows that are defined in the task will be checked with the number of rows in the result.</td>
+								<td>"42"</td>
+							</tr>
+							<tr>
+								<td>"result"</td>
+								<td>The exact result with be compared with the expected output defined in the task. The solution for the task must be in CSV form, as this will be compared.</td>
+								<td>CSV</td>
+							</tr>
+							</tbody>
+						</table>
+						<br /><br />
+						<h4>Tasks</h4>
+						<p>Every exercise file consists of tasks. These must be solved by the users. One can use the following fields to define a task:</p>
+						<table className="table table-condensed">
+							<tbody>
+							<tr>
+								<td>
+									<strong>Key</strong>
+								</td>
+								<td>
+									<strong>Type</strong>
+								</td>
+								<td>
+									<strong>Explanation</strong>
+								</td>
+								<td>
+									<strong>Example</strong>
+								</td>
+							</tr>
+							<tr>
+								<td>"title"</td>
+								<td>string</td>
+								<td>Title of the task</td>
+								<td>"1a."</td>
+							</tr>
+							<tr>
+								<td>"body"</td>
+								<td>string</td>
+								<td>Body text of the exercise</td>
+								<td>"Return all records that are in the relation R"</td>
+							</tr>
+							<tr>
+								<td>"expectedOutput"</td>
+								<td>string</td>
+								<td>What is the solution.</td>
+								<td>Dependant on which "checkingMode" has been defined. See "Checking Modes"</td>
+							</tr>
+							<tr>
+								<td>"hint"</td>
+								<td>string</td>
+								<td>A hint for the user</td>
+								<td>"Use Select"</td>
+							</tr>
+							<tr>
+								<td>"output"</td>
+								<td>
+				'' | 'RESULT' | 'QUERY' | 'ALL' | 'IMAGE' | 'RESULT+QUERY' | 'QUERY+IMAGE' | 'RESULT+IMAGE'
+				
+								</td>
+								<td>Explanation below.</td>
+								<td>"RESULT"</td>
+							</tr>
+							</tbody>
+						</table>
+						<br /><br />
+						<h4>Task output</h4>
+						<p>With this key you can control which output you need from the exercise. Letting the user download exactly what you want submitted with one button click. The default name of the file is task.title + fileType e.g. 1a.txt.</p>
+						<p>The following values are possible:</p>
+						<table className="table table-condensed">
+							<tbody>
+							<tr>
+								<td>
+									<strong>Value</strong>
+								</td>
+								<td>
+									<strong>Output</strong>
+								</td>
+							</tr>
+							<tr>
+								<td>""</td>
+								<td>No output</td>
+							</tr>
+							<tr>
+								<td>"RESULT"</td>
+								<td>The result table in form of a CSV file</td>
+							</tr>
+							<tr>
+								<td>"QUERY"</td>
+								<td>The executed query in a TXT file</td>
+							</tr>
+							<tr>
+								<td>"IMAGE"</td>
+								<td>JPEG of the operator tree.</td>
+							</tr>
+							<tr>
+								<td>"RESULT+QUERY"</td>
+								<td>Both RESULT and QUERY</td>
+							</tr>
+							<tr>
+								<td>"QUERY+IMAGE"</td>
+								<td>Both QUERY and IMAGE</td>
+							</tr>
+							<tr>
+								<td>"RESULT+IMAGE"</td>
+								<td>Both RESULT and IMAGE</td>
+							</tr>
+							<tr>
+								<td>"ALL"</td>
+								<td>Query, Image and Resullt</td>
+							</tr>
+							</tbody>
+						</table>
+						<h4>Example Exercise File</h4>
+						<p>
+							<code className="example block">{`
+{
+	"title": "Test Example 1",
+  "body": "This is an example body text for an exercise.",
+  "checkingActive": true,
+  "checkingMode": "query",
+  "tasks": [
+		{
+			"title": "1a",
+			"body": "Return all records that are in the relation R",
+			"expectedOutput": "Select * from R",
+			"hint": "Use Select!",
+			"output": "RESULT"
+		}
+   ]
+}
+							`}
+							</code>
+						</p>
+						
+						
 							<h2 id="relalg-reference">Reference - relational algebra</h2>
 
 							<h3 id="relalg-syntax">General syntax</h3>

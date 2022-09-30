@@ -29,6 +29,7 @@ interface Props {
 	group: Group,
 	replaceSelection?(text: string): void,
 	relInsertModalToggle: Function,
+	getResult: any;
 }
 
 export class EditorSql extends React.Component<Props> {
@@ -38,6 +39,11 @@ export class EditorSql extends React.Component<Props> {
 		super(props);
 
 		this.replaceText = this.replaceText.bind(this);
+	}
+
+
+	getQueryResult(data: any) {
+		this.props.getResult(data);
 	}
 
 	render() {
@@ -55,6 +61,7 @@ export class EditorSql extends React.Component<Props> {
 				textChange={(cm: CodeMirror.Editor) => { } }
 				exampleSql={group.exampleSQL}
 				exampleRA={group.exampleRA}
+				setQueryResult={this.getQueryResult.bind(this)}
 				ref={ref => {
 					if (ref) {
 						this.editorBase = ref;

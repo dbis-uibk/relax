@@ -28,6 +28,7 @@ export const KEYWORDS_RELALG = [
 type Props = {
 	group: Group,
 	relInsertModalToggle: Function,
+	getResult: any,
 };
 type State = {
 	autoreplaceOperatorsMode: AutoreplaceOperatorsMode,
@@ -47,7 +48,9 @@ export class EditorRelalg extends React.Component<Props, State> {
 		this.replaceText = this.replaceText.bind(this);
 	}
 
-	
+	getQueryResult(data: any) {
+		this.props.getResult(data);
+	}
 	
 	
 
@@ -64,6 +67,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 			<EditorBase
 				exampleRA={group.exampleRA}
 				exampleSql={group.exampleSQL}
+				setQueryResult={this.getQueryResult.bind(this)}
 				textChange={(cm: CodeMirror.Editor) => { } }
 				ref={ref => {
 					if (ref) {

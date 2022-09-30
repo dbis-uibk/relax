@@ -292,9 +292,11 @@ export class TaskMenu extends React.Component<Props, State> {
 	
 	
 	// TODO: DELETE	
+	/*
 	componentDidMount() {
 		this.createTempExercise();
 	}
+	*/
 
 
 	setShow(val: boolean) {

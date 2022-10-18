@@ -1338,6 +1338,7 @@ valueExprFunctionsNary
 = func:(
 	('coalesce'i { return ['coalesce', 'null']; })
 	/ ('concat'i { return ['concat', 'string']; })
+	/ ('replace'i { return ['replace', 'string']; })
 )
 '(' _ arg0:valueExpr _ argn:(',' _ valueExpr _ )* ')'
 	{

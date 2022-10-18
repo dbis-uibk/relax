@@ -630,6 +630,11 @@ export class ValueExprGeneric extends ValueExpr {
 					value += a;
 				}
 				return value;
+			case 'replace':
+				const str = this._args[0].evaluate(tupleA, tupleB, row, statementSession);
+				const from_str = this._args[1].evaluate(tupleA, tupleB, row, statementSession);
+				const to_str = this._args[2].evaluate(tupleA, tupleB, row, statementSession);
+				return str.replace(new RegExp(from_str, 'g'), to_str);
 			case 'reverse':
 				const r = this._args[0].evaluate(tupleA, tupleB, row, statementSession);
 
@@ -877,6 +882,8 @@ export class ValueExprGeneric extends ValueExpr {
 			case 'upper':
 			case 'reverse':
 				return this._checkArgsDataType(schemaA, schemaB, ['string']);
+			case 'replace':
+				return this._checkArgsDataType(schemaA, schemaB, ['string', 'string', 'string']);
 			case 'concat':
 				if (this._args.length === 0) {
 					throw new Error('this should not happen!');
@@ -1011,6 +1018,7 @@ export class ValueExprGeneric extends ValueExpr {
 				case 'concat':
 				case 'upper':
 				case 'lower':
+				case 'replace':	
 				case 'reverse':
 				case 'date':
 					return printFunction.call(this, _func.toUpperCase());

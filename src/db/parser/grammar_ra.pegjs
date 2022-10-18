@@ -1551,6 +1551,7 @@ valueExprFunctionsUnary
 	/ ('ucase'i { return ['upper', 'string']; })
 	/ ('lower'i { return ['lower', 'string']; })
 	/ ('lcase'i { return ['lower', 'string']; })
+	/ ('reverse'i { return ['reverse', 'string']; })
 	/ ('length'i { return ['strlen', 'number']; })
 	/ ('abs'i { return ['abs', 'number']; })
 	/ ('floor'i { return ['floor', 'number']; })

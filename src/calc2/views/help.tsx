@@ -2058,6 +2058,12 @@ export class Help extends React.Component<Props> {
 								</tr>
 
 								<tr>
+									<td><code>reverse(a:string)</code></td>
+									<td>string</td>
+									<td>returns the given string with the order of the characters reversed.</td>
+								</tr>
+
+								<tr>
 									<td><code>strlen(a:string)</code></td>
 									<td>number</td>
 									<td>number of characters of the string</td>

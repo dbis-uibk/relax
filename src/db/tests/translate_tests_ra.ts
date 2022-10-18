@@ -1089,6 +1089,22 @@ QUnit.test('pi with eval: upper()', function (assert) {
 	assert.deepEqual(result, reference);
 });
 
+QUnit.test('pi with eval: reverse()', function (assert) {
+	const relations = getTestRelations();
+	const result = exec_ra(" pi reverse(x)->y (pi concat(a, b, c)->x (R)) ", relations).getResult();
+	result.eliminateDuplicateRows();
+
+	const reference = exec_ra('{y:string\n' +
+		'da1\n' +
+		'cc3\n' +
+		'fd4\n' +
+		'bd5\n' +
+		'fe6\n' +
+	'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
 QUnit.test('pi with eval: add()', function (assert) {
 	const relations = getTestRelations();
 	const result = exec_ra(' pi a, add(a, a) ->x R ', relations).getResult();

@@ -1089,6 +1089,22 @@ QUnit.test('pi with eval: upper()', function (assert) {
 	assert.deepEqual(result, reference);
 });
 
+QUnit.test('pi with eval: lower()', function (assert) {
+	const relations = getTestRelations();
+	const result = exec_ra(" sigma y < 'd' (pi lower(x)->y (pi upper(S.b)->x S)) ", relations).getResult();
+	result.eliminateDuplicateRows();
+
+	const reference = exec_ra(`
+	{
+		x:string
+		a
+		b
+		c
+	}`, {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
 QUnit.test('pi with eval: reverse()', function (assert) {
 	const relations = getTestRelations();
 	const result = exec_ra(" pi reverse(x)->y (pi concat(a, b, c)->x (R)) ", relations).getResult();

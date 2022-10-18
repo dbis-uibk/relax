@@ -67,7 +67,7 @@ export class Main extends React.Component<Props, State> {
 								<Redirect from="/relax/calc" to="/relax/calc/local/uibk/local/0" exact strict />
 								<Route path="/relax/calc/:source/:id/:filename/:index" component={ConnectedCalc} />
 								<Route path="/relax/calc/:source/:id" component={ConnectedCalc} />
-								<Route path="/relax/calc/:source/:id/:filename/:index" component={ConnectedCalc} />
+								<Route path="/relax/api/:source/:id/:filename/:index" component={ConnectedCalc} />
 								<Route path="/relax/api/:source/:id" component={ConnectedCalc} />
 								<Route render={match => (
 									<div className="view-min"><h1>404</h1>

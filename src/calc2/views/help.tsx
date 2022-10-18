@@ -2060,7 +2060,7 @@ export class Help extends React.Component<Props> {
 								<tr>
 									<td><code>replace(str:string, from_str:string, to_str:string)</code></td>
 									<td>string</td>
-									<td>Returns the string str with all occurrences of the string from_str replaced by the string to_str. replace() performs a case-sensitive match when searching for from_str.</td>
+									<td>returns the string str with all occurrences of the string from_str replaced by the string to_str. replace() performs a case-sensitive match when searching for from_str.</td>
 								</tr>
 
 								<tr>

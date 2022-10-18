@@ -53,6 +53,7 @@ export class Calculator extends React.Component<Props, State> {
 			datasetModal: false,
 			relationModal: false,
 		};
+		
 
 		this.getCurrentEditor = this.getCurrentEditor.bind(this);
 		this.toggleDatasetModal = this.toggleDatasetModal.bind(this);
@@ -75,8 +76,7 @@ export class Calculator extends React.Component<Props, State> {
 		if (i18n.language === lang) {
 			return;
 		}
-
-		if (window.confirm('Reload page to change language?')) { // TODO: i18n
+		if(window.confirm(i18n.t('local.change'))) {
 			i18n.changeLanguage(lang);
 			window.location.reload();
 		}

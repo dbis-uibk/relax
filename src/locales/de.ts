@@ -218,4 +218,5 @@ export const langDE: Partial<typeof langEN> = {
 	'calc.editors.ra.inline-editor.row-type': 'Typ',
 	'calc.editors.ra.inline-editor.input-relation-name': 'Relations Name',
 	'calc.result.exec.time': 'Ausführungszeit: ',
+	'local.change': 'Seite neu laden um Sprache zu ändern?',
 };

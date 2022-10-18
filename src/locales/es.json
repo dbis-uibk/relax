@@ -434,5 +434,6 @@
     "calc.editors.ra.inline-editor.row-type": "Escriba",
     "calc.editors.ra.inline-editor.input-relation-name": "Nombre de la relación",
     "calc.navigation.imprint": "Imprimir",
-	"calc.result.exec.time": "Tiempo de consulta"
+	"calc.result.exec.time": "Tiempo de consulta",
+	"local.change": "¿Recargar la página para cambiar el idioma?"
   }

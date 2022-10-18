@@ -7,6 +7,7 @@
 import { Group, GroupInfo, GroupSourceType, HeaderTranslated, SourceInfo } from 'calc2/store/groups';
 import { parseRelalgGroup, relalgFromRelalgAstNode, replaceVariables } from 'db/relax-core';
 import * as jQuery from 'jquery';
+import {string} from "prop-types";
 
 const ld: any = require('../data/uibk.txt');
 const LOCAL_DATA: { [id: string]: string } = {
@@ -59,6 +60,7 @@ function extractTranslatedHeader<T extends string | null>(
 
 export function getGroupsFromGroupAst(groupAst: relalgAst.GroupRoot, groupInfo: GroupInfo, sourceInfo: SourceInfo) {
   const groups: Group[] = [];
+	
   for (let i = 0; i < groupAst.groups.length; i++) {
     const astGroup = groupAst.groups[i];
     replaceVariables(astGroup, {});
@@ -69,12 +71,14 @@ export function getGroupsFromGroupAst(groupAst: relalgAst.GroupRoot, groupInfo: 
 
     const category = extractTranslatedHeader(astGroup.headers, 'category', '');
     // FIXME: category need to be null for misc/no group
-
+		
+		
     const group: Group = {
       groupName,
       groupDesc,
       category,
-
+			exampleSQL: astGroup.exampleSql,
+			exampleRA: astGroup.exampleRA,
       tables: [],
       groupInfo: {
         ...groupInfo,
@@ -83,10 +87,11 @@ export function getGroupsFromGroupAst(groupAst: relalgAst.GroupRoot, groupInfo: 
       sourceInfo,
       definition: astGroup.codeInfo.text,
     };
-
+		
     // tables
     for (let j = 0; j < astGroup.assignments.length; j++) {
       const result = relalgFromRelalgAstNode(astGroup.assignments[j].child, {});
+		
       result.check();
 
       const relation = result.getResult().createRelation(astGroup.assignments[j].name);
@@ -127,6 +132,8 @@ export function loadGroupsFromSource(source: GroupSourceType, id: string, mainta
           continue;
         }
 
+			//	console.log(data.files[filename].content)
+
         const author = data.owner === null ? 'anonymous' : data.owner.login;
         const authorUrl = data.owner === null ? undefined : data.owner.html_url;
         const info: GroupInfo = {
@@ -147,7 +154,6 @@ export function loadGroupsFromSource(source: GroupSourceType, id: string, mainta
 
         try {
           newGroups.push(...parseGroupsFromDefinition(data.files[filename].content, info, sourceInfo));
-
           resolve(newGroups);
         }
         catch (e) {

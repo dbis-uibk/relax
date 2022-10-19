@@ -2058,6 +2058,12 @@ export class Help extends React.Component<Props> {
 								</tr>
 
 								<tr>
+									<td><code>repeat(str:string, count:number)</code></td>
+									<td>string</td>
+									<td>returns a string consisting of the string str repeated count times. If count is less than 1, returns an empty string. Returns null if str or count are null.</td>
+								</tr>
+
+								<tr>
 									<td><code>replace(str:string, from_str:string, to_str:string)</code></td>
 									<td>string</td>
 									<td>returns the string str with all occurrences of the string from_str replaced by the string to_str. replace() performs a case-sensitive match when searching for from_str.</td>

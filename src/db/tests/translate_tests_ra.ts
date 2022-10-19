@@ -1105,6 +1105,21 @@ QUnit.test('pi with eval: lower()', function (assert) {
 	assert.deepEqual(result, reference);
 });
 
+QUnit.test('pi with eval: repeat()', function (assert) {
+	const relations = getTestRelations();
+	const result = exec_ra(" pi repeat(b, 3)->x (R)) ", relations).getResult();
+	result.eliminateDuplicateRows();
+
+	const reference = exec_ra('{x:string\n' +
+		'aaa\n' +
+		'ccc\n' +
+		'ddd\n' +
+		'eee\n' +
+	'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
 QUnit.test('pi with eval: replace()', function (assert) {
 	const relations = getTestRelations();
 	const result = exec_ra(" pi replace(x, 'c', 'C')->y (pi concat(a, b, c)->x (R)) ", relations).getResult();

@@ -353,6 +353,7 @@ declare module relalgAst {
 		| 'subdate'
 		| 'upper'
 		| 'lower'
+		| 'repeat'
 		| 'replace'
 		| 'reverse'
 		| 'strlen'

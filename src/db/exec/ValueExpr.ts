@@ -630,6 +630,16 @@ export class ValueExprGeneric extends ValueExpr {
 					value += a;
 				}
 				return value;
+			case 'repeat':
+				const rep = this._args[0].evaluate(tupleA, tupleB, row, statementSession);
+				const count = this._args[1].evaluate(tupleA, tupleB, row, statementSession);
+
+				if (rep === null || count === null) {
+					return null;
+				}
+				else {
+					return rep.repeat(count >= 0 ? count : 0);
+				}
 			case 'replace':
 				const str = this._args[0].evaluate(tupleA, tupleB, row, statementSession);
 				const from_str = this._args[1].evaluate(tupleA, tupleB, row, statementSession);
@@ -884,6 +894,28 @@ export class ValueExprGeneric extends ValueExpr {
 				return this._checkArgsDataType(schemaA, schemaB, ['string']);
 			case 'replace':
 				return this._checkArgsDataType(schemaA, schemaB, ['string', 'string', 'string']);
+			case 'repeat':
+				//return this._checkArgsDataType(schemaA, schemaB, ['string', 'number']);
+
+				if (this._args.length !== 2) {
+					throw new Error('this should not happen!');
+				}
+
+				// arguments must be of type string and number, or null
+				this._args[0].check(schemaA, schemaB);
+				const typeStr = this._args[0].getDataType();
+				this._args[1].check(schemaA, schemaB);
+				const typeCount = this._args[1].getDataType();
+
+				if ( (typeStr !== 'string' && typeStr !== 'null') ||
+					 (typeCount !== 'number' && typeCount !== 'null') ) {
+					this.throwExecutionError(i18n.t('db.messages.exec.error-function-expects-type', {
+						func: 'repeat()',
+						expected: ['string', 'number'],
+						given: [typeStr, typeCount],
+					}));
+				}
+				break;
 			case 'concat':
 				if (this._args.length === 0) {
 					throw new Error('this should not happen!');

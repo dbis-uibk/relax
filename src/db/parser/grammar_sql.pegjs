@@ -1366,6 +1366,7 @@ valueExprFunctionsBinary
 	/ ('sub'i { return ['sub', 'number']; })
 	/ ('mul'i { return ['mul', 'number']; })
 	/ ('div'i { return ['div', 'number']; })
+	/ ('repeat'i { return ['repeat', 'string']; })
 )
 '(' _ arg0:valueExpr _ ',' _ arg1:valueExpr _ ')'
 	{

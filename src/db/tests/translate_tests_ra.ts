@@ -1274,6 +1274,26 @@ QUnit.test('test like operator', function (assert) {
 	assert.deepEqual(result, reference);
 });
 
+QUnit.test('test regexp operator', function (assert) {
+	const result = exec_ra(`pi x, x regexp '^(a|e)'->starts_a_or_e, x regexp '(a|e)$'->ends_b_or_c, x rlike '(a|e)'->has_a_or_e {
+	x
+
+	abb
+	bba
+	bab
+	ebe
+	}`, {}).getResult();
+
+	const reference = exec_ra(`{
+	x, starts_a_or_e, ends_a_or_e, has_a_or_e
+
+	abb, true,  false, true
+	bba, false, true,  true
+	eab, false, false, true
+	aba, true,  true,  true
+	}`, {}).getResult();
+	assert.deepEqual(result, reference);
+});
 
 QUnit.test('groupby textgen', function (assert) {
 	const ast = relalgjs.parseRelalg(`gamma a; sum(b)->c ({a, b

@@ -1252,7 +1252,7 @@ expr_rest_boolean_comparison
 			codeInfo: getCodeInfo()
 		};
 	}
-/ _ o:('like'i / 'ilike'i) _ right:valueExprConstants
+/ _ o:('like'i / 'ilike'i / 'regexp'i / 'rlike'i) _ right:valueExprConstants
 	{
 		if(right.datatype !== 'string'){
 			error(t('db.messages.parser.error-valueexpr-like-operand-no-string'));
@@ -1543,7 +1543,7 @@ reference: https://dev.mysql.com/doc/refman/5.7/en/operator-precedence.html
 2: - (unary minus)
 3: *, /, %
 4: -, +
-5: = (comparison), >=, >, <=, <, <>, !=, IS, LIKE
+5: = (comparison), >=, >, <=, <, <>, !=, IS, LIKE, REGEXP
 6: CASE, WHEN, THEN, ELSE
 7: AND
 8: XOR

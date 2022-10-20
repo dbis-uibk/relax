@@ -340,6 +340,8 @@ declare module relalgAst {
 		| 'and'
 		| 'like'
 		| 'ilike'
+		| 'regexp'
+		| 'rlike'
 		| 'add'
 		| 'sub'
 		| 'mul'

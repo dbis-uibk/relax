@@ -445,6 +445,8 @@ export class ValueExprGeneric extends ValueExpr {
 				return ValueExprGeneric._condition_compare(a, b, typeA, this._func);
 			case 'like':
 			case 'ilike':
+			case 'regexp':
+			case 'rlike':
 				if(!this._regex){
 					throw new Error(`regex should have been set by check`);
 				}
@@ -596,6 +598,18 @@ export class ValueExprGeneric extends ValueExpr {
 
 				this._regex = new RegExp('^' + regex_str + '$', flags);
 
+				break;
+			case 'regexp':
+			case 'rlike':
+				this._args[0].check(schemaA, schemaB);
+				if (this._args[1].getDataType() !== 'string' || this._args[1]._func !== 'constant') {
+					return false;
+				}
+
+				// cache regex
+				const txt = this._args[1]._args[0]; // direct access of constant value
+				let regex_txt = txt;
+				this._regex = new RegExp(regex_txt);
 				break;
 			default:
 				throw new Error('this should not happen!');
@@ -1083,6 +1097,8 @@ export class ValueExprGeneric extends ValueExpr {
 				case 'xor':
 				case 'like':
 				case 'ilike':
+				case 'regexp':
+				case 'rlike':
 				case '=':
 					return binary.call(this, _func);
 

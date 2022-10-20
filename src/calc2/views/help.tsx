@@ -1943,6 +1943,18 @@ export class Help extends React.Component<Props> {
 									</td>
 								</tr>
 								<tr>
+									<td><code>a:string REGEXP 'PATTERN'<br />
+											  a:string RLIKE 'PATTERN'</code></td>
+									<td>boolean</td>
+									<td>returns true if expression evaluating to a string <code>a</code> matches
+										the pattern given as the second operand, false otherwise.
+										<br />
+										The pattern has to be given as a string literal and it can be an extended regular expression, the syntax for
+										which is discussed in <a href="https://dev.mysql.com/doc/refman/8.0/en/regexp.html#regexp-syntax">Regular Expression Syntax</a>.
+										<br />This might not be in the SQL standard but is supported in MySQL.
+									</td>
+								</tr>
+								<tr>
 									<td>
 				<code>a + b
 				a - b
@@ -2170,7 +2182,7 @@ export class Help extends React.Component<Props> {
 								</tr>
 								<tr>
 									<td>5</td>
-									<td>= (comparison), {'>'}=, {'>'}, {'<'}=, {'<'}, {'<'}{'>'}, !=, LIKE, ILIKE</td>
+									<td>= (comparison), {'>'}=, {'>'}, {'<'}=, {'<'}, {'<'}{'>'}, !=, LIKE, ILIKE, REGEXP, RLIKE</td>
 								</tr>
 								<tr>
 									<td>6</td>

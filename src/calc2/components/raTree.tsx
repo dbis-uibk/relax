@@ -99,7 +99,8 @@ export class RaTree extends React.Component<Props> {
 							: null
 						}
 						{
-							n._execTime ? <p>{t('calc.result.exec.time')} {n._execTime}ms</p> : <p>{t('calc.result.exec.time')} - ms</p>
+							// TODO: show 0 
+							n._execTime ? <p>{t('calc.result.exec.time')} {n._execTime }ms</p> : <p>{t('calc.result.exec.time')}- ms</p>
 						}
 						
 						

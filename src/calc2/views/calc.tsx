@@ -50,6 +50,11 @@ export class Calc extends React.Component<Props> {
 		})*/
 		this.apiView = this.props.location.pathname.split("/")[2] == "api"
 		this.params = queryString.parse(this.props.location.search)
+
+		// It's necessary to load remote group synchronouly
+		if (this.apiView) {
+			this.loadGroup(this.props);
+		}
 	}
 
 	componentDidUpdate(prevProps: Props): void {

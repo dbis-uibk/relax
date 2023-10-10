@@ -7,4 +7,5 @@ build
 /bower_components
 /tmp
 /yarn-error.log
-/reports/.DS_Store
+/reports/
+.DS_Store

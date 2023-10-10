@@ -3,7 +3,7 @@ A relational algebra calculator
 
 ## How to build
 * Install yarn https://yarnpkg.com/
-* Install node@12 https://nodejs.org/en/
+* Install node https://nodejs.org/en/
 * Clone the repo
 * Checkout the `development` branch
 * Execute `yarn install` to install all dependencies

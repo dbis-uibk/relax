@@ -245,7 +245,7 @@ export function loadStaticGroups() {
 		id: string,
 	}[] = [
 			{
-				maintainerGroup: 'Federal University of Espírito Santo',
+				maintainerGroup: t('calc.maintainer-groups.ufes'),
 				maintainer: '<a href="https://github.com/rlaiola">Rodrigo Laiola Guimaraes</a>',
 
 				source: 'local',

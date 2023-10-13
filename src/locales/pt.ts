@@ -132,6 +132,7 @@ export const langPT = {
       'renomear rela\u00e7\u00e3o / renomear colunas',
     'calc.menu.datasets': 'Datasets',
     'calc.maintainer-groups.uibk': 'University of Innsbruck',
+    'calc.maintainer-groups.ufes': 'Universidade Federal do Esp\u00edrito Santo',
     'calc.editors.ra.toolbar.natural-join': 'natural join / \u03b8-join',
     'db.messages.translate.warning-distinct-missing':
       'DISTINCT est\u00e1 faltando',

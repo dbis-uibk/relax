@@ -1943,18 +1943,6 @@ export class Help extends React.Component<Props> {
 									</td>
 								</tr>
 								<tr>
-									<td><code>a:string REGEXP 'PATTERN'<br />
-											  a:string RLIKE 'PATTERN'</code></td>
-									<td>boolean</td>
-									<td>returns true if expression evaluating to a string <code>a</code> matches
-										the pattern given as the second operand, false otherwise.
-										<br />
-										The pattern has to be given as a string literal and it can be an extended regular expression, the syntax for
-										which is discussed in <a href="https://dev.mysql.com/doc/refman/8.0/en/regexp.html#regexp-syntax">Regular Expression Syntax</a>.
-										<br />This might not be in the SQL standard but is supported in MySQL.
-									</td>
-								</tr>
-								<tr>
 									<td>
 				<code>a + b
 				a - b
@@ -2052,12 +2040,9 @@ export class Help extends React.Component<Props> {
 								</tr>
 
 								<tr>
-									<td><code>concat(a:"any" [, ...])</code></td>
+									<td><code>concat(a:string [, ...])</code></td>
 									<td>string</td>
-									<td>returns the string that results from concatenating the arguments.
-										<br />May have one or more arguments. A non-string argument is implicitly converted to its equivalent string form and then concatenated. Returns null if any argument is null (like in <a
-								href="https://dev.mysql.com/doc/refman/8.0/en/string-functions.html#function_concat">MySQL</a>).
-									</td>
+									<td>concatenates the given strings</td>
 								</tr>
 								<tr>
 									<td><code>upper(a:string)
@@ -2070,24 +2055,6 @@ export class Help extends React.Component<Props> {
 										lcase(a:string)</code></td>
 									<td>string</td>
 									<td>converts the given string to lower-case</td>
-								</tr>
-
-								<tr>
-									<td><code>repeat(str:string, count:number)</code></td>
-									<td>string</td>
-									<td>returns a string consisting of the string str repeated count times. If count is less than 1, returns an empty string. Returns null if str or count are null.</td>
-								</tr>
-
-								<tr>
-									<td><code>replace(str:string, from_str:string, to_str:string)</code></td>
-									<td>string</td>
-									<td>returns the string str with all occurrences of the string from_str replaced by the string to_str. replace() performs a case-sensitive match when searching for from_str.</td>
-								</tr>
-
-								<tr>
-									<td><code>reverse(a:string)</code></td>
-									<td>string</td>
-									<td>returns the given string with the order of the characters reversed.</td>
 								</tr>
 
 								<tr>
@@ -2185,7 +2152,7 @@ export class Help extends React.Component<Props> {
 								</tr>
 								<tr>
 									<td>5</td>
-									<td>= (comparison), {'>'}=, {'>'}, {'<'}=, {'<'}, {'<'}{'>'}, !=, LIKE, ILIKE, REGEXP, RLIKE</td>
+									<td>= (comparison), {'>'}=, {'>'}, {'<'}=, {'<'}, {'<'}{'>'}, !=, LIKE, ILIKE</td>
 								</tr>
 								<tr>
 									<td>6</td>

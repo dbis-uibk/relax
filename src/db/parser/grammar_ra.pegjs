@@ -1419,7 +1419,7 @@ expr_rest_boolean_comparison
 			codeInfo: getCodeInfo()
 		};
 	}
-/ _ o:('like'i / 'ilike'i / 'regexp'i / 'rlike'i) _ right:valueExprConstants
+/ _ o:('like'i / 'ilike'i) _ right:valueExprConstants
 	{
 		if(right.datatype !== 'string'){
 			error(t('db.messages.parser.error-valueexpr-like-operand-no-string'));
@@ -1505,7 +1505,6 @@ valueExprFunctionsNary
 = func:(
 	('coalesce'i { return ['coalesce', 'null']; })
 	/ ('concat'i { return ['concat', 'string']; })
-	/ ('replace'i { return ['replace', 'string']; })
 )
 '(' _ arg0:valueExpr _ argn:(',' _ valueExpr _ )* ')'
 	{
@@ -1533,7 +1532,6 @@ valueExprFunctionsBinary
 	/ ('sub'i { return ['sub', 'number']; })
 	/ ('mul'i { return ['mul', 'number']; })
 	/ ('div'i { return ['div', 'number']; })
-	/ ('repeat'i { return ['repeat', 'string']; })
 )
 '(' _ arg0:valueExpr _ ',' _ arg1:valueExpr _ ')'
 	{
@@ -1553,7 +1551,6 @@ valueExprFunctionsUnary
 	/ ('ucase'i { return ['upper', 'string']; })
 	/ ('lower'i { return ['lower', 'string']; })
 	/ ('lcase'i { return ['lower', 'string']; })
-	/ ('reverse'i { return ['reverse', 'string']; })
 	/ ('length'i { return ['strlen', 'number']; })
 	/ ('abs'i { return ['abs', 'number']; })
 	/ ('floor'i { return ['floor', 'number']; })
@@ -1708,7 +1705,7 @@ reference: https://dev.mysql.com/doc/refman/5.7/en/operator-precedence.html
 2: - (unary minus)
 3: *, /, %
 4: -, +
-5: = (comparison), >=, >, <=, <, <>, !=, IS, LIKE, REGEXP, RLIKE
+5: = (comparison), >=, >, <=, <, <>, !=, IS, LIKE
 6: CASE, WHEN, THEN, ELSE
 7: AND
 8: XOR

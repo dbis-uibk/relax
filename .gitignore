@@ -1,3 +1,4 @@
+.DS_Store
 /nbproject/private/
 /node_modules
 .brackets.json
@@ -8,4 +9,3 @@ build
 /tmp
 /yarn-error.log
 **/reports
-.DS_Store

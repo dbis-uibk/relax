@@ -56,6 +56,8 @@ export class NavigationMobile extends React.Component<Props, State> {
                         <DropdownItem onClick={() => this.changeLocale('de')}>de</DropdownItem>
                         <DropdownItem onClick={() => this.changeLocale('es')}>es</DropdownItem>
                         <DropdownItem onClick={() => this.changeLocale('kr')}>kr</DropdownItem>
+                        <DropdownItem onClick={() => this.changeLocale('pt')}>pt</DropdownItem>
+                        <DropdownItem onClick={() => this.changeLocale('zhCn')}>zh-cn</DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
                 <NavbarBrand href="/">RelaX</NavbarBrand>

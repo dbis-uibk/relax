@@ -31,7 +31,7 @@ A relational algebra calculator
 * Insert a string for every language key there is (pay attention to {{variables}} as they must stay untouched)
 * When finished, execute the script `writeLanguageFiles.py` which generates the json files based on the csv
 * In `src/calc2/i18n.tsx` add an import for this file as well as initializing it in the i18n init function (see other languages for examples)
-* Add a new dropdown entry to `src/calc2/calculator.entry.tsx` and `src/calc2/calculator.entry.tsx`
+* Add a new dropdown entry to `src/calc2/components/calculator.tsx`, `src/calc2/components/navigation.tsx` and `src/calc2/components/navigation-mobile.tsx` (see other languages for examples). Note that the argument for `changeLocale` should match the property name in `resources` object in the i18n init function
 * Test your language
 * Create a pull request to the development branch
 

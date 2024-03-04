@@ -99,6 +99,7 @@ export const langDE: Partial<typeof langEN> = {
 	'calc.maintainer-groups.misc': 'Diverse',
 	'calc.maintainer-groups.temp': 'Ungespeichert',
 	'calc.maintainer-groups.uibk': 'Universität Innsbruck',
+	'calc.maintainer-groups.ufes': 'Bundesuniversität Espírito Santo',
 	'calc.editors.button-history': 'Verlauf',
 	'calc.editors.insert-relation-title': 'Einfügen',
 	'calc.editors.insert-relation-tooltip': 'Beziehungs- oder Spaltennamen einfügen',

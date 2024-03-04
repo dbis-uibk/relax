@@ -100,6 +100,7 @@ export const langEN = {
 	'calc.maintainer-groups.misc': 'Miscellaneous',
 	'calc.maintainer-groups.temp': 'Temporary',
 	'calc.maintainer-groups.uibk': 'University of Innsbruck',
+	'calc.maintainer-groups.ufes': 'Federal University of Espírito Santo',
 	'calc.editors.button-history': 'history',
 	'calc.editors.insert-relation-title': 'Insert',
 	'calc.editors.insert-relation-tooltip': 'Insert relation or column names',

@@ -110,6 +110,7 @@ export const langES: Partial<typeof langEN> = {
   'calc.maintainer-groups.misc': 'Misceláneo',
   'calc.maintainer-groups.temp': 'Temporal',
   'calc.maintainer-groups.uibk': 'Universidad de Innsbruck',
+  'calc.maintainer-groups.ufes': 'Universidad Federal de Espírito Santo',
   'calc.editors.button-history': 'historia',
 	'calc.editors.insert-relation-title': 'Insertar',
 	'calc.editors.insert-relation-tooltip': 'Insertar nombres de relaciones o columnas',

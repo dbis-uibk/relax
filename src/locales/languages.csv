@@ -174,8 +174,8 @@ calc.editors.group.modal-sqldump.button-import-sql,import SQL,Importar SQL,impor
 calc.editors.group.modal-sqldump.description,Put your SQL-Dump here to create a group.,Coloque seu SQL-Dump aqui para criar um grupo.,Kopieren Sie den SQL-Dump hier her um einen Datensatz daraus zu erstellen.,Ponga su SQL-Dump aquí para crear un grupo.,그룹을 생성하려면 SQL-Dump 이곳에 가져와라
 calc.editors.ra.tab-name,Relational Algebra,Álgebra Relacional,Relationale Algebra,Álgebra Relacional,관계 대수
 calc.editors.ra.tab-name-short,RelAlg,AlgRel,RelAlg,ÁlgRel,관계 대수
-calc.editors.ra.button-execute-query,execute query,Executar consulta,Query ausführen,executar consulta,쿼리 실행
-calc.editors.ra.button-execute-selection,execute selection,Executar seleção,Markierung ausführen,executar selección,셀렉션 실행
+calc.editors.ra.button-execute-query,execute query,Executar consulta,Query ausführen,ejecutar consulta,쿼리 실행
+calc.editors.ra.button-execute-selection,execute selection,Executar seleção,Markierung ausführen,ejecutar selección,셀렉션 실행
 calc.editors.ra.button-download,download,Download,download,descargar,다운로드
 calc.editors.ra.toolbar.projection,projection,Projeção,Projektion,proyección,프로젝션
 calc.editors.ra.toolbar.projection-content,"<b class=""math"">&pi;</b> a, b <b>(</b> A <b>)</b>

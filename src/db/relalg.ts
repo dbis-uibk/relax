@@ -137,7 +137,8 @@ const pegParserSql = require('./parser/grammar_sql.pegjs') as any;
 export function parseSQLSelect(text: string): sqlAst.rootSql {
 
 	return pegParserSql.parse(
-		text,
+		// Remove any whitespace before '(' character
+		text.replace(/\s*\(/g, '('),
 		{
 			startRule: 'start',
 			tracer: undefined,

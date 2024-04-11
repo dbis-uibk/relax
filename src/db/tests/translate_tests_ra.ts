@@ -254,6 +254,24 @@ QUnit.test('test selection with xor', function (assert) {
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
+QUnit.test('test projection[*](R)', function (assert) {
+	const relations = getTestRelations();
+	const query = 'pi * (R)';
+	const root = exec_ra(query, relations);
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+
+		1, 'a', 'd'
+		3, 'c', 'c'
+		4, 'd', 'f'
+		5, 'd', 'b'
+		6, 'e', 'f'
+	}`, relations);
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
 QUnit.test('test projection[a, b](R)', function (assert) {
 	const relations = getTestRelations();
 	const query = 'pi a, b (R)';
@@ -299,6 +317,22 @@ QUnit.test('test projection[b, a, a, b](R)', function (assert) {
 	catch (e) {
 		assert.ok(true);
 	}
+});
+
+QUnit.test('test (pi * (R)) inner join [R.b = S.b] (pi * (S))', function (assert) {
+	const relations = getTestRelations();
+	const root = exec_ra('(R) inner join R.b = S.b (S)', relations);
+	const ref = exec_ra(`{
+		R.a:number, R.b:string, R.c:string, S.b:string, S.d:number
+
+		1,          'a',        'd',        'a',        100
+		3,          'c',        'c',        'c',        400
+		4,          'd',        'f',        'd',        200
+		5,          'd',        'b',        'd',        200
+		6,          'e',        'f',        'e',        150
+	}`, relations);
+
+	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
 QUnit.test('test (R) inner join [R.b = S.b] join (S)', function (assert) {

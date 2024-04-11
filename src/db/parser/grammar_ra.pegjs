@@ -254,6 +254,17 @@ columnName
 			relAlias: relAlias
 		};
 	}
+
+columnAsterisk
+= relAlias:(relationName '.')? '*'
+	{
+		return {
+			type: 'column',
+			name: '*',
+			relAlias: relAlias ? relAlias[0] : null
+		};
+	}
+
 / relAlias:(relationName '.')? '[' index:$[0-9]+ ']'
 	{
 		if(relAlias != null)
@@ -441,6 +452,11 @@ namedColumnExpr
 / a:columnName
 	{
 		return a;
+	}
+/ col:columnAsterisk
+	{
+		col.alias = null;
+		return col;
 	}
 
 // list of columns (kd.id, kd.name, test) e.g. for the projection

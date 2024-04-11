@@ -79,6 +79,12 @@ declare module relalgAst {
 		relAlias: string | null,
 	}
 
+	interface columnAsterisk {
+		type: 'column',
+		name: '*',
+		relAlias: string | null
+	}
+
 	interface namedColumnExpr {
 		type: 'namedColumnExpr',
 		name: string,
@@ -139,7 +145,7 @@ declare module relalgAst {
 		child: relalgOperation,
 		child2?: undefined,
 		assignments?: undefined,
-		arg: (namedColumnExpr | columnName)[],
+		arg: (namedColumnExpr | columnName | columnAsterisk)[],
 
 		wrappedInParentheses?: boolean,
 		metaData?: { [key: string]: any },

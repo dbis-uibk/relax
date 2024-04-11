@@ -526,7 +526,17 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					for (let i = 0; i < n.arg.length; i++) {
 						const el = n.arg[i];
 
-						if (el.type === 'columnName') {
+						if (el.type === 'column' &&
+						    el.name === '*' &&
+								el.relAlias === null) {
+							// project all columns
+							let cols = child.getSchema();
+							for (let i = 0; i < cols.getSize(); i++) {
+								// normal columns
+								projections.push(cols.getColumn(i));
+							}
+						}
+						else if (el.type === 'columnName') {
 							const e = el as relalgAst.columnName;
 							projections.push(new Column(e.name, e.relAlias));
 						}

@@ -481,7 +481,7 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const node = relations[n.name].copy();
 					// Passing metadata from inner relation/expression to output relation
 					if (n.metaData && n.metaData.fromVariable) {
-						const relAlias = n.metaData && n.metaData.fromVariable;
+						const relAlias = n.metaData.fromVariable;
 						node.setMetaData('fromVariable', relAlias);
 					}
 					setAdditionalData(n, node);

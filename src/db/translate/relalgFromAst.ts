@@ -477,8 +477,15 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					if (typeof (relations[n.name]) === 'undefined') {
 						throw new ExecutionError(i18n.t('db.messages.translate.error-relation-not-found', { name: n.name }), n.codeInfo);
 					}
+					const start = Date.now();
 					const node = relations[n.name].copy();
+					// Passing metadata from inner relation/expression to output relation
+					if (n.metaData && n.metaData.fromVariable) {
+						const relAlias = n.metaData && n.metaData.fromVariable;
+						node.setMetaData('fromVariable', relAlias);
+					}
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
 					return node;
 				}
 
@@ -509,6 +516,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child = recRANode(n.child);
 					const condition = recValueExpr(n.arg);
 					const node = new Selection(child, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+					    child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 					return node;
@@ -528,7 +540,12 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 
 						if (el.type === 'columnName') {
 							const e = el as relalgAst.columnName;
-							projections.push(new Column(e.name, e.relAlias));
+							// Bypass relAlias if temp table used to reference column
+							if (child.getMetaData('fromVariable') &&
+									child.getMetaData('fromVariable') === el.relAlias) {
+								projections.push(new Column(el.name, null));	
+							}
+							else projections.push(new Column(e.name, e.relAlias));
 						}
 						else if (el.type === 'namedColumnExpr') {
 							const e = el as relalgAst.namedColumnExpr;

@@ -518,7 +518,7 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const node = new Selection(child, condition);
 					// Passing metadata from inner relation/expression to output relation
 					if (!node.getMetaData('fromVariable') &&
-					    child.getMetaData('fromVariable')) {
+							child.getMetaData('fromVariable')) {
 						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
 					}
 					setAdditionalData(n, node);
@@ -540,12 +540,7 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 
 						if (el.type === 'columnName') {
 							const e = el as relalgAst.columnName;
-							// Bypass relAlias if temp table used to reference column
-							if (child.getMetaData('fromVariable') &&
-									child.getMetaData('fromVariable') === el.relAlias) {
-								projections.push(new Column(el.name, null));	
-							}
-							else projections.push(new Column(e.name, e.relAlias));
+							projections.push(new Column(e.name, e.relAlias));
 						}
 						else if (el.type === 'namedColumnExpr') {
 							const e = el as relalgAst.namedColumnExpr;
@@ -562,6 +557,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					}
 
 					const node = new Projection(child, projections);
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+							child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 					return node;
@@ -582,6 +582,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					}
 
 					const node = new OrderBy(child, orderCols, orderAsc);
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+							child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -596,6 +601,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const groupByCols = n.group;
 
 					const node = new GroupBy(child, groupByCols, aggregateFunctions);
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+							child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 

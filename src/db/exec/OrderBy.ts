@@ -61,7 +61,9 @@ export class OrderBy extends RANodeUnary {
 
 		for (let i = 0; i < this._orderCols.length; i++) {
 			const col = this._orderCols[i];
-			const index = schema.getColumnIndex(col.getName(), col.getRelAlias());
+			const index = col.getRelAlias() != this._child.getMetaData('fromVariable') ?
+				schema.getColumnIndex(col.getName(), col.getRelAlias()) :
+				schema.getColumnIndex(col.getName(), null);
 
 			this._orderIndices.push(index);
 		}

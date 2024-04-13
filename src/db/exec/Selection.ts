@@ -134,7 +134,7 @@ export class Selection extends RANodeUnary {
 					}
 
 					if (this._condition.getDataType() === 'boolean') {
-						this._schema = newSchema;
+						// this._schema = newSchema;
 						return;
 					}
 

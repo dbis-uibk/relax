@@ -51,7 +51,11 @@ export class RenameColumns extends RANodeUnary {
 
         // check the rename list
         for (let i = 0; i < list.length; i++) {
-            if (schemaA.getColumnIndex(list[i].oldName, list[i].oldRelAlias, false) === -1) {
+            if (schemaA.getColumnIndex(
+                  list[i].oldName,
+                  list[i].oldRelAlias != this._child.getMetaData('fromVariable') ?
+                    list[i].oldRelAlias : null,
+                  false) === -1) {
                 this.throwExecutionError(i18n.t('db.messages.exec.error-column-not-found-name', {
                     column: Column.printColumn(list[i].oldName, list[i].oldRelAlias),
                     schema: schemaA.toString(),
@@ -67,7 +71,11 @@ export class RenameColumns extends RANodeUnary {
             let columnRenamed = false;
             for (let j = 0; j < list.length; j++) {
                 const e = list[j];
-                if (e.oldName === oldColumn.getName() && (e.oldRelAlias === null || e.oldRelAlias === oldColumn.getRelAlias())) {
+                if (e.oldName === oldColumn.getName() &&
+                    (e.oldRelAlias === null ||
+                     e.oldRelAlias === oldColumn.getRelAlias() ||
+                     e.oldRelAlias === this._child.getMetaData('fromVariable'))
+                   ) {
 
                     // add column with new name
                     schema.addColumn(

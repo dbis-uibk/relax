@@ -68,7 +68,12 @@ export class GroupBy extends RANodeUnary {
 		const aggregateFunctionsColIndex = Array<number>(this.aggregateFunctions.length);
 
 		for (let i = 0; i < this.groupByCols.length; i++) {
-			groupByColumnIndices[i] = childSchema.getColumnIndex(this.groupByCols[i].name, this.groupByCols[i].relAlias);
+			groupByColumnIndices[i] =
+				childSchema.getColumnIndex(
+					this.groupByCols[i].name,
+					this.groupByCols[i].relAlias != this._child.getMetaData('fromVariable') ?
+						this.groupByCols[i].relAlias : null
+				);
 		}
 
 		for (let i = 0; i < this.aggregateFunctions.length; i++) {
@@ -87,7 +92,12 @@ export class GroupBy extends RANodeUnary {
 			}
 
 			if (f.aggFunction !== 'COUNT_ALL') {
-				aggregateFunctionsColIndex[i] = childSchema.getColumnIndex(f.col.name, f.col.relAlias);
+				aggregateFunctionsColIndex[i] =
+					childSchema.getColumnIndex(
+						f.col.name,
+						f.col.relAlias != this._child.getMetaData('fromVariable') ?
+							f.col.relAlias : null
+					);
 			}
 		}
 

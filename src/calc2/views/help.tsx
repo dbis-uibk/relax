@@ -667,8 +667,10 @@ export class Help extends React.Component<Props> {
 										and the names of the attributes/columns are not affected by assignment:
 										<code className="block example">X = R
 				X join S</code>
-										The attributes of the relation R are only accessible with its original names (R.a, R.b, ..),
-										and are not affected by the assignment.
+										The attributes of the relation R are accessible with either its original names (R.a, R.b, ..)
+										or the variable name used in the assignment:
+										<code className="block example">X = R
+				pi X.a (X join S)</code>
 									</p>
 
 									<p>There is a known problem when the last assignment ends with a natural join and the query consists

@@ -699,6 +699,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new InnerJoin(child, child2, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+							child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -712,6 +717,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new CrossJoin(child, child2);
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+							child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -728,6 +738,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 						type: 'natural',
 						restrictToColumns: null,
 					});
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+							child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -741,6 +756,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new SemiJoin(child, child2, true);
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+							child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -754,6 +774,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new SemiJoin(child, child2, false);
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+							child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -768,6 +793,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
 					const node = new AntiJoin(child, child2, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+							child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -782,6 +812,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
 					const node = new LeftOuterJoin(child, child2, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+							child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -796,6 +831,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
 					const node = new RightOuterJoin(child, child2, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+							child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -810,6 +850,11 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
 					const node = new FullOuterJoin(child, child2, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (!node.getMetaData('fromVariable') &&
+							child.getMetaData('fromVariable')) {
+						node.setMetaData('fromVariable', child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 

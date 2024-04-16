@@ -239,7 +239,10 @@ export class Projection extends RANodeUnary {
 					const element = this._columns[i] as Column;
 					const name = element.getName();
 					const relAlias = element.getRelAlias();
-					index = childSchema.getColumnIndex(name, relAlias);
+					index = childSchema.getColumnIndex(name, 
+						relAlias != this._child.getMetaData('fromVariable') ?
+							relAlias : null
+					);
 				}
 
 				_indices[i] = index;

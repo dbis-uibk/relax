@@ -59,11 +59,56 @@ export class OrderBy extends RANodeUnary {
 
 		this._orderIndices = [];
 
+		// Get relation aliases
+		const relAliases = this._child.getMetaData('fromVariable');
+		// Split relation aliases into array
+		const vars = relAliases ? relAliases.split(" ") : [];
+
 		for (let i = 0; i < this._orderCols.length; i++) {
 			const col = this._orderCols[i];
-			const index = col.getRelAlias() != this._child.getMetaData('fromVariable') ?
-				schema.getColumnIndex(col.getName(), col.getRelAlias()) :
-				schema.getColumnIndex(col.getName(), null);
+			let index = -1;
+			const iSchema = vars.indexOf(col.getRelAlias() + '');
+
+			if (iSchema >= 0) {
+				let j = 0, k = 0;
+				// Set first relation alias
+				let lastAlias = schema.getColumn(j).getRelAlias();
+				for (; j < schema.getSize(); j++) {
+					// Check if relation alias changed
+					if (schema.getColumn(j).getRelAlias() !== lastAlias) {
+						lastAlias = schema.getColumn(j).getRelAlias();
+						k++;
+					}
+
+					// Check if column name and relation alias match
+					if (schema.getColumn(j).getName() === col.getName() &&
+					  k === iSchema) {
+						// Set index
+						index = j;
+						break;
+					}
+				}
+
+				// Throw error if column not found
+				if (index === -1) {
+					// Column not found
+					try {
+						schema.getColumnIndex(col.getName(), col.getRelAlias());
+					}
+					catch (e) {
+						this.throwExecutionError(e.message);
+					}
+				}
+			}
+			else {
+				// default case
+				try {
+					index = schema.getColumnIndex(col.getName(), col.getRelAlias());
+				}
+				catch (e) {
+					this.throwExecutionError(e.message);
+				}
+			}
 
 			this._orderIndices.push(index);
 		}

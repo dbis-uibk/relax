@@ -67,13 +67,62 @@ export class GroupBy extends RANodeUnary {
 		const groupByColumnIndices = new Array<number>(this.groupByCols.length);
 		const aggregateFunctionsColIndex = Array<number>(this.aggregateFunctions.length);
 
+		// Get relation aliases
+		const relAliases = this._child.getMetaData('fromVariable');
+		// Split relation aliases into array
+		const vars = relAliases ? relAliases.split(" ") : [];
+
 		for (let i = 0; i < this.groupByCols.length; i++) {
-			groupByColumnIndices[i] =
-				childSchema.getColumnIndex(
-					this.groupByCols[i].name,
-					this.groupByCols[i].relAlias != this._child.getMetaData('fromVariable') ?
-						this.groupByCols[i].relAlias : null
-				);
+			let index = -1;
+			const iSchema = vars.indexOf(this.groupByCols[i].relAlias + '');
+
+			if (iSchema >= 0) {
+				let j = 0, k = 0;
+				// Set first relation alias
+				let lastAlias = childSchema.getColumn(j).getRelAlias();
+				for (; j < childSchema.getSize(); j++) {
+					// Check if relation alias changed
+					if (childSchema.getColumn(j).getRelAlias() !== lastAlias) {
+						lastAlias = childSchema.getColumn(j).getRelAlias();
+						k++;
+					}
+
+					// Check if column name and relation alias match
+					if (childSchema.getColumn(j).getName() === this.groupByCols[i].name &&
+					  k === iSchema) {
+						// Set index
+						index = j;
+						break;
+					}
+				}
+
+				// Throw error if column not found
+				if (index === -1) {
+					// Column not found
+					try {
+						childSchema.getColumnIndex(
+							this.groupByCols[i].name,
+							this.groupByCols[i].relAlias);
+					}
+					catch (e) {
+						this.throwExecutionError(e.message);
+					}
+				}
+			}
+			else {
+				// default case
+				try {
+					index = childSchema.getColumnIndex(
+						this.groupByCols[i].name,
+						this.groupByCols[i].relAlias
+					);
+				}
+				catch (e) {
+					this.throwExecutionError(e.message);
+				}
+			}
+
+			groupByColumnIndices[i] = index;
 		}
 
 		for (let i = 0; i < this.aggregateFunctions.length; i++) {
@@ -92,15 +141,58 @@ export class GroupBy extends RANodeUnary {
 			}
 
 			if (f.aggFunction !== 'COUNT_ALL') {
-				aggregateFunctionsColIndex[i] =
-					childSchema.getColumnIndex(
-						f.col.name,
-						f.col.relAlias != this._child.getMetaData('fromVariable') ?
-							f.col.relAlias : null
-					);
+				let index = -1;
+				const iSchema = vars.indexOf(f.col.relAlias + '');
+
+				if (iSchema >= 0) {
+					let j = 0, k = 0;
+					// Set first relation alias
+					let lastAlias = childSchema.getColumn(j).getRelAlias();
+					for (; j < childSchema.getSize(); j++) {
+						// Check if relation alias changed
+						if (childSchema.getColumn(j).getRelAlias() !== lastAlias) {
+							lastAlias = childSchema.getColumn(j).getRelAlias();
+							k++;
+						}
+	
+						// Check if column name and relation alias match
+						if (childSchema.getColumn(j).getName() === f.col.name &&
+							k === iSchema) {
+							// Set index
+							index = j;
+							break;
+						}
+					}
+	
+					// Throw error if column not found
+					if (index === -1) {
+						// Column not found
+						try {
+							childSchema.getColumnIndex(
+								f.col.name,
+								f.col.relAlias);
+						}
+						catch (e) {
+							this.throwExecutionError(e.message);
+						}
+					}
+				}
+				else {
+					// default case
+					try {
+						index = childSchema.getColumnIndex(
+							f.col.name,
+							f.col.relAlias
+						);
+					}
+					catch (e) {
+						this.throwExecutionError(e.message);
+					}
+				}
+
+				aggregateFunctionsColIndex[i] = index;
 			}
 		}
-
 
 		// create new Schema
 		const schema = new Schema();

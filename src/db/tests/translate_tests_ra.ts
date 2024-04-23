@@ -1224,6 +1224,22 @@ QUnit.test('groupby textgen', function (assert) {
 		'} ) ');
 });
 
+QUnit.test('test orderBy explicit column of relation', function (assert) {
+	const query = 'tau R.a asc (R)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		1,   a,   d
+		3,   c,   c
+		4,   d,   f
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
 QUnit.test('test orderBy implicit column of relation', function (assert) {
 	const query = 'tau a asc (R)';
 	const root = exec_ra(query, getTestRelations());
@@ -1529,6 +1545,303 @@ QUnit.test('test orderBy explicit columns of local variables from join of multip
 		1,	 a,		d, 	 100
 		4,   d,   f,	 200
 		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit column of relation', function (assert) {
+	const query = 'gamma ; count(a)->n (R)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		n
+		5
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit column of relation', function (assert) {
+	const query = 'gamma ; count(R.a)->n (R)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		n
+		5
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit column of relation from local variable', function (assert) {
+	const query = 'k = R gamma ; sum(a)->n (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		n
+		19
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit column of relation from local variable', function (assert) {
+	const query = 'k = R gamma ; sum(R.a)->n (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		n
+		19
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit column of local variable', function (assert) {
+	const query = 'k = R gamma ; sum(k.a)->n (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		n
+		19
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit columns of relations from join', function (assert) {
+	const query = 'gamma a; max(d)->m (R ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relations from join', function (assert) {
+	const query = 'gamma R.a; max(S.d)->m (R ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit columns of relations from join of local variable and relation', function (assert) {
+	const query = 'k = R j = S gamma a; max(d)->m (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relations from join of local variable and relation', function (assert) {
+	const query = 'k = R j = S gamma R.a; max(S.d)->m (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of local variables from join of local variable and relation', function (assert) {
+	const query = 'k = R j = S gamma k.a; max(S.d)->m (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit columns of relations from join of relation and local variable', function (assert) {
+	const query = 'k = R j = S gamma a; max(d)->m (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relations from join of relation and local variable', function (assert) {
+	const query = 'k = R j = S gamma R.a; max(S.d)->m (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relation and local variable from join of relation and local variable', function (assert) {
+	const query = 'k = R j = S gamma R.a; max(j.d)->m (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relations from join of local variables', function (assert) {
+	const query = 'k = R j = S gamma R.a; max(S.d)->m (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of local variables from join of local variables', function (assert) {
+	const query = 'k = R j = S gamma k.a; max(j.d)->m (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit columns of relations from join of multiple relations', function (assert) {
+	const query = 'k = R j = S z = T gamma a; count(c)->m (R x S x T)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   20
+		3,   20
+		4,   20
+		5,   20
+		6,   20
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relations from join of multiple relations', function (assert) {
+	const query = 'k = R j = S z = T gamma T.b; min(S.d)->m (R x S x T)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		T.b, m
+		a,   100
+		d,   100
+		f,   100
+		g,   100
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit columns from join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T gamma a; count(c)->m (k x j x z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   20
+		3,   20
+		4,   20
+		5,   20
+		6,   20
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relations from join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T gamma T.b; min(S.d)->m (k x j x z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		T.b, m
+		a,   100
+		d,   100
+		f,   100
+		g,   100
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of local variables from join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T gamma z.b; min(j.d)->m (k x j x z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		T.b, m
+		a,   100
+		d,   100
+		f,   100
+		g,   100
 	}`, {});
 
 	assert.deepEqual(root.getResult(), ref.getResult());

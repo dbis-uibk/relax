@@ -1223,3 +1223,313 @@ QUnit.test('groupby textgen', function (assert) {
 		"\t'a'     , 1       \n" +
 		'} ) ');
 });
+
+QUnit.test('test orderBy implicit column of relation', function (assert) {
+	const query = 'tau a asc (R)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		1,	 a,		d
+		3,   c,   c
+		4,   d,   f
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit column of relation from local variable', function (assert) {
+	const query = 'k = R tau a asc (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		1,	 a,		d
+		3,   c,   c
+		4,   d,   f
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit column of relation from local variable', function (assert) {
+	const query = 'k = R tau R.a asc (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		1,	 a,		d
+		3,   c,   c
+		4,   d,   f
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit column of local variable', function (assert) {
+	const query = 'k = R tau k.a asc (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		1,	 a,		d
+		3,   c,   c
+		4,   d,   f
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit columns of relations from join', function (assert) {
+	const query = 'tau a asc, b desc, d (R ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of relations from join', function (assert) {
+	const query = 'tau R.a asc, R.b desc, S.d (R ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit columns of relations from join of local variable and relation', function (assert) {
+	const query = 'k = R j = S tau a asc, b desc, d (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of relations from join of local variable and relation', function (assert) {
+	const query = 'k = R j = S tau R.a asc, R.b desc, S.d (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of local variable from join of local variable and relation', function (assert) {
+	const query = 'k = R j = S tau k.a asc, k.b desc, S.d (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit columns of relations from join of relation and local variable', function (assert) {
+	const query = 'k = R j = S tau a asc, b desc, d (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of relations from join of relation and local variable', function (assert) {
+	const query = 'k = R j = S tau R.a asc, R.b desc, S.d (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of local variable from join of relation and local variable', function (assert) {
+	const query = 'k = R j = S tau R.a asc, R.b desc, j.d (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit columns of relations from join of local variables', function (assert) {
+	const query = 'k = R j = S tau a asc, b desc, d (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of relations from join of local variables', function (assert) {
+	const query = 'k = R j = S tau R.a asc, R.b desc, S.d (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of local variables from join of local variables', function (assert) {
+	const query = 'k = R j = S tau k.a asc, k.b desc, j.d (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit columns of relations from join of multiple relations', function (assert) {
+	const query = 'tau a asc, b desc, d (R ⨝ S ⨝ T)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of relations from join of multiple relations', function (assert) {
+	const query = 'tau R.a asc, R.b desc, S.d (R ⨝ S ⨝ T)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit columns from join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T tau a asc, b desc, d (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of relations from join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T tau R.a asc, R.b desc, S.d (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of local variables from join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T tau k.a asc, k.b desc, j.d (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});

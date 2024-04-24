@@ -1847,7 +1847,7 @@ QUnit.test('test groupBy explicit columns of local variables from join of multip
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit column(s) of relation', function (assert) {
+QUnit.test('test projection of explicit column(s) of relation', function (assert) {
 	const query = 'pi R.a, R.c (R)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -1863,7 +1863,7 @@ QUnit.test('test project explicit column(s) of relation', function (assert) {
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project implicit column(s) of relation', function (assert) {
+QUnit.test('test projection of implicit column(s) of relation', function (assert) {
 	const query = 'pi a, c (R)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -1879,7 +1879,7 @@ QUnit.test('test project implicit column(s) of relation', function (assert) {
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project implicit column(s) of relation from local variable', function (assert) {
+QUnit.test('test projection of implicit column(s) of relation from local variable', function (assert) {
 	const query = 'k = R pi a, c (k)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -1895,7 +1895,7 @@ QUnit.test('test project implicit column(s) of relation from local variable', fu
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit column(s) of relation from local variable', function (assert) {
+QUnit.test('test projection of explicit column(s) of relation from local variable', function (assert) {
 	const query = 'k = R pi R.a, R.c (k)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -1911,7 +1911,7 @@ QUnit.test('test project explicit column(s) of relation from local variable', fu
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit column(s) of local variable', function (assert) {
+QUnit.test('test projection of explicit column(s) of local variable', function (assert) {
 	const query = 'k = R pi k.a, k.c (k)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -1927,7 +1927,7 @@ QUnit.test('test project explicit column(s) of local variable', function (assert
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project implicit columns of relations from join', function (assert) {
+QUnit.test('test projection of implicit columns of relations from join', function (assert) {
 	const query = 'pi a, b, c, d (R ⨝ S)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -1943,7 +1943,7 @@ QUnit.test('test project implicit columns of relations from join', function (ass
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit columns of relations from join', function (assert) {
+QUnit.test('test projection of explicit columns of relations from join', function (assert) {
 	const query = 'pi R.a, R.b, R.c, S.d (R ⨝ S)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -1959,7 +1959,7 @@ QUnit.test('test project explicit columns of relations from join', function (ass
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project implicit columns of relations from join of local variable and relation', function (assert) {
+QUnit.test('test projection of implicit columns of relations from join of local variable and relation', function (assert) {
 	const query = 'k = R pi a, b, c, d (k ⨝ S)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -1975,7 +1975,7 @@ QUnit.test('test project implicit columns of relations from join of local variab
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit columns of relations from join of local variable and relation', function (assert) {
+QUnit.test('test projection of explicit columns of relations from join of local variable and relation', function (assert) {
 	const query = 'k = R pi R.a, R.b, R.c, S.d (k ⨝ S)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -1991,7 +1991,7 @@ QUnit.test('test project explicit columns of relations from join of local variab
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit columns of local variable from join of local variable and relation', function (assert) {
+QUnit.test('test projection of explicit columns of local variable from join of local variable and relation', function (assert) {
 	const query = 'k = R pi k.a, k.b, k.c, S.d (k ⨝ S)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -2007,7 +2007,7 @@ QUnit.test('test project explicit columns of local variable from join of local v
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project implicit columns of relations from join of relation and local variable', function (assert) {
+QUnit.test('test projection of implicit columns of relations from join of relation and local variable', function (assert) {
 	const query = 'k = R j = S pi a, b, c, d (R ⨝ j)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -2023,7 +2023,7 @@ QUnit.test('test project implicit columns of relations from join of relation and
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit columns of relations from join of relation and local variable', function (assert) {
+QUnit.test('test projection of explicit columns of relations from join of relation and local variable', function (assert) {
 	const query = 'k = R j = S pi R.a, R.b, R.c, S.d (R ⨝ j)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -2039,7 +2039,7 @@ QUnit.test('test project explicit columns of relations from join of relation and
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit columns of local variable from join of relation and local variable', function (assert) {
+QUnit.test('test projection of explicit columns of local variable from join of relation and local variable', function (assert) {
 	const query = 'k = R j = S pi R.a, R.b, R.c, j.d (R ⨝ j)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -2055,7 +2055,7 @@ QUnit.test('test project explicit columns of local variable from join of relatio
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project implicit columns of relations from join of local variables', function (assert) {
+QUnit.test('test projection of implicit columns of relations from join of local variables', function (assert) {
 	const query = 'k = R j = S pi a, b, c, d (k ⨝ j)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -2071,7 +2071,7 @@ QUnit.test('test project implicit columns of relations from join of local variab
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit columns of relations from join of local variables', function (assert) {
+QUnit.test('test projection of explicit columns of relations from join of local variables', function (assert) {
 	const query = 'k = R j = S pi R.a, R.b, R.c, S.d (k ⨝ j)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -2087,7 +2087,7 @@ QUnit.test('test project explicit columns of relations from join of local variab
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit columns of local variables from join of local variables', function (assert) {
+QUnit.test('test projection of explicit columns of local variables from join of local variables', function (assert) {
 	const query = 'k = R j = S pi k.a, k.b, k.c, j.d (k ⨝ j)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -2103,7 +2103,7 @@ QUnit.test('test project explicit columns of local variables from join of local 
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project implicit columns of relations from join of multiple relations', function (assert) {
+QUnit.test('test projection of implicit columns of relations from join of multiple relations', function (assert) {
 	const query = 'pi a, b, c, d (R ⨝ S ⨝ T)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -2117,7 +2117,7 @@ QUnit.test('test project implicit columns of relations from join of multiple rel
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit columns of relations from join of multiple relations', function (assert) {
+QUnit.test('test projection of explicit columns of relations from join of multiple relations', function (assert) {
 	const query = 'pi R.a, R.b, R.c, S.d (R ⨝ S ⨝ T)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -2131,7 +2131,7 @@ QUnit.test('test project explicit columns of relations from join of multiple rel
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project implicit columns from join of multiple local variables', function (assert) {
+QUnit.test('test projection of implicit columns from join of multiple local variables', function (assert) {
 	const query = 'k = R j = S z = T pi a, b, c, d (k ⨝ j ⨝ z)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -2145,7 +2145,7 @@ QUnit.test('test project implicit columns from join of multiple local variables'
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit columns of relations from join of multiple local variables', function (assert) {
+QUnit.test('test projection of explicit columns of relations from join of multiple local variables', function (assert) {
 	const query = 'k = R j = S z = T pi R.a, R.b, R.c, S.d (k ⨝ j ⨝ z)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -2159,7 +2159,7 @@ QUnit.test('test project explicit columns of relations from join of multiple loc
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test project explicit columns of local variables from join of multiple local variables', function (assert) {
+QUnit.test('test projection of explicit columns of local variables from join of multiple local variables', function (assert) {
 	const query = 'k = R j = S z = T pi k.a, k.b, k.c, j.d (k ⨝ j ⨝ z)';
 	const root = exec_ra(query, getTestRelations());
 

@@ -243,6 +243,7 @@ export class Projection extends RANodeUnary {
 						}
 					}
 
+					// If no combination of relation alias works
 					if (!schemaWorked) {
 						this.throwExecutionError(e.message);
 					}

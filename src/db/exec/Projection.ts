@@ -97,6 +97,11 @@ export class Projection extends RANodeUnary {
 
 		const _indices = [];
 
+		// Get relation aliases
+		const relAliases = this._child.getMetaData('fromVariable');
+		// Split relation aliases into array
+		const vars = relAliases ? relAliases.split(" ") : [];
+
 		try {
 			// handle if column name == X.* => replace entry in proj with real names
 			for (let i = 0; i < this._columns.length; i++) {
@@ -141,79 +146,105 @@ export class Projection extends RANodeUnary {
 					element.child.check(unProjectedSchema);
 				}
 				catch (e) {
-					// Second try: check wether condition uses a relation alias
-					const relAlias = this._child.getMetaData('fromVariable');
-					if (relAlias) {
-						// All columns names
-						let allCols: (string | number)[] = [];
-						// Ambiguous columns names
-						let blacklist: (string | number)[] = [];
-						const numCols = unProjectedSchema.getSize();
-						for (let i = 0; i < numCols; i++) {
-							allCols.push(unProjectedSchema.getColumn(i).getName());
+					// Second try: check wether projections use relation alias(es)
 
-							// If column already in blacklist, skip it
-							// Cannot set relation alias for this column
-							if (blacklist.includes(unProjectedSchema.getColumn(i).getName())) {
-								continue;
-							}
+					// All columns names and aliases
+					let allCols: (string | number)[] = [];
+					let allRelAliases: (string | number)[] = [];
+					let allAltRelAliases: (string | number)[] = [];
+					// Ambiguous columns names
+					let blacklist: (string | number)[] = [];
+					const numCols = unProjectedSchema.getSize();
+					// Set first relation alias
+					let lastAlias = unProjectedSchema.getColumn(0).getRelAlias();
+					let k = 0;
+					for (let i = 0; i < numCols; i++) {
+						allCols.push(unProjectedSchema.getColumn(i).getName());
+						allRelAliases.push(unProjectedSchema.getColumn(i).getRelAlias() as string);
+						allAltRelAliases.push(vars[k]);
 
-							for (let j = i+1; j < numCols; j++) {
-								// If found a sibling column, cannot set relation alias
-								if (unProjectedSchema.getColumn(i).getName() === unProjectedSchema.getColumn(j).getName()) {
-									blacklist.push(unProjectedSchema.getColumn(i).getName());
-									break;
-								}
-							}
+						if (unProjectedSchema.getColumn(i).getRelAlias() !== lastAlias) {
+							lastAlias = unProjectedSchema.getColumn(i).getRelAlias();
+							k++;
 						}
 
-						// Unique columns names
-						let whitelist = allCols.filter(x => !blacklist.includes(x));
-						
-						// Generate all column combinations
-						// https://stackoverflow.com/questions/43241174/javascript-generating-all-combinations-of-elements-in-a-single-array-in-pairs
-						let combCols = [];
-						let temp = [];
-						let slent = Math.pow(2, whitelist.length);
-
-						for (let i = 0; i < slent; i++) {
-							temp = [];
-							for (var j = 0; j < whitelist.length; j++) {
-								if ((i & Math.pow(2, j))) {
-									temp.push(whitelist[j]);
-								}
-							}
-							if (temp.length > 0) {
-								combCols.push(temp);
-							}
+						// If column already in blacklist, skip it
+						// Cannot set relation alias for this column
+						if (blacklist.includes(unProjectedSchema.getColumn(i).getName())) {
+							continue;
 						}
 
-						// Apply and test if relation alias works for any combination of
-						// unique columns
-						for (let i = 0; i < combCols.length; i++) {
-							let newSchema = unProjectedSchema.copy();
-
-							for (let j = 0; j < combCols[i].length; j++) {
-
-								for (let k = 0; k < numCols; k++) {
-									if (combCols[i][j] === newSchema.getColumn(k).getName()) {
-										newSchema.setRelAlias(relAlias, k);
-										break;
-									}
-								}
-
-							}
-
-							// Check if combination of relation alias works
-							try {
-								element.child.check(newSchema);
+						for (let j = i+1; j < numCols; j++) {
+							// If found a sibling column, cannot set relation alias
+							if (unProjectedSchema.getColumn(i).getName() === unProjectedSchema.getColumn(j).getName()) {
+								blacklist.push(unProjectedSchema.getColumn(i).getName());
 								break;
 							}
-							catch (e) {
-								// Test failed, try next combination
-								continue;
+						}
+					}
+
+					// Unique columns names
+					// let whitelist = allCols.filter(x => !blacklist.includes(x));
+					
+					// Generate all column combinations
+					// https://stackoverflow.com/questions/43241174/javascript-generating-all-combinations-of-elements-in-a-single-array-in-pairs
+					let combCols = [];
+					let combRelAliases = [];
+					let combTempRelAliases = [];
+					let temp = [];
+					let tempAliases = [];
+					let tempAltAliases = [];
+					let slent = Math.pow(2, allCols.length);
+
+					for (let i = 0; i < slent; i++) {
+						temp = [];
+						tempAliases = [];
+						tempAltAliases = [];
+						for (var j = 0; j < allCols.length; j++) {
+							if ((i & Math.pow(2, j))) {
+								temp.push(allCols[j]);
+								tempAliases.push(allRelAliases[j]);
+								tempAltAliases.push(allAltRelAliases[j]);
 							}
 						}
+						if (temp.length > 0) {
+							combCols.push(temp);
+							combRelAliases.push(tempAliases);
+							combTempRelAliases.push(tempAltAliases);
+						}
+					}
+
+					// Test if relation alias(es) works for any combination of columns
+					let schemaWorked = false;
+					
+					for (let i = 0; i < combCols.length; i++) {
+						let newSchema = unProjectedSchema.copy();
+
+						for (let j = 0; j < combCols[i].length; j++) {
+
+							for (let k = 0; k < numCols; k++) {
+								if (combCols[i][j] === newSchema.getColumn(k).getName() &&
+									combRelAliases[i][j] === newSchema.getColumn(k).getRelAlias()) {
+									// Set relation alias
+									newSchema.setRelAlias(String(combTempRelAliases[i][j]), k);
+								}
+							}
+						}
+
+						// Check if combination of relation alias works
+						try {
+							element.child.check(newSchema);
+							schemaWorked = true;
+							break;
+						}
+						catch (e) {
+							// Test failed, try next combination
+							continue;
+						}
+					}
+
+					if (!schemaWorked) {
+						this.throwExecutionError(e.message);
 					}
 				}
 
@@ -231,18 +262,53 @@ export class Projection extends RANodeUnary {
 
 			// search for indices with the names
 			for (let i = 0; i < this._columns.length; i++) {
-				let index;
-				if (this._columns[i] instanceof Column === false) {
-					index = -1;
-				}
-				else {
+				let index = - 1;;
+				if (this._columns[i] instanceof Column === true) {
 					const element = this._columns[i] as Column;
 					const name = element.getName();
 					const relAlias = element.getRelAlias();
-					index = childSchema.getColumnIndex(name, 
-						relAlias != this._child.getMetaData('fromVariable') ?
-							relAlias : null
-					);
+					const iSchema = vars.indexOf(relAlias + '');
+
+					if (iSchema >= 0) {
+						let j = 0, k = 0;
+						// Set first relation alias
+						let lastAlias = childSchema.getColumn(j).getRelAlias();
+						for (; j < childSchema.getSize(); j++) {
+							// Check if relation alias changed
+							if (childSchema.getColumn(j).getRelAlias() !== lastAlias) {
+								lastAlias = childSchema.getColumn(j).getRelAlias();
+								k++;
+							}
+		
+							// Check if column name and relation alias match
+							if (childSchema.getColumn(j).getName() === name &&
+								k === iSchema) {
+								// Set index
+								index = j;
+								break;
+							}
+						}
+		
+						// Throw error if column not found
+						if (index === -1) {
+							// Column not found
+							try {
+								childSchema.getColumnIndex(name, relAlias);
+							}
+							catch (e) {
+								this.throwExecutionError(e.message);
+							}
+						}
+					}
+					else {
+						// default case
+						try {
+							index = childSchema.getColumnIndex(name, relAlias);
+						}
+						catch (e) {
+							this.throwExecutionError(e.message);
+						}
+					}
 				}
 
 				_indices[i] = index;

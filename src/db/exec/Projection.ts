@@ -159,14 +159,14 @@ export class Projection extends RANodeUnary {
 					let lastAlias = unProjectedSchema.getColumn(0).getRelAlias();
 					let k = 0;
 					for (let i = 0; i < numCols; i++) {
-						allCols.push(unProjectedSchema.getColumn(i).getName());
-						allRelAliases.push(unProjectedSchema.getColumn(i).getRelAlias() as string);
-						allAltRelAliases.push(vars[k]);
-
 						if (unProjectedSchema.getColumn(i).getRelAlias() !== lastAlias) {
 							lastAlias = unProjectedSchema.getColumn(i).getRelAlias();
 							k++;
 						}
+
+						allCols.push(unProjectedSchema.getColumn(i).getName());
+						allRelAliases.push(unProjectedSchema.getColumn(i).getRelAlias() as string);
+						allAltRelAliases.push(vars[k]);
 
 						// If column already in blacklist, skip it
 						// Cannot set relation alias for this column

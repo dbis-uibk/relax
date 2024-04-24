@@ -84,7 +84,7 @@ export class GroupBy extends RANodeUnary {
 					// Check if relation alias changed
 					if (childSchema.getColumn(j).getRelAlias() !== lastAlias) {
 						lastAlias = childSchema.getColumn(j).getRelAlias();
-						k++;
+						if (k < vars.length - 1) k++;
 					}
 
 					// Check if column name and relation alias match
@@ -152,7 +152,7 @@ export class GroupBy extends RANodeUnary {
 						// Check if relation alias changed
 						if (childSchema.getColumn(j).getRelAlias() !== lastAlias) {
 							lastAlias = childSchema.getColumn(j).getRelAlias();
-							k++;
+							if (k < vars.length - 1) k++;
 						}
 	
 						// Check if column name and relation alias match

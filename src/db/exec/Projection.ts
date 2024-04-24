@@ -161,7 +161,7 @@ export class Projection extends RANodeUnary {
 					for (let i = 0; i < numCols; i++) {
 						if (unProjectedSchema.getColumn(i).getRelAlias() !== lastAlias) {
 							lastAlias = unProjectedSchema.getColumn(i).getRelAlias();
-							k++;
+							if (k < vars.length - 1) k++;
 						}
 
 						allCols.push(unProjectedSchema.getColumn(i).getName());
@@ -226,7 +226,13 @@ export class Projection extends RANodeUnary {
 								if (combCols[i][j] === newSchema.getColumn(k).getName() &&
 									combRelAliases[i][j] === newSchema.getColumn(k).getRelAlias()) {
 									// Set relation alias
-									newSchema.setRelAlias(String(combTempRelAliases[i][j]), k);
+									try {
+										newSchema.setRelAlias(String(combTempRelAliases[i][j]), k);
+									}
+									catch (e) {
+										// Test failed, try next combination
+										break;
+									}
 								}
 							}
 						}
@@ -278,7 +284,7 @@ export class Projection extends RANodeUnary {
 							// Check if relation alias changed
 							if (childSchema.getColumn(j).getRelAlias() !== lastAlias) {
 								lastAlias = childSchema.getColumn(j).getRelAlias();
-								k++;
+								if (k < vars.length - 1) k++;
 							}
 		
 							// Check if column name and relation alias match

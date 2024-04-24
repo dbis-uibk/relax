@@ -81,7 +81,7 @@ export class Selection extends RANodeUnary {
 			for (let i = 0; i < numCols; i++) {
 				if (this._schema.getColumn(i).getRelAlias() !== lastAlias) {
 					lastAlias = this._schema.getColumn(i).getRelAlias();
-					k++;
+					if (k < vars.length - 1) k++;
 				}
 
 				allCols.push(this._schema.getColumn(i).getName());
@@ -148,7 +148,13 @@ export class Selection extends RANodeUnary {
 						if (combCols[i][j] === newSchema.getColumn(k).getName() &&
 							combRelAliases[i][j] === newSchema.getColumn(k).getRelAlias()) {
 							// Set relation alias
-							newSchema.setRelAlias(String(combTempRelAliases[i][j]), k);
+							try {
+								newSchema.setRelAlias(String(combTempRelAliases[i][j]), k);
+							}
+							catch (e) {
+								// Test failed, try next combination
+								break;
+							}
 						}
 					}
 				}

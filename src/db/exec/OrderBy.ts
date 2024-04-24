@@ -77,7 +77,7 @@ export class OrderBy extends RANodeUnary {
 					// Check if relation alias changed
 					if (schema.getColumn(j).getRelAlias() !== lastAlias) {
 						lastAlias = schema.getColumn(j).getRelAlias();
-						k++;
+						if (k < vars.length - 1) k++;
 					}
 
 					// Check if column name and relation alias match

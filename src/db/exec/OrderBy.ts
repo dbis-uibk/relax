@@ -4,6 +4,7 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import * as i18n from 'i18next';
 import { Column } from './Column';
 import { RANode, RANodeUnary, Session } from './RANode';
 
@@ -73,6 +74,8 @@ export class OrderBy extends RANodeUnary {
 				let j = 0, k = 0;
 				// Set first relation alias
 				let lastAlias = schema.getColumn(j).getRelAlias();
+				// Check if relation alias already found
+				let found = false;
 				for (; j < schema.getSize(); j++) {
 					// Check if relation alias changed
 					if (schema.getColumn(j).getRelAlias() !== lastAlias) {
@@ -83,9 +86,21 @@ export class OrderBy extends RANodeUnary {
 					// Check if column name and relation alias match
 					if (schema.getColumn(j).getName() === col.getName() &&
 					  k === iSchema) {
+
+						// Column name and alias found previously
+						if (found) {
+							throw new Error(i18n.t('db.messages.exec.error-column-ambiguous', {
+								column: Column.printColumn(
+									col.getName(),
+									col.getRelAlias()
+								),
+								schema: schema,
+							}));
+						}
+
 						// Set index
 						index = j;
-						break;
+						found = true;
 					}
 				}
 

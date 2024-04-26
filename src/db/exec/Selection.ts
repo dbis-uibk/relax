@@ -146,7 +146,8 @@ export class Selection extends RANodeUnary {
 
 					for (let k = 0; k < numCols; k++) {
 						if (combCols[i][j] === newSchema.getColumn(k).getName() &&
-							combRelAliases[i][j] === newSchema.getColumn(k).getRelAlias()) {
+							combRelAliases[i][j] === newSchema.getColumn(k).getRelAlias() &&
+							!blacklist.includes(combCols[i][j])) {
 							// Set relation alias
 							try {
 								newSchema.setRelAlias(String(combTempRelAliases[i][j]), k);

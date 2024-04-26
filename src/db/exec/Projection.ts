@@ -224,7 +224,8 @@ export class Projection extends RANodeUnary {
 
 							for (let k = 0; k < numCols; k++) {
 								if (combCols[i][j] === newSchema.getColumn(k).getName() &&
-									combRelAliases[i][j] === newSchema.getColumn(k).getRelAlias()) {
+									combRelAliases[i][j] === newSchema.getColumn(k).getRelAlias() &&
+									!blacklist.includes(combCols[i][j])) {
 									// Set relation alias
 									try {
 										newSchema.setRelAlias(String(combTempRelAliases[i][j]), k);
@@ -280,19 +281,30 @@ export class Projection extends RANodeUnary {
 						let j = 0, k = 0;
 						// Set first relation alias
 						let lastAlias = childSchema.getColumn(j).getRelAlias();
+						// Check if relation alias already found
+						let found = false;
 						for (; j < childSchema.getSize(); j++) {
 							// Check if relation alias changed
 							if (childSchema.getColumn(j).getRelAlias() !== lastAlias) {
 								lastAlias = childSchema.getColumn(j).getRelAlias();
 								if (k < vars.length - 1) k++;
 							}
-		
+
 							// Check if column name and relation alias match
 							if (childSchema.getColumn(j).getName() === name &&
 								k === iSchema) {
+
+								// Column name and alias found previously
+								if (found) {
+									throw new Error(i18n.t('db.messages.exec.error-column-ambiguous', {
+										column: Column.printColumn(name, relAlias),
+										schema: childSchema,
+									}));
+								}
+
 								// Set index
 								index = j;
-								break;
+								found = true;
 							}
 						}
 		

@@ -80,6 +80,8 @@ export class GroupBy extends RANodeUnary {
 				let j = 0, k = 0;
 				// Set first relation alias
 				let lastAlias = childSchema.getColumn(j).getRelAlias();
+				// Check if relation alias already found
+				let found = false;
 				for (; j < childSchema.getSize(); j++) {
 					// Check if relation alias changed
 					if (childSchema.getColumn(j).getRelAlias() !== lastAlias) {
@@ -90,9 +92,21 @@ export class GroupBy extends RANodeUnary {
 					// Check if column name and relation alias match
 					if (childSchema.getColumn(j).getName() === this.groupByCols[i].name &&
 					  k === iSchema) {
+
+						// Column name and alias found previously
+						if (found) {
+							throw new Error(i18n.t('db.messages.exec.error-column-ambiguous', {
+								column: Column.printColumn(
+									this.groupByCols[i].name,
+									this.groupByCols[i].relAlias
+								),
+								schema: childSchema,
+							}));
+						}
+
 						// Set index
 						index = j;
-						break;
+						found = true;
 					}
 				}
 
@@ -148,6 +162,8 @@ export class GroupBy extends RANodeUnary {
 					let j = 0, k = 0;
 					// Set first relation alias
 					let lastAlias = childSchema.getColumn(j).getRelAlias();
+					// Check if relation alias already found
+					let found = false;
 					for (; j < childSchema.getSize(); j++) {
 						// Check if relation alias changed
 						if (childSchema.getColumn(j).getRelAlias() !== lastAlias) {
@@ -158,9 +174,21 @@ export class GroupBy extends RANodeUnary {
 						// Check if column name and relation alias match
 						if (childSchema.getColumn(j).getName() === f.col.name &&
 							k === iSchema) {
+
+							// Column name and alias found previously
+							if (found) {
+								throw new Error(i18n.t('db.messages.exec.error-column-ambiguous', {
+									column: Column.printColumn(
+										f.col.name,
+										f.col.relAlias
+									),
+									schema: childSchema,
+								}));
+							}
+
 							// Set index
 							index = j;
-							break;
+							found = true;
 						}
 					}
 	

@@ -720,6 +720,17 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					}
 
 					const node = ren;
+					const child = recRANode(n.child);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -731,6 +742,14 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const start = Date.now();
 					const child = recRANode(n.child);
 					const node = new RenameRelation(child, n.newRelAlias);
+					// Passing metadata from inner relation/expression to output relation
+					node.setMetaData(
+						'fromVariable',
+						(
+							node.getMetaData('fromVariable') ?
+								node.getMetaData('fromVariable') + ' ' : ''
+						) +
+						n.newRelAlias);
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 

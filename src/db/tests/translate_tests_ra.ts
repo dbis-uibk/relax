@@ -1096,7 +1096,7 @@ QUnit.test('pi with eval: lower()', function (assert) {
 
 	const reference = exec_ra(`
 	{
-		x:string
+		y:string
 		a
 		b
 		c
@@ -1107,7 +1107,7 @@ QUnit.test('pi with eval: lower()', function (assert) {
 
 QUnit.test('pi with eval: repeat()', function (assert) {
 	const relations = getTestRelations();
-	const result = exec_ra(" pi repeat(b, 3)->x (R)) ", relations).getResult();
+	const result = exec_ra(" pi repeat(b, 3)->x (R) ", relations).getResult();
 	result.eliminateDuplicateRows();
 
 	const reference = exec_ra('{x:string\n' +
@@ -1275,7 +1275,7 @@ QUnit.test('test like operator', function (assert) {
 });
 
 QUnit.test('test regexp operator', function (assert) {
-	const result = exec_ra(`pi x, x regexp '^(a|e)'->starts_a_or_e, x regexp '(a|e)$'->ends_b_or_c, x rlike '(a|e)'->has_a_or_e {
+	const result = exec_ra(`pi x, x regexp '^(a|e)'->starts_a_or_e, x regexp '(a|e)$'->ends_a_or_e, x rlike '(a|e)'->has_a_or_e {
 	x
 
 	abb
@@ -1289,8 +1289,8 @@ QUnit.test('test regexp operator', function (assert) {
 
 	abb, true,  false, true
 	bba, false, true,  true
-	eab, false, false, true
-	aba, true,  true,  true
+	bab, false, false, true
+	ebe, true,  true,  true
 	}`, {}).getResult();
 	assert.deepEqual(result, reference);
 });

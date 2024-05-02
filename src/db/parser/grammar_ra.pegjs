@@ -242,6 +242,16 @@ unqualifiedColumnName
 		return a;
 	}
 
+columnAsterisk
+= relAlias:(relationName '.')? '*'
+	{
+		return {
+			type: 'column',
+			name: '*',
+			relAlias: relAlias ? relAlias[0] : null
+		};
+	}
+
 columnName
 = relAlias:(relationName '.')? name:unqualifiedColumnName
 	{
@@ -254,17 +264,6 @@ columnName
 			relAlias: relAlias
 		};
 	}
-
-columnAsterisk
-= relAlias:(relationName '.')? '*'
-	{
-		return {
-			type: 'column',
-			name: '*',
-			relAlias: relAlias ? relAlias[0] : null
-		};
-	}
-
 / relAlias:(relationName '.')? '[' index:$[0-9]+ ']'
 	{
 		if(relAlias != null)

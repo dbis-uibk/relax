@@ -122,12 +122,19 @@ export const langEN = {
 	'calc.editors.group.modal-sqldump.description': 'Put your SQL-Dump here to create a group.',
 	'calc.editors.ra.tab-name': 'Relational Algebra',
 	'calc.editors.ra.tab-name-short': 'RelAlg',
+	'calc.editors.bags.tab-name': 'Multiset Algebra',
+	'calc.editors.bags.tab-name-short': 'BagAlg',
 	'calc.editors.ra.button-execute-query': 'execute query',
 	'calc.editors.ra.button-execute-selection': 'execute selection',
 	'calc.editors.ra.button-download': 'Download CSV',
 	'calc.editors.ra.button-download-csv': 'Result (CSV)',
 	'calc.editors.ra.button-download-jpg': 'Result (JPG)',
 	'calc.editors.ra.button-download-query': 'Query',
+	'calc.editors.ra.toolbar.duplicate-elimination': 'duplicate elimination',
+  'calc.editors.ra.toolbar.duplicate-elimination-content': [
+    '<b class="math">&delta;</b> <b>(</b> A <b>)</b>',
+    '<br><b>delta</b> A',
+  ].join('\n'),
 	'calc.editors.ra.toolbar.projection': 'projection',
 	'calc.editors.ra.toolbar.projection-content': `
 		<b class=\"math\">&pi;</b> a, b <b>(</b> A <b>)</b>

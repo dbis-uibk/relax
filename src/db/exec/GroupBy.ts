@@ -152,14 +152,14 @@ export class GroupBy extends RANodeUnary {
 	}
 
 
-	getResult(session?: Session) {
+	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
 		session = this._returnOrCreateSession(session);
 
 		if (this.checked === null) {
 			throw new Error(`check not called`);
 		}
 
-		const org = this.getChild().getResult(session);
+		const org = this.getChild().getResult(doEliminateDuplicateRows, session);
 		const res = new Table();
 		res.setSchema(this.checked.schema);
 
@@ -331,7 +331,9 @@ export class GroupBy extends RANodeUnary {
 			res.addRow(groupsOfRows[i].resultTuple);
 		}
 
-		res.eliminateDuplicateRows();
+		if (doEliminateDuplicateRows === true) {
+			res.eliminateDuplicateRows();
+		}
 		this.setResultNumRows(res.getNumRows());
 		return res;
 	}

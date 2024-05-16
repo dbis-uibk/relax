@@ -57,7 +57,7 @@ export class FullOuterJoin extends Join {
 		}
 	}
 
-	getResult(session?: Session) {
+	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
 		session = this._returnOrCreateSession(session);
 
 		if (this._joinConditionEvaluator === null || this._rowCreatorMatched === null || this._rowCreatorNotMatched === null) {
@@ -69,6 +69,7 @@ export class FullOuterJoin extends Join {
 
 		// left join
 		Join.calcNestedLoopJoin(
+			doEliminateDuplicateRows,
 			session,
 			this.getChild(), this.getChild2(),
 			resultTable,
@@ -81,6 +82,7 @@ export class FullOuterJoin extends Join {
 
 		// right join
 		Join.calcNestedLoopJoin(
+			doEliminateDuplicateRows,
 			session,
 			this.getChild(), this.getChild2(),
 			resultTable,
@@ -91,7 +93,9 @@ export class FullOuterJoin extends Join {
 			this._rowCreatorNotMatched,
 		);
 
-		resultTable.eliminateDuplicateRows();
+		if (doEliminateDuplicateRows === true) {
+			resultTable.eliminateDuplicateRows();
+		}
 		this.setResultNumRows(resultTable.getNumRows());
 
 		return resultTable;

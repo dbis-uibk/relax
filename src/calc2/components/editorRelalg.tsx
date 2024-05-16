@@ -63,6 +63,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 		return (
 			<EditorBase
 				exampleRA={group.exampleRA}
+				exampleBags={group.exampleBags}
 				exampleSql={group.exampleSQL}
 				textChange={(cm: CodeMirror.Editor) => { } }
 				ref={ref => {
@@ -102,6 +103,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 								root={root}
 								numTreeLabelColors={NUM_TREE_LABEL_COLORS}
 								execTime={self.state.execTime == null ? 0 : self.state.execTime}
+								doEliminateDuplicates={true}
 							/>
 						),
 					};

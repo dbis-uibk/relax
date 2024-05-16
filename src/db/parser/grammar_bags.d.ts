@@ -339,6 +339,7 @@ declare module relalgAst {
 		assignments: assignment[],
 		codeInfo: CodeInfo,
 		exampleSql?: string,
+		exampleBags?: string,
 		exampleRA?: string;
 	}
 

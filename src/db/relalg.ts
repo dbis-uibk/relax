@@ -36,6 +36,7 @@ export function queryWithReplacedOperatorsFromAst(
 
 	const newOperators = {
 		'math2plain': {
+			'delta': 'delta',
 			'pi': 'pi',
 			'sigma': 'sigma',
 			'rho': 'rho',
@@ -59,6 +60,7 @@ export function queryWithReplacedOperatorsFromAst(
 			'fullOuterJoinOperator': 'full outer join',
 		},
 		'plain2math': {
+			'delta': '∂',
 			'pi': 'π',
 			'sigma': 'σ',
 			'rho': 'ρ',
@@ -131,7 +133,6 @@ export function queryWithReplacedOperatorsFromAst(
 
 
 
-const pegParserBags = require('./parser/grammar_bags.pegjs') as any;
 const pegParserSql = require('./parser/grammar_sql.pegjs') as any;
 
 export function parseSQLSelect(text: string): sqlAst.rootSql {

@@ -5,7 +5,7 @@
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import * as i18n from 'i18next';
-import { RANode, RANodeBinary, Session } from './RANode';
+import { RANode, RANodeBinary, RANodeUnary, Session } from './RANode';
 import { Schema } from './Schema';
 import { Table } from './Table';
 
@@ -16,13 +16,11 @@ import { Table } from './Table';
  *
  * Union is done by concatenating the two results (left||right)
  */
-export class Union extends RANodeBinary {
+export class EliminateDuplicates extends RANodeUnary {
 	private _schema: Schema | null = null;
 
-	constructor(child: RANode, child2: RANode) {
-		super('∪', child, child2);
-
-		this._schema = null; // is set by check
+	constructor(child: RANode) {
+		super('&delta;', child);
 	}
 
 	getSchema() {
@@ -39,34 +37,17 @@ export class Union extends RANodeBinary {
 			throw new Error(`check not called`);
 		}
 
-		const res = new Table();
-		const orgA = this.getChild().getResult(doEliminateDuplicateRows, session);
-		const orgB = this.getChild2().getResult(doEliminateDuplicateRows, session);
-		res.setSchema(this._schema);
+		const res = this._child.getResult(doEliminateDuplicateRows, session).copy();
+		res.setSchema(this.getSchema());
 
-		// copy
-		res.addRows(orgA.getRows());
-		res.addRows(orgB.getRows());
-
-		if (doEliminateDuplicateRows === true) {
-			res.eliminateDuplicateRows();
-		}
 		this.setResultNumRows(res.getNumRows());
 		return res;
 	}
 
 	check() {
 		this._child.check();
-		this._child2.check();
 
-		if (this._child.getSchema().equalsTypeOnly(this._child2.getSchema()) === false) {
-			this.throwExecutionError(i18n.t('db.messages.exec.error-schemas-not-unifiable', {
-				schemaA: this._child.getSchema(),
-				schemaB: this._child2.getSchema(),
-			}));
-		}
-
-		// schema of union is the left schema
+		// schema of eliminate duplicates is the child schema
 		this._schema = this._child.getSchema().copy();
 	}
 }

@@ -31,10 +31,10 @@ export class Selection extends RANodeUnary {
 		return this._schema;
 	}
 
-	getResult(session?: Session) {
+	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
 		session = this._returnOrCreateSession(session);
 		const res = new Table();
-		const org = this.getChild().getResult(session);
+		const org = this.getChild().getResult(doEliminateDuplicateRows, session);
 		res.setSchema(org.getSchema());
 
 		// copy

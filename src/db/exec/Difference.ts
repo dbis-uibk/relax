@@ -31,24 +31,30 @@ export class Difference extends RANodeBinary {
 		return this._schema;
 	}
 
-	getResult(session?: Session) {
+	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
 		session = this._returnOrCreateSession(session);
 		if (this._schema === null) {
 			throw new Error(`check not called`);
 		}
 
 		const res = new Table();
-		const orgA = this.getChild().getResult(session);
-		const orgB = this.getChild2().getResult(session);
+		const orgA = this.getChild().getResult(doEliminateDuplicateRows, session);
+		const orgB = this.getChild2().getResult(doEliminateDuplicateRows, session);
 		res.setSchema(this._schema);
+		let paintedIndexes: (number)[] = [];
 
 		// copy
 		for (let i = 0; i < orgA.getNumRows(); i++) {
 			const rowA = orgA.getRow(i);
 			let notFound = true;
 			for (let j = 0; j < orgB.getNumRows(); j++) {
+				if (paintedIndexes.indexOf(j) !== -1) {
+					continue;
+				}
+
 				if (Table.rowEqualsRow(rowA, orgB.getRow(j))) {
 					notFound = false;
+					paintedIndexes.push(j);
 					break;
 				}
 			}
@@ -58,6 +64,9 @@ export class Difference extends RANodeBinary {
 			}
 		}
 
+		if (doEliminateDuplicateRows === true) {
+			res.eliminateDuplicateRows();
+		}
 		this.setResultNumRows(res.getNumRows());
 		return res;
 	}

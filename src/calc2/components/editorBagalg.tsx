@@ -62,6 +62,7 @@ export class EditorBagalg extends React.Component<Props, State> {
 
 		return (
 			<EditorBase
+				exampleBags={group.exampleBags}
 				exampleRA={group.exampleRA}
 				exampleSql={group.exampleSQL}
 				textChange={(cm: CodeMirror.Editor) => { } }
@@ -72,7 +73,7 @@ export class EditorBagalg extends React.Component<Props, State> {
 				}}
 				mode="bagalg"
 				execFunction={(self: EditorBase, text: string, offset) => {
-					const ast = parseRelalg(text, Object.keys(relations));
+					const ast = parseRelalg(text, Object.keys(relations), false);
 					replaceVariables(ast, relations);
 
 					if (ast.child === null) {
@@ -102,6 +103,7 @@ export class EditorBagalg extends React.Component<Props, State> {
 								root={root}
 								numTreeLabelColors={NUM_TREE_LABEL_COLORS}
 								execTime={self.state.execTime == null ? 0 : self.state.execTime}
+								doEliminateDuplicates={false}
 							/>
 						),
 					};
@@ -110,7 +112,7 @@ export class EditorBagalg extends React.Component<Props, State> {
 				linterFunction={(self: EditorBase, editor: CodeMirror.Editor, text: string) => {
 					const hints = [];
 
-					const ast = parseRelalg(text, Object.keys(relations));
+					const ast = parseRelalg(text, Object.keys(relations), false);
 					replaceVariables(ast, relations);
 
 					for (let i = 0; i < ast.assignments.length; i++) {

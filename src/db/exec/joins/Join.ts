@@ -127,7 +127,7 @@ export abstract class Join extends RANodeBinary {
 	protected abstract _checkSchema(schemaA: Schema, schemaB: Schema): void;
 
 
-	_getResult(session: Session | undefined, doEliminateDuplicateRows: boolean) {
+	_getResult(doEliminateDuplicateRows: boolean = true, session: Session | undefined) {
 		session = this._returnOrCreateSession(session);
 
 		
@@ -141,6 +141,7 @@ export abstract class Join extends RANodeBinary {
 		this._executionStart = Date.now();
 
 		Join.calcNestedLoopJoin(
+			doEliminateDuplicateRows,
 			session,
 			this.getChild(),
 			this.getChild2(),
@@ -199,6 +200,7 @@ export abstract class Join extends RANodeBinary {
 	}
 
 	static calcNestedLoopJoin(
+		doEliminateDuplicateRows: boolean,
 		session: Session,
 		childA: RANode,
 		childB: RANode,
@@ -210,8 +212,8 @@ export abstract class Join extends RANodeBinary {
 		createRowToAddIfNOTMatched: null | ((rowA: Data[], rowB: Data[]) => Data[]),
 	): void {
 
-		const orgA = childA.getResult(session);
-		const orgB = childB.getResult(session);
+		const orgA = childA.getResult(doEliminateDuplicateRows, session);
+		const orgB = childB.getResult(doEliminateDuplicateRows, session);
 		const numRowsA = orgA.getNumRows();
 		const numRowsB = orgB.getNumRows();
 		const numColsA = orgA.getNumCols();

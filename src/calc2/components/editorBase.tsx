@@ -151,11 +151,11 @@ CodeMirror.defineMode('relalg', function () {
 
 CodeMirror.defineMode('bagalg', function () {
 	const keywords = [
-		'pi', 'sigma', 'rho', 'tau', '<-', '->', 'intersect', 'union', 'except', '/', '-', '\\\\', 'x', 'cross join', 'join',
+		'delta', 'pi', 'sigma', 'rho', 'tau', '<-', '->', 'intersect', 'union', 'except', '/', '-', '\\\\', 'x', 'cross join', 'join',
 		'inner join', 'natural join', 'left join', 'right join', 'left outer join', 'right outer join',
 		'left semi join', 'right semi join', 'anti join', 'anti semi join', 'and', 'or', 'xor',
 	];
-	const keywordsMath = ['π', 'σ', 'ρ', 'τ', '←', '→', '∩', '∪', '÷', '-', '⨯', '⨝', '⟕', '⟖', '⟗', '⋉', '⋊', '▷'];
+	const keywordsMath = ['∂', 'π', 'σ', 'ρ', 'τ', '←', '→', '∩', '∪', '÷', '-', '⨯', '⨝', '⟕', '⟖', '⟗', '⋉', '⋊', '▷'];
 	const operators = ['<-', '->', '>=', '<=', '=', '∧', '∨', '⊻', '⊕', '≠', '=', '¬', '>', '<', '≥', '≤'];
 	const matchAny = (
 		stream: CodeMirror.StringStream,
@@ -387,6 +387,8 @@ type Props = {
 	
 	exampleSql?: string,
 	
+	exampleBags?: string,
+
 	exampleRA?: string
 };
 
@@ -407,6 +409,7 @@ type State = {
 	queryResult: any,
 	execTime: any,
 	addedExampleSqlQuery: boolean,
+	addedExampleBagsQuery: boolean,
 	addedExampleRAQuery: boolean
 };
 
@@ -663,6 +666,7 @@ export class EditorBase extends React.Component<Props, State> {
 			queryResult: null,
 			execTime: null,
 			addedExampleSqlQuery: false,
+			addedExampleBagsQuery: false,
 			addedExampleRAQuery: false
 		};
 		this.toggle = this.toggle.bind(this);
@@ -776,6 +780,11 @@ export class EditorBase extends React.Component<Props, State> {
 				this.replaceAll(this.props.exampleSql)
 				this.setState({addedExampleSqlQuery: true});
 			}
+			if(this.props.exampleBags && this.props.exampleBags !== '' && !this.state.addedExampleBagsQuery && this.props.tab === 'bagalg') {
+				this.replaceAll(this.props.exampleBags);
+				// TODO: maybe auto format / replace ?
+				this.setState({addedExampleBagsQuery: true});
+			}
 			if(this.props.exampleRA && this.props.exampleRA !== '' && !this.state.addedExampleRAQuery && this.props.tab === 'relalg') {
 				this.replaceAll(this.props.exampleRA);
 				// TODO: maybe auto format / replace ?
@@ -804,6 +813,7 @@ export class EditorBase extends React.Component<Props, State> {
 			});
 			/* Not possible to bind to scope - all tabs will get same linterFunction 
 			CodeMirror.registerHelper('lint', 'sql', (text: string) => this.linter(text));
+			CodeMirror.registerHelper('lint', 'bagalg', (text: string) => this.linter(text));
 			CodeMirror.registerHelper('lint', 'relalg', (text: string) => this.linter(text));*/
 			
 		}
@@ -1163,7 +1173,15 @@ export class EditorBase extends React.Component<Props, State> {
 
 		switch(mode) {
 			case 'jpg':
-				const imgDiv = document.getElementsByClassName('ra-tree')[0] as HTMLElement;
+				const images = document.getElementsByClassName('ra-tree') as HTMLCollectionOf<HTMLElement>;
+				let imgDiv;
+				for (let i = 0; i < images.length; i++) {
+					// Check if the element is visible
+					if (images[i].offsetParent !== null) {
+						imgDiv = images[i] as HTMLElement;
+						break;
+					}
+				}
 				if(imgDiv) {
 					html2canvas(imgDiv).then(canvas => {
 						const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
@@ -1205,6 +1223,7 @@ export class EditorBase extends React.Component<Props, State> {
 			case 'text/x-mysql':
 				filename += '.sql';
 				break;
+			case 'bagalg':
 			case 'ra':
 			/* falls through */
 			default:
@@ -1301,11 +1320,18 @@ export class EditorBase extends React.Component<Props, State> {
 
 
 	getResultForCsv(activeNode: RANode) {
+		const { editor } = this.state;
+		if (!editor) {
+			console.warn(`editor not initialized yet`);
+			return;
+		}
+
 		const result = memoize(
-			(node: RANode) => {
+			(node: RANode, doEliminateDuplicates: boolean) => {
 				try {
 					node.check();
-					return node.getResult();
+					// Remove duplicates if using RA strict mode
+					return node.getResult(doEliminateDuplicates);
 				}
 				catch (e) {
 					console.error(e);
@@ -1314,7 +1340,7 @@ export class EditorBase extends React.Component<Props, State> {
 			},
 		);
 		this.setState({
-			queryResult: result(activeNode),
+			queryResult: result(activeNode, editor.getOption('mode') !== 'bagalg'),
 		});
 		
 	

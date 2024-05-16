@@ -146,6 +146,11 @@ module.exports = (env, options) => {
 				},
 				{
 					// https://github.com/eploko/pegjs-loader
+					test: /grammar_bags\.pegjs$/,
+					loader: 'pegjs-loader?cache=true&trace=false&allowedStartRules[]=start,allowedStartRules[]=groupStart',
+				},
+				{
+					// https://github.com/eploko/pegjs-loader
 					test: /grammar_sql\.pegjs$/,
 					loader: 'pegjs-loader?cache=true&trace=false&allowedStartRules[]=start&allowedStartRules[]=dbDumpStart',
 				},

@@ -19,6 +19,7 @@ interface Props {
 	/** defaults to 0 */
 	numTreeLabelColors?: number,
 	setActiveNode?(activeNode: RANode): void,
+	doEliminateDuplicates?: boolean,
 }
 
 export class RaTree extends React.Component<Props> {
@@ -32,6 +33,7 @@ export class RaTree extends React.Component<Props> {
 			numTreeLabelColors: numColors = 0,
 			activeNode,
 			setActiveNode,
+			doEliminateDuplicates,
 		} = this.props;
 
 		let usedVariables = 0;
@@ -65,7 +67,7 @@ export class RaTree extends React.Component<Props> {
 			// create popover
 			const popoverBody = () => {
 				n.check();
-				n.getResult();
+				n.getResult(doEliminateDuplicates);
 
 				const schema = n.getSchema();
 				const numRows = n.getResultNumRows();

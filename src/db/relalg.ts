@@ -157,10 +157,10 @@ export function parseSQLDump(text: string): relalgAst.GroupRoot {
 }
 
 
-export function executeRelalg(text: string, relations: { [name: string]: Relation } = {}): RANode {
+export function executeRelalg(text: string, relations: { [name: string]: Relation } = {}, strictRA: boolean = true): RANode {
 	relations = relations || {};
 
-	const ast = parseRelalg(text, Object.keys(relations));
+	const ast = parseRelalg(text, Object.keys(relations), strictRA);
 	replaceVariables(ast, relations);
 
 	const root = relalgFromRelalgAstRoot(ast, relations);

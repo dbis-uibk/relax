@@ -1173,15 +1173,7 @@ export class EditorBase extends React.Component<Props, State> {
 
 		switch(mode) {
 			case 'jpg':
-				const images = document.getElementsByClassName('ra-tree') as HTMLCollectionOf<HTMLElement>;
-				let imgDiv;
-				for (let i = 0; i < images.length; i++) {
-					// Check if the element is visible
-					if (images[i].offsetParent !== null) {
-						imgDiv = images[i] as HTMLElement;
-						break;
-					}
-				}
+				const imgDiv = document.getElementsByClassName('ra-tree')[0] as HTMLElement;
 				if(imgDiv) {
 					html2canvas(imgDiv).then(canvas => {
 						const dataUrl = canvas.toDataURL('image/jpeg', 1.0);

@@ -89,7 +89,9 @@ export class FullOuterJoin extends Join {
 			true,
 			false,
 			this._joinConditionEvaluator,
-			this._rowCreatorMatched,
+			// Should not create matched rows twice in case of a multiset (left join already did the job)
+			// this._rowCreatorMatched,	
+			null,
 			this._rowCreatorNotMatched,
 		);
 

@@ -40,6 +40,7 @@ export class EliminateDuplicates extends RANodeUnary {
 		const res = this._child.getResult(doEliminateDuplicateRows, session).copy();
 		res.setSchema(this.getSchema());
 
+		res.eliminateDuplicateRows();
 		this.setResultNumRows(res.getNumRows());
 		return res;
 	}

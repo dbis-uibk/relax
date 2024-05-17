@@ -165,13 +165,13 @@ export class Help extends React.Component<Props> {
 
 							<h4 id="tutorial-user-bags">bags/multisets</h4>
 
-							<p>A bag (or a multiset) is like a relation, except that a tuple may appear more than once.
+							<p>A bag (or a <a href="https://en.wikipedia.org/wiki/Multiset">multiset</a>) is like a relation, except that a tuple may appear more than once.
 								Bags are important because SQL, the most important query language for relational databases,
 								is actually a bag language.</p>
 
 							<p>In RelaX, a bag is defined the same way as a relation with duplicate tuples. Relational algebra operations on bags (<i>Multiset algebra</i> tab) work as on relations, however there is no implicit duplicate-elimination. If needed, a specific operator can be used to eliminate duplicates from bags.</p>
 
-							<p>Beware: Bag Laws ≠ Relation Laws</p>
+							<p><a href="https://turingmachine.org/courses/2007/saved.csc370S07/lectures/04_rel-algebra2.pdf">Beware: Bag Laws ≠ Relation Laws</a></p>
 							<ul>
 								<li>Not all algebraic laws that hold for relations also hold for bags;</li>
 								<li>For one example, the commutative law for union (<code className="">R ∪ S</code> ≈ <code className="">S ∪ R</code>) <i>does</i> hold for bags;</li>

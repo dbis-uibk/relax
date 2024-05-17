@@ -163,6 +163,26 @@ export class Help extends React.Component<Props> {
 								</li>
 							</ul>
 
+							<h4 id="tutorial-user-bags">bags/multisets</h4>
+
+							<p>A bag (or a multiset) is like a relation, except that a tuple may appear more than once.
+								Bags are important because SQL, the most important query language for relational databases,
+								is actually a bag language.</p>
+
+							<p>In RelaX, a bag is defined the same way as a relation with duplicate tuples. Relational algebra operations on bags (<i>Multiset algebra</i> tab) work as on relations, however there is no implicit duplicate-elimination. If needed, a specific operator can be used to eliminate duplicates from bags.</p>
+
+							<p>Beware: Bag Laws ≠ Relation Laws</p>
+							<ul>
+								<li>Not all algebraic laws that hold for relations also hold for bags;</li>
+								<li>For one example, the commutative law for union (<code className="">R ∪ S</code> ≈ <code className="">S ∪ R</code>) <i>does</i> hold for bags;</li>
+								<ul>
+									<li>Since addition is commutative, adding the number of times that tuple <i>t</i> appears in relations R and S doesn’t depend on the order of relations R and S;</li>
+								</ul>
+								<li>Relation union is <i>idempotent</i>, meaning that <code className="">S ∪ S</code> ≈ <code className="">S</code>;</li>
+								<li>However, for bags, if <i>t</i> appears <i>n</i> times in relation S, then it appears <i>2n</i> times in <code className="">S ∪ S</code>;</li>
+								<li>Thus, <code className="">S ∪ S</code> ≠ <code className="">S</code> in general.</li>
+							</ul>
+
 							<h3 id="tutorial-user-plain-text-notation">Alternative plain text notation</h3>
 
 							<p>Before we introduce how to use the operators this should be a quick introduction of a very handy feature
@@ -301,6 +321,10 @@ export class Help extends React.Component<Props> {
 									</td>
 								</tr>
 								<tr>
+									<td className="math">&delta;</td>
+									<td>delta</td>
+								</tr>
+								<tr>
 									<td className="math">←</td>
 									<td>{'<'}-
 										<code className="example block">pi new_name {'<'}- a ( R )</code>
@@ -328,6 +352,7 @@ export class Help extends React.Component<Props> {
 										<li>left outer join</li>
 										<li>left semi join</li>
 										<li>anti join</li>
+										<li>duplicate elimination (bags)</li>
 									</ul>
 								</li>
 							</ul>
@@ -925,7 +950,6 @@ export class Help extends React.Component<Props> {
 							</div>
 							The parentheses are Optional.
 
-
 							<div>
 								<h4 id="relalg-operations-projection">projection</h4>
 								<div className="scroll-x"><table className="table table-nonfluid">
@@ -1309,6 +1333,48 @@ export class Help extends React.Component<Props> {
 								</div>
 							</div>
 
+							<div>
+								<h4 id="relalg-operations-duplicate-elimination">duplicate elimination</h4>
+								<div className="scroll-x">
+									<table className="table table-nonfluid">
+									<tbody>
+										<tr>
+											<th>symbol</th>
+											<td className="math">&delta;</td>
+										</tr>
+										<tr>
+											<th>alternative syntax</th>
+											<td>delta</td>
+										</tr>
+										<tr>
+											<th>example</th>
+											<td>
+												<code className="relalg">delta ( R )</code>
+											</td>
+										</tr>
+									</tbody>
+									</table>
+								</div>
+								<p>There is no argument</p>
+
+								<div className="example">
+									<code>&delta; ( Customer )</code>
+								</div>
+
+								<div className="example">
+									<code>delta ( &pi; surname ( Customer ) )</code>
+								</div>
+
+								<div className="too-wide">
+									<RailroadDiagram 
+											diagram={Diagram(
+												Sequence(
+														Choice(0, '∂', 'delta'),
+												),
+												NonTerminal('RA-expression', '#relalg-relalgexpr'),
+										)} />
+								</div>
+							</div>
 
 							<h3 id="relalg-binary-operations">Binary operations</h3>
 							Each binary operation follows the following syntax:
@@ -1786,6 +1852,7 @@ export class Help extends React.Component<Props> {
 									<tr>
 										<td>1</td>
 										<td>
+											<a href="#relalg-operations-eliminate-duplicates">duplicate elimination (bags)</a>,
 											<a href="#relalg-operations-projection">projection</a>,
 											<a href="#relalg-operations-selection">selection</a>,
 											<a href="#relalg-operations-renamecolumn">rename (columns)</a>,

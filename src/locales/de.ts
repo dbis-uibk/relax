@@ -129,7 +129,7 @@ export const langDE: Partial<typeof langEN> = {
 	'calc.editors.ra.button-download-csv': 'Ergebnis (CSV)',
 	'calc.editors.ra.button-download-jpg': 'Ergebnis (JPG)',
 	'calc.editors.ra.button-download-query': 'Query',
-	'calc.editors.ra.toolbar.duplicate-elimination': 'Duplicate elimination',
+	'calc.editors.ra.toolbar.duplicate-elimination': 'Eliminierung von Duplikaten',
 	'calc.editors.ra.toolbar.projection': 'Projektion',
 	'calc.editors.ra.toolbar.selection': 'Selektion',
 	'calc.editors.ra.toolbar.rename': 'Umbenennen (Relationen/Spalten)',

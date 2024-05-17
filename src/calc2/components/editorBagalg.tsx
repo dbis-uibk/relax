@@ -165,12 +165,6 @@ export class EditorBagalg extends React.Component<Props, State> {
 						math: true,
 						items: [
 							{
-								label: '∂',
-								onClick: this.replaceText,
-								tooltipTitle: 'calc.editors.ra.toolbar.duplicate-elimination',
-								tooltip: 'calc.editors.ra.toolbar.duplicate-elimination-content',
-							},
-							{
 								label: 'π',
 								onClick: this.replaceText,
 								tooltipTitle: 'calc.editors.ra.toolbar.projection',
@@ -341,6 +335,12 @@ export class EditorBagalg extends React.Component<Props, State> {
 								onClick: this.replaceText,
 								tooltipTitle: 'calc.editors.ra.toolbar.anti-join',
 								tooltip: 'calc.editors.ra.toolbar.anti-join-content',
+							},
+							{
+								label: '∂',
+								onClick: this.replaceText,
+								tooltipTitle: 'calc.editors.ra.toolbar.duplicate-elimination',
+								tooltip: 'calc.editors.ra.toolbar.duplicate-elimination-content',
 							},
 						],
 					},

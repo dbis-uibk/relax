@@ -132,7 +132,7 @@ export const langEN = {
 	'calc.editors.ra.button-download-query': 'Query',
 	'calc.editors.ra.toolbar.duplicate-elimination': 'duplicate elimination',
   'calc.editors.ra.toolbar.duplicate-elimination-content': [
-    '<b class="math">&delta;</b> <b>(</b> A <b>)</b>',
+    '<b class="math">∂</b> <b>(</b> A <b>)</b>',
     '<br><b>delta</b> A',
   ].join('\n'),
 	'calc.editors.ra.toolbar.projection': 'projection',

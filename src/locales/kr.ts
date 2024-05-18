@@ -113,7 +113,7 @@ export const langKR = {
     'calc.editors.ra.button-download-query': '쿼리',
 	'calc.editors.ra.toolbar.duplicate-elimination': '중복 제거',
 	'calc.editors.ra.toolbar.duplicate-elimination-content[0]':
-		'<b class="math">&delta;</b> <b>(</b> A <b>)</b>',
+		'<b class="math">∂</b> <b>(</b> A <b>)</b>',
 	'calc.editors.ra.toolbar.duplicate-elimination-content[1]':
 		'<br><b>delta</b> A',
 	'calc.editors.ra.toolbar.projection': '프로젝션',

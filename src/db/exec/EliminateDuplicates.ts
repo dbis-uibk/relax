@@ -20,7 +20,7 @@ export class EliminateDuplicates extends RANodeUnary {
 	private _schema: Schema | null = null;
 
 	constructor(child: RANode) {
-		super('&delta;', child);
+		super('∂', child);
 	}
 
 	getSchema() {

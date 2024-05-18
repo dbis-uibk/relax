@@ -70,6 +70,7 @@ export class Api extends React.Component<Props, State> {
 					doEliminateDuplicates = false;
 				case 'relalg':
 				default: {
+					this.mode = 'relalg';
 					const ast = parseRelalg(query, Object.keys(relations), doEliminateDuplicates);
 					replaceVariables(ast, relations);
 					if (ast.child === null) {
@@ -96,6 +97,7 @@ export class Api extends React.Component<Props, State> {
 		return (
 			<div id="apiContainer">
 				<div id="success">{this.success}</div>
+				<div id="mode">{this.mode}</div>
 				<div id="query">{this.query}</div>
 				<div id="result">{this.result}</div>
 			</div>

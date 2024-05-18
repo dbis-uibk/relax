@@ -10,7 +10,7 @@ export const langPT = {
       '<div><b>X = </b> pi a ( A )\n<br /><b>Y = </b> pi b ( b )\n<br />( X ) <span class="math">&cup;</span> ( Y )<br /></div>',
     'calc.editors.ra.toolbar.greater-or-equals-content': '<div>&sigma',
     'calc.editors.ra.toolbar.duplicate-elimination-content':
-      '<b class=\"math\">&delta;</b> <b>(</b> A <b>)</b>\n<br><b>delta</b> A',
+      '<b class=\"math\">∂</b> <b>(</b> A <b>)</b>\n<br><b>delta</b> A',
     'calc.editors.ra.toolbar.projection-content':
       '<b class="math">&pi;</b> a, b <b>(</b> A <b>)</b>\n<br><b>pi</b> a, b A',
     'calc.editors.ra.toolbar.inline-relation-content':

@@ -159,8 +159,48 @@ export abstract class Join extends RANodeBinary {
 		}
 
 		this.setResultNumRows(resultTable.getNumRows());
-		this._executedEnd = Date.now() - this._executionStart;
-		return resultTable;
+
+		// If it is a semi join on bag/multiset mode
+		if ((this._functionName === '⋉' || this._functionName === '⋊') &&
+			doEliminateDuplicateRows !== true) {
+			const newResultTable = new Table();
+			newResultTable.setSchema(this.getSchema());
+			const orgA = this._isRightJoin ?
+				this.getChild2().getResult(doEliminateDuplicateRows, session) :
+				this.getChild().getResult(doEliminateDuplicateRows, session);
+			const orgB = resultTable;
+			const numRowsA = orgA.getNumRows();
+			const numRowsB = orgB.getNumRows();
+			const numCols = orgA.getNumCols();
+			for (let i = 0; i < numRowsA; i++) {
+				const rowA = orgA.getRow(i);
+				for (let j = 0; j < numRowsB; j++) {
+					const rowB = orgB.getRow(j);
+					let equals = true;
+
+					for (let k = 0; k < numCols; k++) {
+						if (rowA[k] !== rowB[k]) {
+							equals = false;
+							break;
+						}
+					}
+	
+					if (equals) {
+						newResultTable.addRow(rowA);
+						break;
+					}
+				}
+			}
+
+			this.setResultNumRows(newResultTable.getNumRows());
+			this._executedEnd = Date.now() - this._executionStart;
+			return newResultTable;
+		}
+		else {
+			// Regular path
+			this._executedEnd = Date.now() - this._executionStart;
+			return resultTable;
+		}
 	}
 
 

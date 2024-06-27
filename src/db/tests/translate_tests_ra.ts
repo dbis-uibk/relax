@@ -1073,6 +1073,17 @@ QUnit.test('pi with eval: date', function (assert) {
 	assert.deepEqual(result, reference);
 });
 
+QUnit.test('pi with wrong date format', function (assert) {
+	try {
+		const query = "pi date('01-01-1970')->d (R)";
+		exec_ra(query, getTestRelations());
+		assert.ok(false);
+	}
+	catch (e) {
+		assert.ok(true);
+	}
+});
+
 QUnit.test('pi with eval: upper()', function (assert) {
 	const relations = getTestRelations();
 	const result = exec_ra(" sigma x < 'D' pi upper(S.b)->x S ", relations).getResult();

@@ -1220,7 +1220,7 @@ export class Help extends React.Component<Props> {
 									<br />and a list of aggregate functions to apply with their new name in form <span>AGG( COLUMN ) -{'>'} NEW_NAME</span>
 
 									<div className="example">
-										order the result by the first column (default is ascending) and the second column descending:
+										group the result by columns a and b, and within each group sum the values in c into a column named x:
 										<code>&gamma; a, b ; sum(c)-{'>'}x ( Customer )</code>
 									</div>
 

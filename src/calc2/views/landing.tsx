@@ -265,6 +265,7 @@ export class Landing extends React.Component {
 									<li>anti join join</li>
 
 									<li>order by</li>
+									<li>duplicate elimination (on bags/multisets)</li>
 								</ul>
 							</li>
 							<li>runs in any modern browser. no plugins needed</li>
@@ -367,6 +368,12 @@ export class Landing extends React.Component {
 								</tr>
 								<tr>
 									<th>relational algebra</th>
+									<td><span className="fa fa-check"></span> yes</td>
+									<td><span className="fa fa-check"></span> yes</td>
+									<td><span className="fa fa-times"></span> no</td>
+								</tr>
+								<tr>
+									<th>relational algebra on bags/multisets</th>
 									<td><span className="fa fa-check"></span> yes</td>
 									<td><span className="fa fa-check"></span> yes</td>
 									<td><span className="fa fa-times"></span> no</td>

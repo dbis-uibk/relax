@@ -133,13 +133,18 @@ export const langES: Partial<typeof langEN> = {
 
   'calc.editors.ra.tab-name': 'Álgebra Relacional',
   'calc.editors.ra.tab-name-short': 'ÁlgRel',
+  'calc.editors.bags.tab-name': 'Álgebra de Multiconjuntos',
+  'calc.editors.bags.tab-name-short': 'ÁlgMC',
   'calc.editors.ra.button-execute-query': 'executar consulta',
   'calc.editors.ra.button-execute-selection': 'executar selección',
   'calc.editors.ra.button-download': 'Descargar',
   'calc.editors.ra.button-download-csv': 'Resultado (CSV)',
   'calc.editors.ra.button-download-query': 'Query',
-
-
+  'calc.editors.ra.toolbar.duplicate-elimination': 'eliminación de duplicados',
+  'calc.editors.ra.toolbar.duplicate-elimination-content': [
+    '<b class="math">∂</b> <b>(</b> A <b>)</b>',
+    '<br><b>delta</b> A',
+  ].join('\n'),
   'calc.editors.ra.toolbar.projection': 'proyección',
   'calc.editors.ra.toolbar.projection-content': [
     '<b class="math">&pi;</b> a, b <b>(</b> A <b>)</b>',

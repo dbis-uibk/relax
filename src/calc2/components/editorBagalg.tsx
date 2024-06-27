@@ -19,7 +19,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const NUM_TREE_LABEL_COLORS = 6;
 export const KEYWORDS_RELALG = [
-	'pi', 'sigma', 'rho', 'tau', '<-', 'intersect', 'union', '/', '-', '\\', 'x', 'cross join', 'join',
+	'delta', 'pi', 'sigma', 'rho', 'tau', '<-', 'intersect', 'union', '/', '-', '\\', 'x', 'cross join', 'join',
 	'inner join', 'natural join', 'left join', 'right join', 'left outer join',
 	'right outer join', 'full outer join', 'left semi join', 'right semi join', 'anti join',
 	'and', 'or', 'xor', '||',
@@ -34,7 +34,7 @@ type State = {
 };
 
 
-export class EditorRelalg extends React.Component<Props, State> {
+export class EditorBagalg extends React.Component<Props, State> {
 	private editorBase: EditorBase | null = null;
 
 	constructor(props: Props) {
@@ -62,8 +62,8 @@ export class EditorRelalg extends React.Component<Props, State> {
 
 		return (
 			<EditorBase
-				exampleRA={group.exampleRA}
 				exampleBags={group.exampleBags}
+				exampleRA={group.exampleRA}
 				exampleSql={group.exampleSQL}
 				textChange={(cm: CodeMirror.Editor) => { } }
 				ref={ref => {
@@ -71,9 +71,9 @@ export class EditorRelalg extends React.Component<Props, State> {
 						this.editorBase = ref;
 					}
 				}}
-				mode="relalg"
+				mode="bagalg"
 				execFunction={(self: EditorBase, text: string, offset) => {
-					const ast = parseRelalg(text, Object.keys(relations));
+					const ast = parseRelalg(text, Object.keys(relations), false);
 					replaceVariables(ast, relations);
 
 					if (ast.child === null) {
@@ -103,16 +103,16 @@ export class EditorRelalg extends React.Component<Props, State> {
 								root={root}
 								numTreeLabelColors={NUM_TREE_LABEL_COLORS}
 								execTime={self.state.execTime == null ? 0 : self.state.execTime}
-								doEliminateDuplicates={true}
+								doEliminateDuplicates={false}
 							/>
 						),
 					};
 				}}
-				tab="relalg"
+				tab="bagalg"
 				linterFunction={(self: EditorBase, editor: CodeMirror.Editor, text: string) => {
 					const hints = [];
 
-					const ast = parseRelalg(text, Object.keys(relations));
+					const ast = parseRelalg(text, Object.keys(relations), false);
 					replaceVariables(ast, relations);
 
 					for (let i = 0; i < ast.assignments.length; i++) {
@@ -335,6 +335,12 @@ export class EditorRelalg extends React.Component<Props, State> {
 								onClick: this.replaceText,
 								tooltipTitle: 'calc.editors.ra.toolbar.anti-join',
 								tooltip: 'calc.editors.ra.toolbar.anti-join-content',
+							},
+							{
+								label: '∂',
+								onClick: this.replaceText,
+								tooltipTitle: 'calc.editors.ra.toolbar.duplicate-elimination',
+								tooltip: 'calc.editors.ra.toolbar.duplicate-elimination-content',
 							},
 						],
 					},

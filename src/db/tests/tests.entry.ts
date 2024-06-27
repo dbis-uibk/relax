@@ -9,6 +9,7 @@ import 'qunit';
 import 'qunit/qunit/qunit.css';
 // tests
 import './translate_tests_ra';
+import './translate_tests_bags';
 import './translate_tests_sql';
 import './var_replacer_tests';
 

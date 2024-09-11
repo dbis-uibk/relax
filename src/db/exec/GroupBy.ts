@@ -178,7 +178,7 @@ export class GroupBy extends RANodeUnary {
 
 			for (let i = 0; i < org.getNumRows(); i++) {
 				const row = org.getRow(i);
-				const keyTuple = new Array(this.checked.groupByColumnIndices.length);
+            const keyTuple: any[] = new Array(this.checked.groupByColumnIndices.length);
 
 				for (let j = 0; j < this.checked.groupByColumnIndices.length; j++) {
 					keyTuple[j] = row[this.checked.groupByColumnIndices[j]];

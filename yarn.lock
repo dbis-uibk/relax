@@ -1858,9 +1858,9 @@ domhandler@^4.0.0, domhandler@^4.2.0, domhandler@^4.3.1:
     domelementtype "^2.2.0"
 
 dompurify@^2.1.1:
-  version "2.3.7"
-  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.3.7.tgz#30aa7feddc1420f3e554b1b3fe9e2f318a28066e"
-  integrity sha512-fsVZLywBd3awZIG3qU4JEdw7DCb0uUCajTfWRrLhsgKjTBd5CIIluPoAkNfco05GuNYQGj4/+bQIhlq96eT9eQ==
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-2.5.6.tgz#8402b501611eaa7fb3786072297fcbe2787f8592"
+  integrity sha512-zUTaUBO8pY4+iJMPE1B9XlO2tXVYIcEA4SNGtvDELzTSCQO7RzH+j7S180BmhmJId78lqGU2z19vgVx2Sxs/PQ==
 
 domutils@^1.7.0:
   version "1.7.0"

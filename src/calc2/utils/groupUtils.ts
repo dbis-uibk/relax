@@ -78,6 +78,7 @@ export function getGroupsFromGroupAst(groupAst: relalgAst.GroupRoot, groupInfo: 
       groupDesc,
       category,
 			exampleSQL: astGroup.exampleSql,
+			exampleBags: astGroup.exampleBags,
 			exampleRA: astGroup.exampleRA,
       tables: [],
       groupInfo: {
@@ -94,7 +95,7 @@ export function getGroupsFromGroupAst(groupAst: relalgAst.GroupRoot, groupInfo: 
 		
       result.check();
 
-      const relation = result.getResult().createRelation(astGroup.assignments[j].name);
+      const relation = result.getResult(false).createRelation(astGroup.assignments[j].name);
 
       const schema = relation.getSchema();
       const columnNames = new Array(schema.getSize());

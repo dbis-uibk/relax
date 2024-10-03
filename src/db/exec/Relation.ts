@@ -28,7 +28,7 @@ export class Relation extends RANodeNullary {
 		else {
 			content.check();
 			this._schema = content.getSchema();
-			this._table = content.getResult();
+			this._table = content.getResult(false);
 		}
 	}
 
@@ -54,12 +54,14 @@ export class Relation extends RANodeNullary {
 		return this._resultNumRows;
 	}
 
-	getResult(session?: Session) {
+	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
 		this._returnOrCreateSession(session);
 
 		const res = this._table.copy();
 
-		res.eliminateDuplicateRows();
+		if (doEliminateDuplicateRows === true) {
+			res.eliminateDuplicateRows();
+		}
 		this.setResultNumRows(res.getNumRows());
 		return res;
 	}

@@ -141,6 +141,7 @@ export type Group = {
 	sourceInfo: SourceInfo,
 	isDraft?: boolean,
 	exampleSQL?: string,
+	exampleBags?: string,
 	exampleRA?: string;
 	
 };

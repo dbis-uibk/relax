@@ -28,24 +28,29 @@ export class Intersect extends RANodeBinary {
 		return this._schema;
 	}
 
-	getResult(session?: Session) {
+	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
 		session = this._returnOrCreateSession(session);
 		if (this._schema === null) {
 			throw new Error(`check not called`);
 		}
 
 		const res = new Table();
-		const orgA = this.getChild().getResult(session);
-		const orgB = this.getChild2().getResult(session);
+		const orgA = this.getChild().getResult(doEliminateDuplicateRows, session);
+		const orgB = this.getChild2().getResult(doEliminateDuplicateRows, session);
 		res.setSchema(this._schema);
 
 		// copy
 		const numRowsA = orgA.getNumRows();
 		const numRowsB = orgB.getNumRows();
 		const numCols = orgA.getNumCols();
+		let paintedIndexes: (number)[] = [];
 		for (let i = 0; i < numRowsA; i++) {
 			const rowA = orgA.getRow(i);
 			for (let j = 0; j < numRowsB; j++) {
+				if (paintedIndexes.indexOf(j) !== -1) {
+					continue;
+				}
+
 				const rowB = orgB.getRow(j);
 				let equals = true;
 
@@ -58,11 +63,15 @@ export class Intersect extends RANodeBinary {
 
 				if (equals) {
 					res.addRow(rowA);
+					paintedIndexes.push(j);
 					break;
 				}
 			}
 		}
 
+		if (doEliminateDuplicateRows === true) {
+			res.eliminateDuplicateRows();
+		}
 		this.setResultNumRows(res.getNumRows());
 		return res;
 	}

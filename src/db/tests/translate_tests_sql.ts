@@ -907,3 +907,48 @@ QUnit.skip('test aggregate function in value-expression', function (assert) {
 
 	assert.deepEqual(exec_sql(query).getResult(), exec_ra(queryRef).getResult());
 });
+
+QUnit.test('whitespace(s) between aggregate function and opening parenthesis', function (assert) {
+	const query = `
+		SELECT sum(a) AS total_a
+		FROM R`;
+	const queryRef = `gamma ; sum (a)->total_a (R)`;
+
+	assert.deepEqual(exec_sql(query).getResult(), exec_ra(queryRef).getResult());
+});
+
+QUnit.test('whitespace(s) between count(*) function and opening parenthesis', function (assert) {
+	const query = `
+		SELECT count    (*) AS n
+		FROM R`;
+	const queryRef = `gamma ; count(*)->n (R)`;
+
+	assert.deepEqual(exec_sql(query).getResult(), exec_ra(queryRef).getResult());
+});
+
+QUnit.test('whitespace(s) between n-ary text function and opening parenthesis', function (assert) {
+	const query = `
+		SELECT concat  (a, b, c) AS k
+		FROM R`;
+	const queryRef = `pi concat(a, b, c)->k (R)`;
+
+	assert.deepEqual(exec_sql(query).getResult(), exec_ra(queryRef).getResult());
+});
+
+QUnit.test('whitespace(s) between binary function and opening parenthesis', function (assert) {
+	const query = `
+		SELECT add    (a, 5) AS a_plus_5
+		FROM R`;
+	const queryRef = `pi add(a, 5)->a_plus_5 (R)`;
+
+	assert.deepEqual(exec_sql(query).getResult(), exec_ra(queryRef).getResult());
+});
+
+QUnit.test('whitespace(s) between unary function and opening parenthesis', function (assert) {
+	const query = `
+		SELECT a + length  (  c ) AS x, upper (   b  ) AS k
+		FROM R`;
+	const queryRef = `pi a + length(c)->x, upper(b)->k (R)`;
+
+	assert.deepEqual(exec_sql(query).getResult(), exec_ra(queryRef).getResult());
+});

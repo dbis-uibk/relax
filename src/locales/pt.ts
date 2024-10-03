@@ -1,6 +1,7 @@
 export const langPT = {
     'calc.editors.ra.toolbar.left-outer-join': 'left outer join',
     'calc.editors.ra.tab-name': '\u00c1lgebra Relacional',
+    'calc.editors.bags.tab-name': '\u00c1lgebra Multiconjunto',
     'db.messages.translate.error-relation-not-found':
       'n\u00e3o foi poss\u00edvel encontrar rela\u00e7\u00e3o "{{name}}"',
     'calc.editors.ra.toolbar.inline-relation-editor-content':
@@ -8,6 +9,8 @@ export const langPT = {
     'calc.editors.ra.toolbar.assignment-content':
       '<div><b>X = </b> pi a ( A )\n<br /><b>Y = </b> pi b ( b )\n<br />( X ) <span class="math">&cup;</span> ( Y )<br /></div>',
     'calc.editors.ra.toolbar.greater-or-equals-content': '<div>&sigma',
+    'calc.editors.ra.toolbar.duplicate-elimination-content':
+      '<b class=\"math\">∂</b> <b>(</b> A <b>)</b>\n<br><b>delta</b> A',
     'calc.editors.ra.toolbar.projection-content':
       '<b class="math">&pi;</b> a, b <b>(</b> A <b>)</b>\n<br><b>pi</b> a, b A',
     'calc.editors.ra.toolbar.inline-relation-content':
@@ -174,6 +177,7 @@ export const langPT = {
       '<div class="math">&sigma; A.y > 2 ( <b>&rho;</b> y<b class="math">\u2190</b>a <b>(</b> A <b>)</b> )</div>',
     'db.messages.translate.error-variable-name-conflict':
       'conflito de nomes: o nome da rela\u00e7\u00e3o "{{name}}" j\u00e1 existe',
+    'calc.editors.ra.toolbar.duplicate-elimination': 'Elimina\u00e7\u00e3o de duplicatas',
     'calc.editors.ra.toolbar.projection': 'Proje\u00e7\u00e3o',
     'calc.editors.ra.toolbar.or': 'ou',
     'db.messages.exec.error-no-columns-match-alias-star':
@@ -295,6 +299,7 @@ export const langPT = {
       'substitui\u00e7\u00e3o de operador',
     'calc.menu.load-gist-insert-placeholder': 'gist ID',
     'calc.editors.ra.tab-name-short': 'AlgRel',
+    'calc.editors.bags.tab-name-short': 'AlgBag',
     'calc.menu.load-gist-headline': 'Carregar Dataset armazenado em um gist',
     'calc.editors.sql.toolbar.limit-content':
       'SELECT * FROM A <br>LIMIT 10 OFFSET 0',

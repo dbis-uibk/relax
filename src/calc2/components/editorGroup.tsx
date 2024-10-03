@@ -86,7 +86,7 @@ export class EditorGroup extends React.Component<Props> {
 										<h4>{group.groupName.fallback} <Button color="link" onClick={() => { this.props.setDraft(group); }}><T id="calc.editors.group.button-use" /></Button></h4>
 										<ul className="table-list">
 											{group.tables.map((table, j) => {
-												const __html = groups[i].tables[j].relation.getResult().getHtml(); // FIXME: render here!
+												const __html = groups[i].tables[j].relation.getResult(false).getHtml(); // FIXME: render here!
 												return (
 													<li key={j}>
 														<h5>{table.tableName}</h5>

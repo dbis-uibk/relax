@@ -29,15 +29,17 @@ export class Division extends RANodeBinary {
 		return this._delegate.getSchema();
 	}
 
-	getResult(session?: Session) {
+	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
 		session = this._returnOrCreateSession(session);
 		if (this._delegate === null) {
 			throw new Error(`check not called`);
 		}
 
-		const res = this._delegate.getResult(session);
+		const res = this._delegate.getResult(doEliminateDuplicateRows, session);
 
-		res.eliminateDuplicateRows();
+		if (doEliminateDuplicateRows === true) {
+			res.eliminateDuplicateRows();
+		}
 		this.setResultNumRows(res.getNumRows());
 		return res;
 	}

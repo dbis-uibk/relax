@@ -56,7 +56,7 @@ export class InnerJoin extends Join {
 		}
 	}
 
-	getResult(session?: Session) {
-		return super._getResult(session, true);
+	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
+		return super._getResult(doEliminateDuplicateRows, session);
 	}
 }

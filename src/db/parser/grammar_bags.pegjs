@@ -267,6 +267,12 @@ columnName
 	}
 
 // operator names:
+delta
+= _ o:('∂' { return getNodeInfo('delta'); }) _
+	{ return o; }
+/ _ o:('delta'i { return getNodeInfo('delta'); }) __
+	{ return o; }
+
 pi
 = _ o:('π' { return getNodeInfo('pi'); }) _
 	{ return o; }
@@ -538,14 +544,14 @@ listOfOrderByArgs
 
 
 aggFunction
-= func:$('sum'i / 'count'i / 'avg'i / 'min'i / 'max'i) _ '(' _ col:columnName _ ')'
+= func:$('sum'i / 'count'i / 'avg'i / 'min'i / 'max'i) '(' _ col:columnName _ ')'
 	{
 		return {
 			aggFunction: func.toUpperCase(),
 			col: col
 		};
 	}
-/ 'count'i _ '(' _ '*' _ ')'
+/ 'count(*)'i
 	{
 		return {
 			aggFunction: 'COUNT_ALL',
@@ -801,7 +807,7 @@ precedence: (low to high)
 4: union, difference
 3: intersect
 2: crossJoin, thetaJoin, naturalJoin, leftOuterJoin, rightOuterJoin, fullOuterJoin, leftSemiJoin, rightSemiJoin, antiJoin, division
-1: projection, selection, renameColumns, renameRelation, groupBy, orderBy
+1: eliminateDuplicates, projection, selection, renameColumns, renameRelation, groupBy, orderBy
 0: table, relation, ( ex )
 */
 
@@ -850,6 +856,7 @@ expression_precedence1
 / renameColumns
 / selection
 / projection
+/ eliminateDuplicates
 / expression_precedence0
 
 expression_precedence0
@@ -962,6 +969,16 @@ division
 
 
 
+eliminateDuplicates
+= o:delta __? c:expression_precedence1
+	{
+		operatorPositions.push(o);
+		return {
+			type: 'eliminateDuplicates',
+			child: c,
+			codeInfo: getCodeInfo(),
+		};
+	}
 
 projection
 = o:pi a:listOfNamedColumnExpressions __? c:expression_precedence1
@@ -1419,7 +1436,7 @@ expr_rest_boolean_comparison
 			codeInfo: getCodeInfo()
 		};
 	}
-/ _ o:('like'i / 'ilike'i / 'regexp'i / 'rlike'i) _ right:valueExprConstants
+/ _ o:('like'i / 'ilike'i) _ right:valueExprConstants
 	{
 		if(right.datatype !== 'string'){
 			error(t('db.messages.parser.error-valueexpr-like-operand-no-string'));
@@ -1505,9 +1522,8 @@ valueExprFunctionsNary
 = func:(
 	('coalesce'i { return ['coalesce', 'null']; })
 	/ ('concat'i { return ['concat', 'string']; })
-	/ ('replace'i { return ['replace', 'string']; })
 )
-_ '(' _ arg0:valueExpr _ argn:(',' _ valueExpr _ )* ')'
+'(' _ arg0:valueExpr _ argn:(',' _ valueExpr _ )* ')'
 	{
 		var args = [arg0];
 		for(var i = 0; i < argn.length; i++){
@@ -1533,9 +1549,8 @@ valueExprFunctionsBinary
 	/ ('sub'i { return ['sub', 'number']; })
 	/ ('mul'i { return ['mul', 'number']; })
 	/ ('div'i { return ['div', 'number']; })
-	/ ('repeat'i { return ['repeat', 'string']; })
 )
-_ '(' _ arg0:valueExpr _ ',' _ arg1:valueExpr _ ')'
+'(' _ arg0:valueExpr _ ',' _ arg1:valueExpr _ ')'
 	{
 		return {
 			type: 'valueExpr',
@@ -1553,7 +1568,6 @@ valueExprFunctionsUnary
 	/ ('ucase'i { return ['upper', 'string']; })
 	/ ('lower'i { return ['lower', 'string']; })
 	/ ('lcase'i { return ['lower', 'string']; })
-	/ ('reverse'i { return ['reverse', 'string']; })
 	/ ('length'i { return ['strlen', 'number']; })
 	/ ('abs'i { return ['abs', 'number']; })
 	/ ('floor'i { return ['floor', 'number']; })
@@ -1570,7 +1584,7 @@ valueExprFunctionsUnary
 	/ ('second'i { return ['second', 'number']; })
 	/ ('dayofmonth'i { return ['dayofmonth', 'number']; })
 )
-_ '(' _ arg0:valueExpr _ ')'
+'(' _ arg0:valueExpr _ ')'
 	{
 		return {
 			type: 'valueExpr',
@@ -1596,7 +1610,7 @@ valueExprFunctionsNullary
 	/ ('clock_timestamp'i { return ['clock_timestamp', 'date']; })
 	/ ('sysdate'i { return ['clock_timestamp', 'date']; })
 )
-_ '(' _ ')'
+'(' _ ')'
 	{
 		return {
 			type: 'valueExpr',
@@ -1708,7 +1722,7 @@ reference: https://dev.mysql.com/doc/refman/5.7/en/operator-precedence.html
 2: - (unary minus)
 3: *, /, %
 4: -, +
-5: = (comparison), >=, >, <=, <, <>, !=, IS, LIKE, REGEXP, RLIKE
+5: = (comparison), >=, >, <=, <, <>, !=, IS, LIKE
 6: CASE, WHEN, THEN, ELSE
 7: AND
 8: XOR
@@ -1778,7 +1792,8 @@ expr_precedence0
 RESERVED_KEYWORD = RESERVED_KEYWORD_RELALG
 
 RESERVED_KEYWORD_RELALG
-= 'pi'i
+= 'delta'i
+/ 'pi'i
 / 'sigma'i
 / 'rho'i
 / 'tau'i

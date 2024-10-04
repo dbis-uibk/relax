@@ -386,6 +386,8 @@ export class ValueExprGeneric extends ValueExpr {
 				return true;
 
 			case 'date':
+				// Check wether the date format is valid
+				this._parseIsoDate(this._args[0]._args[0]);
 				return this._checkArgsDataType(schemaA, schemaB, ['string']);
 
 			case 'adddate':

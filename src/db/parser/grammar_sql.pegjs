@@ -230,7 +230,7 @@ columnIndex
 	}
 
 aggFunction
-= func:$('sum'i / 'count'i / 'avg'i / 'min'i / 'max'i) '(' _ ('ALL'i __)? col:columnName _ ')'
+= func:$('sum'i / 'count'i / 'avg'i / 'min'i / 'max'i) _ '(' _ ('ALL'i __)? col:columnName _ ')'
 	{
 		return {
 			type: 'aggFunction',
@@ -238,7 +238,7 @@ aggFunction
 			col: col
 		};
 	}
-/ 'count(*)'i
+/ 'count'i _ '(' _ '*' _ ')'
 	{
 		return {
 			type: 'aggFunction',
@@ -1340,7 +1340,7 @@ valueExprFunctionsNary
 	/ ('concat'i { return ['concat', 'string']; })
 	/ ('replace'i { return ['replace', 'string']; })
 )
-'(' _ arg0:valueExpr _ argn:(',' _ valueExpr _ )* ')'
+_ '(' _ arg0:valueExpr _ argn:(',' _ valueExpr _ )* ')'
 	{
 		var args = [arg0];
 		for(var i = 0; i < argn.length; i++){
@@ -1368,7 +1368,7 @@ valueExprFunctionsBinary
 	/ ('div'i { return ['div', 'number']; })
 	/ ('repeat'i { return ['repeat', 'string']; })
 )
-'(' _ arg0:valueExpr _ ',' _ arg1:valueExpr _ ')'
+_ '(' _ arg0:valueExpr _ ',' _ arg1:valueExpr _ ')'
 	{
 		return {
 			type: 'valueExpr',
@@ -1403,7 +1403,7 @@ valueExprFunctionsUnary
 	/ ('second'i { return ['second', 'number']; })
 	/ ('dayofmonth'i { return ['dayofmonth', 'number']; })
 )
-'(' _ arg0:valueExpr _ ')'
+_ '(' _ arg0:valueExpr _ ')'
 	{
 		return {
 			type: 'valueExpr',
@@ -1429,7 +1429,7 @@ valueExprFunctionsNullary
 	/ ('clock_timestamp'i { return ['clock_timestamp', 'date']; })
 	/ ('sysdate'i { return ['clock_timestamp', 'date']; })
 )
-'(' _ ')'
+_ '(' _ ')'
 	{
 		return {
 			type: 'valueExpr',

@@ -8,6 +8,7 @@ import { faBars, faCalculator, faComment, faDatabase, faQuestionCircle } from '@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { EditorGroup } from 'calc2/components/editorGroup';
 import { EditorRelalg } from 'calc2/components/editorRelalg';
+import { EditorBagalg } from 'calc2/components/editorBagalg';
 import { EditorSql } from 'calc2/components/editorSql';
 import { i18n, T, t } from 'calc2/i18n';
 import * as store from 'calc2/store';
@@ -32,7 +33,7 @@ type Props = {
 };
 
 type State = {
-	activeTab: 'relalg' | 'sql' | 'group',
+	activeTab: 'relalg' | 'bagalg' | 'sql' | 'group',
 	datasetModal: boolean,
 	relationModal: boolean,
 };
@@ -40,6 +41,7 @@ type State = {
 
 export class Calculator extends React.Component<Props, State> {
 	private refEditorRelalg = React.createRef<EditorRelalg>();
+	private refEditorBagalg = React.createRef<EditorBagalg>();
 	private refEditorSql = React.createRef<EditorSql>();
 	private refEditorGroup = React.createRef<EditorGroup>();
 
@@ -88,6 +90,8 @@ export class Calculator extends React.Component<Props, State> {
 				return this.refEditorSql;
 			case 'relalg':
 				return this.refEditorRelalg;
+			case 'bagalg':
+				return this.refEditorBagalg;
 			case 'group':
 				return this.refEditorGroup;
 		}
@@ -175,6 +179,15 @@ example,  42
 							</NavItem>
 							<NavItem>
 								<NavLink
+									className={classnames({ active: activeTab === 'bagalg' })}
+									onClick={() => { this.setState({ activeTab: 'bagalg' }); }}
+								>
+									<span className="hideOnSM"><T id="calc.editors.bags.tab-name" /></span>
+									<span className="showOnSM"><T id="calc.editors.bags.tab-name-short" /></span>
+								</NavLink>
+							</NavItem>
+							<NavItem>
+								<NavLink
 									className={classnames({ active: activeTab === 'sql' })}
 									onClick={() => { this.setState({ activeTab: 'sql' }); }}
 								>
@@ -197,6 +210,13 @@ example,  42
 								<EditorRelalg
 									group={group}
 									ref={this.refEditorRelalg}
+									relInsertModalToggle={this.insertRelationToggle}
+								/>
+							</TabPane>
+							<TabPane tabId="bagalg">
+								<EditorBagalg
+									group={group}
+									ref={this.refEditorBagalg}
 									relInsertModalToggle={this.insertRelationToggle}
 								/>
 							</TabPane>

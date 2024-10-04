@@ -267,6 +267,12 @@ columnName
 	}
 
 // operator names:
+delta
+= _ o:('∂' { return getNodeInfo('delta'); }) _
+	{ return o; }
+/ _ o:('delta'i { return getNodeInfo('delta'); }) __
+	{ return o; }
+
 pi
 = _ o:('π' { return getNodeInfo('pi'); }) _
 	{ return o; }
@@ -538,14 +544,14 @@ listOfOrderByArgs
 
 
 aggFunction
-= func:$('sum'i / 'count'i / 'avg'i / 'min'i / 'max'i) _ '(' _ col:columnName _ ')'
+= func:$('sum'i / 'count'i / 'avg'i / 'min'i / 'max'i) '(' _ col:columnName _ ')'
 	{
 		return {
 			aggFunction: func.toUpperCase(),
 			col: col
 		};
 	}
-/ 'count'i _ '(' _ '*' _ ')'
+/ 'count(*)'i
 	{
 		return {
 			aggFunction: 'COUNT_ALL',
@@ -801,7 +807,7 @@ precedence: (low to high)
 4: union, difference
 3: intersect
 2: crossJoin, thetaJoin, naturalJoin, leftOuterJoin, rightOuterJoin, fullOuterJoin, leftSemiJoin, rightSemiJoin, antiJoin, division
-1: projection, selection, renameColumns, renameRelation, groupBy, orderBy
+1: eliminateDuplicates, projection, selection, renameColumns, renameRelation, groupBy, orderBy
 0: table, relation, ( ex )
 */
 
@@ -850,6 +856,7 @@ expression_precedence1
 / renameColumns
 / selection
 / projection
+/ eliminateDuplicates
 / expression_precedence0
 
 expression_precedence0
@@ -962,6 +969,16 @@ division
 
 
 
+eliminateDuplicates
+= o:delta __? c:expression_precedence1
+	{
+		operatorPositions.push(o);
+		return {
+			type: 'eliminateDuplicates',
+			child: c,
+			codeInfo: getCodeInfo(),
+		};
+	}
 
 projection
 = o:pi a:listOfNamedColumnExpressions __? c:expression_precedence1
@@ -1506,7 +1523,7 @@ valueExprFunctionsNary
 	('coalesce'i { return ['coalesce', 'null']; })
 	/ ('concat'i { return ['concat', 'string']; })
 )
-_ '(' _ arg0:valueExpr _ argn:(',' _ valueExpr _ )* ')'
+'(' _ arg0:valueExpr _ argn:(',' _ valueExpr _ )* ')'
 	{
 		var args = [arg0];
 		for(var i = 0; i < argn.length; i++){
@@ -1533,7 +1550,7 @@ valueExprFunctionsBinary
 	/ ('mul'i { return ['mul', 'number']; })
 	/ ('div'i { return ['div', 'number']; })
 )
-_ '(' _ arg0:valueExpr _ ',' _ arg1:valueExpr _ ')'
+'(' _ arg0:valueExpr _ ',' _ arg1:valueExpr _ ')'
 	{
 		return {
 			type: 'valueExpr',
@@ -1567,7 +1584,7 @@ valueExprFunctionsUnary
 	/ ('second'i { return ['second', 'number']; })
 	/ ('dayofmonth'i { return ['dayofmonth', 'number']; })
 )
-_ '(' _ arg0:valueExpr _ ')'
+'(' _ arg0:valueExpr _ ')'
 	{
 		return {
 			type: 'valueExpr',
@@ -1593,7 +1610,7 @@ valueExprFunctionsNullary
 	/ ('clock_timestamp'i { return ['clock_timestamp', 'date']; })
 	/ ('sysdate'i { return ['clock_timestamp', 'date']; })
 )
-_ '(' _ ')'
+'(' _ ')'
 	{
 		return {
 			type: 'valueExpr',
@@ -1775,7 +1792,8 @@ expr_precedence0
 RESERVED_KEYWORD = RESERVED_KEYWORD_RELALG
 
 RESERVED_KEYWORD_RELALG
-= 'pi'i
+= 'delta'i
+/ 'pi'i
 / 'sigma'i
 / 'rho'i
 / 'tau'i

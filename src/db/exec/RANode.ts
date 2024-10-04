@@ -120,7 +120,7 @@ export abstract class RANode {
 	 *
 	 * @param {Object} [session] the session object or undefined if called on a root node
 	 */
-	abstract getResult(session?: Session): Table;
+	abstract getResult(doEliminateDuplicateRows?: boolean, session?: Session): Table;
 
 	/**
 	 * this method is called in every getResult() method

@@ -1073,6 +1073,17 @@ QUnit.test('pi with eval: date', function (assert) {
 	assert.deepEqual(result, reference);
 });
 
+QUnit.test('pi with wrong date format', function (assert) {
+	try {
+		const query = "pi date('01-01-1970')->d (R)";
+		exec_ra(query, getTestRelations());
+		assert.ok(false);
+	}
+	catch (e) {
+		assert.ok(true);
+	}
+});
+
 QUnit.test('pi with eval: upper()', function (assert) {
 	const relations = getTestRelations();
 	const result = exec_ra(" sigma x < 'D' pi upper(S.b)->x S ", relations).getResult();
@@ -1222,6 +1233,73 @@ QUnit.test('groupby textgen', function (assert) {
 		'\ta:string, b:number\n' +
 		"\t'a'     , 1       \n" +
 		'} ) ');
+});
+
+QUnit.test('whitespace(s) between aggregate function and opening parenthesis', function (assert) {
+	const result = exec_ra("gamma ; sum (a)->total_a (R)", getTestRelations()).getResult();
+	result.eliminateDuplicateRows();
+
+	const reference = exec_ra('{total_a\n' +
+		'19\n' +
+		'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('whitespace(s) between count(*) function and opening parenthesis', function (assert) {
+	const result = exec_ra("gamma ; count    (*)->n (R)", getTestRelations()).getResult();
+	result.eliminateDuplicateRows();
+
+	const reference = exec_ra('{n\n' +
+		'5\n' +
+		'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('whitespace(s) between n-ary text function and opening parenthesis', function (assert) {
+	const result = exec_ra("pi concat  (a, b, c)->k (R)", getTestRelations()).getResult();
+	result.eliminateDuplicateRows();
+
+	const reference = exec_ra('{k\n' +
+		'1ad\n' +
+		'3cc\n' +
+		'4df\n' +
+		'5db\n' +
+		'6ef\n' +
+		'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('whitespace(s) between binary function and opening parenthesis', function (assert) {
+	const result = exec_ra("pi add    (a, 5)->a_plus_5 (R)", getTestRelations()).getResult();
+	result.eliminateDuplicateRows();
+
+	const reference = exec_ra('{a_plus_5\n' +
+		'6\n' +
+		'8\n' +
+		'9\n' +
+		'10\n' +
+		'11\n' +
+		'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('whitespace(s) between unary function and opening parenthesis', function (assert) {
+	const result = exec_ra("pi a + length  (  c )->x, upper (   b  )->k (R)", getTestRelations()).getResult();
+	result.eliminateDuplicateRows();
+
+	const reference = exec_ra('{\tx:number, k:string\n' +
+		"\t2, 'A'\n" +
+		"\t4, 'C'\n" +
+		"\t5, 'D'\n" +
+		"\t6, 'D'\n" +
+		"\t7, 'E'\n" +
+		'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
 });
 
 QUnit.test('test orderBy explicit column of relation', function (assert) {

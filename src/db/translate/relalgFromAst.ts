@@ -30,6 +30,7 @@ import { Schema } from '../exec/Schema';
 import { Selection } from '../exec/Selection';
 import { Union } from '../exec/Union';
 import * as ValueExpr from '../exec/ValueExpr';
+import { EliminateDuplicates } from '../exec/EliminateDuplicates';
 
 
 
@@ -456,8 +457,7 @@ function setAdditionalData<T extends RANode>(astNode: relalgAst.relalgOperation,
 }
 
 
-
-// translates a RA-AST to RA
+// translates a RA-AST or a BA-AST to RA
 export function relalgFromRelalgAstRoot(astRoot: relalgAst.rootRelalg, relations: { [key: string]: Relation }) {
 	// root is the real root node! of a statement
 	return relalgFromRelalgAstNode(astRoot.child, relations);
@@ -545,6 +545,17 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
+					return node;
+				}
+
+			case 'eliminateDuplicates':
+				{
+					const start = Date.now();
+					const child = recRANode(n.child);
+					const node = new EliminateDuplicates(child);
+					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
 					return node;
 				}
 

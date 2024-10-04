@@ -43,7 +43,7 @@ export class SemiJoin extends Join {
 		this._rowCreatorNotMatched = null;
 	}
 
-	getResult(session?: Session) {
-		return super._getResult(session, true);
+	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
+		return super._getResult(doEliminateDuplicateRows, session);
 	}
 }

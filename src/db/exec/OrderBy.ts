@@ -40,14 +40,16 @@ export class OrderBy extends RANodeUnary {
 		return this._child.getSchema();
 	}
 
-	getResult(session?: Session) {
+	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
 		session = this._returnOrCreateSession(session);
 		if (this._orderIndices === null) {
 			throw new Error(`check not called`);
 		}
 
-		const res = this.getChild().getResult(session).copy();
-		res.eliminateDuplicateRows();
+		const res = this.getChild().getResult(doEliminateDuplicateRows, session).copy();
+		if (doEliminateDuplicateRows === true) {
+			res.eliminateDuplicateRows();
+		}
 		this.setResultNumRows(res.getNumRows());
 
 		res.sort(this._orderIndices, this._orderAsc);

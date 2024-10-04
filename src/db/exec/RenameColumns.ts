@@ -100,10 +100,10 @@ export class RenameColumns extends RANodeUnary {
         this._schema = schema;
     }
 
-    getResult(session?: Session) {
+    getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
         session = this._returnOrCreateSession(session);
 
-        const res = this._child.getResult(session).copy();
+        const res = this._child.getResult(doEliminateDuplicateRows, session).copy();
         res.setSchema(this.getSchema());
 
         this.setResultNumRows(res.getNumRows());

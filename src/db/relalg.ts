@@ -36,6 +36,7 @@ export function queryWithReplacedOperatorsFromAst(
 
 	const newOperators = {
 		'math2plain': {
+			'delta': 'delta',
 			'pi': 'pi',
 			'sigma': 'sigma',
 			'rho': 'rho',
@@ -59,6 +60,7 @@ export function queryWithReplacedOperatorsFromAst(
 			'fullOuterJoinOperator': 'full outer join',
 		},
 		'plain2math': {
+			'delta': '∂',
 			'pi': 'π',
 			'sigma': 'σ',
 			'rho': 'ρ',
@@ -131,7 +133,6 @@ export function queryWithReplacedOperatorsFromAst(
 
 
 
-
 const pegParserSql = require('./parser/grammar_sql.pegjs') as any;
 
 export function parseSQLSelect(text: string): sqlAst.rootSql {
@@ -156,10 +157,10 @@ export function parseSQLDump(text: string): relalgAst.GroupRoot {
 }
 
 
-export function executeRelalg(text: string, relations: { [name: string]: Relation } = {}): RANode {
+export function executeRelalg(text: string, relations: { [name: string]: Relation } = {}, strictRA: boolean = true): RANode {
 	relations = relations || {};
 
-	const ast = parseRelalg(text, Object.keys(relations));
+	const ast = parseRelalg(text, Object.keys(relations), strictRA);
 	replaceVariables(ast, relations);
 
 	const root = relalgFromRelalgAstRoot(ast, relations);

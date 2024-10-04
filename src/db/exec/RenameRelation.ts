@@ -45,11 +45,11 @@ export class RenameRelation extends RANodeUnary {
 		}
 	}
 
-	getResult(session?: Session) {
+	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
 		if (this._schema === null) {
 			throw new Error(`check not called`);
 		}
-		const res = this._child.getResult(session).copy();
+		const res = this._child.getResult(doEliminateDuplicateRows, session).copy();
 		res.setSchema(this.getSchema());
 
 		this.setResultNumRows(res.getNumRows());

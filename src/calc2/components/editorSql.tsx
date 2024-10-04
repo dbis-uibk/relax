@@ -54,6 +54,7 @@ export class EditorSql extends React.Component<Props> {
 			<EditorBase
 				textChange={(cm: CodeMirror.Editor) => { } }
 				exampleSql={group.exampleSQL}
+				exampleBags={group.exampleBags}
 				exampleRA={group.exampleRA}
 				ref={ref => {
 					if (ref) {
@@ -92,6 +93,8 @@ export class EditorSql extends React.Component<Props> {
 									root={root}
 									numTreeLabelColors={NUM_TREE_LABEL_COLORS}
 									execTime={self.state.execTime == null ? 0 : self.state.execTime}
+									// TODO: SQL does support duplicates
+									doEliminateDuplicates={true}
 								/>
 							),
 						};

@@ -49,7 +49,7 @@ export class Projection extends RANodeUnary {
 		return this._checked._projectedSchema;
 	}
 
-	getResult(session?: Session) {
+	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
 		session = this._returnOrCreateSession(session);
 		if (this._checked === null) {
 			throw new Error(`check has not been called`);
@@ -58,10 +58,10 @@ export class Projection extends RANodeUnary {
 		const { _indices } = this._checked;
 
 		if (this._columns === null) {
-			return this._child.getResult(session);
+			return this._child.getResult(doEliminateDuplicateRows, session);
 		}
 
-		const org = this._child.getResult(session);
+		const org = this._child.getResult(doEliminateDuplicateRows, session);
 		const res = new Table();
 		res.setSchema(this.getSchema());
 
@@ -83,7 +83,9 @@ export class Projection extends RANodeUnary {
 			res.addRow(resRow);
 		}
 
-		res.eliminateDuplicateRows();
+		if (doEliminateDuplicateRows === true) {
+			res.eliminateDuplicateRows();
+		}
 		this.setResultNumRows(res.getNumRows());
 		return res;
 	}

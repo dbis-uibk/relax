@@ -104,6 +104,90 @@ QUnit.test('test bag R', function (assert) {
 	assert.deepEqual(root.getResult(false), relations.R.getResult(false));
 });
 
+QUnit.test('test dum bag 1', function (assert) {
+	const relations = getTestBags();
+	const root = exec_ra(`pi 1->a {}`, relations);
+
+	const ref = exec_ra(`sigma a<1 {
+		a
+
+		10
+	}`, relations);
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test dum bag 2', function (assert) {
+	const relations = getTestBags();
+	const root = exec_ra(`gamma count(*)->n {}`, relations);
+
+	const ref = exec_ra(`{
+		n
+
+		0
+	}`, relations);
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test dum bag 3', function (assert) {
+	const relations = getTestBags();
+	const root = exec_ra(`R x {}`, relations);
+
+	const ref = exec_ra(`R - R`, relations);
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test dum bag 4', function (assert) {
+	const relations = getTestBags();
+	const root = exec_ra(`{} x R`, relations);
+
+	const ref = exec_ra(`R - R`, relations);
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test dee bag 1', function (assert) {
+	const relations = getTestBags();
+	const root = exec_ra(`pi 1->a {()}`, relations);
+
+	const ref = exec_ra(`{
+		a
+
+		1
+	}`, relations);
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test dee bag 2', function (assert) {
+	const relations = getTestBags();
+	const root = exec_ra(`gamma count(*)->n {()}`, relations);
+
+	const ref = exec_ra(`{
+		n
+
+		1
+	}`, relations);
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test dee bag 3', function (assert) {
+	const relations = getTestBags();
+	const root = exec_ra(`R x {()}`, relations);
+
+	assert.deepEqual(root.getResult(), relations.R.getResult());
+});
+
+QUnit.test('test dee bag 4', function (assert) {
+	const relations = getTestBags();
+	const root = exec_ra(`{()} x R`, relations);
+
+	assert.deepEqual(root.getResult(), relations.R.getResult());
+});
+
 QUnit.test('test inline-bag R', function (assert) {
 	const relations = getTestBags();
 	const root = exec_ra(`{

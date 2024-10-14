@@ -114,7 +114,7 @@ QUnit.test('test dum bag 1', function (assert) {
 		10
 	}`, relations);
 
-	assert.deepEqual(root.getResult(), ref.getResult());
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
 });
 
 QUnit.test('test dum bag 2', function (assert) {
@@ -127,7 +127,7 @@ QUnit.test('test dum bag 2', function (assert) {
 		0
 	}`, relations);
 
-	assert.deepEqual(root.getResult(), ref.getResult());
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
 });
 
 QUnit.test('test dum bag 3', function (assert) {
@@ -136,7 +136,7 @@ QUnit.test('test dum bag 3', function (assert) {
 
 	const ref = exec_ra(`R - R`, relations);
 
-	assert.deepEqual(root.getResult(), ref.getResult());
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
 });
 
 QUnit.test('test dum bag 4', function (assert) {
@@ -145,7 +145,7 @@ QUnit.test('test dum bag 4', function (assert) {
 
 	const ref = exec_ra(`R - R`, relations);
 
-	assert.deepEqual(root.getResult(), ref.getResult());
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
 });
 
 QUnit.test('test dee bag 1', function (assert) {
@@ -158,7 +158,7 @@ QUnit.test('test dee bag 1', function (assert) {
 		1
 	}`, relations);
 
-	assert.deepEqual(root.getResult(), ref.getResult());
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
 });
 
 QUnit.test('test dee bag 2', function (assert) {
@@ -171,21 +171,21 @@ QUnit.test('test dee bag 2', function (assert) {
 		1
 	}`, relations);
 
-	assert.deepEqual(root.getResult(), ref.getResult());
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
 });
 
 QUnit.test('test dee bag 3', function (assert) {
 	const relations = getTestBags();
 	const root = exec_ra(`R x {()}`, relations);
 
-	assert.deepEqual(root.getResult(), relations.R.getResult());
+	assert.deepEqual(root.getResult(false), relations.R.getResult(false));
 });
 
 QUnit.test('test dee bag 4', function (assert) {
 	const relations = getTestBags();
 	const root = exec_ra(`{()} x R`, relations);
 
-	assert.deepEqual(root.getResult(), relations.R.getResult());
+	assert.deepEqual(root.getResult(false), relations.R.getResult(false));
 });
 
 QUnit.test('test inline-bag R', function (assert) {

@@ -2119,9 +2119,12 @@ export class Help extends React.Component<Props> {
 								</tr>
 
 								<tr>
-									<td><code>concat(a:string [, ...])</code></td>
+									<td><code>concat(a:"any" [, ...])</code></td>
 									<td>string</td>
-									<td>concatenates the given strings</td>
+									<td>returns the string that results from concatenating the arguments.
+										<br />May have one or more arguments. A non-string argument is implicitly converted to its equivalent string form and then concatenated. Returns null if any argument is null (like in <a
+								href="https://dev.mysql.com/doc/refman/8.0/en/string-functions.html#function_concat">MySQL</a>).
+									</td>
 								</tr>
 								<tr>
 									<td><code>upper(a:string)

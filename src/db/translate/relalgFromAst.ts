@@ -537,7 +537,36 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					for (let i = 0; i < n.arg.length; i++) {
 						const el = n.arg[i];
 
-						if (el.type === 'columnName') {
+						if (el.type === 'column' &&
+						    el.name === '*') {
+							if (el.relAlias === null) {
+								// project all columns
+								let cols;
+								try {
+									cols = child.getSchema();
+								}
+								catch (e) {
+									cols = null;
+								}
+								if (cols) {
+									for (let i = 0; i < cols.getSize(); i++) {
+										// normal columns
+										projections.push(cols.getColumn(i));
+									}
+								}
+								else // normal columns
+									projections.push(new Column(el.name, el.relAlias));	
+							}
+							// project all columns
+							else if (child.getMetaData('fromVariable') &&
+											 child.getMetaData('fromVariable') === el.relAlias) {
+								projections.push(new Column(el.name, null));	
+							}
+							else {
+								projections.push(new Column(el.name, el.relAlias));	
+							}
+						}
+						else if (el.type === 'columnName') {
 							const e = el as relalgAst.columnName;
 							projections.push(new Column(e.name, e.relAlias));
 						}

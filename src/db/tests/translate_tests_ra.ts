@@ -1184,6 +1184,69 @@ QUnit.test('pi with eval: upper()', function (assert) {
 	assert.deepEqual(result, reference);
 });
 
+QUnit.test('pi with eval: lower()', function (assert) {
+	const relations = getTestRelations();
+	const result = exec_ra(" sigma y < 'd' (pi lower(x)->y (pi upper(S.b)->x S)) ", relations).getResult();
+	result.eliminateDuplicateRows();
+
+	const reference = exec_ra(`
+	{
+		y:string
+		a
+		b
+		c
+	}`, {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('pi with eval: repeat()', function (assert) {
+	const relations = getTestRelations();
+	const result = exec_ra(" pi repeat(b, 3)->x (R) ", relations).getResult();
+	result.eliminateDuplicateRows();
+
+	const reference = exec_ra('{x:string\n' +
+		'aaa\n' +
+		'ccc\n' +
+		'ddd\n' +
+		'eee\n' +
+	'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('pi with eval: replace()', function (assert) {
+	const relations = getTestRelations();
+	const result = exec_ra(" pi replace(x, 'c', 'C')->y (pi concat(a, b, c)->x (R)) ", relations).getResult();
+	result.eliminateDuplicateRows();
+
+	const reference = exec_ra('{y:string\n' +
+		'1ad\n' +
+		'3CC\n' +
+		'4df\n' +
+		'5db\n' +
+		'6ef\n' +
+	'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('pi with eval: reverse()', function (assert) {
+	const relations = getTestRelations();
+	const result = exec_ra(" pi reverse(x)->y (pi concat(a, b, c)->x (R)) ", relations).getResult();
+	result.eliminateDuplicateRows();
+
+	const reference = exec_ra('{y:string\n' +
+		'da1\n' +
+		'cc3\n' +
+		'fd4\n' +
+		'bd5\n' +
+		'fe6\n' +
+	'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
 QUnit.test('pi with eval: add()', function (assert) {
 	const relations = getTestRelations();
 	const result = exec_ra(' pi a, add(a, a) ->x R ', relations).getResult();
@@ -1306,6 +1369,26 @@ QUnit.test('test like operator', function (assert) {
 	assert.deepEqual(result, reference);
 });
 
+QUnit.test('test regexp operator', function (assert) {
+	const result = exec_ra(`pi x, x regexp '^(a|e)'->starts_a_or_e, x regexp '(a|e)$'->ends_a_or_e, x rlike '(a|e)'->has_a_or_e {
+	x
+
+	abb
+	bba
+	bab
+	ebe
+	}`, {}).getResult();
+
+	const reference = exec_ra(`{
+	x, starts_a_or_e, ends_a_or_e, has_a_or_e
+
+	abb, true,  false, true
+	bba, false, true,  true
+	bab, false, false, true
+	ebe, true,  true,  true
+	}`, {}).getResult();
+	assert.deepEqual(result, reference);
+});
 
 QUnit.test('groupby textgen', function (assert) {
 	const ast = relalgjs.parseRelalg(`gamma a; sum(b)->c ({a, b

@@ -948,9 +948,9 @@ export class ValueExprGeneric extends ValueExpr {
 					if (this._dataType === 'null' && dataType !== 'null') {
 						this._dataTypeCalculated = dataType;
 					}
-					else if (dataType !== 'null' && this._dataType !== dataType) {
-						this.throwExecutionError(i18n.t('db.messages.exec.error-function-expects-arguments-of-same-type', {func: 'CONCAT()'}));
-					}
+					// else if (dataType !== 'null' && this._dataType !== dataType) {
+					// 	this.throwExecutionError(i18n.t('db.messages.exec.error-function-expects-arguments-of-same-type', {func: 'CONCAT()'}));
+					// }
 				}
 				break;
 			default:

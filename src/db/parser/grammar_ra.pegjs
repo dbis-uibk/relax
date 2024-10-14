@@ -1224,9 +1224,36 @@ tableRow
 		return t;
 	}
 
+tableDum
+= '{' _ '}' // relation of degree zero and cardinality zero
+	{
+		return {
+			type: 'table',
+			name: '_inlineRelation'+(inlineTableNum++),
+			columns: [],
+			rows: [],
+
+			codeInfo: getCodeInfo()
+		};
+	}
+
+tableDee
+= '{' _ '(' _ ')' _ '}' // relation of degree zero and cardinality one
+	{
+		return {
+			type: 'table',
+			name: '_inlineRelation'+(inlineTableNum++),
+			columns: [],
+			rows: [[]],
+
+			codeInfo: getCodeInfo()
+		};
+	}
 
 table
-= '{' _ cols:tableHeader _sl trows:(endOfLine _ tableRow _sl)* _ '}'
+= tableDum
+/ tableDee
+/ '{' _ cols:tableHeader _sl trows:(endOfLine _ tableRow _sl)* _ '}'
 	{
 		var numCols = cols.length;
 

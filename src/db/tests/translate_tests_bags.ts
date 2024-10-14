@@ -7,7 +7,7 @@
 import { Relation } from 'db/exec/Relation';
 import * as relalgjs from '../relalg';
 
-QUnit.module('translate multiset algebra ast to relational algebra');
+QUnit.module('translate multiset algebra ast to multiset algebra');
 
 // const relations = getTestBags();
 
@@ -309,4 +309,152 @@ QUnit.test('test (R2) bag outer join (S2)', function (assert) {
 	}`, relations);
 
 	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test like operator', function (assert) {
+	const result = exec_ra(`pi x, x like 'a%'->a, x like '%b'->b, x like '%a%'->c, x like 'a_a'->d {
+	x
+
+	abb
+	bba
+	bab
+	aba
+	}`, {}).getResult(false);
+
+	const reference = exec_ra(`{
+	x,   a,     b,     c,     d
+
+	abb, true,  true,  true, false
+	bba, false, false, true, false
+	bab, false, true,  true, false
+	aba, true,  false, true, true
+	}`, {}).getResult(false);
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('test regexp operator', function (assert) {
+	const result = exec_ra(`pi x, x regexp '^(a|e)'->starts_a_or_e, x regexp '(a|e)$'->ends_a_or_e, x rlike '(a|e)'->has_a_or_e {
+	x
+
+	abb
+	bba
+	bab
+	ebe
+	}`, {}).getResult(false);
+
+	const reference = exec_ra(`{
+	x, starts_a_or_e, ends_a_or_e, has_a_or_e
+
+	abb, true,  false, true
+	bba, false, true,  true
+	bab, false, false, true
+	ebe, true,  true,  true
+	}`, {}).getResult(false);
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('pi with eval: repeat()', function (assert) {
+	const relations = getTestBags();
+	const result = exec_ra(" pi repeat('b', 3)->x (R) ", relations).getResult(false);
+
+	const reference = exec_ra('{x:string\n' +
+		'bbb\n' +
+		'bbb\n' +
+		'bbb\n' +
+	'}', {}).getResult(false);
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('pi with eval: replace()', function (assert) {
+	const relations = getTestBags();
+	const result = exec_ra(" pi replace(x, 'c', 'C')->y (pi concat(a, b, 'c')->x (R)) ", relations).getResult(false);
+
+	const reference = exec_ra('{y:string\n' +
+		'12C\n' +
+		'56C\n' +
+		'12C\n' +
+	'}', {}).getResult(false);
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('pi with eval: reverse()', function (assert) {
+	const relations = getTestBags();
+	const result = exec_ra(" pi reverse(x)->y (pi concat(a, b, 'c')->x (R)) ", relations).getResult(false);
+
+	const reference = exec_ra('{y:string\n' +
+		'c21\n' +
+		'c65\n' +
+		'c21\n' +
+	'}', {}).getResult(false);
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('whitespace(s) between aggregate function and opening parenthesis', function (assert) {
+	const result = exec_ra("gamma ; sum (a)->total_a (R)", getTestBags()).getResult(false);
+
+	const reference = exec_ra('{total_a\n' +
+		'7\n' +
+		'}', {}).getResult(false);
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('whitespace(s) between count(*) function and opening parenthesis', function (assert) {
+	const result = exec_ra("gamma ; count    (*)->n (R)", getTestBags()).getResult(false);
+
+	const reference = exec_ra('{n\n' +
+		'3\n' +
+		'}', {}).getResult(false);
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('whitespace(s) between n-ary text function and opening parenthesis', function (assert) {
+	const result = exec_ra("pi concat  (a, b)->k (R)", getTestBags()).getResult(false);
+
+	const reference = exec_ra(`{k:string
+		'12'
+		'56'
+		'12'
+		}`, {}).getResult(false);
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('whitespace(s) between binary function and opening parenthesis', function (assert) {
+	const result = exec_ra("pi add    (a, 5)->a_plus_5 (R)", getTestBags()).getResult(false);
+
+	const reference = exec_ra('{a_plus_5\n' +
+		'6\n' +
+		'10\n' +
+		'6\n' +
+		'}', {}).getResult(false);
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('whitespace(s) between unary function and opening parenthesis', function (assert) {
+	const result = exec_ra("pi a + length  ( 'teste' )->x, upper (   'b'  )->k (R)", getTestBags()).getResult(false);
+
+	const reference = exec_ra('{\tx:number, k:string\n' +
+		"\t6, 'B'\n" +
+		"\t10, 'B'\n" +
+		"\t6, 'B'\n" +
+		'}', {}).getResult(false);
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('pi with wrong date format', function (assert) {
+	try {
+		const query = "pi date('01-01-1970')->d (R)";
+		exec_ra(query, getTestBags());
+		assert.ok(false);
+	}
+	catch (e) {
+		assert.ok(true);
+	}
 });

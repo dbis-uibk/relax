@@ -1,4 +1,50 @@
 {
+	"markdownlint.config": {
+		"MD033": false
+	},
+	"shellformat.effectLanguages": ["dotenv", "ignore", "gitignore"],
+	"[dotenv]": {
+		"editor.formatOnSave": false,
+		"editor.defaultFormatter": "foxundermoon.shell-format"
+	},
+	"[gitignore]": {
+		"editor.formatOnSave": false,
+		"editor.defaultFormatter": "foxundermoon.shell-format"
+	},
+	"[ignore]": {
+		"editor.formatOnSave": false,
+		"editor.defaultFormatter": "foxundermoon.shell-format"
+	},
+	"[jsonc]": {
+		"editor.formatOnSave": false,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[markdown]": {
+		"editor.formatOnSave": false,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"linter.linters": {
+		"markdownlint": {
+			"capabilities": ["fix-inline"],
+			"command": [
+				"markdownlint",
+				"--json",
+				["$fixAll", "--fix"],
+				["$config", "--config", "$config"],
+				"--stdin"
+			],
+			"configFiles": [
+				".markdownlint.json",
+				".markdownlint.yaml",
+				".markdownlint.yml",
+				".markdownlintrc"
+			],
+			"enabled": true,
+			"languages": ["markdown"],
+			"name": "markdownlint",
+			"url": "https://github.com/DavidAnson/markdownlint"
+		}
+	},
 	"typescript.tsdk": "./node_modules/typescript/lib",
 	"search.exclude": {
 		"**/node_modules": true,

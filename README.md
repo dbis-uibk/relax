@@ -10,6 +10,18 @@ A relational algebra calculator
 * Execute `yarn serve` to locally run the webapp on port 8088
 * (Optional) open folder with https://code.visualstudio.com/ and install the workspace recommended extensions (includes tasks)
 
+Alternatively, you can make use of the Visual Studio Code Dev Containers extension to develop inside a Docker container and take advantage of Visual Studio Code's full feature set. A **development container** is a running container with a well-defined tool/runtime stack and its prerequisites.
+
+To get started, follow these steps:
+
+* Install and configure [Docker Desktop](https://www.docker.com/get-started) for your operating system;
+* Install [VS Code](https://code.visualstudio.com/) and the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension;
+* Clone this repository and open it in VS Code;
+* Use the [**Dev Containers: Reopen in Container**](https://code.visualstudio.com/assets/docs/devcontainers/create-dev-container/dev-containers-reopen.png) command from the Command Palette;
+* When VS Code restarts, all dependencies will be installed automatically in the dev container. After that you can open a browser window and access the webapp at <http://localhost:8088/>;
+* Close the window to stop the container;
+* Any change in the files within the container is kept in the existing repository source code on your filesystem so that you can easily push your contributions.
+
 ## How to Release
 * Clone the repo
 * Checkout the `development` branch

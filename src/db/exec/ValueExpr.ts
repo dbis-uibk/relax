@@ -447,6 +447,8 @@ export class ValueExprGeneric extends ValueExpr {
 				return ValueExprGeneric._condition_compare(a, b, typeA, this._func);
 			case 'like':
 			case 'ilike':
+			case 'regexp':
+			case 'rlike':
 				if(!this._regex){
 					throw new Error(`regex should have been set by check`);
 				}
@@ -599,6 +601,18 @@ export class ValueExprGeneric extends ValueExpr {
 				this._regex = new RegExp('^' + regex_str + '$', flags);
 
 				break;
+			case 'regexp':
+			case 'rlike':
+				this._args[0].check(schemaA, schemaB);
+				if (this._args[1].getDataType() !== 'string' || this._args[1]._func !== 'constant') {
+					return false;
+				}
+
+				// cache regex
+				const txt = this._args[1]._args[0]; // direct access of constant value
+				let regex_txt = txt;
+				this._regex = new RegExp(regex_txt);
+				break;
 			default:
 				throw new Error('this should not happen!');
 		}
@@ -632,6 +646,30 @@ export class ValueExprGeneric extends ValueExpr {
 					value += a;
 				}
 				return value;
+			case 'repeat':
+				const rep = this._args[0].evaluate(tupleA, tupleB, row, statementSession);
+				const count = this._args[1].evaluate(tupleA, tupleB, row, statementSession);
+
+				if (rep === null || count === null) {
+					return null;
+				}
+				else {
+					return rep.repeat(count >= 0 ? count : 0);
+				}
+			case 'replace':
+				const str = this._args[0].evaluate(tupleA, tupleB, row, statementSession);
+				const from_str = this._args[1].evaluate(tupleA, tupleB, row, statementSession);
+				const to_str = this._args[2].evaluate(tupleA, tupleB, row, statementSession);
+				return str.replace(new RegExp(from_str, 'g'), to_str);
+			case 'reverse':
+				const r = this._args[0].evaluate(tupleA, tupleB, row, statementSession);
+
+				if (r === null) {
+					return null;
+				}
+				else {
+					return r.split('').reverse().join('');
+				}
 			default:
 				throw new Error('this should not happen!');
 		}
@@ -868,7 +906,32 @@ export class ValueExprGeneric extends ValueExpr {
 				return true;
 			case 'lower':
 			case 'upper':
+			case 'reverse':
 				return this._checkArgsDataType(schemaA, schemaB, ['string']);
+			case 'replace':
+				return this._checkArgsDataType(schemaA, schemaB, ['string', 'string', 'string']);
+			case 'repeat':
+				//return this._checkArgsDataType(schemaA, schemaB, ['string', 'number']);
+
+				if (this._args.length !== 2) {
+					throw new Error('this should not happen!');
+				}
+
+				// arguments must be of type string and number, or null
+				this._args[0].check(schemaA, schemaB);
+				const typeStr = this._args[0].getDataType();
+				this._args[1].check(schemaA, schemaB);
+				const typeCount = this._args[1].getDataType();
+
+				if ( (typeStr !== 'string' && typeStr !== 'null') ||
+					 (typeCount !== 'number' && typeCount !== 'null') ) {
+					this.throwExecutionError(i18n.t('db.messages.exec.error-function-expects-type', {
+						func: 'repeat()',
+						expected: ['string', 'number'],
+						given: [typeStr, typeCount],
+					}));
+				}
+				break;
 			case 'concat':
 				if (this._args.length === 0) {
 					throw new Error('this should not happen!');
@@ -1003,6 +1066,8 @@ export class ValueExprGeneric extends ValueExpr {
 				case 'concat':
 				case 'upper':
 				case 'lower':
+				case 'replace':	
+				case 'reverse':
 				case 'date':
 					return printFunction.call(this, _func.toUpperCase());
 				case 'strlen':
@@ -1034,6 +1099,8 @@ export class ValueExprGeneric extends ValueExpr {
 				case 'xor':
 				case 'like':
 				case 'ilike':
+				case 'regexp':
+				case 'rlike':
 				case '=':
 					return binary.call(this, _func);
 

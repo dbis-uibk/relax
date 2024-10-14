@@ -52,6 +52,7 @@ declare module relalgAst {
 	type relalgOperation
 		= relation
 		| table
+		| eliminateDuplicates
 		| projection
 		| selection
 		| renameColumns
@@ -140,6 +141,17 @@ declare module relalgAst {
 		child2?: undefined,
 		assignments?: undefined,
 		arg: (namedColumnExpr | columnName)[],
+
+		wrappedInParentheses?: boolean,
+		metaData?: { [key: string]: any },
+		codeInfo: CodeInfo,
+	}
+
+	interface eliminateDuplicates {
+		type: 'eliminateDuplicates',
+		child: relalgOperation,
+		child2?: undefined,
+		assignments?: undefined,
 
 		wrappedInParentheses?: boolean,
 		metaData?: { [key: string]: any },
@@ -327,6 +339,7 @@ declare module relalgAst {
 		assignments: assignment[],
 		codeInfo: CodeInfo,
 		exampleSql?: string,
+		exampleBags?: string,
 		exampleRA?: string;
 	}
 
@@ -350,7 +363,6 @@ declare module relalgAst {
 		| 'minus'
 		| 'not'
 		| 'coalesce'
-		| 'concat'
 		| 'adddate'
 		| 'subdate'
 		| 'upper'

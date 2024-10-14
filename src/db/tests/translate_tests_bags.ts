@@ -160,6 +160,22 @@ QUnit.test('test bag projection[a](R)', function (assert) {
 	assert.deepEqual(root.getResult(false), ref.getResult(false));
 });
 
+QUnit.test('test projection[*](R)', function (assert) {
+	const relations = getTestBags();
+	const query = 'pi * (R)';
+	const root = exec_ra(query, relations);
+
+	const ref = exec_ra(`{
+		R.a, R.b
+
+		1, 2
+		5, 6
+		1, 2
+	}`, relations);
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
 QUnit.test('test (R) bag product (S)', function (assert) {
 	const relations = getTestBags();
 	const root = exec_ra('(R) x (S)', relations);
@@ -271,6 +287,21 @@ QUnit.test('test bag duplicate elimination (R)', function (assert) {
 
 	assert.deepEqual(root.getResult(false), ref.getResult(false));
 });
+
+QUnit.test('test (pi * (R)) inner join [R.b = S2.b] (pi * (S2))', function (assert) {
+	const relations = getTestBags();
+	const root = exec_ra('(pi * R) inner join R.b = S.b (pi * S2)', relations);
+	const ref = exec_ra(`{
+		R.a:number, R.b:number, S.b:number, S.c:number
+		1,          2,          2,          4
+		1,          2,          2,          5
+		1,          2,          2,          4
+		1,          2,          2,          5
+	}`, relations);
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
 
 QUnit.test('test bag groupBy a; sum[b] (R2)', function (assert) {
 	const query = 'gamma a; sum(b)->sum_b (R2)';

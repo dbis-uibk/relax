@@ -321,7 +321,7 @@ QUnit.test('test projection[b, a, a, b](R)', function (assert) {
 
 QUnit.test('test (pi * (R)) inner join [R.b = S.b] (pi * (S))', function (assert) {
 	const relations = getTestRelations();
-	const root = exec_ra('(R) inner join R.b = S.b (S)', relations);
+	const root = exec_ra('(pi * R) inner join R.b = S.b (pi * S)', relations);
 	const ref = exec_ra(`{
 		R.a:number, R.b:string, R.c:string, S.b:string, S.d:number
 

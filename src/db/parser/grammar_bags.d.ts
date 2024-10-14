@@ -4,7 +4,7 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-declare module relalgAst {
+declare module bagsAst {
 	interface CodeInfo {
 		location: {
 			start: { offset: number, line: number, column: number },
@@ -80,6 +80,12 @@ declare module relalgAst {
 		relAlias: string | null,
 	}
 
+	interface columnAsterisk {
+		type: 'column',
+		name: '*',
+		relAlias: string | null
+	}
+
 	interface namedColumnExpr {
 		type: 'namedColumnExpr',
 		name: string,
@@ -140,7 +146,7 @@ declare module relalgAst {
 		child: relalgOperation,
 		child2?: undefined,
 		assignments?: undefined,
-		arg: (namedColumnExpr | columnName)[],
+		arg: (namedColumnExpr | columnName | columnAsterisk)[],
 
 		wrappedInParentheses?: boolean,
 		metaData?: { [key: string]: any },

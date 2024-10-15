@@ -310,3 +310,1633 @@ QUnit.test('test (R2) bag outer join (S2)', function (assert) {
 
 	assert.deepEqual(root.getResult(false), ref.getResult(false));
 });
+
+QUnit.test('test orderBy explicit column of bag', function (assert) {
+	const query = 'tau R.a asc (R)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		1,   2
+		5,   6
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy implicit column of bag', function (assert) {
+	const query = 'tau a asc (R)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		1,   2
+		5,   6
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy implicit column of bag from local variable', function (assert) {
+	const query = 'k = R tau a asc (k)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		1,   2
+		5,   6
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy explicit column of bag from local variable', function (assert) {
+	const query = 'k = R tau R.a asc (k)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		1,   2
+		5,   6
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy explicit column of local variable', function (assert) {
+	const query = 'k = R tau k.a asc (k)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		1,   2
+		5,   6
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy implicit columns of bags from natural join', function (assert) {
+	const query = 'tau a asc, c desc (R ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy explicit columns of bags from natural join', function (assert) {
+	const query = 'tau R.a asc, S.c desc (R ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy implicit columns of bags from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 tau a asc, c desc (k ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy explicit columns of bags from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 tau R.a asc, S.c desc (k ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy explicit columns of local variable from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 tau k.a asc, S.c desc (k ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy implicit columns of bags from join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 tau a asc, c desc (R ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy explicit columns of bags from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 tau R.a asc, S.c desc (R ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy explicit columns of local variable from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 tau R.a asc, S.c desc (R ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy implicit columns of bags from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 tau a asc, c desc (k ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy explicit columns of bags from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 tau R.a asc, S.c desc (k ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy explicit columns of local variables from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 tau k.a asc, j.c desc (k ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy implicit columns of bags from natural join of multiple bags', function (assert) {
+	const query = 'tau a asc, c desc (R ⨝ S2 ⨝ Bag1)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy explicit columns of bags from natural join of multiple bags', function (assert) {
+	const query = 'tau R.a asc, S.c desc (R ⨝ S2 ⨝ Bag1)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy implicit columns from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S2 z = Bag1 tau a asc, c desc (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy explicit columns of bags from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S2 z = Bag1 tau R.a asc, S.c desc (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test orderBy explicit columns of local variables from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S2 z = Bag1 tau k.a asc, j.c desc (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+		1,   2,   4
+		1,   2,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy implicit column of bag', function (assert) {
+	const query = 'gamma ; count(a)->n (R)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		n
+		3
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit column of bag', function (assert) {
+	const query = 'gamma ; count(R.a)->n (R)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		n
+		3
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy implicit column of bag from local variable', function (assert) {
+	const query = 'k = R gamma ; sum(a)->n (k)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		n
+		7
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit column of bag from local variable', function (assert) {
+	const query = 'k = R gamma ; sum(R.a)->n (k)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		n
+		7
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit column of local variable', function (assert) {
+	const query = 'k = R gamma ; sum(k.a)->n (k)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		n
+		7
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy implicit columns of bags from natural join', function (assert) {
+	const query = 'gamma a; max(c)->m (R ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit columns of bags from natural join', function (assert) {
+	const query = 'gamma R.a; max(S.c)->m (R ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy implicit columns of bags from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 gamma a; max(c)->m (k ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit columns of bags from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 gamma R.a; max(S.c)->m (k ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit columns of local variable from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 gamma k.a; max(S.c)->m (k ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy implicit columns of bags from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 gamma a; max(c)->m (R ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit columns of bags from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 gamma R.a; max(S.c)->m (R ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit columns of bag and local variable from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 gamma R.a; max(j.c)->m (R ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit columns of bags from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 gamma R.a; max(S.c)->m (k ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit columns of local variables from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 gamma k.a; max(j.c)->m (k ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy implicit columns of bags from natural join of multiple bags', function (assert) {
+	const query = 'k = R j = S2 z = Bag1 gamma a; count(c)->m (R ⨝ S2 ⨝ Bag1)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   8
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit columns of bags from natural join of multiple bags', function (assert) {
+	const query = 'k = R j = S2 z = Bag1 gamma R.a; count(S.c)->m (R ⨝ S2 ⨝ Bag1)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   8
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy implicit columns from cross join of multiple local variables', function (assert) {
+	const query = 'k = R j = S2 z = Bag1 gamma c; count(S.b)->m (k x j x z)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		S.c, m
+		1,   9
+		4,   27
+		5,   9
+		2,   9
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit columns from cross join of multiple local variables', function (assert) {
+	const query = 'k = R j = S2 z = Bag1 gamma S.c; min(z.a)->m (k x j x z)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		S.c, m
+		1,   1
+		4,   1
+		5,   1
+		2,   1
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test groupBy explicit columns of local variables from cross join of multiple local variables', function (assert) {
+	const query = 'k = R j = S2 z = Bag1 gamma j.c; min(z.a)->m (k x j x z)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		S.c, m
+		1,   1
+		4,   1
+		5,   1
+		2,   1
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit column(s) of bag', function (assert) {
+	const query = 'pi R.a, R.b (R)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		5,   6
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of implicit column(s) of bag', function (assert) {
+	const query = 'pi a, b (R)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		5,   6
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of implicit column(s) of bag from local variable', function (assert) {
+	const query = 'k = R pi a, b (k)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		5,   6
+		1,   2
+	}`, {});
+	
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit column(s) of bag from local variable', function (assert) {
+	const query = 'k = R pi R.a, R.b (k)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		5,   6
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit column(s) of local variable', function (assert) {
+	const query = 'k = R pi k.a, k.b (k)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		5,   6
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of implicit column(s) of bags from natural join', function (assert) {
+	const query = 'pi a, c (R ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   5
+		1,   4
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit column(s) of bags from natural join', function (assert) {
+	const query = 'pi R.a, S.c (R ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   5
+		1,   4
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of implicit column(s) of bags from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 pi a, c (k ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   5
+		1,   4
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit column(s) of bags from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 pi R.a, S.c (k ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   5
+		1,   4
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit column(s) of local variable from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 pi k.a, S.c (k ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   5
+		1,   4
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of implicit column(s) of bags from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 pi a, c (R ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   5
+		1,   4
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit column(s) of bags from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 pi R.a, S.c (R ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   5
+		1,   4
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit columns of local variable from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 pi R.a, j.c (R ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   5
+		1,   4
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of implicit columns of bags from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 pi a, c (k ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   5
+		1,   4
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit columns of bags from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 pi R.a, S.c (k ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   5
+		1,   4
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit columns of local variables from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 pi k.a, j.c (k ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   5
+		1,   4
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of implicit columns of bags from natural join of multiple bags', function (assert) {
+	const query = 'pi a, c (R ⨝ S2 ⨝ Bag1)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+		1,   5
+		1,   5
+		1,   4
+		1,   4
+		1,   5
+		1,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of implicit column(s) of local variable from cross join of bags', function (assert) {
+	const query = 't = R x S2 pi a (t)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a
+		1
+		1
+		1
+		1
+		1
+		1
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		1
+		1
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit column(s) of bag(s) from cross join of bags', function (assert) {
+	const query = 't = R x S2 pi R.a (t)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a
+		1
+		1
+		1
+		1
+		1
+		1
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		1
+		1
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit column(s) of local variable from cross join of bags', function (assert) {
+	const query = 't = R x S2 pi t.a (t)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a
+		1
+		1
+		1
+		1
+		1
+		1
+		5
+		5
+		5
+		5
+		5
+		5
+		1
+		1
+		1
+		1
+		1
+		1
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit columns of bags from natural join of multiple bags', function (assert) {
+	const query = 'pi R.a, R.b, S.c (R ⨝ S2 ⨝ Bag1)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   4
+		1,   2,   4
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of implicit columns from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S2 z = bag1 pi a, b, c (R ⨝ S2 ⨝ Bag1)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   4
+		1,   2,   4
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit columns of bags from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S2 z = bag1 pi R.a, R.b, S.c (R ⨝ S2 ⨝ Bag1)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   4
+		1,   2,   4
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test projection of explicit columns of local variables from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S2 z = Bag1 pi k.a, k.b, j.c (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   4
+		1,   2,   4
+		1,   2,   5
+		1,   2,   5
+		1,   2,   4
+		1,   2,   4
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit column(s) of bag', function (assert) {
+	const query = 'sigma R.a > 3 (R)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		5,   6
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with implicit column(s) of bag', function (assert) {
+	const query = 'sigma a > 3 (R)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		5,   6
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with implicit column(s) of bag from local variable', function (assert) {
+	const query = 'k = R sigma a > 3 (k)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		5,   6
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit column(s) of bag from local variable', function (assert) {
+	const query = 'k = R sigma R.a > 3 (k)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		5,   6
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit column(s) of local variable', function (assert) {
+	const query = 'k = R sigma k.a > 3 (k)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		5,   6
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with implicit column(s) of bags from natural join', function (assert) {
+	const query = 'sigma a = 1 and c > 4 (R ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit column(s) of bags from natural join', function (assert) {
+	const query = 'sigma R.a = 1 and S.c > 4 (R ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with implicit column(s) of bags from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 sigma a = 1 and c > 4 (k ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit column(s) of bags from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 sigma R.a = 1 and S.c > 4 (k ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit column(s) of local variable from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 sigma k.a = 1 and S.c > 4 (k ⨝ S2)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with implicit column(s) of bags from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 sigma a = 1 and c > 4 (R ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit column(s) of bags from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 sigma R.a = 1 and S.c > 4 (R ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit column(s) of local variable from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 sigma R.a = 1 and j.c > 4 (R ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with implicit columns of bags from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 sigma a = 1 and c > 4 (k ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit columns of bags from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 sigma R.a = 1 and S.c > R.b*2 (k ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit columns of local variables from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 sigma k.a = 1 and j.c > k.b*2 (k ⨝ j)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with implicit columns of bags from natural join of multiple bags', function (assert) {
+	const query = 'sigma a = 1 and c > b*2 (R ⨝ S2 ⨝ Bag1)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit columns of bags from natural join of multiple bags', function (assert) {
+	const query = 'sigma R.a = 1 and S.c > R.b*2 (R ⨝ S2 ⨝ Bag1)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with implicit columns from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S2 z = Bag1 sigma a = 1 and c > b*2 (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit columns of bags from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S2 z = Bag1 sigma R.a = 1 and S.c > R.b*2 (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection with explicit columns of local variables from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S2 z = Bag1 sigma k.a = 1 and j.c > k.b*2 (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+		1,   2,   5
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of explicit column(s) of bag', function (assert) {
+	const query = 'pi R.a, R.b (sigma R.b <= 4 (R))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of implicit column(s) of bag', function (assert) {
+	const query = 'pi a, b (sigma b <= 4 (R))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of explicit column(s) of bag from local variable', function (assert) {
+	const query = 'k = R pi R.a, R.b (sigma R.b <= 4 (k))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of implicit column(s) of bag from local variable', function (assert) {
+	const query = 'k = R pi a, b (sigma b <= 4 (k))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of explicit column(s) of local variable', function (assert) {
+	const query = 'k = R pi k.a, k.b (sigma k.b <= 4 (k))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of implicit and explicit column(s) of bag and local variable from local variable', function (assert) {
+	const query = 'k = R pi k.a, k.b (sigma b <= 4 (k))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b
+		1,   2
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of explicit column(s) of bags from natural join', function (assert) {
+	const query = 'pi R.a, S.c (sigma R.b > 1 and S.c < 5 (R ⨝ S2))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of implicit column(s) of bags from natural join', function (assert) {
+	const query = 'pi a, c (sigma b > 1 and c < 5 (R ⨝ S2))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of explicit column(s) of bags from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 pi R.a, S.c (sigma R.b > 1 and S.c < 5 (R ⨝ j))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of implicit column(s) of bags from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 pi R.a, c (sigma b > 1 and c < 5 (R ⨝ j))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of explicit column(s) of local variable from natural join of bag and local variable', function (assert) {
+	const query = 'k = R j = S2 pi R.a, S.c (sigma R.b > 1 and S.c < 5 (R ⨝ j))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of explicit column(s) of bags from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 pi R.a, S.c (sigma R.b > 1 and S.c < 5 (k ⨝ S2))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of implicit column(s) of bags from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 pi a, c (sigma b > 1 and c < 5 (k ⨝ S2))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of explicit column(s) of local variable from natural join of local variable and bag', function (assert) {
+	const query = 'k = R j = S2 pi k.a, S.c (sigma k.b > 1 and S.c < 5 (k ⨝ S2))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of explicit column(s) of bags from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 pi R.a, S.c (sigma R.b > 1 and S.c < 5 (k ⨝ j))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of implicit column(s) of bags from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 pi a, c (sigma b > 1 and c < 5 (k ⨝ j))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of explicit column(s) of local variables from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 pi k.a, j.c (sigma k.b > 1 and j.c < 5 (k ⨝ j))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of implicit and explicit column(s) of bags and local variables from natural join of local variables', function (assert) {
+	const query = 'k = R j = S2 pi k.a, j.c (sigma R.b > 1 and S.c < 5 (k ⨝ j))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of implicit and explicit column(s) of bags and local variables from cross cross join of local variables', function (assert) {
+	const query = 'k = R j = S2 pi a, S.c (sigma k.b > 1 and c < 5 (k ⨝ j))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, S.c
+		1,   4
+		1,   4
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection and projection of implicit and explicit column(s) of bags and local variables from local variable of cross join of variables', function (assert) {
+	const query = 'k = R j = S2 t = k x j pi a, R.b, t.c (sigma R.b > 2 and c < 2 (t))';
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.c
+		5,   6,   1
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test selection, projection, groupBy and orderBy implicit and explicit column(s) of bags and local variables from theta join of multiple variables', function (assert) {
+	const query = "k = R j = S2 z = Bag1 t = k ⟕ R.a<z.a z ⟗ k.b=S.b j tau c desc (gamma t.c ; count(R.a)->n (pi R.a, S.b, t.c (sigma t.c>3 and S.b <= 200 and R.b=S.b (t))))";
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		S.c, n
+		5,   2
+		4,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test generalized projection of implicit column of bag from local variable', function (assert) {
+	const query = "t = R pi (a * 2)->doublea (t)";
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		doublea
+		2
+		10
+		2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test generalized projection of explicit column of bag from local variable', function (assert) {
+	const query = "t = R pi (R.a * 2)->doublea (t)";
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		doublea
+		2
+		10
+		2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test generalized projection of explicit column of local variable', function (assert) {
+	const query = "t = R pi (t.a * 2)->doublea (t)";
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		doublea
+		2
+		10
+		2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test rename implicit column of local variable', function (assert) {
+	const query = "t = R rho a->aa (t)";
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.aa, R.b
+		1,   2
+		5,   6
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test rename explicit column of bag from local variable', function (assert) {
+	const query = "t = R rho R.a->aa (t)";
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.aa, R.b
+		1,   2
+		5,   6
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test rename explicit column of local variable', function (assert) {
+	const query = "t = R rho t.a->aa (t)";
+	const root = exec_ra(query, getTestBags());
+
+	const ref = exec_ra(`{
+		R.aa, R.b
+		1,   2
+		5,   6
+		1,   2
+	}`, {});
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});

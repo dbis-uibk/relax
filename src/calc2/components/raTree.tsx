@@ -206,7 +206,6 @@ export class RaTree extends React.Component<Props> {
 							(containerElement.querySelector('.react-transform-wrapper') as HTMLElement).offsetWidth /
 							(containerElement.querySelector('.ra-tree') as HTMLElement).offsetWidth;
 
-						console.log(newScale);
 						// if the new scale is less than or equal to 1, zoom out to fit
 						if (newScale <= 1) {
 							centerView(newScale);
@@ -225,7 +224,7 @@ export class RaTree extends React.Component<Props> {
 			<TransformWrapper
 				centerOnInit={true}
 				centerZoomedOut={true}
-				minScale={0.5}
+				minScale={0.1}
 				maxScale={1}
 				wheel={ { disabled: true } }
 				pinch={ { disabled: true } }
@@ -238,29 +237,23 @@ export class RaTree extends React.Component<Props> {
 					positionX: number;
 					positionY: number
 				}) => {
-					const trees = document.getElementsByClassName('ra-tree') as HTMLCollectionOf<HTMLElement>;
-					let treeElement;
+					const containers = document.getElementsByClassName('ra-result') as HTMLCollectionOf<HTMLElement>;
+					let containerElement;
 					// Find the first visible tree
-					for (let i = 0; i < trees.length; i++) {
+					for (let i = 0; i < containers.length; i++) {
 						// Check if the element is visible
-						if (trees[i].offsetParent !== null) {
-							treeElement = trees[i] as HTMLElement;
+						if (containers[i].offsetParent !== null) {
+							containerElement = containers[i] as HTMLElement;
 							break;
 						}
 					}
 
-					if (treeElement) {
-						const controls = document.getElementsByClassName('pan-zoom-controls') as HTMLCollectionOf<HTMLElement>;
-						let controlElement;
-						// Find the first visible control bar
-						for (let i = 0; i < controls.length; i++) {
-							// Check if the element is visible
-							if (controls[i].offsetParent !== null) {
-								controlElement = controls[i] as HTMLElement;
-								break;
-							}
-						}
+					if (containerElement) {
+						const controlElement = containerElement.querySelector('.pan-zoom-controls');
 						const zoom = parseFloat(state.scale.toString())*100;
+						const minScale = 
+							(containerElement.querySelector('.react-transform-wrapper') as HTMLElement).offsetWidth /
+							(containerElement.querySelector('.ra-tree') as HTMLElement).offsetWidth;
 
 						if (controlElement) {
 							const zoomIn = controlElement.querySelector('.zoom-in');
@@ -270,15 +263,26 @@ export class RaTree extends React.Component<Props> {
 								}
 								else (zoomIn as HTMLButtonElement).disabled = false;
 							}
-						}
-
-						if (controlElement) {
+						
 							const zoomOut = controlElement.querySelector('.zoom-out');
 							if (zoomOut) {
-								if (zoom === 50) {
+								if (zoom <= minScale*100) {
 									(zoomOut as HTMLButtonElement).disabled = true;
 								}
 								else (zoomOut as HTMLButtonElement).disabled = false;
+							}
+
+							const zoomReset = controlElement.querySelector('.zoom-reset');
+							const zoomCenter = controlElement.querySelector('.center-view');
+							if (zoomReset && zoomCenter) {
+								if (minScale >= 1) {
+									(zoomReset as HTMLButtonElement).disabled = true;
+									(zoomCenter as HTMLButtonElement).disabled = true;
+								}
+								else {
+									(zoomReset as HTMLButtonElement).disabled = false;
+									(zoomCenter as HTMLButtonElement).disabled = false;
+								}
 							}
 						}
 					}

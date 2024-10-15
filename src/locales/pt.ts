@@ -103,6 +103,10 @@ export const langPT = {
     'calc.editors.ra.button-download': 'Download',
     'calc.editors.ra.button-download-csv': 'Resultado',
     'calc.editors.ra.button-download-query': 'Query',
+    'calc.editors.ra.button-zoom-in': 'Aumentar zoom',
+    'calc.editors.ra.button-zoom-out': 'Diminuir zoom',
+    'calc.editors.ra.button-zoom-reset': 'Redefinir zoom',
+    'calc.editors.ra.button-zoom-center': 'Alinhar à visualização',
     'db.messages.parser.error-sql-group-by-missing':
       'group by est\u00e1 faltando',
     'db.messages.exec.error-could-not-compare-different-types':

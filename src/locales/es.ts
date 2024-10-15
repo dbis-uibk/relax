@@ -140,6 +140,10 @@ export const langES: Partial<typeof langEN> = {
   'calc.editors.ra.button-download': 'Descargar',
   'calc.editors.ra.button-download-csv': 'Resultado (CSV)',
   'calc.editors.ra.button-download-query': 'Query',
+  'calc.editors.ra.button-zoom-in': 'Acercar',
+  'calc.editors.ra.button-zoom-out': 'Alejar',
+  'calc.editors.ra.button-zoom-reset': 'Restablecer zoom',
+  'calc.editors.ra.button-zoom-center': 'Ajustar a la vista',
   'calc.editors.ra.toolbar.duplicate-elimination': 'eliminación de duplicados',
   'calc.editors.ra.toolbar.duplicate-elimination-content': [
     '<b class="math">∂</b> <b>(</b> A <b>)</b>',

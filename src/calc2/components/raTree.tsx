@@ -9,6 +9,11 @@ import classNames from 'classnames';
 import { RANode, RANodeBinary, RANodeUnary } from 'db/exec/RANode';
 import * as React from 'react';
 import { t } from 'calc2/i18n';
+import Button from 'reactstrap/es/Button';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { faSearchMinus, faSearchPlus, faRefresh, faDownLeftAndUpRightToCenter } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { TransformWrapper, TransformComponent, useControls, ReactZoomPanPinchRef } from "react-zoom-pan-pinch";
 
 require('./raTree.scss');
 // require('./raTreeFamilyTree.scss');
@@ -145,14 +150,160 @@ export class RaTree extends React.Component<Props> {
 			);
 		};
 
-		return (
-			<div className="ra-tree">
-				<div className="tree">
-					<ul>
-						{rec(root)}
-					</ul>
+		const Controls = () => {
+			const { zoomIn, zoomOut, resetTransform, centerView } = useControls();
+
+			return (
+				<div className="pan-zoom-controls">
+					<style>{`
+						.pan-zoom-controls button {
+							background: transparent;
+							border: none;
+							border-radius: 4px;
+							height: 28px;
+							padding: 3px 7px;
+						}
+
+						.pan-zoom-controls button:focus {
+							box-shadow: none;
+						}
+
+						.pan-zoom-controls button:disabled {
+							background: transparent;
+							opacity: 0.5;
+							cursor: not-allowed;
+						}
+					`}</style>
+					<Button className="zoom-in" title={t('calc.editors.ra.button-zoom-in')} color="" onClick={() => zoomIn(0.1)}>
+						<span><FontAwesomeIcon icon={faSearchPlus  as IconProp} /></span>
+					</Button>
+					<Button className="zoom-out" title={t('calc.editors.ra.button-zoom-out')} color="" onClick={() => zoomOut(0.1)}>
+						<span><FontAwesomeIcon icon={faSearchMinus  as IconProp} /></span>
+					</Button>
+					<Button className="zoom-reset" title={t('calc.editors.ra.button-zoom-reset')} color="" onClick={() => {
+						resetTransform();
+						centerView(1);
+					} }>
+						<span><FontAwesomeIcon icon={faRefresh  as IconProp} /></span>
+					</Button>
+					<Button className="center-view" title={t('calc.editors.ra.button-zoom-center')} color="" onClick={() => {
+						const containers = document.getElementsByClassName('ra-result') as HTMLCollectionOf<HTMLElement>;
+						let containerElement;
+						// Find the first visible tree
+						for (let i = 0; i < containers.length; i++) {
+							// Check if the element is visible
+							if (containers[i].offsetParent !== null) {
+								containerElement = containers[i] as HTMLElement;
+								break;
+							}
+						}
+
+						if (!containerElement) {
+							return;
+						}
+
+						const newScale = 
+							(containerElement.querySelector('.react-transform-wrapper') as HTMLElement).offsetWidth /
+							(containerElement.querySelector('.ra-tree') as HTMLElement).offsetWidth;
+
+						console.log(newScale);
+						// if the new scale is less than or equal to 1, zoom out to fit
+						if (newScale <= 1) {
+							centerView(newScale);
+						}
+						else {
+							centerView(1);
+						}
+					} }>
+						<span><FontAwesomeIcon icon={faDownLeftAndUpRightToCenter as IconProp} /></span>
+					</Button>
 				</div>
-			</div>
+			);
+		};
+
+		return (
+			<TransformWrapper
+				centerOnInit={true}
+				centerZoomedOut={true}
+				minScale={0.5}
+				maxScale={1}
+				wheel={ { disabled: true } }
+				pinch={ { disabled: true } }
+				doubleClick={ { disabled: true } }
+				zoomAnimation={ { disabled: true } }
+				alignmentAnimation={ { disabled: true } }
+				velocityAnimation={ { disabled: true } }
+				onTransformed={(ref: ReactZoomPanPinchRef, state: { 
+					scale: number;
+					positionX: number;
+					positionY: number
+				}) => {
+					const trees = document.getElementsByClassName('ra-tree') as HTMLCollectionOf<HTMLElement>;
+					let treeElement;
+					// Find the first visible tree
+					for (let i = 0; i < trees.length; i++) {
+						// Check if the element is visible
+						if (trees[i].offsetParent !== null) {
+							treeElement = trees[i] as HTMLElement;
+							break;
+						}
+					}
+
+					if (treeElement) {
+						const controls = document.getElementsByClassName('pan-zoom-controls') as HTMLCollectionOf<HTMLElement>;
+						let controlElement;
+						// Find the first visible control bar
+						for (let i = 0; i < controls.length; i++) {
+							// Check if the element is visible
+							if (controls[i].offsetParent !== null) {
+								controlElement = controls[i] as HTMLElement;
+								break;
+							}
+						}
+						const zoom = parseFloat(state.scale.toString())*100;
+
+						if (controlElement) {
+							const zoomIn = controlElement.querySelector('.zoom-in');
+							if (zoomIn) {
+								if (zoom === 100) {
+									(zoomIn as HTMLButtonElement).disabled = true;
+								}
+								else (zoomIn as HTMLButtonElement).disabled = false;
+							}
+						}
+
+						if (controlElement) {
+							const zoomOut = controlElement.querySelector('.zoom-out');
+							if (zoomOut) {
+								if (zoom === 50) {
+									(zoomOut as HTMLButtonElement).disabled = true;
+								}
+								else (zoomOut as HTMLButtonElement).disabled = false;
+							}
+						}
+					}
+				}}
+			>
+				{({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+					<>
+					<Controls />
+					<TransformComponent
+						wrapperStyle={{
+							width: "100%",
+							zoom: '100%',
+						}}
+					>
+						<div className="ra-tree" style={ { width: 'fit-content' }}>
+							<div className="tree" style={ { width: 'max-content' }}>
+								<ul>
+									{rec(root)}
+								</ul>
+							</div>
+						</div>
+					</TransformComponent>
+					</>
+			)}
+			</TransformWrapper>
 		);
 	}
 }

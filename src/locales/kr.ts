@@ -111,6 +111,10 @@ export const langKR = {
     'calc.editors.ra.button-download-csv': '결과 (CSV)',
 	'calc.editors.ra.button-download-jpg': '결과 (JPG)',
     'calc.editors.ra.button-download-query': '쿼리',
+	'calc.editors.ra.button-zoom-in': '줌인',
+	'calc.editors.ra.button-zoom-out': '줌아웃',
+	'calc.editors.ra.button-zoom-reset': '줌리셋',
+	'calc.editors.ra.button-zoom-center': '화면에 맞추기',
 	'calc.editors.ra.toolbar.duplicate-elimination': '중복 제거',
 	'calc.editors.ra.toolbar.duplicate-elimination-content[0]':
 		'<b class="math">∂</b> <b>(</b> A <b>)</b>',

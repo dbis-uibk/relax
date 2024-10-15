@@ -1173,15 +1173,45 @@ export class EditorBase extends React.Component<Props, State> {
 
 		switch(mode) {
 			case 'jpg':
-				const imgDiv = document.getElementsByClassName('ra-tree')[0] as HTMLElement;
-				if(imgDiv) {
-					html2canvas(imgDiv).then(canvas => {
-						const dataUrl = canvas.toDataURL('image/jpeg', 1.0);
+				const images = document.getElementsByClassName('ra-tree') as HTMLCollectionOf<HTMLElement>;
+				let imgDiv;
+				// Find the visible tree image
+				for (let i = 0; i < images.length; i++) {
+					// Check if the element is visible
+					if (images[i].offsetParent !== null) {
+					imgDiv = images[i] as HTMLElement;
+						break;
+					}
+				}
+				if (!imgDiv) {
+					return;
+				}
+				const treeElement = imgDiv.cloneNode(true);
+				document.body.appendChild(treeElement);
+
+				// const imgDiv = document.getElementsByClassName('tree')[0] as HTMLElement;
+				if(treeElement) {
+					// bug fix for html2canvas
+					const nodes = (treeElement as HTMLElement).querySelectorAll(".tree li:only-child");
+					if (nodes && nodes instanceof NodeList) {
+						for (let i = 1; i < nodes.length; i++) {
+							const node = nodes[i];
+							(node as HTMLElement).style.setProperty("top", "-20px");
+						}
+					}
+
+					html2canvas(treeElement as HTMLElement, {
+						// better quality
+						scale: 2,
+					}).then(canvas => {
+						document.body.removeChild(treeElement);
+						const dataUrl = canvas.toDataURL('image/jpeg');
 						const d = document.createElement('a');
 						d.href = dataUrl;
 						d.download = 'result.jpg';
 						document.body.appendChild(d);
 						d.click();
+						document.body.removeChild(d)
 					});
 				} 
 				else {

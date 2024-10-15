@@ -4,6 +4,7 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import * as i18n from 'i18next';
 import { Column } from './Column';
 import { RANode, RANodeUnary, Session } from './RANode';
 
@@ -61,9 +62,70 @@ export class OrderBy extends RANodeUnary {
 
 		this._orderIndices = [];
 
+		// Get relation aliases
+		const relAliases = this._child.getMetaData('fromVariable');
+		// Split relation aliases into array
+		const vars = relAliases ? relAliases.split(" ") : [];
+
 		for (let i = 0; i < this._orderCols.length; i++) {
 			const col = this._orderCols[i];
-			const index = schema.getColumnIndex(col.getName(), col.getRelAlias());
+			let index = -1;
+			const iSchema = vars.indexOf(col.getRelAlias() + '');
+
+			if (iSchema >= 0) {
+				let j = 0, k = 0;
+				// Set first relation alias
+				let lastAlias = schema.getColumn(j).getRelAlias();
+				// Check if relation alias already found
+				let found = false;
+				for (; j < schema.getSize(); j++) {
+					// Check if relation alias changed
+					if (schema.getColumn(j).getRelAlias() !== lastAlias) {
+						lastAlias = schema.getColumn(j).getRelAlias();
+						if (k < vars.length - 1) k++;
+					}
+
+					// Check if column name and relation alias match
+					if (schema.getColumn(j).getName() === col.getName() &&
+					  k === iSchema) {
+
+						// Column name and alias found previously
+						if (found) {
+							throw new Error(i18n.t('db.messages.exec.error-column-ambiguous', {
+								column: Column.printColumn(
+									col.getName(),
+									col.getRelAlias()
+								),
+								schema: schema,
+							}));
+						}
+
+						// Set index
+						index = j;
+						found = true;
+					}
+				}
+
+				// Throw error if column not found
+				if (index === -1) {
+					// Column not found
+					try {
+						schema.getColumnIndex(col.getName(), col.getRelAlias());
+					}
+					catch (e) {
+						this.throwExecutionError(e.message);
+					}
+				}
+			}
+			else {
+				// default case
+				try {
+					index = schema.getColumnIndex(col.getName(), col.getRelAlias());
+				}
+				catch (e) {
+					this.throwExecutionError(e.message);
+				}
+			}
 
 			this._orderIndices.push(index);
 		}

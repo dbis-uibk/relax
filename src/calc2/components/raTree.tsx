@@ -54,13 +54,18 @@ export class RaTree extends React.Component<Props> {
 
 			let fromVariableMarker: string | JSX.Element = '';
 			if (n.hasMetaData('fromVariable')) {
-				const variableName = n.getMetaData('fromVariable')!;
-				if (usedVariableNames.has(variableName) === false) {
-					usedVariableNames.set(variableName, usedVariables++);
-				}
+				// Split relation aliases into array
+				const variableNames = n.hasMetaData('fromVariable') ? n.getMetaData('fromVariable')!.split(" ") : [];
 
-				const num = usedVariableNames.get(variableName)! % numColors;
-				fromVariableMarker = <span> <span className={`label label-info label-info-${num}`}>{variableName} =</span> </span>;
+				if (variableNames.length === 1 && n._functionName !== variableNames[0]) {
+					const variableName = variableNames[0];
+					if (usedVariableNames.has(variableName) === false) {
+						usedVariableNames.set(variableName, usedVariables++);
+					}
+
+					const num = usedVariableNames.get(variableName)! % numColors;
+					fromVariableMarker = <span> <span className={`label label-info label-info-${num}`}>{variableName} =</span> </span>;
+				}
 			}
 
 

@@ -1384,3 +1384,1654 @@ QUnit.test('whitespace(s) between unary function and opening parenthesis', funct
 
 	assert.deepEqual(result, reference);
 });
+
+QUnit.test('test orderBy explicit column of relation', function (assert) {
+	const query = 'tau R.a asc (R)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		1,   a,   d
+		3,   c,   c
+		4,   d,   f
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit column of relation', function (assert) {
+	const query = 'tau a asc (R)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		1,	 a,		d
+		3,   c,   c
+		4,   d,   f
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit column of relation from local variable', function (assert) {
+	const query = 'k = R tau a asc (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		1,	 a,		d
+		3,   c,   c
+		4,   d,   f
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit column of relation from local variable', function (assert) {
+	const query = 'k = R tau R.a asc (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		1,	 a,		d
+		3,   c,   c
+		4,   d,   f
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit column of local variable', function (assert) {
+	const query = 'k = R tau k.a asc (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		1,	 a,		d
+		3,   c,   c
+		4,   d,   f
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit columns of relations from natural join', function (assert) {
+	const query = 'tau a asc, b desc, d (R ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of relations from natural join', function (assert) {
+	const query = 'tau R.a asc, R.b desc, S.d (R ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit columns of relations from natural join of local variable and relation', function (assert) {
+	const query = 'k = R j = S tau a asc, b desc, d (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of relations from natural join of local variable and relation', function (assert) {
+	const query = 'k = R j = S tau R.a asc, R.b desc, S.d (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of local variable from natural join of local variable and relation', function (assert) {
+	const query = 'k = R j = S tau k.a asc, k.b desc, S.d (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit columns of relations from join of relation and local variable', function (assert) {
+	const query = 'k = R j = S tau a asc, b desc, d (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of relations from natural join of relation and local variable', function (assert) {
+	const query = 'k = R j = S tau R.a asc, R.b desc, S.d (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of local variable from natural join of relation and local variable', function (assert) {
+	const query = 'k = R j = S tau R.a asc, R.b desc, j.d (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit columns of relations from natural join of local variables', function (assert) {
+	const query = 'k = R j = S tau a asc, b desc, d (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of relations from natural join of local variables', function (assert) {
+	const query = 'k = R j = S tau R.a asc, R.b desc, S.d (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of local variables from natural join of local variables', function (assert) {
+	const query = 'k = R j = S tau k.a asc, k.b desc, j.d (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit columns of relations from natural join of multiple relations', function (assert) {
+	const query = 'tau a asc, b desc, d (R ⨝ S ⨝ T)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of relations from natural join of multiple relations', function (assert) {
+	const query = 'tau R.a asc, R.b desc, S.d (R ⨝ S ⨝ T)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy implicit columns from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T tau a asc, b desc, d (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of relations from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T tau R.a asc, R.b desc, S.d (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test orderBy explicit columns of local variables from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T tau k.a asc, k.b desc, j.d (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,	 a,		d, 	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit column of relation', function (assert) {
+	const query = 'gamma ; count(a)->n (R)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		n
+		5
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit column of relation', function (assert) {
+	const query = 'gamma ; count(R.a)->n (R)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		n
+		5
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit column of relation from local variable', function (assert) {
+	const query = 'k = R gamma ; sum(a)->n (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		n
+		19
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit column of relation from local variable', function (assert) {
+	const query = 'k = R gamma ; sum(R.a)->n (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		n
+		19
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit column of local variable', function (assert) {
+	const query = 'k = R gamma ; sum(k.a)->n (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		n
+		19
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit columns of relations from natural join', function (assert) {
+	const query = 'gamma a; max(d)->m (R ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relations from natural join', function (assert) {
+	const query = 'gamma R.a; max(S.d)->m (R ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit columns of relations from natural join of local variable and relation', function (assert) {
+	const query = 'k = R j = S gamma a; max(d)->m (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relations from natural join of local variable and relation', function (assert) {
+	const query = 'k = R j = S gamma R.a; max(S.d)->m (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of local variables from natural join of local variable and relation', function (assert) {
+	const query = 'k = R j = S gamma k.a; max(S.d)->m (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit columns of relations from natural join of relation and local variable', function (assert) {
+	const query = 'k = R j = S gamma a; max(d)->m (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relations from natural join of relation and local variable', function (assert) {
+	const query = 'k = R j = S gamma R.a; max(S.d)->m (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relation and local variable from natural join of relation and local variable', function (assert) {
+	const query = 'k = R j = S gamma R.a; max(j.d)->m (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relations from natural join of local variables', function (assert) {
+	const query = 'k = R j = S gamma R.a; max(S.d)->m (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of local variables from natural join of local variables', function (assert) {
+	const query = 'k = R j = S gamma k.a; max(j.d)->m (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   100
+		3,   400
+		4,   200
+		5,   200
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit columns of relations from cross join of multiple relations', function (assert) {
+	const query = 'k = R j = S z = T gamma a; count(c)->m (R x S x T)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   20
+		3,   20
+		4,   20
+		5,   20
+		6,   20
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relations from cross join of multiple relations', function (assert) {
+	const query = 'k = R j = S z = T gamma T.b; min(S.d)->m (R x S x T)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		T.b, m
+		a,   100
+		d,   100
+		f,   100
+		g,   100
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy implicit columns from cross join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T gamma a; count(c)->m (k x j x z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, m
+		1,   20
+		3,   20
+		4,   20
+		5,   20
+		6,   20
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of relations from cross join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T gamma T.b; min(S.d)->m (k x j x z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		T.b, m
+		a,   100
+		d,   100
+		f,   100
+		g,   100
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test groupBy explicit columns of local variables from cross join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T gamma z.b; min(j.d)->m (k x j x z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		T.b, m
+		a,   100
+		d,   100
+		f,   100
+		g,   100
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit column(s) of relation', function (assert) {
+	const query = 'pi R.a, R.c (R)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.c
+		1,   d
+		3,   c
+		4,   f
+		5,   b
+		6,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of implicit column(s) of relation', function (assert) {
+	const query = 'pi a, c (R)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.c
+		1,   d
+		3,   c
+		4,   f
+		5,   b
+		6,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of implicit column(s) of relation from local variable', function (assert) {
+	const query = 'k = R pi a, c (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.c
+		1,   d
+		3,   c
+		4,   f
+		5,   b
+		6,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit column(s) of relation from local variable', function (assert) {
+	const query = 'k = R pi R.a, R.c (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.c
+		1,   d
+		3,   c
+		4,   f
+		5,   b
+		6,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit column(s) of local variable', function (assert) {
+	const query = 'k = R pi k.a, k.c (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.c
+		1,   d
+		3,   c
+		4,   f
+		5,   b
+		6,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of implicit columns of relations from natural join', function (assert) {
+	const query = 'pi a, b, c, d (R ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit columns of relations from natural join', function (assert) {
+	const query = 'pi R.a, R.b, R.c, S.d (R ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of implicit columns of relations from natural join of local variable and relation', function (assert) {
+	const query = 'k = R pi a, b, c, d (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit columns of relations from natural join of local variable and relation', function (assert) {
+	const query = 'k = R pi R.a, R.b, R.c, S.d (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit columns of local variable from natural join of local variable and relation', function (assert) {
+	const query = 'k = R pi k.a, k.b, k.c, S.d (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of implicit columns of relations from natural join of relation and local variable', function (assert) {
+	const query = 'k = R j = S pi a, b, c, d (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit columns of relations from natural join of relation and local variable', function (assert) {
+	const query = 'k = R j = S pi R.a, R.b, R.c, S.d (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit columns of local variable from natural join of relation and local variable', function (assert) {
+	const query = 'k = R j = S pi R.a, R.b, R.c, j.d (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of implicit columns of relations from natural join of local variables', function (assert) {
+	const query = 'k = R j = S pi a, b, c, d (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit columns of relations from natural join of local variables', function (assert) {
+	const query = 'k = R j = S pi R.a, R.b, R.c, S.d (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit columns of local variables from natural join of local variables', function (assert) {
+	const query = 'k = R j = S pi k.a, k.b, k.c, j.d (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		3,   c,   c,	 400
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+		6,   e,   f,	 150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of implicit columns of relations from natural join of multiple relations', function (assert) {
+	const query = 'pi a, b, c, d (R ⨝ S ⨝ T)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of implicit column(s) of local variable from cross join of relations', function (assert) {
+	const query = 't = R x S pi a (t)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a
+		1
+		3
+		4
+		5
+		6
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit column(s) of relation(s) from cross join of relations', function (assert) {
+	const query = 't = R x S pi R.a (t)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a
+		1
+		3
+		4
+		5
+		6
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit column(s) of local variable from cross join of relations', function (assert) {
+	const query = 't = R x S pi t.a (t)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a
+		1
+		3
+		4
+		5
+		6
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit columns of relations from natural join of multiple relations', function (assert) {
+	const query = 'pi R.a, R.b, R.c, S.d (R ⨝ S ⨝ T)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of implicit columns from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T pi a, b, c, d (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit columns of relations from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T pi R.a, R.b, R.c, S.d (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test projection of explicit columns of local variables from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T pi k.a, k.b, k.c, j.d (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		1,   a,   d,	 100
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit column(s) of relation', function (assert) {
+	const query = 'sigma R.a > 3 (R)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		4,   d,   f 
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with implicit column(s) of relation', function (assert) {
+	const query = 'sigma a > 3 (R)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		4,   d,   f 
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+
+QUnit.test('test selection with implicit column(s) of relation from local variable', function (assert) {
+	const query = 'k = R sigma a > 3 (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		4,   d,   f 
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit column(s) of relation from local variable', function (assert) {
+	const query = 'k = R sigma R.a > 3 (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		4,   d,   f 
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit column(s) of local variable', function (assert) {
+	const query = 'k = R sigma k.a > 3 (k)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c
+		4,   d,   f 
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with implicit columns of relations from natural join', function (assert) {
+	const query = 'sigma a > 3 and d = 200 (R ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit columns of relations from natural join', function (assert) {
+	const query = 'sigma R.a > 3 and S.d = 200 (R ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with implicit columns of relations from natural join of local variable and relation', function (assert) {
+	const query = 'k = R sigma a > 3 and d = 200 (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit columns of relations from natural join of local variable and relation', function (assert) {
+	const query = 'k = R sigma R.a > 3 and S.d = 200 (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit columns of local variable from natural join of local variable and relation', function (assert) {
+	const query = 'k = R sigma k.a > 3 and S.d = 200 (k ⨝ S)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with implicit columns of relations from natural join of relation and local variable', function (assert) {
+	const query = 'k = R j = S sigma a > 3 and d = 200 (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit columns of relations from natural join of relation and local variable', function (assert) {
+	const query = 'k = R j = S sigma R.a > 3 and S.d = 200 (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit columns of local variable from natural join of relation and local variable', function (assert) {
+	const query = 'k = R j = S sigma R.a > 3 and j.d = 200 (R ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with implicit columns of relations from natural join of local variables', function (assert) {
+	const query = 'k = R j = S sigma a > 3 and d >= a*40 (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit columns of relations from natural join of local variables', function (assert) {
+	const query = 'k = R j = S sigma R.a > 3 and S.d >= R.a*40 (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit columns of local variables from natural join of local variables', function (assert) {
+	const query = 'k = R j = S sigma k.a > 3 and j.d >= k.a*40 (k ⨝ j)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with implicit columns of relations from natural join of multiple relations', function (assert) {
+	const query = 'sigma a > 3 and d >= a*40 (R ⨝ S ⨝ T)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit columns of relations from natural join of multiple relations', function (assert) {
+	const query = 'sigma R.a > 3 and S.d >= R.a*40 (R ⨝ S ⨝ T)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with implicit columns from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T sigma a > 3 and d >= a*40 (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit columns of relations from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T sigma R.a > 3 and S.d >= R.a*40 (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection with explicit columns of local variables from natural join of multiple local variables', function (assert) {
+	const query = 'k = R j = S z = T sigma k.a > 3 and j.d >= k.a*40 (k ⨝ j ⨝ z)';
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, R.c, S.d
+		4,   d,   f,	 200
+		5,   d,   b,	 200
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of explicit column(s) of relation', function (assert) {
+	const query = "pi R.a, R.c (sigma R.b >= 'd' (R))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.c
+		4,   f
+		5,   b
+		6,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of implicit column(s) of relation', function (assert) {
+	const query = "pi a, c (sigma b >= 'd' (R))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.c
+		4,   f
+		5,   b
+		6,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of explicit column(s) of relation from local variable', function (assert) {
+	const query = "k = R pi R.a, R.c (sigma R.b >= 'd' (k))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.c
+		4,   f
+		5,   b
+		6,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of implicit column(s) of relation from local variable', function (assert) {
+	const query = "k = R pi a, c (sigma b >= 'd' (k))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.c
+		4,   f
+		5,   b
+		6,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of explicit column(s) of local variable', function (assert) {
+	const query = "k = R pi k.a, k.c (sigma k.b >= 'd' (k))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.c
+		4,   f
+		5,   b
+		6,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of implicit and explicit column(s) of relation and local variable from local variable', function (assert) {
+	const query = "k = R pi k.a, R.c (sigma b >= 'd' (k))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.c
+		4,   f
+		5,   b
+		6,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of explicit column(s) of relations from natural join', function (assert) {
+	const query = "pi R.a, S.d (sigma S.d < 200 (R ⨝ S))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, S.d
+		1,   100
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of implicit column(s) of relations from natural join', function (assert) {
+	const query = "pi a, d (sigma d < 200 (R ⨝ S))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, S.d
+		1,   100
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of explicit column(s) of relations from natural join of relation and local variable', function (assert) {
+	const query = "j = S pi R.a, S.d (sigma S.d < 200 (R ⨝ j))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, S.d
+		1,   100
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of implicit column(s) of relations from natural join of relation and local variable', function (assert) {
+	const query = "j = S pi R.a, d (sigma d < 200 (R ⨝ j))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, S.d
+		1,   100
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of explicit column(s) of local variable from natural join of relation and local variable', function (assert) {
+	const query = "j = S pi R.a, j.d (sigma j.d < 200 (R ⨝ j))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, S.d
+		1,   100
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of explicit column(s) of relations from natural join of local variable and relation', function (assert) {
+	const query = "k = R pi R.a, S.d (sigma S.d < 200 (k ⨝ S))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, S.d
+		1,   100
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of implicit column(s) of relations from natural join of local variable and relation', function (assert) {
+	const query = "k = R pi a, d (sigma d < 200 (k ⨝ S))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, S.d
+		1,   100
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of explicit column(s) of local variable from natural join of local variable and relation', function (assert) {
+	const query = "k = R pi k.a, S.d (sigma S.d < 200 (k ⨝ S))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, S.d
+		1,   100
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of explicit column(s) of relations from natural join of local variables', function (assert) {
+	const query = "k = R j = S pi R.a, S.d (sigma S.d < 200 (k ⨝ j))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, S.d
+		1,   100
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of implicit column(s) of relations from natural join of local variables', function (assert) {
+	const query = "k = R j = S pi a, d (sigma d < 200 (k ⨝ j))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, S.d
+		1,   100
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of explicit column(s) of local variables from natural join of local variables', function (assert) {
+	const query = "k = R j = S pi k.a, j.d (sigma j.d < 200 (k ⨝ j))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, S.d
+		1,   100
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of implicit and explicit column(s) of relations and local variables from natural join of local variables', function (assert) {
+	const query = "k = R j = S pi a, j.d (sigma S.d < 200 (k ⨝ j))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, S.d
+		1,   100
+		6,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of implicit and explicit column(s) of relations and local variables from cross cross join of local variables', function (assert) {
+	const query = "k = R j = S pi a, R.b, S.b, j.d (sigma k.a>4 and d <= 200 and R.b=S.b (k x j))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.b, S.d
+		5,   d,   d,   200
+		6,   e,   e,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection and projection of implicit and explicit column(s) of relations and local variables from local variable of cross join of variables', function (assert) {
+	const query = "k = R j = S t = k x j pi a, R.b, S.b, t.d (sigma t.a>4 and d <= 200 and R.b=S.b (t))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, R.b, S.b, S.d
+		5,   d,   d,   200
+		6,   e,   e,   150
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test selection, projection, groupBy and orderBy implicit and explicit column(s) of relations and local variables from theta join of multiple variables', function (assert) {
+	const query = "k = R j = S z = T t = k ⟗ k.b=S.b j ⟕ j.d<z.d z tau a desc (gamma t.a ; count(t.d)->n (pi a, R.b, S.b, T.d (sigma t.a>4 and S.d <= 200 and R.b=S.b (t))))";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.a, n
+		6,   2
+		5,   1
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test generalized projection of implicit column of relation from local variable', function (assert) {
+	const query = "t = R pi (a * 2)->doublea (t)";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		doublea
+		2
+		6
+		8
+		10
+		12
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test generalized projection of explicit column of relation from local variable', function (assert) {
+	const query = "t = R pi (R.a * 2)->doublea (t)";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		doublea
+		2
+		6
+		8
+		10
+		12
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test generalized projection of explicit column of local variable', function (assert) {
+	const query = "t = R pi (t.a * 2)->doublea (t)";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		doublea
+		2
+		6
+		8
+		10
+		12
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test rename implicit column of local variable', function (assert) {
+	const query = "t = R rho a->aa (t)";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.aa, R.b, R.c
+		1,   a,   d
+		3,   c,   c
+		4,   d,   f 
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test rename explicit column of relation from local variable', function (assert) {
+	const query = "t = R rho R.a->aa (t)";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.aa, R.b, R.c
+		1,   a,   d
+		3,   c,   c
+		4,   d,   f 
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test rename explicit column of local variable', function (assert) {
+	const query = "t = R rho t.a->aa (t)";
+	const root = exec_ra(query, getTestRelations());
+
+	const ref = exec_ra(`{
+		R.aa, R.b, R.c
+		1,   a,   d
+		3,   c,   c
+		4,   d,   f 
+		5,   d,   b
+		6,   e,   f
+	}`, {});
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});

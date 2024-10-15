@@ -477,19 +477,43 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					if (typeof (relations[n.name]) === 'undefined') {
 						throw new ExecutionError(i18n.t('db.messages.translate.error-relation-not-found', { name: n.name }), n.codeInfo);
 					}
+					const start = Date.now();
 					const node = relations[n.name].copy();
+					// Passing metadata from inner relation/expression to output relation
+					if (n.metaData && n.metaData.fromVariable) {
+						let relAlias = n.metaData.fromVariable;
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							relAlias);
+					}
+					else {
+						// Set the fromVariable metadata to the relation name
+						// if that is not set
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							n.name);
+					}
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
 					return node;
 				}
 
 			case 'table':
 				{
+					const start = Date.now();
 					const schema = new Schema();
 					for (let i = 0; i < n.columns.length; i++) {
 						const col = n.columns[i];
 						schema.addColumn(col.name, col.relAlias, col.type);
 					}
-					const start = Date.now();
 					const rel = new Relation(n.name);
 					rel.setSchema(schema, true);
 					rel.addRows(n.rows);
@@ -497,8 +521,30 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					rel.setMetaData('inlineRelationDefinition', n.codeInfo.text);
 					// TODO: inlineRelationDefinition should be replaced; there should be a generic way to get the definition of a node
 					const node = rel;
-					node._execTime = Date.now() - start;
+					// Passing metadata from inner relation/expression to output relation
+					if (n.metaData && n.metaData.fromVariable) {
+						const relAlias = n.metaData.fromVariable;
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							relAlias);
+					}
+					else {
+						// Set the fromVariable metadata to the relation name
+						// if that is not set
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							n.name);
+					}
 					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
 					return node;
 				}
 
@@ -520,6 +566,16 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child = recRANode(n.child);
 					const condition = recValueExpr(n.arg);
 					const node = new Selection(child, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 					return node;
@@ -556,6 +612,16 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					}
 
 					const node = new Projection(child, projections);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 					return node;
@@ -576,9 +642,18 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					}
 
 					const node = new OrderBy(child, orderCols, orderAsc);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
-
 					return node;
 				}
 
@@ -656,6 +731,17 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					}
 
 					const node = ren;
+					const child = recRANode(n.child);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -667,6 +753,14 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const start = Date.now();
 					const child = recRANode(n.child);
 					const node = new RenameRelation(child, n.newRelAlias);
+					// Passing metadata from inner relation/expression to output relation
+					node.setMetaData(
+						'fromVariable',
+						(
+							node.getMetaData('fromVariable') ?
+								node.getMetaData('fromVariable') + ' ' : ''
+						) +
+						n.newRelAlias);
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -683,6 +777,25 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new InnerJoin(child, child2, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
+					if (child2.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child2.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -696,6 +809,25 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new CrossJoin(child, child2);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
+					if (child2.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child2.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -712,6 +844,25 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 						type: 'natural',
 						restrictToColumns: null,
 					});
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
+					if (child2.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child2.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -725,6 +876,25 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new SemiJoin(child, child2, true);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
+					if (child2.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child2.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -738,6 +908,25 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const node = new SemiJoin(child, child2, false);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
+					if (child2.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child2.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -752,6 +941,25 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
 					const node = new AntiJoin(child, child2, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
+					if (child2.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child2.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -766,6 +974,25 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
 					const node = new LeftOuterJoin(child, child2, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
+					if (child2.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child2.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -780,6 +1007,25 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
 					const node = new RightOuterJoin(child, child2, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
+					if (child2.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child2.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 
@@ -794,6 +1040,25 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
 					const node = new FullOuterJoin(child, child2, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
+					if (child2.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child2.getMetaData('fromVariable'));
+					}
 					setAdditionalData(n, node);
 					node._execTime = Date.now() - start;
 

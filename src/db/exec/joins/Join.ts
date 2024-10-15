@@ -105,7 +105,182 @@ export abstract class Join extends RANodeBinary {
 			this._joinConditionBooleanExpr = this._joinConditionOptions.joinExpression;
 		}
 
-		this._joinConditionBooleanExpr.check(schemaA, schemaB);
+		try {
+			this._joinConditionBooleanExpr.check(schemaA, schemaB);
+		}
+		catch (e) {
+			// Second try: check wether predicate uses a relation alias(es)
+
+			// Get schemas
+			const schemas = [schemaA, schemaB];
+			// Get relation aliases
+			const relAliases: string[] = [
+				this._child.getMetaData('fromVariable') ?? '',
+				this._child2.getMetaData('fromVariable') ?? ''
+			];
+			// Split relation aliases into array
+			const vars: string[][] = [
+				relAliases[0] ? relAliases[0].split(" ") : [],
+				relAliases[1] ? relAliases[1].split(" ") : []
+			];
+
+			// All columns names and aliases
+			let allCols: (string | number)[][] = [];
+			let allRelAliases: (string | number)[][] = [];
+			let allAltRelAliases: (string | number)[][] = [];
+			// Ambiguous columns names
+			let blacklist: (string | number)[][] = [];
+			const numCols: number[] = [
+				schemaA.getSize(),
+				schemaB.getSize()
+			];
+			// Set first relation alias
+			let lastAlias: string[] = [
+				schemaA.getColumn(0).getRelAlias() ?? '',
+				schemaB.getColumn(0).getRelAlias() ?? ''
+			];
+			for (let i = 0; i < numCols.length; i++) {
+				allCols[i] = [];
+				allRelAliases[i] = [];
+				allAltRelAliases[i] = [];
+				blacklist[i] = [];
+				let l = 0;
+				for (let j = 0; j < numCols[i]; j++) {
+					if (schemas[i].getColumn(j).getRelAlias() !== lastAlias[i]) {
+						lastAlias[i] = schemas[i].getColumn(j).getRelAlias() as string;
+						if (l < vars[i].length - 1) l++;
+					}
+
+					allCols[i].push(schemas[i].getColumn(j).getName());
+					allRelAliases[i].push(schemas[i].getColumn(j).getRelAlias() as string);
+					allAltRelAliases[i].push(vars[i][l]);
+
+					// If column already in blacklist, skip it
+					// Cannot set relation alias for this column
+					if (blacklist[i].includes(schemas[i].getColumn(j).getName())) {
+						continue;
+					}
+
+					for (let k = j+1; k < numCols[i]; k++) {
+						// If found a sibling column, cannot set relation alias
+						if (schemas[i].getColumn(j).getName() === schemas[i].getColumn(k).getName()) {
+							blacklist[i].push(schemas[i].getColumn(j).getName());
+							break;
+						}
+					}
+				}
+			}
+
+			// Unique columns names
+			// let whitelist = [
+			// 	allCols[0].filter(x => !blacklist[0].includes(x)),
+			// 	allCols[1].filter(x => !blacklist[1].includes(x)),
+			// ];
+			
+			// Generate all column combinations
+			// https://stackoverflow.com/questions/43241174/javascript-generating-all-combinations-of-elements-in-a-single-array-in-pairs
+			let combCols: any[][] = [];
+			let combRelAliases: any[][] = [];
+			let combTempRelAliases: any[][] = [];
+			let temp: any[][] = [];
+			let tempAliases: any[][] = [];
+			let tempAltAliases: any[][] = [];
+			let slent = [
+				Math.pow(2, allCols[0].length),
+				Math.pow(2, allCols[1].length)
+			];
+
+			for (let i = 0; i < numCols.length; i++) {
+				combCols[i] = [];
+				combRelAliases[i] = [];
+				combTempRelAliases[i] = [];
+				for (let j = 0; j < slent[i]; j++) {
+					temp[i] = [];
+					tempAliases[i] = [];
+					tempAltAliases[i] = [];
+					for (var k = 0; k < allCols[i].length; k++) {
+						if ((j & Math.pow(2, k))) {
+							temp[i].push(allCols[i][k]);
+							tempAliases[i].push(allRelAliases[i][k]);
+							tempAltAliases[i].push(allAltRelAliases[i][k]);
+						}
+					}
+					if (temp[i].length > 0) {
+						combCols[i].push(temp[i]);
+						combRelAliases[i].push(tempAliases[i]);
+						combTempRelAliases[i].push(tempAltAliases[i]);
+					}
+				}
+			}
+
+			// Test if relation alias(es) works for any combination of columns
+			let schemaWorked = false;
+
+			// Apply and test if relation alias works for any combination of
+			// unique columns
+			for (let i1 = 0; i1 < combCols[0].length; i1++) {
+				let newSchemaA = schemaA.copy();
+
+				for (let j1 = 0; j1 < combCols[0][i1].length; j1++) {
+
+					for (let l1 = 0; l1 < numCols[0]; l1++) {
+						if (combCols[0][i1][j1] === newSchemaA.getColumn(l1).getName() &&
+							combRelAliases[0][i1][j1] === newSchemaA.getColumn(l1).getRelAlias() &&
+							!blacklist[0].includes(combCols[0][i1][j1])) {
+							// Set relation alias
+							try {
+								newSchemaA.setRelAlias(String(combTempRelAliases[0][i1][j1]), l1);
+							}
+							catch (e) {
+								// Test failed, try next combination
+								break;
+							}
+						}
+					}
+				}
+
+				for (let i2 = 0; i2 < combCols[1].length; i2++) {
+					let newSchemaB = schemaB.copy();
+
+					for (let j2 = 0; j2 < combCols[1][i2].length; j2++) {
+
+						for (let l2 = 0; l2 < numCols[1]; l2++) {
+							if (combCols[1][i2][j2] === newSchemaB.getColumn(l2).getName() &&
+								combRelAliases[1][i2][j2] === newSchemaB.getColumn(l2).getRelAlias() &&
+								!blacklist[1].includes(combCols[1][i2][j2])) {
+								// Set relation alias
+								try {
+									newSchemaB.setRelAlias(String(combTempRelAliases[1][i2][j2]), l2);
+								}
+								catch (e) {
+									// Test failed, try next combination
+									break;
+								}
+							}
+						}
+					}
+
+					// Check if combination of relation alias works
+					try {
+						this._joinConditionBooleanExpr.check(newSchemaA, newSchemaB);
+						schemaWorked = true;
+						break;
+					}
+					catch (e) {
+						// Test failed, try next combination
+						continue;
+					}
+				}
+
+				if (schemaWorked) break;
+			}
+
+			// If no combination of relation alias works
+			if (!schemaWorked) {
+				this.throwExecutionError(e.message);
+			}
+		}
+
 		if (this._joinConditionBooleanExpr.getDataType() !== 'boolean') {
 			throw new ExecutionError('db.messages.exec.error-condition-must-be-boolean', this._codeInfo);
 		}

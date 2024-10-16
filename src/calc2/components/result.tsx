@@ -11,12 +11,15 @@ import { Table } from 'db/exec/Table';
 import memoize from 'memoize-one';
 import * as React from 'react';
 import {t} from "calc2/i18n";
+import { EditorBase } from './editorBase';
+import { ExecutionError } from 'db/exec/ExecutionError';
 
 require('./result.scss');
 
 const maxLinesPerPage = 10;
 
 type Props = {
+	editorRef: EditorBase,
 	root: RANode,
 	numTreeLabelColors: number,
 	execTime?: any,
@@ -38,8 +41,7 @@ export class Result extends React.Component<Props, State> {
 				return node.getResult(doEliminateDuplicates);
 			}
 			catch (e) {
-				console.error(e);
-				return null;
+				return e;
 			}
 		},
 	);
@@ -64,11 +66,15 @@ export class Result extends React.Component<Props, State> {
 	}
 
 	render() {
-		const { root, numTreeLabelColors, execTime, doEliminateDuplicates } = this.props;
+		const { editorRef, root, numTreeLabelColors, execTime, doEliminateDuplicates } = this.props;
 		const { activeNode } = this.state;
 
 		const result = this.result(activeNode, doEliminateDuplicates);
-
+		if (result instanceof ExecutionError) {
+			const errorMessage = result.message;
+			editorRef.addExecutionError(errorMessage);
+			return;
+		}
 
 		return (
 			<div className="ra-result clearfix">

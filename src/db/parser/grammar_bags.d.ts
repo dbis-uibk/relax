@@ -345,6 +345,11 @@ declare module relalgAst {
 
 
 	type ValueExprFunction = (
+		| 'reverse'
+		| 'replace'
+		| 'repeat'
+		| 'rlike'
+		| 'regexp'
 		| 'constant'
 		| 'columnValue'
 		| 'or'

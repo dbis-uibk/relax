@@ -100,6 +100,7 @@ export class EditorRelalg extends React.Component<Props, State> {
 					return {
 						result: (
 							<Result
+								editorRef={this.editorBase!}
 								root={root}
 								numTreeLabelColors={NUM_TREE_LABEL_COLORS}
 								execTime={self.state.execTime == null ? 0 : self.state.execTime}

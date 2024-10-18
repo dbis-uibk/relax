@@ -179,7 +179,8 @@ export function loadGroupsFromSource(source: GroupSourceType, id: string, mainta
               reject(new Error('gist ' + id + ' not found'));
             },
           },
-          async: true,
+          timeout: 10000,
+          async: false,
         });
         break;
       }

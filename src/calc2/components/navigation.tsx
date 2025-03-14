@@ -108,6 +108,7 @@ export class Navigation extends React.Component<Props, State> {
                             <DropdownItem onClick={() => this.changeLocale('es')}>es</DropdownItem>
                             <DropdownItem onClick={() => this.changeLocale('kr')}>kr</DropdownItem>
                             <DropdownItem onClick={() => this.changeLocale('pt')}>pt</DropdownItem>
+                            <DropdownItem onClick={() => this.changeLocale('zhCn')}>zh-cn</DropdownItem>
                         </DropdownMenu>
                     </UncontrolledDropdown>
                     <NavItem className="navItemSpace"><NavLink href="https://github.com/dbis-uibk/relax/issues"><FontAwesomeIcon icon={faComment as IconProp} /> <T id="calc.navigation.feedback" /></NavLink></NavItem>

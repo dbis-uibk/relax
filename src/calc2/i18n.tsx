@@ -12,35 +12,37 @@ import langEN from '../locales/en.json';
 import langES from '../locales/es.json';
 import langKR from '../locales/kr.json';
 import langPT from '../locales/pt.json';
+import langZhCn from "../locales/zh-cn.json";
 
 export type LanguageKeys = keyof typeof langEN;
 
-export const i18n = i18next
-	.use(LanguageDetector)
-	.init({
-		resources: {
-			en: {
-				translations: langEN,
-			},
-			de: {
-				translations: langDE,
-			},
-			es: {
-				translations: langES,
-			},
-			kr: {
-				translations: langKR,
-			},
-			pt: {
-				translations: langPT,
-			},
+export const i18n = i18next.use(LanguageDetector).init({
+	resources: {
+		en: {
+			translations: langEN,
 		},
-		fallbackLng: 'en',
-		nsSeparator: ':',
-		keySeparator: false,
-		defaultNS: 'translations',
-		debug: true,
-	});
+		de: {
+			translations: langDE,
+		},
+		es: {
+			translations: langES,
+		},
+		kr: {
+			translations: langKR,
+		},
+		pt: {
+			translations: langPT,
+		},
+		zhCn: {
+			translations: langZhCn,
+		},
+	},
+	fallbackLng: "en",
+	nsSeparator: ":",
+	keySeparator: false,
+	defaultNS: "translations",
+	debug: true,
+});
 
 export function t(key: LanguageKeys, options?: { [key: string]: string | number }): string {
 	return String(i18n.t(key, options));

@@ -2,7 +2,7 @@
 	"scripts": {
 		"build": "webpack --progress --mode=production",
 		"build-test": "webpack -p --progress --colors --mode=development",
-		"serve": "webpack-dev-server --hot --mode=development"
+		"serve": "NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --hot --mode=development"
 	},
 	"name": "relax-relational_algebra_calculator",
 	"private": true,

@@ -83,9 +83,9 @@ all
     }
 
 TRC_Expr
-  = '{' _ proj: (listOfNamedColumnExpressions / listOfColumns) _ '|' _ formula:Formula _ '}' 
+  = '{' _ proj: (listOfNamedColumnExpressions / listOfColumns)+ _ '|' _ formula:Formula _ '}' 
 	{
-		const nonUniquevariables = proj.flatMap(p => {
+		const nonUniquevariables = proj[0].flatMap(p => {
 			if (p.type === 'namedColumnExpr' && p.child.func === 'columnValue') {
 				return [p.child.args[1]]
 			}
@@ -95,9 +95,15 @@ TRC_Expr
 			return [p.relAlias ? p.relAlias : p.name]
 		})
 		.filter(v => v)
+		.map(v => {
+			if (typeof v === 'object' && v.type === 'valueExpr') {
+				return v.args[1]
+			}
+			return v
+		})
 
 		const variables = [...new Set(nonUniquevariables)]
-		return createTrcRoot(variables, formula, proj)
+		return createTrcRoot(variables, formula, proj[0])
 	}
 
 Formula = LogicalExpression

@@ -14,6 +14,7 @@ import * as ValueExpr from './ValueExpr';
 export class Selection extends RANodeUnary {
 	private _condition: ValueExpr.ValueExpr;
 	private _schema: Schema | null = null;
+	private _res: Table | null = null;
 
 	constructor(child: RANode, condition: ValueExpr.ValueExpr) {
 		super('&sigma;', child);
@@ -32,11 +33,15 @@ export class Selection extends RANodeUnary {
 	}
 
 	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
+		if (this._res) {
+			return this._res;
+		}
 		session = this._returnOrCreateSession(session);
+		this._timer.start('_resTime');
 		const res = new Table();
 		const org = this.getChild().getResult(doEliminateDuplicateRows, session);
 		res.setSchema(org.getSchema());
-
+		this._timer.start('_execTime')
 		// copy
 		const condition = this._condition;
 		const numRows = org.getNumRows();
@@ -49,6 +54,9 @@ export class Selection extends RANodeUnary {
 		}
 
 		this.setResultNumRows(res.getNumRows());
+		this._execTime = this._timer.end('_execTime');
+		this._resTime = this._timer.end('_resTime');
+		this._res = res;
 		return res;
 	}
 

@@ -113,6 +113,8 @@
 	"editor.error-at-line-x": "na linha {{line}}",
 	"calc.messages.error-query-missing": "nenhuma consulta encontrada",
 	"calc.messages.error-query-missing-assignments-found": "apenas atribui\u00e7\u00f5es encontradas; falta a consulta <a href=\"help.htm#relalg-assignment\" target=\"_blank\"> Ajuda - Tarefas </a>",
+	"calc.messages.error-query-execution-timeout": "tempo maximo de execucao de query excedido: {{execTimeout}}, otimize sua query",
+	"calc.messages.error-query-large-memory-usage": "uso de memoria muito alto, otimize sua query",
 	"calc.messages.gist-load-success": "gist carregado com sucesso",
 	"calc.menu.headline": "Carregue um Dataset",
 	"calc.menu.datasets": "Datasets",

@@ -30,10 +30,10 @@ export type Action = (
 export function* rootSaga() {
 
 	yield saga.takeEvery('GROUPS_LOAD_REQUEST', function* (action: GROUPS_LOAD_REQUEST) {
-		const { source, id, setCurrent, maintainer, maintainerGroup} = action;
+		const { source, id, setCurrent, maintainer, maintainerGroup } = action;
 
 		const state: store.State = yield saga.select();
-
+		const isSetCurrentFirst = setCurrent === 'first';
 		// check wether we have already loaded the group
 		const found = state.groups.groups.find(g => (
 			g.groupInfo.source === source
@@ -70,9 +70,9 @@ export function* rootSaga() {
 				if (setCurrent !== undefined && loadedGroups.length > 0) {
 					// In case the :filename and :index are set in the URL,
 					// it's necessary to set the correct group accordingly
-					if (setCurrent && setCurrent != 'first' && 
+					if (setCurrent && setCurrent != 'first' &&
 						setCurrent.filename && setCurrent.index) {
-						for(var i=0;i<loadedGroups.length;i++) {
+						for (var i = 0; i < loadedGroups.length; i++) {
 							const g = loadedGroups[i];
 							const { source, id, filename, index } = g.groupInfo;
 							if (filename == setCurrent.filename && index == setCurrent.index) {
@@ -99,6 +99,10 @@ export function* rootSaga() {
 							filename,
 							index: 0,
 						};
+						const state: store.State = yield saga.select();
+						const isFirstAlreadyLoaded = isSetCurrentFirst && !!state.groups.current;
+						// early return since the group is already loaded
+						if (isFirstAlreadyLoaded) return;
 						yield saga.put(setCurrent);
 					}
 				}
@@ -143,7 +147,7 @@ export type Group = {
 	exampleSQL?: string,
 	exampleBags?: string,
 	exampleRA?: string;
-	
+
 };
 export type GroupInfo = {
 	source: GroupSourceType,
@@ -245,7 +249,7 @@ export function loadStaticGroups() {
 		source: GroupSourceType,
 		id: string,
 	}[] = [
-		{
+			{
 				maintainerGroup: t('calc.maintainer-groups.misc'),
 				maintainer: '',
 
@@ -341,7 +345,7 @@ export function loadStaticGroups() {
 	let first: boolean = true;
 
 	const actions: GROUPS_LOAD_REQUEST[] = (
-		groups.map(({ source, id, maintainer, maintainerGroup}) => {
+		groups.map(({ source, id, maintainer, maintainerGroup }) => {
 			const action: GROUPS_LOAD_REQUEST = {
 				type: 'GROUPS_LOAD_REQUEST',
 				source,
@@ -356,7 +360,7 @@ export function loadStaticGroups() {
 			return action;
 		})
 	);
-	
+
 
 	return actions;
 }
@@ -371,7 +375,6 @@ export function reduce(oldState: State | undefined, action: store.Action): State
 			current: null,
 		};
 	}
-
 	switch (action.type) {
 		case 'GROUP_SET_CURRENT': {
 			const { source, id, filename, index } = action;
@@ -398,7 +401,7 @@ export function reduce(oldState: State | undefined, action: store.Action): State
 
 		case 'GROUPS_LOAD_SUCCESS': {
 			// merge new groups
-			
+
 			const { loadedGroups } = action;
 			let newState = oldState;
 

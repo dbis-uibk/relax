@@ -14,6 +14,7 @@ import { Table } from './Table';
  */
 export class Difference extends RANodeBinary {
 	private _schema: Schema | null = null;
+	private _res: Table | null = null;
 
 	constructor(
 		/** the left child expression */
@@ -32,14 +33,19 @@ export class Difference extends RANodeBinary {
 	}
 
 	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
+		if (this._res) {
+			return this._res;
+		}
 		session = this._returnOrCreateSession(session);
 		if (this._schema === null) {
 			throw new Error(`check not called`);
 		}
 
 		const res = new Table();
+		this._timer.start('_resTime');
 		const orgA = this.getChild().getResult(doEliminateDuplicateRows, session);
 		const orgB = this.getChild2().getResult(doEliminateDuplicateRows, session);
+		this._timer.start('_execTime');
 		res.setSchema(this._schema);
 		let paintedIndexes: (number)[] = [];
 
@@ -68,6 +74,9 @@ export class Difference extends RANodeBinary {
 			res.eliminateDuplicateRows();
 		}
 		this.setResultNumRows(res.getNumRows());
+		this._execTime = this._timer.end('_execTime');
+		this._resTime = this._timer.end('_resTime');
+		this._res = res;
 		return res;
 	}
 

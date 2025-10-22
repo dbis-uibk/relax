@@ -113,6 +113,8 @@
 	"editor.error-at-line-x": "in Zeile {{line}}",
 	"calc.messages.error-query-missing": "keine Abfrage gefunden",
 	"calc.messages.error-query-missing-assignments-found": "nur Zuweisungen gefunden; die eigentliche Abfrage fehlt <a href=\"help.htm#relalg-assignment\" target=\"_blank\">Help - Assignments (en)</a>",
+	"calc.messages.error-query-execution-timeout": "maximale Abfrageausführungszeit überschritten: {{execTimeout}}, optimieren Sie Ihre Abfrage",
+	"calc.messages.error-query-large-memory-usage": "sehr hohe Speichernutzung, optimieren Sie Ihre Abfrage",
 	"calc.messages.gist-load-success": "gist erfolgreich geladen",
 	"calc.menu.headline": "Datens\u00e4tze",
 	"calc.menu.datasets": "Datens\u00e4tze",

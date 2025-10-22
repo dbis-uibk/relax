@@ -70,8 +70,8 @@ export class RaTree extends React.Component<Props> {
 					// If the relation alias is not the same as the child's relation alias or the child2's relation alias,
 					// add the relation alias to the tree
 					(n instanceof RANodeBinary && n.getChild().getMetaData('fromVariable') !== variableNames[0]
-											   && n.getChild2().getMetaData('fromVariable') !== variableNames[0])
-					)) {
+						&& n.getChild2().getMetaData('fromVariable') !== variableNames[0])
+				)) {
 					const variableName = variableNames[0];
 					if (usedVariableNames.has(variableName) === false) {
 						usedVariableNames.set(variableName, usedVariables++);
@@ -120,10 +120,10 @@ export class RaTree extends React.Component<Props> {
 							: null
 						}
 						{
-							n._execTime ? <p>{t('calc.result.exec.time')} {n._execTime}ms</p> : <p>{t('calc.result.exec.time')} - ms</p>
+							n._execTime ? <p>{t('calc.result.exec.time')} {(n._resTime || n._execTime)?.toFixed(2)}ms {n._resTime ?`(${n._execTime.toFixed(2)}ms)` : ''}</p> : <p>{t('calc.result.exec.time')} - ms</p>
 						}
-						
-						
+
+
 					</div>
 				);
 			};
@@ -145,7 +145,7 @@ export class RaTree extends React.Component<Props> {
 						>
 
 							<a className="formula">
-								{fromVariableMarker}<span dangerouslySetInnerHTML={{ __html: n.getFormulaHtml(false, false) }} /><br/>
+								{fromVariableMarker}<span dangerouslySetInnerHTML={{ __html: n.getFormulaHtml(false, false) }} /><br />
 								<span className="resultCountLabel">{`${n.getResultNumRows()} row${n.getResultNumRows() === 1 ? '' : 's'}`}</span>
 							</a>
 
@@ -189,16 +189,16 @@ export class RaTree extends React.Component<Props> {
 						}
 					`}</style>
 					<Button className="zoom-in" title={t('calc.editors.ra.button-zoom-in')} color="" onClick={() => zoomIn(0.1)}>
-						<span><FontAwesomeIcon icon={faSearchPlus  as IconProp} /></span>
+						<span><FontAwesomeIcon icon={faSearchPlus as IconProp} /></span>
 					</Button>
 					<Button className="zoom-out" title={t('calc.editors.ra.button-zoom-out')} color="" onClick={() => zoomOut(0.1)}>
-						<span><FontAwesomeIcon icon={faSearchMinus  as IconProp} /></span>
+						<span><FontAwesomeIcon icon={faSearchMinus as IconProp} /></span>
 					</Button>
 					<Button className="zoom-reset" title={t('calc.editors.ra.button-zoom-reset')} color="" onClick={() => {
 						resetTransform();
 						centerView(1);
-					} }>
-						<span><FontAwesomeIcon icon={faRefresh  as IconProp} /></span>
+					}}>
+						<span><FontAwesomeIcon icon={faRefresh as IconProp} /></span>
 					</Button>
 					<Button className="center-view" title={t('calc.editors.ra.button-zoom-center')} color="" onClick={() => {
 						const containers = document.getElementsByClassName('ra-result') as HTMLCollectionOf<HTMLElement>;
@@ -216,7 +216,7 @@ export class RaTree extends React.Component<Props> {
 							return;
 						}
 
-						const newScale = 
+						const newScale =
 							(containerElement.querySelector('.react-transform-wrapper') as HTMLElement).offsetWidth /
 							(containerElement.querySelector('.ra-tree') as HTMLElement).offsetWidth;
 
@@ -227,7 +227,7 @@ export class RaTree extends React.Component<Props> {
 						else {
 							centerView(1);
 						}
-					} }>
+					}}>
 						<span><FontAwesomeIcon icon={faDownLeftAndUpRightToCenter as IconProp} /></span>
 					</Button>
 				</div>
@@ -240,13 +240,13 @@ export class RaTree extends React.Component<Props> {
 				centerZoomedOut={true}
 				minScale={0.1}
 				maxScale={1}
-				wheel={ { disabled: true } }
-				pinch={ { disabled: true } }
-				doubleClick={ { disabled: true } }
-				zoomAnimation={ { disabled: true } }
-				alignmentAnimation={ { disabled: true } }
-				velocityAnimation={ { disabled: true } }
-				onTransformed={(ref: ReactZoomPanPinchRef, state: { 
+				wheel={{ disabled: true }}
+				pinch={{ disabled: true }}
+				doubleClick={{ disabled: true }}
+				zoomAnimation={{ disabled: true }}
+				alignmentAnimation={{ disabled: true }}
+				velocityAnimation={{ disabled: true }}
+				onTransformed={(ref: ReactZoomPanPinchRef, state: {
 					scale: number;
 					positionX: number;
 					positionY: number
@@ -264,8 +264,8 @@ export class RaTree extends React.Component<Props> {
 
 					if (containerElement) {
 						const controlElement = containerElement.querySelector('.pan-zoom-controls');
-						const zoom = parseFloat(state.scale.toString())*100;
-						const minScale = 
+						const zoom = parseFloat(state.scale.toString()) * 100;
+						const minScale =
 							(containerElement.querySelector('.react-transform-wrapper') as HTMLElement).offsetWidth /
 							(containerElement.querySelector('.ra-tree') as HTMLElement).offsetWidth;
 
@@ -277,10 +277,10 @@ export class RaTree extends React.Component<Props> {
 								}
 								else (zoomIn as HTMLButtonElement).disabled = false;
 							}
-						
+
 							const zoomOut = controlElement.querySelector('.zoom-out');
 							if (zoomOut) {
-								if (zoom <= minScale*100) {
+								if (zoom <= minScale * 100) {
 									(zoomOut as HTMLButtonElement).disabled = true;
 								}
 								else (zoomOut as HTMLButtonElement).disabled = false;
@@ -304,23 +304,23 @@ export class RaTree extends React.Component<Props> {
 			>
 				{({ zoomIn, zoomOut, resetTransform, ...rest }) => (
 					<>
-					<Controls />
-					<TransformComponent
-						wrapperStyle={{
-							width: "100%",
-							zoom: '100%',
-						}}
-					>
-						<div className="ra-tree" style={ { width: 'fit-content' }}>
-							<div className="tree" style={ { width: 'max-content' }}>
-								<ul>
-									{rec(root)}
-								</ul>
+						<Controls />
+						<TransformComponent
+							wrapperStyle={{
+								width: "100%",
+								zoom: '100%',
+							}}
+						>
+							<div className="ra-tree" style={{ width: 'fit-content' }}>
+								<div className="tree" style={{ width: 'max-content' }}>
+									<ul>
+										{rec(root)}
+									</ul>
+								</div>
 							</div>
-						</div>
-					</TransformComponent>
+						</TransformComponent>
 					</>
-			)}
+				)}
 			</TransformWrapper>
 		);
 	}

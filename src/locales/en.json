@@ -114,6 +114,8 @@
 	"calc.messages.error-query-missing": "no query found",
 	"calc.messages.error-query-missing-assignments-found": "only assignments found; query is missing <a href=\"help.htm#relalg-assignment\" target=\"_blank\">Help - Assignments</a>",
 	"calc.messages.gist-load-success": "gist loaded successfully",
+	"calc.messages.error-query-execution-timeout": "maximum query execution time exceeded: {{execTimeout}}, optimize your query",
+	"calc.messages.error-query-large-memory-usage": "very high memory usage, optimize your query",
 	"calc.menu.headline": "load a Dataset",
 	"calc.menu.datasets": "Datasets",
 	"calc.menu.load-gist-headline": "Load dataset stored in a gist",

@@ -24,18 +24,19 @@ import { HotTable } from '@handsontable/react';
 import * as ReactDOM from 'react-dom';
 import memoize from 'memoize-one';
 import html2canvas from 'html2canvas';
-import { 
+import {
 	faHistory,
 	faPlayCircle,
-  faUpload,
+	faUpload,
 	faDownload,
-  faCheckCircle,
-  faTimesCircle,
-  faPlay,
+	faCheckCircle,
+	faTimesCircle,
+	faPlay,
 	faTable,
 	faFileDownload,
 	faImage,
-	faFileCsv  
+	faFileCsv,
+	faSpinner
 } from '@fortawesome/free-solid-svg-icons';
 
 require('codemirror/lib/codemirror.css');
@@ -485,17 +486,17 @@ type Props = {
 	mode: 'relalg' | 'bagalg' | 'trc' | 'text/x-mysql',
 
 	/** sync, should throw exception on error */
-	execFunction(self: EditorBase, query: string, offset: CodeMirror.Position): { result: JSX.Element },
+	execFunction(self: EditorBase, query: string, offset: CodeMirror.Position): { result: JSX.Element } | Promise<{ result: JSX.Element }>,
 	/** sync, should throw exception on error or return an array of strings used as hints in the future */
-	linterFunction(self: EditorBase, editor: CodeMirror.Editor, text: string): string[],
+	linterFunction(self: EditorBase, editor: CodeMirror.Editor, text: string): string[] | Promise<string[]>,
 	/** */
 	getHintsFunction(): string[],
-	
+
 	tab: 'relalg' | 'bagalg' | 'trc' | 'sql' | 'group',
 
 	enableInlineRelationEditor: boolean,
 
-	/** defaults to 10 */
+	/** defaults to 20 */
 	historyMaxEntries?: number,
 
 	/** defaults to 20 */
@@ -511,12 +512,15 @@ type Props = {
 	execButtonLabel?: LanguageKeys,
 
 	textChange: Function,
-	
+
 	exampleSql?: string,
-	
+
 	exampleBags?: string,
 
-	exampleRA?: string
+	exampleRA?: string,
+	queryTimeout?: number,
+	editQueryTimeout?: boolean,
+	onQueryTimeoutChange?: (queryTimeout?: number) => void,
 };
 
 type State = {
@@ -529,6 +533,7 @@ type State = {
 	isSelectionSelected: boolean,
 	execSuccessful: boolean,
 	isExecutionDisabled: boolean,
+	isExecutionLoading: boolean,
 	execResult: JSX.Element | null,
 	relationEditorName: string,
 	replSelStart: any,
@@ -537,7 +542,8 @@ type State = {
 	execTime: any,
 	addedExampleSqlQuery: boolean,
 	addedExampleBagsQuery: boolean,
-	addedExampleRAQuery: boolean
+	addedExampleRAQuery: boolean,
+	queryTimeout: number | undefined
 };
 
 
@@ -566,7 +572,7 @@ class Relation {
 
 	toString(inline: boolean): string {
 		let str = '';
-		if (inline === false){
+		if (inline === false) {
 			str = this.name + ' = {\n';
 		}
 		else {
@@ -632,7 +638,7 @@ class Relation {
 	}
 
 	fromData(data: string[][]): void {
-		if(data.length > 0) {
+		if (data.length > 0) {
 			for (let col = 0; col < data[0].length; col++) {
 				if (data[0][col]) {
 					const attribute = new Attribute();
@@ -685,6 +691,13 @@ class Relation {
 
 const gutterClass = 'CodeMirror-table-edit-markers';
 const eventExecSuccessfulName = 'editor.execSuccessful';
+
+const DEFAULT_QUERY_EXEC_TIMEOUT_MS = 15_000;
+
+export function getInitialQueryExecTimeout() {
+	const queryTimeoutStr = localStorage.getItem("queryTimeout");
+	return queryTimeoutStr ? Number(queryTimeoutStr) : DEFAULT_QUERY_EXEC_TIMEOUT_MS;
+}
 
 
 export class EditorBase extends React.Component<Props, State> {
@@ -745,7 +758,7 @@ export class EditorBase extends React.Component<Props, State> {
 			textChange: null,
 			...props.codeMirrorOptions,
 		};
-		
+
 		this.hotTableSettings = {
 			colHeaders: false,
 			rowHeaders: function (index: number) {
@@ -757,7 +770,7 @@ export class EditorBase extends React.Component<Props, State> {
 				}
 				return (index - 1);
 			},
-			height: function() { return document.body.clientHeight * 0.7; },
+			height: function () { return document.body.clientHeight * 0.7; },
 			fixedRowsTop: 2,
 			minRows: 2,
 			minCols: 1,
@@ -794,7 +807,9 @@ export class EditorBase extends React.Component<Props, State> {
 			execTime: null,
 			addedExampleSqlQuery: false,
 			addedExampleBagsQuery: false,
-			addedExampleRAQuery: false
+			addedExampleRAQuery: false,
+			isExecutionLoading: false,
+			queryTimeout: this.props.queryTimeout
 		};
 		this.toggle = this.toggle.bind(this);
 		this.inlineRelationEditorOk = this.inlineRelationEditorOk.bind(this);
@@ -813,14 +828,14 @@ export class EditorBase extends React.Component<Props, State> {
 		this.applyHistory = this.applyHistory.bind(this);
 		this.downloadEditorText = this.downloadEditorText.bind(this);
 		this.downloadQueryResult = this.downloadQueryResult.bind(this);
-		
+
 		this.uploadCSVRef = React.createRef();
-		
+
 	}
 
 
 	private getInlineRelationData(): string[][] {
-		if(this.hotTableSettings.datta) { return this.hotTableSettings.datta; }
+		if (this.hotTableSettings.datta) { return this.hotTableSettings.datta; }
 		return this.hotTableSettings.data;
 	}
 
@@ -863,7 +878,7 @@ export class EditorBase extends React.Component<Props, State> {
 		relation.fromData(this.getInlineRelationData());
 		const { editor, replSelStart, replSelEnd } = this.state;
 		if (editor) {
-			editor.getDoc().replaceRange(relation.toString(this.props.tab==='relalg'), replSelStart, replSelEnd);
+			editor.getDoc().replaceRange(relation.toString(this.props.tab === 'relalg'), replSelStart, replSelEnd);
 		}
 		this.inlineRelationEditorClose();
 	}
@@ -899,23 +914,23 @@ export class EditorBase extends React.Component<Props, State> {
 		a.download = this.state.relationEditorName + '.csv';
 		a.click();
 	}
-	
+
 	// setting example queries..
 	componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any) {
 		if(prevState.editor) {
 			if(this.props.exampleSql && this.props.exampleSql !== '' && !this.state.addedExampleSqlQuery && this.props.tab === 'sql') {
 				this.replaceAll(this.props.exampleSql)
-				this.setState({addedExampleSqlQuery: true});
+				this.setState({ addedExampleSqlQuery: true });
 			}
-			if(this.props.exampleBags && this.props.exampleBags !== '' && !this.state.addedExampleBagsQuery && this.props.tab === 'bagalg') {
+			if (this.props.exampleBags && this.props.exampleBags !== '' && !this.state.addedExampleBagsQuery && this.props.tab === 'bagalg') {
 				this.replaceAll(this.props.exampleBags);
 				// TODO: maybe auto format / replace ?
-				this.setState({addedExampleBagsQuery: true});
+				this.setState({ addedExampleBagsQuery: true });
 			}
-			if(this.props.exampleRA && this.props.exampleRA !== '' && !this.state.addedExampleRAQuery && this.props.tab === 'relalg') {
+			if (this.props.exampleRA && this.props.exampleRA !== '' && !this.state.addedExampleRAQuery && this.props.tab === 'relalg') {
 				this.replaceAll(this.props.exampleRA);
 				// TODO: maybe auto format / replace ?
-				this.setState({addedExampleRAQuery: true});
+				this.setState({ addedExampleRAQuery: true });
 			}
 		}
 	}
@@ -942,7 +957,7 @@ export class EditorBase extends React.Component<Props, State> {
 			CodeMirror.registerHelper('lint', 'sql', (text: string) => this.linter(text));
 			CodeMirror.registerHelper('lint', 'bagalg', (text: string) => this.linter(text));
 			CodeMirror.registerHelper('lint', 'relalg', (text: string) => this.linter(text));*/
-			
+
 		}
 
 		editor.on('cursorActivity', (cm) => {
@@ -967,16 +982,18 @@ export class EditorBase extends React.Component<Props, State> {
 			history,
 			execSuccessful,
 			isExecutionDisabled,
+			isExecutionLoading,
 			execResult,
 			execTime,
 			queryResult,
+			queryTimeout
 		} = this.state;
 		const {
 			toolbar,
 			disableHistory = false,
 			execButtonLabel,
+			editQueryTimeout
 		} = this.props;
-
 		return (
 			<div>
 				<div className="editor-base">
@@ -987,7 +1004,7 @@ export class EditorBase extends React.Component<Props, State> {
 					<div className="exec-errors">
 						{execErrors.map((alert, i) => <ExecutionAlert key={i} alert={alert} editor={editor} />)}
 					</div>
-					
+
 
 					<div className="input-buttons">
 						<button
@@ -1008,61 +1025,70 @@ export class EditorBase extends React.Component<Props, State> {
 							}}
 						>
 							{!!execButtonLabel
-								? <span><FontAwesomeIcon icon={faPlayCircle  as IconProp} /> <T id={execButtonLabel} /></span>
+								? <span><FontAwesomeIcon icon={faPlayCircle as IconProp} /> <T id={execButtonLabel} /></span>
 								: (
 									<>
-										<span className="glyphicon glyphicon-play"></span> <span className="query"><FontAwesomeIcon icon={faPlay as IconProp} /> <T id="calc.editors.ra.button-execute-query" /></span><span className="selection"><T id="calc.editors.ra.button-execute-selection" /></span>
+										<span className="glyphicon glyphicon-play"></span> <span className="query"><FontAwesomeIcon icon={(isExecutionLoading ? faSpinner : faPlay) as IconProp} /> <T id="calc.editors.ra.button-execute-query" /></span><span className="selection"><T id="calc.editors.ra.button-execute-selection" /></span>
 									</>
 								)
 							}
 						</button>
 
 						<div style={{ float: 'right' }}>
+							{editQueryTimeout ? <label> <span style={{ fontWeight: 'bold', fontSize: '0.5rem' }}>Timeout (ms)</span> <input style={{ fontSize: '0.6rem' }} type="number" value={queryTimeout} onChange={(ev) => {
+								let queryTimeout: number | undefined
+								try {
+									queryTimeout = Number(ev.target.value)
+								} catch (err) {
+									queryTimeout = undefined
+								}
+								this.setState({ queryTimeout }, () => this.props.onQueryTimeoutChange?.(queryTimeout));
+							}} /></label> : null}
 							<div className="btn-group history-container">
 								<DropdownList
 									label={<span><FontAwesomeIcon icon={faDownload as IconProp} /> <span className="hideOnSM"><T id="calc.editors.ra.button-download" /></span></span>}
 									elements={[
-									{
-										label: (
-											<>
-											<div color="Link" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faFileDownload  as IconProp} /> <span><T id="calc.editors.ra.button-download-query" /></span></div>
-											</>
+										{
+											label: (
+												<>
+													<div color="Link" onClick={this.downloadEditorText}><FontAwesomeIcon icon={faFileDownload as IconProp} /> <span><T id="calc.editors.ra.button-download-query" /></span></div>
+												</>
 											),
-									 	value: '',
-									},
-									{
-										label: (
-											<>
-											<div color="Link" onClick={this.downloadQueryResult} id="downloadQueryCsv" data-id="csv"><FontAwesomeIcon icon={faFileCsv  as IconProp} /> <span ><T id="calc.editors.ra.button-download-csv" /></span></div>
-											</>
+											value: '',
+										},
+										{
+											label: (
+												<>
+													<div color="Link" onClick={this.downloadQueryResult} id="downloadQueryCsv" data-id="csv"><FontAwesomeIcon icon={faFileCsv as IconProp} /> <span ><T id="calc.editors.ra.button-download-csv" /></span></div>
+												</>
 											),
-									 	value: '',
-									},
-									{
-										label: (
-											<>
-											<div color="Link" onClick={this.downloadQueryResult} data-id="jpg"><FontAwesomeIcon icon={faImage  as IconProp}/> <span ><T id="calc.editors.ra.button-download-jpg" /></span></div>
-											</>
+											value: '',
+										},
+										{
+											label: (
+												<>
+													<div color="Link" onClick={this.downloadQueryResult} data-id="jpg"><FontAwesomeIcon icon={faImage as IconProp} /> <span ><T id="calc.editors.ra.button-download-jpg" /></span></div>
+												</>
 											),
-									 	value: '',
-									},
+											value: '',
+										},
 									]
-										
+
 									}
-									/>
+								/>
 							</div>
 
-								{disableHistory
+							{disableHistory
 								? null
 								: (
 									<div className="btn-group history-container">
 										<DropdownList
-											label={<span><FontAwesomeIcon icon={faHistory  as IconProp} /> <span className="hideOnSM"><T id="calc.editors.button-history" /></span></span>}
+											label={<span><FontAwesomeIcon icon={faHistory as IconProp} /> <span className="hideOnSM"><T id="calc.editors.button-history" /></span></span>}
 											elements={history.map(h => ({
 												label: (
 													<>
 														<small className="muted text-muted">{h.time.toLocaleTimeString()}</small>
-														<div>{h.code}</div>
+														<div>{h.code.slice(0, 30) + (h.code.length > 30 ? '...' : '')}</div>
 														{/*
 														// colorize the code
 														codeNode.addClass('colorize');
@@ -1097,21 +1123,21 @@ export class EditorBase extends React.Component<Props, State> {
 						<ModalHeader toggle={this.toggleInlineRelationEditor}>{t('calc.editors.ra.inline-editor.title')}</ModalHeader>
 						<ModalBody>
 							<div>
-								{ (this.props.tab === 'group') ?
+								{(this.props.tab === 'group') ?
 									<div><Input placeholder={t('calc.editors.ra.inline-editor.input-relation-name')} value={this.state.relationEditorName} onChange={(e) => { this.setState({ relationEditorName: e.target.value }); }} />
-									<br /></div>
-								 : null
+										<br /></div>
+									: null
 								}
 								<HotTable settings={this.hotTableSettings} licenseKey="non-commercial-and-evaluation" />
 							</div>
 						</ModalBody>
 						<ModalFooter>
-							<Button color="light" onClick={this.inlineRelationEditorDownload}><FontAwesomeIcon icon={faDownload  as IconProp} /> {t('calc.editors.ra.inline-editor.button-download-csv')}</Button>
-							<Button color="light" onClick={() => { this.uploadCSVRef.current?.click(); }}><FontAwesomeIcon icon={faUpload  as IconProp} /> {t('calc.editors.ra.inline-editor.button-upload-csv')}</Button>
+							<Button color="light" onClick={this.inlineRelationEditorDownload}><FontAwesomeIcon icon={faDownload as IconProp} /> {t('calc.editors.ra.inline-editor.button-download-csv')}</Button>
+							<Button color="light" onClick={() => { this.uploadCSVRef.current?.click(); }}><FontAwesomeIcon icon={faUpload as IconProp} /> {t('calc.editors.ra.inline-editor.button-upload-csv')}</Button>
 							<input className="hidden" ref={this.uploadCSVRef} onChange={this.inlineRelationEditorUpload} type="file"></input>
 							<span className="flexSpan"></span>
-							<Button color="primary" onClick={this.inlineRelationEditorOk}><FontAwesomeIcon icon={faCheckCircle  as IconProp} /> {t('calc.editors.ra.inline-editor.button-ok')}</Button>
-							<Button color="secondary" onClick={this.inlineRelationEditorClose}><FontAwesomeIcon icon={faTimesCircle  as IconProp} /> {t('calc.editors.ra.inline-editor.button-cancel')}</Button>
+							<Button color="primary" onClick={this.inlineRelationEditorOk}><FontAwesomeIcon icon={faCheckCircle as IconProp} /> {t('calc.editors.ra.inline-editor.button-ok')}</Button>
+							<Button color="secondary" onClick={this.inlineRelationEditorClose}><FontAwesomeIcon icon={faTimesCircle as IconProp} /> {t('calc.editors.ra.inline-editor.button-cancel')}</Button>
 						</ModalFooter>
 					</Modal>
 				</div>
@@ -1154,12 +1180,12 @@ export class EditorBase extends React.Component<Props, State> {
 	}
 
 	historyAddEntry(code: string) {
-		const { historyMaxEntries = 10, historyMaxLabelLength = 20 } = this.props;
+		const { historyMaxEntries = 20, historyMaxLabelLength = 20 } = this.props;
 
 		const entry = {
 			time: new Date(),
 			label: code.length > historyMaxLabelLength ? code.substr(0, historyMaxLabelLength - 4) + ' ...' : code,
-			code,
+			code: code.trim()
 		};
 
 		this.setState({
@@ -1238,6 +1264,14 @@ export class EditorBase extends React.Component<Props, State> {
 		return editor.getValue();
 	}
 
+	getQueryTimeout() {
+		const { queryTimeout } = this.state;
+		if (!queryTimeout) {
+			console.warn(`no queryTimeout set, be careful with the executed query this may crash the page`);
+		}
+		return queryTimeout
+	}
+
 	focus() {
 		const { editor } = this.state;
 		if (!editor) {
@@ -1262,10 +1296,10 @@ export class EditorBase extends React.Component<Props, State> {
 	downloadQueryResult($event: any) {
 
 		const mode = $event.currentTarget.getAttribute('data-id');
-		if(!mode) { return; }
+		if (!mode) { return; }
 
-		const {queryResult} = this.state;
-		if(!queryResult) {
+		const { queryResult } = this.state;
+		if (!queryResult) {
 			console.warn('no query result...');
 			return;
 		}
@@ -1277,28 +1311,28 @@ export class EditorBase extends React.Component<Props, State> {
 			const arrayToCsv = (data: any) => {
 				return data.map((row: any) =>
 					row
-					.map(String)  // convert every value to String
-					.map((v: any) => this.replaceAllImpl(v, '"', '""'))  // escape double colons
-					.map((v: any) => `"${v}"`)  // quote it
-					.join(','),  // comma-separated
-				  ).join('\r\n');  // rows starting on new lines	
+						.map(String)  // convert every value to String
+						.map((v: any) => this.replaceAllImpl(v, '"', '""'))  // escape double colons
+						.map((v: any) => `"${v}"`)  // quote it
+						.join(','),  // comma-separated
+				).join('\r\n');  // rows starting on new lines	
 			};
 			const headers: string[] = [];
 			schema._relAliases.forEach((r: any, i: number) => {
 				headers.push(`${r}.${schema._names[i]}`);
 			});
-			
+
 			let csv: string;
 			csv = arrayToCsv([headers]);
 			csv += '\r\n' + arrayToCsv(rows);
 			return csv;
-		
+
 		};
 
 		const filename = 'result.csv';
 
 
-		switch(mode) {
+		switch (mode) {
 			case 'jpg':
 				const images = document.getElementsByClassName('ra-tree') as HTMLCollectionOf<HTMLElement>;
 				let imgDiv;
@@ -1306,7 +1340,7 @@ export class EditorBase extends React.Component<Props, State> {
 				for (let i = 0; i < images.length; i++) {
 					// Check if the element is visible
 					if (images[i].offsetParent !== null) {
-					imgDiv = images[i] as HTMLElement;
+						imgDiv = images[i] as HTMLElement;
 						break;
 					}
 				}
@@ -1317,7 +1351,7 @@ export class EditorBase extends React.Component<Props, State> {
 				document.body.appendChild(treeElement);
 
 				// const imgDiv = document.getElementsByClassName('tree')[0] as HTMLElement;
-				if(treeElement) {
+				if (treeElement) {
 					// bug fix for html2canvas
 					const nodes = (treeElement as HTMLElement).querySelectorAll(".tree li:only-child");
 					if (nodes && nodes instanceof NodeList) {
@@ -1340,9 +1374,9 @@ export class EditorBase extends React.Component<Props, State> {
 						d.click();
 						document.body.removeChild(d)
 					});
-				} 
+				}
 				else {
-					return ;
+					return;
 				}
 				break;
 			case 'csv':
@@ -1353,7 +1387,7 @@ export class EditorBase extends React.Component<Props, State> {
 				a.click();
 				break;
 			default:
-				return;	
+				return;
 		}
 	}
 
@@ -1400,7 +1434,7 @@ export class EditorBase extends React.Component<Props, State> {
 	}
 
 
-	linter(text: string) {
+	async linter(text: string) {
 		const { editor } = this.state;
 		if (!editor) {
 			console.warn(`editor not initialized yet`);
@@ -1412,7 +1446,7 @@ export class EditorBase extends React.Component<Props, State> {
 		}
 
 		try {
-			const hintsFromLinter = this.props.linterFunction(this, editor, text);
+			const hintsFromLinter = await this.props.linterFunction(this, editor, text);
 
 
 			if (hintsFromLinter.length === 0 && this.hinterCache.hintsFromLinter.length === 0) {
@@ -1427,7 +1461,7 @@ export class EditorBase extends React.Component<Props, State> {
 		}
 		catch (e) {
 			const found = [];
-	
+
 			const error = EditorBase._generateErrorFromException(e, 0, 0);
 			const messageWithoutHtml = $('<span>').append(error.message).text();
 
@@ -1491,8 +1525,8 @@ export class EditorBase extends React.Component<Props, State> {
 		this.setState({
 			queryResult: result(activeNode, editor.getOption('mode') !== 'bagalg'),
 		});
-		
-	
+
+
 	}
 
 	genericHint(cm: CodeMirror.Editor) {
@@ -1514,7 +1548,7 @@ export class EditorBase extends React.Component<Props, State> {
 			}
 		}));
 
-		let unfiltered: CodeMirror.Hint[] = [... snippetHints];
+		let unfiltered: CodeMirror.Hint[] = [...snippetHints];
 
 		// handle regular hint
 		if (this.hinterCache.changed === true) {
@@ -1571,6 +1605,8 @@ export class EditorBase extends React.Component<Props, State> {
 			throw new Error(`editor not initialized yet`);
 		}
 		this.setState({
+			isExecutionDisabled: true,
+			isExecutionLoading: true,
 			execResult:
 				(<div className="spinner">
 					<div className="rect1"></div>
@@ -1579,7 +1615,7 @@ export class EditorBase extends React.Component<Props, State> {
 					<div className="rect4"></div>
 					<div className="rect5"></div>
 				</div>),
-		}, () => {
+		}, async () => {
 			this.clearExecutionAlerts();
 			let query = '';
 			let offset = {
@@ -1588,7 +1624,7 @@ export class EditorBase extends React.Component<Props, State> {
 			};
 			if (selectionOnly !== true) { // execute whole text
 				query = editor.getValue();
-		
+
 			}
 			else { // execute selection
 				query = editor.getDoc().getSelection();
@@ -1601,7 +1637,7 @@ export class EditorBase extends React.Component<Props, State> {
 			this.clearExecutionAlerts();
 			try {
 				const start = Date.now();
-				const { result } = this.props.execFunction(this, query, offset);
+				const { result } = await this.props.execFunction(this, query, offset);
 				const end = Date.now() - start;
 				this.getResultForCsv(result.props.root);
 				this.setState({
@@ -1624,6 +1660,8 @@ export class EditorBase extends React.Component<Props, State> {
 				if (this.props.enableInlineRelationEditor) {
 					this.clearInlineRelationMarkers();
 				}
+			} finally {
+				this.setState({ isExecutionDisabled: false, isExecutionLoading: false })
 			}
 		});
 	}
@@ -1738,7 +1776,7 @@ export class EditorBase extends React.Component<Props, State> {
 			}
 
 			const expectedDescriptions = new Array(expected.length);
-	
+
 			// expectedDesc, foundDesc, i;
 
 			for (let i = 0; i < expected.length; i++) {
@@ -1782,11 +1820,11 @@ export class EditorBase extends React.Component<Props, State> {
 		this.focus();
 	}
 
-	
+
 	// needed as String.protoype.replaceAll() not yet compatible (ECMA 2021)
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll
 	public replaceAllImpl(text: string, toReplace: string, replaceWith: string) {
-		while(text.includes(toReplace)) {
+		while (text.includes(toReplace)) {
 			text = text.replace(toReplace, replaceWith);
 		}
 		return text;

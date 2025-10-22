@@ -30,6 +30,7 @@ export class Projection extends RANodeUnary {
 		_indices: number[],
 		_projectedSchema: Schema,
 	} | null = null;
+	private _res: Table | null = null;
 
 	constructor(child: RANode, proj: ProjectionColumn[]) {
 		super('&pi;', child);
@@ -50,18 +51,26 @@ export class Projection extends RANodeUnary {
 	}
 
 	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
+		if (this._res) {
+			return this._res;
+		}
 		session = this._returnOrCreateSession(session);
 		if (this._checked === null) {
 			throw new Error(`check has not been called`);
 		}
-
+		this._timer.start('_resTime');
 		const { _indices } = this._checked;
 
 		if (this._columns === null) {
-			return this._child.getResult(doEliminateDuplicateRows, session);
+			const res = this._child.getResult(doEliminateDuplicateRows, session);
+			this._execTime = 0;
+			this._resTime = this._timer.end('_resTime');
+			this._res = res;
+			return res
 		}
 
 		const org = this._child.getResult(doEliminateDuplicateRows, session);
+		this._timer.start('_execTime');
 		const res = new Table();
 		res.setSchema(this.getSchema());
 
@@ -87,6 +96,9 @@ export class Projection extends RANodeUnary {
 			res.eliminateDuplicateRows();
 		}
 		this.setResultNumRows(res.getNumRows());
+		this._execTime = this._timer.end('_execTime');
+		this._resTime = this._timer.end('_resTime');
+		this._res = res;
 		return res;
 	}
 

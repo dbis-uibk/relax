@@ -7,6 +7,7 @@
 import * as i18n from 'i18next';
 import { Column } from './Column';
 import { RANode, RANodeUnary, Session } from './RANode';
+import { Table } from './Table';
 
 /**
  * relational algebra order-by operator
@@ -19,9 +20,11 @@ import { RANode, RANodeUnary, Session } from './RANode';
  * @returns {OrderBy}
  */
 export class OrderBy extends RANodeUnary {
+	private _res: Table | null = null;
 	_orderCols: Column[];
 	_orderAsc: boolean[];
 	_orderIndices: number[] | null;
+	
 
 	constructor(child: RANode, orderCols: Column[], orderAsc: boolean[]) {
 		super('&tau;', child);
@@ -41,18 +44,25 @@ export class OrderBy extends RANodeUnary {
 	}
 
 	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
+		if (this._res) {
+			return this._res;
+		}
 		session = this._returnOrCreateSession(session);
 		if (this._orderIndices === null) {
 			throw new Error(`check not called`);
 		}
-
+		this._timer.start('_resTime');
 		const res = this.getChild().getResult(doEliminateDuplicateRows, session).copy();
+		this._timer.start('_execTime');
 		if (doEliminateDuplicateRows === true) {
 			res.eliminateDuplicateRows();
 		}
 		this.setResultNumRows(res.getNumRows());
 
 		res.sort(this._orderIndices, this._orderAsc);
+		this._execTime = this._timer.end('_execTime');
+		this._resTime = this._timer.end('_resTime');
+		this._res = res;
 		return res;
 	}
 

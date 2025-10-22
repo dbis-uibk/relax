@@ -39,6 +39,7 @@ export interface AggregateFunction {
 export class GroupBy extends RANodeUnary {
 	private groupByCols: GroupByCol[];
 	private aggregateFunctions: AggregateFunction[];
+	private _res: Table | null = null;
 
 	private checked: {
 		schema: Schema,
@@ -283,13 +284,17 @@ export class GroupBy extends RANodeUnary {
 
 
 	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
+		if (this._res) {
+			return this._res;
+		}
 		session = this._returnOrCreateSession(session);
 
 		if (this.checked === null) {
 			throw new Error(`check not called`);
 		}
-
+		this._timer.start('_resTime');
 		const org = this.getChild().getResult(doEliminateDuplicateRows, session);
+		this._timer.start('_execTime');
 		const res = new Table();
 		res.setSchema(this.checked.schema);
 
@@ -465,6 +470,9 @@ export class GroupBy extends RANodeUnary {
 			res.eliminateDuplicateRows();
 		}
 		this.setResultNumRows(res.getNumRows());
+		this._execTime = this._timer.end('_execTime');
+		this._resTime = this._timer.end('_resTime');
+		this._res = res;
 		return res;
 	}
 }

@@ -14,6 +14,7 @@ import { Table, Tuple } from './Table';
 export class Relation extends RANodeNullary {
 	_table: Table;
 	_schema: Schema | null = null;
+	_res: Table | null = null;
 
 	constructor(
 		/** the name of the relation */
@@ -55,14 +56,20 @@ export class Relation extends RANodeNullary {
 	}
 
 	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
+		if (this._res) {
+			return this._res
+		}
 		this._returnOrCreateSession(session);
-
+		this._timer.start('_execTime');
 		const res = this._table.copy();
 
 		if (doEliminateDuplicateRows === true) {
 			res.eliminateDuplicateRows();
 		}
 		this.setResultNumRows(res.getNumRows());
+		this._res = res;
+		this._execTime = this._timer.end('_execTime');
+		this._resTime = this._execTime;
 		return res;
 	}
 

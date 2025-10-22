@@ -113,6 +113,8 @@
 	"editor.error-at-line-x": "en la l\u00ednea {{line}}",
 	"calc.messages.error-query-missing": "no se encontr\u00f3 la consulta",
 	"calc.messages.error-query-missing-assignments-found": "solo se encontraron asignaciones; a la consulta le falta <a href=\"help.htm#relalg-assignment\" target=\"_blank\">Help - Assignments</a>",
+	"calc.messages.error-query-execution-timeout": "Se superó el tiempo máximo de ejecución de la consulta: {{execTimeout}}, optimice su consulta",
+	"calc.messages.error-query-large-memory-usage": "Uso muy alto de memoria, optimice su consulta",
 	"calc.messages.gist-load-success": "gist fue cargado con \u00e9xito",
 	"calc.menu.headline": "cargar un Dataset",
 	"calc.menu.datasets": "Datasets",

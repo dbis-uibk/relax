@@ -262,6 +262,25 @@ export class Table {
 		this._rows.sort(compareAll);
 	}
 
+	getEstimatedMemoryUsage(): number {
+		let estimatedMemoryUsage = 0;
+		for (let i = 0; i < this._schema.getSize(); i++) {
+			switch (this._schema.getType(i)) {
+				case 'boolean':
+					estimatedMemoryUsage += this._rows.length * 4;
+				case 'number':
+					estimatedMemoryUsage += this._rows.length * 8;
+				case 'date':
+					estimatedMemoryUsage += this._rows.length * 16;
+				case 'string':
+					estimatedMemoryUsage += this._rows.reduce((acc, row) => (row[i] as string).length * 2 + acc, 0)
+				default:
+					break;
+			}
+		}
+		return estimatedMemoryUsage;
+	}
+
 	copy() {
 		const res = new Table();
 		res.setSchema(this.getSchema().copy());

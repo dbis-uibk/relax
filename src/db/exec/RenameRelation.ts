@@ -6,6 +6,7 @@
 
 import { RANode, RANodeUnary, Session } from './RANode';
 import { Schema } from './Schema';
+import { Table } from './Table';
 
 /**
  * relational algebra anti-join operator
@@ -17,6 +18,7 @@ import { Schema } from './Schema';
  * @returns {RenameRelation}
  */
 export class RenameRelation extends RANodeUnary {
+	private _res: Table | null = null;
 	_newRelAlias: string;
 	_schema: Schema | null = null;
 
@@ -46,13 +48,21 @@ export class RenameRelation extends RANodeUnary {
 	}
 
 	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
+		if (this._res) {
+			return this._res;
+		}
 		if (this._schema === null) {
 			throw new Error(`check not called`);
 		}
+		this._timer.start('_resTime');
 		const res = this._child.getResult(doEliminateDuplicateRows, session).copy();
+		this._timer.start('_execTime');
 		res.setSchema(this.getSchema());
 
 		this.setResultNumRows(res.getNumRows());
+		this._execTime = this._timer.end('_execTime');
+		this._resTime = this._timer.end('_resTime');
+		this._res = res;
 		return res;
 	}
 

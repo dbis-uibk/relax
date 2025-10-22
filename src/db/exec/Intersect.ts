@@ -16,6 +16,7 @@ import { Table } from './Table';
  */
 export class Intersect extends RANodeBinary {
 	private _schema: Schema | null = null; // is set by check
+	private _res: Table | null = null
 
 	constructor(child: RANode, child2: RANode) {
 		super('∩', child, child2);
@@ -29,15 +30,20 @@ export class Intersect extends RANodeBinary {
 	}
 
 	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
+		if (this._res) {
+			return this._res;
+		}
 		session = this._returnOrCreateSession(session);
 		if (this._schema === null) {
 			throw new Error(`check not called`);
 		}
 
 		const res = new Table();
+		this._timer.start('_resTime');
 		const orgA = this.getChild().getResult(doEliminateDuplicateRows, session);
 		const orgB = this.getChild2().getResult(doEliminateDuplicateRows, session);
 		res.setSchema(this._schema);
+		this._timer.start('_execTime');
 
 		// copy
 		const numRowsA = orgA.getNumRows();
@@ -73,6 +79,9 @@ export class Intersect extends RANodeBinary {
 			res.eliminateDuplicateRows();
 		}
 		this.setResultNumRows(res.getNumRows());
+		this._execTime = this._timer.end('_execTime');
+		this._resTime = this._timer.end('_resTime');
+		this._res = res;
 		return res;
 	}
 

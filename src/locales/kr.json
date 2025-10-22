@@ -113,6 +113,8 @@
 	"editor.error-at-line-x": "__line__ \uc904\uc5d0\uc11c",
 	"calc.messages.error-query-missing": "\ucffc\ub9ac\ub97c \ucc3e\uc744 \uc218 \uc5c6\uc74c",
 	"calc.messages.error-query-missing-assignments-found": "\ucffc\ub9ac\ub97c \ucc3e\uc744 \uc218 \uc5c6\uc74c <a href=\"help.htm#relalg-assignment\" target=\"_blank\">Help - Assignments</a>",
+	"calc.messages.error-query-execution-timeout": "최대 쿼리 실행 시간을 초과했습니다: {{execTimeout}}, 쿼리를 최적화하세요.",
+	"calc.messages.error-query-large-memory-usage": "메모리 사용량이 매우 높습니다. 쿼리를 최적화하세요.",
 	"calc.messages.gist-load-success": "gist \ubd88\ub7ec\uc624\uae30 \uc644\ub8cc",
 	"calc.menu.headline": "\ub370\uc774\ud130\uc14b \ubd88\ub7ec\uc624\uae30",
 	"calc.menu.datasets": "\ub370\uc774\ud130\uc14b \ubd88\ub7ec\uc624\uae30",

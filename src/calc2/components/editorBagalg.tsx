@@ -4,7 +4,7 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { EditorBase, getColumnNamesFromRaRoot, getHintsFromGroup } from 'calc2/components/editorBase';
+import { EditorBase, getColumnNamesFromRaRoot, getHintsFromGroup, getInitialQueryExecTimeout } from 'calc2/components/editorBase';
 import { Result } from 'calc2/components/result';
 import { Item } from 'calc2/components/toolbar';
 import { t, T } from 'calc2/i18n';
@@ -62,6 +62,8 @@ export class EditorBagalg extends React.Component<Props, State> {
 
 		return (
 			<EditorBase
+				editQueryTimeout
+				queryTimeout={getInitialQueryExecTimeout()}
 				exampleBags={group.exampleBags}
 				exampleRA={group.exampleRA}
 				exampleSql={group.exampleSQL}

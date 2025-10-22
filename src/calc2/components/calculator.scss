@@ -21,6 +21,16 @@
 	.exec-button.selection > .selection, .exec-button.selection > .query {
 		display: none;
 	}
+
+	.exec-button > .selection, .exec-button.selection > .query > svg[data-icon="spinner"] {
+		-webkit-animation:spin 1s linear infinite;
+    -moz-animation:spin 1s linear infinite;
+    animation:spin 1s linear infinite;
+	}
+
+	@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+	@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+	@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } } 
 	
 	.exec-button.selection:not(.selection-selected) > .query {
 		display: inline;

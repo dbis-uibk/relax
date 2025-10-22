@@ -35,12 +35,16 @@ export class Division extends RANodeBinary {
 			throw new Error(`check not called`);
 		}
 
+		this._timer.start('_resTime');
 		const res = this._delegate.getResult(doEliminateDuplicateRows, session);
+		this._timer.start('_execTime');
 
 		if (doEliminateDuplicateRows === true) {
 			res.eliminateDuplicateRows();
 		}
 		this.setResultNumRows(res.getNumRows());
+		this._execTime = this._timer.end('_execTime');
+		this._resTime = this._timer.end('_resTime');
 		return res;
 	}
 

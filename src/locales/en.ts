@@ -81,6 +81,8 @@ export const langEN = {
 
 	'calc.messages.error-query-missing': 'no query found',
 	'calc.messages.error-query-missing-assignments-found': 'only assignments found; query is missing <a href="help.htm#relalg-assignment" target="_blank">Help - Assignments</a>',
+	"calc.messages.error-query-execution-timeout": "maximum query execution time exceeded: {{execTimeout}}, optimize your query",
+	"calc.messages.error-query-large-memory-usage": "very high memory usage, optimize your query",
 	'calc.messages.gist-load-success': 'gist loaded successfully',
 	'calc.menu.headline': 'Load a Dataset',
 	'calc.menu.datasets': 'Datasets',
@@ -138,10 +140,10 @@ export const langEN = {
 	'calc.editors.ra.button-zoom-reset': 'Reset zoom',
 	'calc.editors.ra.button-zoom-center': 'Zoom to fit',
 	'calc.editors.ra.toolbar.duplicate-elimination': 'duplicate elimination',
-  'calc.editors.ra.toolbar.duplicate-elimination-content': [
-    '<b class="math">∂</b> <b>(</b> A <b>)</b>',
-    '<br><b>delta</b> A',
-  ].join('\n'),
+	'calc.editors.ra.toolbar.duplicate-elimination-content': [
+		'<b class="math">∂</b> <b>(</b> A <b>)</b>',
+		'<br><b>delta</b> A',
+	].join('\n'),
 	'calc.editors.ra.toolbar.projection': 'projection',
 	'calc.editors.ra.toolbar.projection-content': `
 		<b class=\"math\">&pi;</b> a, b <b>(</b> A <b>)</b>

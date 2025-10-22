@@ -64,6 +64,8 @@
 	"editor.error-at-line-x": "alla riga {{line}}",
 	"calc.messages.error-query-missing": "nessuna query trovata",
 	"calc.messages.error-query-missing-assignments-found": "trovate solo assegnazioni; query mancante <a href=\"help.htm#relalg-assignment\" target=\"_blank\">Guida - Assegnazioni</a>",
+	"calc.messages.error-query-execution-timeout": "tempo massimo di esecuzione della query superato: {{execTimeout}}, ottimizza la tua query",
+	"calc.messages.error-query-large-memory-usage": "utilizzo di memoria molto elevato, ottimizza la tua query",
 	"calc.messages.gist-load-success": "gist caricato correttamente",
 	"calc.menu.headline": "carica un set di dati",
 	"calc.menu.datasets": "Set di dati",

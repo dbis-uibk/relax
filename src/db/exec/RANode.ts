@@ -9,6 +9,7 @@ import { CodeInfo } from './CodeInfo';
 import { ExecutionError } from './ExecutionError';
 import { Schema } from './Schema';
 import { Table } from './Table';
+import Timer from 'calc2/utils/timer';
 
 export interface Warning {
 	message: string,
@@ -50,7 +51,9 @@ export abstract class RANode {
 	_resultNumRows: number = -1;
 	_wrappedInParentheses: boolean = false;
 	_warnings: Warning[] = [];
-	_execTime: any;
+	_timer = new Timer();
+	_execTime?: ReturnType<typeof performance.now>;
+	_resTime?: ReturnType<typeof performance.now>;
 	
 	constructor(functionName = '') {
 		this._functionName = functionName;

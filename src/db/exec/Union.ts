@@ -18,6 +18,7 @@ import { Table } from './Table';
  */
 export class Union extends RANodeBinary {
 	private _schema: Schema | null = null;
+	private _res: Table | null = null;
 
 	constructor(child: RANode, child2: RANode) {
 		super('∪', child, child2);
@@ -33,17 +34,20 @@ export class Union extends RANodeBinary {
 	}
 
 	getResult(doEliminateDuplicateRows: boolean = true, session?: Session) {
+		if (this._res) {
+			return this._res;
+		}
 		session = this._returnOrCreateSession(session);
 
 		if (this._schema === null) {
 			throw new Error(`check not called`);
 		}
-
+		this._timer.start('_resTime');
 		const res = new Table();
 		const orgA = this.getChild().getResult(doEliminateDuplicateRows, session);
 		const orgB = this.getChild2().getResult(doEliminateDuplicateRows, session);
 		res.setSchema(this._schema);
-
+		this._timer.start('_exeTime');
 		// copy
 		res.addRows(orgA.getRows());
 		res.addRows(orgB.getRows());
@@ -52,6 +56,9 @@ export class Union extends RANodeBinary {
 			res.eliminateDuplicateRows();
 		}
 		this.setResultNumRows(res.getNumRows());
+		this._execTime = this._timer.end('_execTime');
+		this._resTime = this._timer.end('_resTime');
+		this._res = res;
 		return res;
 	}
 

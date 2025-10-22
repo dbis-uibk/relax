@@ -1,88 +1,190 @@
 /*** Copyright 2018 Johannes Kessler
-*
-* This Source Code Form is subject to the terms of the Mozilla Public
-* License, v. 2.0. If a copy of the MPL was not distributed with this
-* file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { EditorBase, getColumnNamesFromRaRoot, getHintsFromGroup } from 'calc2/components/editorBase';
-import { Result } from 'calc2/components/result';
-import { Item } from 'calc2/components/toolbar';
-import { t } from 'calc2/i18n';
-import { Group } from 'calc2/store/groups';
-import * as CodeMirror from 'codemirror';
-import { Relation } from 'db/exec/Relation';
-import { parseSQLSelect, relalgFromSQLAstRoot, replaceVariables } from 'db/relalg';
-import * as React from 'react';
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	EditorBase,
+	getColumnNamesFromRaRoot,
+	getHintsFromGroup,
+	getInitialQueryExecTimeout,
+} from "calc2/components/editorBase";
+import { Result } from "calc2/components/result";
+import { Item } from "calc2/components/toolbar";
+import { t } from "calc2/i18n";
+import { Group } from "calc2/store/groups";
+import * as CodeMirror from "codemirror";
+import { Relation } from "db/exec/Relation";
+import {
+	parseSQLSelect,
+	relalgFromSQLAstRoot,
+	replaceVariables,
+} from "db/relalg";
+import * as React from "react";
+import { EditorBaseWorker } from "./editorBaseWorker";
+// worker import
+// @ts-ignore
+import editorSqlWorker from "./editorSql.worker";
+import { RANode } from "db/exec/RANode";
 
 const NUM_TREE_LABEL_COLORS = 6;
 const KEYWORDS_SQL = [
-	'distinct', 'select distinct', 'from', 'where', 'order by', 'asc', 'desc',
-	'inner join', 'inner', 'join', 'natural', 'union', 'intersect', 'outer join', 'natural join', 'left join', 'right join', 'left outer join',
-	'right outer join', 'full outer join', 'group by', 'having', 'limit', 'offset',
-	'and', 'or', 'xor', '||',
+	"distinct",
+	"select distinct",
+	"from",
+	"where",
+	"order by",
+	"asc",
+	"desc",
+	"inner join",
+	"inner",
+	"join",
+	"natural",
+	"union",
+	"intersect",
+	"outer join",
+	"natural join",
+	"left join",
+	"right join",
+	"left outer join",
+	"right outer join",
+	"full outer join",
+	"group by",
+	"having",
+	"limit",
+	"offset",
+	"and",
+	"or",
+	"xor",
+	"||",
 ];
 
 interface Props {
-	group: Group,
-	replaceSelection?(text: string): void,
-	relInsertModalToggle: Function,
+	group: Group;
+	replaceSelection?(text: string): void;
+	relInsertModalToggle: Function;
+}
+interface State {
+	groupName: string;
+	relations: { [name: string]: Relation };
 }
 
-export class EditorSql extends React.Component<Props> {
+export class EditorSql extends React.Component<Props, State> {
 	private editorBase: EditorBase | null = null;
+	static editorWorker = new EditorBaseWorker<ReturnType<typeof parseSQLSelect>>(
+		editorSqlWorker
+	);
 
 	constructor(props: Props) {
 		super(props);
-
+		this.state = {
+			groupName: props.group.groupName.fallback,
+			relations: props.group.tables.reduce((acc, table) => {
+				acc[table.tableName] = table.relation;
+				return acc;
+			}, {} as { [name: string]: Relation }),
+		};
 		this.replaceText = this.replaceText.bind(this);
+		EditorSql.editorWorker.cacheRelations(
+			this.state.groupName,
+			this.state.relations
+		);
+	}
+
+	componentWillUnmount(): void {
+		EditorSql.editorWorker.terminateWorker();
+	}
+
+	componentDidMount(): void {
+		if (!EditorSql.editorWorker.worker) {
+			EditorSql.editorWorker.reinitializeWorker();
+		}
+	}
+
+	static getDerivedStateFromProps(
+		nextProps: Props,
+		prevState: State
+	): State | null {
+		if (prevState.groupName === nextProps.group.groupName.fallback) {
+			return null;
+		} else {
+			const updatedState = {
+				...prevState,
+				relations: nextProps.group.tables.reduce((acc, table) => {
+					acc[table.tableName] = table.relation;
+					return acc;
+				}, {} as { [name: string]: Relation }),
+				groupName: nextProps.group.groupName.fallback,
+			};
+			EditorSql.editorWorker.cacheRelations(
+				updatedState.groupName,
+				updatedState.relations
+			);
+			return updatedState;
+		}
 	}
 
 	render() {
-		const autoreplaceOperatorsMode: 'none' | 'header' | 'plain2math' | 'math2plain' = 'none';
+		const autoreplaceOperatorsMode:
+			| "none"
+			| "header"
+			| "plain2math"
+			| "math2plain" = "none";
 		const { group } = this.props;
 		// TODO: move to state
 		const relations: { [name: string]: Relation } = {};
-		group.tables.forEach(table => {
+		group.tables.forEach((table) => {
 			relations[table.tableName] = table.relation;
 		});
 
-		
 		return (
 			<EditorBase
-				textChange={(cm: CodeMirror.Editor) => { } }
+				editQueryTimeout
+				queryTimeout={getInitialQueryExecTimeout()}
+				textChange={(cm: CodeMirror.Editor) => {}}
 				exampleSql={group.exampleSQL}
 				exampleBags={group.exampleBags}
 				exampleRA={group.exampleRA}
-				ref={ref => {
+				ref={(ref) => {
 					if (ref) {
 						this.editorBase = ref;
 					}
 				}}
 				mode="text/x-mysql"
 				// @ts-ignore
-				execFunction={(self: EditorBase, text: string, offset) => {
-					const ast = parseSQLSelect(text);
-					replaceVariables(ast, relations);
-			
-
-					if (ast.child === null) {
-						if (ast.assignments.length > 0) {
-							throw new Error(t('calc.messages.error-query-missing-assignments-found'));
+				execFunction={async (self: EditorBase, text: string, offset) => {
+					let ast: ReturnType<typeof parseSQLSelect>;
+					let root: RANode;
+					if (EditorSql.editorWorker.worker) {
+						const resp = await EditorSql.editorWorker.exec(
+							text,
+							this.state.groupName,
+							true,
+							this.editorBase?.getQueryTimeout()
+						);
+						ast = resp.ast;
+						root = resp.root;
+					} else {
+						ast = parseSQLSelect(text);
+						replaceVariables(ast, relations);
+						if (ast.child === null) {
+							if (ast.assignments.length > 0) {
+								throw new Error(
+									t("calc.messages.error-query-missing-assignments-found")
+								);
+							} else {
+								throw new Error(t("calc.messages.error-query-missing"));
+							}
 						}
-						else {
-							throw new Error(t('calc.messages.error-query-missing'));
-						}
+						root = relalgFromSQLAstRoot(ast, relations);
 					}
 
-
-					const root = relalgFromSQLAstRoot(ast, relations);
-			
 					if (root) {
 						root.check();
-						
 
 						self.historyAddEntry(text);
 
@@ -93,40 +195,66 @@ export class EditorSql extends React.Component<Props> {
 									editorRef={this.editorBase!}
 									root={root}
 									numTreeLabelColors={NUM_TREE_LABEL_COLORS}
-									execTime={self.state.execTime == null ? 0 : self.state.execTime}
+									execTime={
+										self.state.execTime == null ? 0 : self.state.execTime
+									}
 									// TODO: SQL does support duplicates
 									doEliminateDuplicates={true}
 								/>
 							),
 						};
 					}
-					
-		
 				}}
 				tab="sql"
-				linterFunction={(self: EditorBase, editor: CodeMirror.Editor, text: string) => {
+				linterFunction={async (
+					self: EditorBase,
+					editor: CodeMirror.Editor,
+					text: string
+				) => {
 					const hints = [];
-
-
-					const ast = parseSQLSelect(text);
-					replaceVariables(ast, relations);
-
-					for (let i = 0; i < ast.assignments.length; i++) {
-						hints.push(ast.assignments[i].name);
-					}
-
-					if (ast.child === null) {
-						if (ast.assignments.length > 0) {
-							throw new Error(t('calc.messages.error-query-missing-assignments-found'));
+					let root: RANode;
+					if (EditorSql.editorWorker.worker) {
+						const resp = await EditorSql.editorWorker.exec(
+							text,
+							this.state.groupName,
+							false,
+							this.editorBase?.getQueryTimeout()
+						);
+						root = resp.root;
+						const ast = resp.ast;
+						for (let i = 0; i < ast.assignments.length; i++) {
+							hints.push(ast.assignments[i].name);
 						}
-						else {
-							throw new Error(t('calc.messages.error-query-missing'));
+						if (ast.child === null) {
+							if (ast.assignments.length > 0) {
+								throw new Error(
+									t("calc.messages.error-query-missing-assignments-found")
+								);
+							} else {
+								throw new Error(t("calc.messages.error-query-missing"));
+							}
 						}
+					} else {
+						const ast = parseSQLSelect(text);
+						replaceVariables(ast, relations);
+
+						for (let i = 0; i < ast.assignments.length; i++) {
+							hints.push(ast.assignments[i].name);
+						}
+
+						if (ast.child === null) {
+							if (ast.assignments.length > 0) {
+								throw new Error(
+									t("calc.messages.error-query-missing-assignments-found")
+								);
+							} else {
+								throw new Error(t("calc.messages.error-query-missing"));
+							}
+						}
+
+						root = relalgFromSQLAstRoot(ast, relations);
+						root.check();
 					}
-
-
-					const root = relalgFromSQLAstRoot(ast, relations);
-					root.check();
 
 					// use columns from all calculated schemas for hints
 					return hints.concat(getColumnNamesFromRaRoot(root));
@@ -146,52 +274,57 @@ export class EditorSql extends React.Component<Props> {
 						math: false,
 						items: [
 							{
-								label: 'select',
-								tooltipTitle: 'calc.editors.sql.toolbar.select',
-								tooltip: 'calc.editors.sql.toolbar.select',
-								onClick: item => this.replaceText(item, 'select distinct'),
+								label: "select",
+								tooltipTitle: "calc.editors.sql.toolbar.select",
+								tooltip: "calc.editors.sql.toolbar.select",
+								onClick: (item) => this.replaceText(item, "select distinct"),
 							},
 							{
-								label: 'from',
+								label: "from",
 								onClick: this.replaceText,
-								tooltipTitle: 'calc.editors.sql.toolbar.from',
-								tooltip: 'calc.editors.sql.toolbar.from',
+								tooltipTitle: "calc.editors.sql.toolbar.from",
+								tooltip: "calc.editors.sql.toolbar.from",
 							},
 							{
-								label: 'where',
+								label: "where",
 								onClick: this.replaceText,
-								tooltipTitle: 'calc.editors.sql.toolbar.where',
-								tooltip: 'calc.editors.sql.toolbar.where',
+								tooltipTitle: "calc.editors.sql.toolbar.where",
+								tooltip: "calc.editors.sql.toolbar.where",
 							},
 							{
-								label: 'group',
-								tooltipTitle: 'calc.editors.sql.toolbar.group-by',
-								tooltip: 'calc.editors.sql.toolbar.group-by',
-								onClick: item => this.replaceText(item, 'group by'),
+								label: "group",
+								tooltipTitle: "calc.editors.sql.toolbar.group-by",
+								tooltip: "calc.editors.sql.toolbar.group-by",
+								onClick: (item) => this.replaceText(item, "group by"),
 							},
 							{
-								label: 'having',
+								label: "having",
 								onClick: this.replaceText,
-								tooltipTitle: 'calc.editors.sql.toolbar.having',
-								tooltip: 'calc.editors.sql.toolbar.having',
+								tooltipTitle: "calc.editors.sql.toolbar.having",
+								tooltip: "calc.editors.sql.toolbar.having",
 							},
 							{
-								label: 'order',
-								tooltipTitle: 'calc.editors.sql.toolbar.order-by',
-								tooltip: 'calc.editors.sql.toolbar.order-by',
-								onClick: item => this.replaceText(item, 'order by'),
+								label: "order",
+								tooltipTitle: "calc.editors.sql.toolbar.order-by",
+								tooltip: "calc.editors.sql.toolbar.order-by",
+								onClick: (item) => this.replaceText(item, "order by"),
 							},
 							{
-								label: 'limit',
+								label: "limit",
 								onClick: this.replaceText,
-								tooltipTitle: 'calc.editors.sql.toolbar.limit',
-								tooltip: 'calc.editors.sql.toolbar.limit',
+								tooltipTitle: "calc.editors.sql.toolbar.limit",
+								tooltip: "calc.editors.sql.toolbar.limit",
 							},
 							{
-								label: <FontAwesomeIcon className="showOnSM" icon={faExternalLinkAlt  as IconProp} />,
-								onClick: item => this.props.relInsertModalToggle,
-								tooltipTitle: 'calc.editors.insert-relation-title',
-								tooltip: 'calc.editors.insert-relation-tooltip',
+								label: (
+									<FontAwesomeIcon
+										className="showOnSM"
+										icon={faExternalLinkAlt as IconProp}
+									/>
+								),
+								onClick: (item) => this.props.relInsertModalToggle,
+								tooltipTitle: "calc.editors.insert-relation-title",
+								tooltip: "calc.editors.insert-relation-tooltip",
 							},
 						],
 					},
@@ -200,9 +333,9 @@ export class EditorSql extends React.Component<Props> {
 						items: [
 							{
 								label: <i className="fa fa-calendar" />,
-								onClick: item => this.replaceText(item, `date('1970-01-01')`),
-								tooltipTitle: 'calc.editors.sql.toolbar.insert-date',
-								tooltip: 'calc.editors.sql.toolbar.insert-date-content',
+								onClick: (item) => this.replaceText(item, `date('1970-01-01')`),
+								tooltipTitle: "calc.editors.sql.toolbar.insert-date",
+								tooltip: "calc.editors.sql.toolbar.insert-date-content",
 							},
 						],
 					},

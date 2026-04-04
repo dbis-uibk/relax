@@ -24,7 +24,7 @@ import { Join, JoinCondition } from './Join';
  */
 export class LeftOuterJoin extends Join {
 	constructor(child: RANode, child2: RANode, condition: JoinCondition) {
-		super(child, child2, '⟕', condition, false);
+		super(child, child2, '⟕', 'leftOuterJoin', condition, false);
 	}
 
 	_checkSchema(schemaA: Schema, schemaB: Schema): void {

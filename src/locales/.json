@@ -114,6 +114,7 @@
 	"calc.editors.ra.button-execute-query": "",
 	"calc.editors.ra.button-execute-selection": "",
 	"calc.editors.ra.button-download": "",
+	"calc.editors.ra.button-download-json": "",
 	"calc.editors.ra.toolbar.duplicate-elimination": "",
 	"calc.editors.ra.toolbar.duplicate-elimination-content": "",
 	"calc.editors.ra.toolbar.projection": "",

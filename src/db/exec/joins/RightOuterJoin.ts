@@ -23,7 +23,7 @@ import { Join, JoinCondition } from './Join';
  */
 export class RightOuterJoin extends Join {
 	constructor(child: RANode, child2: RANode, condition: JoinCondition) {
-		super(child, child2, '⟖', condition, true);
+		super(child, child2, '⟖', 'rightOuterJoin', condition, true);
 	}
 
 	_checkSchema(schemaA: Schema, schemaB: Schema): void {

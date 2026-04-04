@@ -18,7 +18,7 @@ export class Intersect extends RANodeBinary {
 	private _schema: Schema | null = null; // is set by check
 
 	constructor(child: RANode, child2: RANode) {
-		super('∩', child, child2);
+		super('∩', child, child2, 'intersect');
 	}
 
 	getSchema() {

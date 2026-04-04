@@ -273,6 +273,7 @@
 	"calc.navigation.imprint": "Impress\u00e3o",
 	"calc.editors.ra.button-download-csv": "Resultado (CSV)",
 	"calc.editors.ra.button-download-jpg": "Resultado (JPG)",
+	"calc.editors.ra.button-download-json": "Resultado (JSON)",
 	"calc.editors.ra.button-download-query": "Consulta",
 	"calc.editors.ra.button-zoom-center": "Ajustar \u00e0 visualiza\u00e7\u00e3o",
 	"calc.editors.ra.button-zoom-in": "Aumentar zoom",

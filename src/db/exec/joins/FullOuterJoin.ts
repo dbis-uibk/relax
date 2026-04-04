@@ -25,7 +25,7 @@ import { Join, JoinCondition } from './Join';
  */
 export class FullOuterJoin extends Join {
 	constructor(child: RANode, child2: RANode, condition: JoinCondition) {
-		super(child, child2, '⟗', condition, false);
+		super(child, child2, '⟗', 'fullOuterJoin', condition, false);
 	}
 
 	setChild2(child2: RANode) {

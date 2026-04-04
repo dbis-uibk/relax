@@ -21,7 +21,7 @@ export class Difference extends RANodeBinary {
 		/** the right child expression */
 		child2: RANode,
 	) {
-		super('-', child, child2);
+		super('-', child, child2, 'difference');
 	}
 
 	getSchema() {

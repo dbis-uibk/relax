@@ -13,5 +13,6 @@ import './translate_tests_bags';
 import './translate_tests_sql';
 import './translate_tests_trc';
 import './var_replacer_tests';
+import './ra_node_to_json_tests';
 
 QUnit.start();

@@ -45,6 +45,7 @@ export interface MetaData extends Object {
  */
 export abstract class RANode {
 	_functionName: string;
+	private _operationType: string | null;
 	_codeInfo: CodeInfo | null = null;
 	_metaData: MetaData = {};
 	_resultNumRows: number = -1;
@@ -52,8 +53,13 @@ export abstract class RANode {
 	_warnings: Warning[] = [];
 	_execTime: any;
 	
-	constructor(functionName = '') {
+	constructor(functionName = '', operationType: string | null = null) {
 		this._functionName = functionName;
+		this._operationType = operationType;
+	}
+
+	getOperationType(): string {
+		return this._operationType || this._functionName;
 	}
 
 	setCodeInfoObject(codeInfo: CodeInfo | null) {
@@ -174,6 +180,10 @@ export abstract class RANode {
 }
 
 export abstract class RANodeNullary extends RANode {
+	constructor(functionName: string, operationType: string | null = null) {
+		super(functionName, operationType);
+	}
+
 	getWarnings(recursive: boolean): Warning[] {
 		return this._warnings;
 	}
@@ -193,8 +203,8 @@ export abstract class RANodeNullary extends RANode {
 export abstract class RANodeUnary extends RANode {
 	protected _child: RANode;
 
-	constructor(functionName: string, child: RANode) {
-		super(functionName);
+	constructor(functionName: string, child: RANode, operationType: string | null = null) {
+		super(functionName, operationType);
 		this._child = child;
 	}
 
@@ -230,8 +240,8 @@ export abstract class RANodeBinary extends RANode {
 	protected _child: RANode;
 	protected _child2: RANode;
 
-	constructor(functionName: string, child: RANode, child2: RANode) {
-		super(functionName);
+	constructor(functionName: string, child: RANode, child2: RANode, operationType: string | null = null) {
+		super(functionName, operationType);
 		this._child = child;
 		this._child2 = child2;
 	}
@@ -271,4 +281,117 @@ export abstract class RANodeBinary extends RANode {
 			${wrap ? ')' : ''}`
 		);
 	}
+}
+
+const fallbackHtmlEntities: { [key: string]: string } = {
+	amp: '&',
+	lt: '<',
+	gt: '>',
+	quot: '"',
+	apos: "'",
+	'#39': "'",
+};
+
+function decodeHtmlEntities(str: string): string {
+	if (typeof document !== 'undefined') {
+		const textarea = document.createElement('textarea');
+		textarea.innerHTML = str;
+		return textarea.value;
+	}
+
+	return str.replace(/&(#x[0-9a-f]+|#[0-9]+|[a-z0-9]+);/gi, (match, entity) => {
+		if (entity[0] === '#') {
+			const radix = entity[1].toLowerCase() === 'x' ? 16 : 10;
+			const codePoint = parseInt(entity.slice(radix === 16 ? 2 : 1), radix);
+			return Number.isNaN(codePoint) ? match : String.fromCodePoint(codePoint);
+		}
+
+		return fallbackHtmlEntities[entity.toLowerCase()] || match;
+	});
+}
+
+function htmlToText(html: string): string {
+	if (typeof document !== 'undefined') {
+		const container = document.createElement('div');
+		container.innerHTML = html;
+		return (container.textContent || '').trim();
+	}
+
+	return html
+		.replace(/<[^>]*>/g, '')
+		.replace(/\s+/g, ' ')
+		.split('\n')
+		.join('')
+		.trim();
+}
+
+function stripHtmlTags(html: string): string {
+	return decodeHtmlEntities(htmlToText(html))
+		.trim();
+}
+
+function getOperationSymbol(node: RANode): string {
+	const formulaHtml = node.getFormulaHtml(false, false);
+	let operatorHtml = node._functionName;
+
+	if (typeof document !== 'undefined') {
+		const container = document.createElement('div');
+		container.innerHTML = formulaHtml;
+		const operatorElement = container.querySelector('.math');
+		return (operatorElement && operatorElement.textContent || stripHtmlTags(operatorHtml)).trim();
+	}
+
+	const match = formulaHtml.match(/<span\s+class=["'][^"']*\bmath\b[^"']*["'][^>]*>([\s\S]*?)<\/span>/i);
+	if (match) {
+		operatorHtml = match[1];
+	}
+
+	return stripHtmlTags(operatorHtml);
+}
+
+function schemaToJSON(schema: Schema): { columns: { name: string | number, relAlias: string | null, type: string }[] } {
+	const columns = [];
+	for (let i = 0; i < schema.getSize(); i++) {
+		const col = schema.getColumn(i);
+		columns.push({
+			name: col.getName(),
+			relAlias: col.getRelAlias(),
+			type: schema.getType(i),
+		});
+	}
+	return { columns };
+}
+
+export function raNodeToJSON(node: RANode): object {
+	const functionName = node._functionName;
+
+	const result: any = {};
+
+	if (node instanceof RANodeNullary) {
+		result.operationType = node.getOperationType();
+		result.name = functionName;
+	}
+	else {
+		result.operationType = node.getOperationType();
+		result.operationSymbol = getOperationSymbol(node);
+	}
+
+	const argumentHtml = node.getArgumentHtml();
+	const args = stripHtmlTags(argumentHtml);
+	if (args.length > 0) {
+		result.arguments = args;
+	}
+
+	result.resultNumRows = node._resultNumRows;
+	result.schema = schemaToJSON(node.getSchema());
+
+	if (node instanceof RANodeBinary) {
+		result.left = raNodeToJSON(node.getChild());
+		result.right = raNodeToJSON(node.getChild2());
+	}
+	else if (node instanceof RANodeUnary) {
+		result.child = raNodeToJSON(node.getChild());
+	}
+
+	return result;
 }

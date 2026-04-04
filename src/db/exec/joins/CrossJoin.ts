@@ -19,7 +19,7 @@ import { Join } from './Join';
 export class CrossJoin extends Join {
 	constructor(child: RANode, child2: RANode) {
 		const joinCondition: ValueExpr.ValueExpr = new ValueExpr.ValueExprGeneric('boolean', 'constant', [true]);
-		super(child, child2, '⨯', {
+		super(child, child2, '⨯', 'crossJoin', {
 			type: 'theta',
 			joinExpression: joinCondition,
 		}, false);

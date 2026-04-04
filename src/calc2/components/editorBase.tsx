@@ -14,7 +14,7 @@ import { Group } from 'calc2/store/groups';
 import classNames from 'classnames';
 import * as CodeMirror from 'codemirror';
 import 'codemirror/addon/hint/show-hint';
-import { RANode, RANodeBinary, RANodeUnary } from 'db/exec/RANode';
+import { RANode, RANodeBinary, RANodeUnary, raNodeToJSON } from 'db/exec/RANode';
 import { forEachPreOrder } from 'db/translate/utils';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
@@ -35,7 +35,8 @@ import {
 	faTable,
 	faFileDownload,
 	faImage,
-	faFileCsv  
+	faFileCsv,
+	faFileCode
 } from '@fortawesome/free-solid-svg-icons';
 
 require('codemirror/lib/codemirror.css');
@@ -541,6 +542,7 @@ type State = {
 	replSelStart: any,
 	replSelEnd: any,
 	queryResult: any,
+	raRoot: RANode | null,
 	execTime: any,
 	addedExampleSqlQuery: boolean,
 	addedExampleBagsQuery: boolean,
@@ -893,6 +895,7 @@ export class EditorBase extends React.Component<Props, State> {
 			replSelStart: null,
 			replSelEnd: null,
 			queryResult: null,
+			raRoot: null,
 			execTime: null,
 			addedExampleSqlQuery: false,
 			addedExampleBagsQuery: false,
@@ -1194,8 +1197,16 @@ export class EditorBase extends React.Component<Props, State> {
 											),
 									 	value: '',
 									},
+									{
+										label: (
+											<>
+											<div color="Link" onClick={this.downloadQueryResult} data-id="json"><FontAwesomeIcon icon={faFileCode  as IconProp}/> <span ><T id="calc.editors.ra.button-download-json" /></span></div>
+											</>
+											),
+									 	value: '',
+									},
 									]
-										
+
 									}
 									/>
 							</div>
@@ -1522,8 +1533,19 @@ export class EditorBase extends React.Component<Props, State> {
 				a.download = filename;
 				a.click();
 				break;
+			case 'json':
+				const { raRoot } = this.state;
+				if (!raRoot) {
+					return;
+				}
+				const json = JSON.stringify(raNodeToJSON(raRoot), null, 2);
+				const b = document.createElement('a');
+				b.href = window.URL.createObjectURL(new Blob([json], { 'type': 'application/json' }));
+				b.download = 'result.json';
+				b.click();
+				break;
 			default:
-				return;	
+				return;
 		}
 	}
 
@@ -1776,6 +1798,7 @@ export class EditorBase extends React.Component<Props, State> {
 				this.getResultForCsv(result.props.root);
 				this.setState({
 					execResult: result,
+					raRoot: result.props.root,
 					execTime: end,
 				});
 				const event = new CustomEvent(eventExecSuccessfulName, {

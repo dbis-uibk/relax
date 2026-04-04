@@ -24,7 +24,7 @@ export class RenameColumns extends RANodeUnary {
     _schema: Schema | null = null;
 
     constructor(child: RANode) {
-        super('&rho;', child);
+        super('&rho;', child, 'renameColumns');
     }
 
     getSchema() {

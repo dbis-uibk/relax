@@ -16,7 +16,7 @@ export class Selection extends RANodeUnary {
 	private _schema: Schema | null = null;
 
 	constructor(child: RANode, condition: ValueExpr.ValueExpr) {
-		super('&sigma;', child);
+		super('&sigma;', child, 'selection');
 		this._condition = condition;
 
 		if (condition instanceof ValueExpr.ValueExpr === false) {

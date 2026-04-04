@@ -134,6 +134,7 @@ export const langEN = {
 	'calc.editors.ra.button-download': 'Download CSV',
 	'calc.editors.ra.button-download-csv': 'Result (CSV)',
 	'calc.editors.ra.button-download-jpg': 'Result (JPG)',
+	'calc.editors.ra.button-download-json': 'Result (JSON)',
 	'calc.editors.ra.button-download-query': 'Query',
 	'calc.editors.ra.button-zoom-in': 'Zoom in',
 	'calc.editors.ra.button-zoom-out': 'Zoom out',

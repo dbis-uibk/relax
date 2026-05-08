@@ -283,10 +283,12 @@ declare module bagsAst {
 
 	interface leftSemiJoin extends binaryRelalgOperation {
 		type: 'leftSemiJoin'
+		arg?: booleanExpr
 	}
 
 	interface rightSemiJoin extends binaryRelalgOperation {
 		type: 'rightSemiJoin'
+		arg?: booleanExpr
 	}
 
 	interface antiJoin extends binaryRelalgOperation {

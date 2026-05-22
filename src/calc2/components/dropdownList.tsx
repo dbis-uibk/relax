@@ -31,6 +31,7 @@ export type DropdownElement<V> = (
 		label: string | JSX.Element,
 		value: V,
 		active?: boolean,
+		disabled?: boolean,
 	}
 );
 
@@ -83,6 +84,7 @@ export class DropdownList<V = string> extends React.Component<Props<V>, State> {
 										onChange && onChange(e.value);
 									}}
 									active={e.active || e.value === value}
+									disabled={e.disabled}
 								>
 									{e.label}
 								</DropdownItem>

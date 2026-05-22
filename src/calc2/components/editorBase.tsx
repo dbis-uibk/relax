@@ -47,6 +47,7 @@ require('codemirror/addon/display/placeholder.js');
 require('codemirror/addon/display/autorefresh.js');
 require('codemirror/mode/sql/sql.js');
 require('handsontable/dist/handsontable.full.css');
+require('./editorBase.scss');
 
 CodeMirror.defineMode('trc', function () {
 	const keywords = ['in', 'and', 'or', 'xor', 'not', 'implies', 'iff', 'exists', 'for all', 'not between', 'between'];
@@ -1211,7 +1212,7 @@ export class EditorBase extends React.Component<Props, State> {
 													label: (
 														<>
 															<small className="muted text-muted">{h.time.toLocaleTimeString()}</small>
-															<div>{h.code}</div>
+															<div className="history-dropdown-item">{h.code}</div>
 															{/*
 															// colorize the code
 															codeNode.addClass('colorize');

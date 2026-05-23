@@ -891,7 +891,7 @@ QUnit.test('test rightOuterJoin 0', function (assert) {
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test fullOuterJoin 0', function (assert) {
+QUnit.test('test fullThetaOuterJoin', function (assert) {
 	const query = '(T) full outer join T.b=S.b (S)';
 	const root = exec_ra(query, getTestRelations());
 
@@ -910,20 +910,20 @@ QUnit.test('test fullOuterJoin 0', function (assert) {
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
-QUnit.test('test fullOuterJoin (natural)', function (assert) {
+QUnit.test('test fullNaturalOuterJoin', function (assert) {
 	const query = '(T) full outer join (S)';
 	const root = exec_ra(query, getTestRelations());
 
 	const ref = exec_ra(`{
-		T.b, T.d, S.b, S.d
+		T.b, T.d
 
-		'a',  100,  'a',  100
-		'd',  200,  'd',  200
-		'f',  400,  null, null
-		'g',  120,  null, null
-		null, null, 'b',  300
-		null, null, 'c',  400
-		null, null, 'e',  150
+		'a',  100
+		'd',  200
+		'f',  400
+		'g',  120
+		'b',  300
+		'c',  400
+		'e',  150
 	}`, {});
 
 	assert.deepEqual(root.getResult(), ref.getResult());

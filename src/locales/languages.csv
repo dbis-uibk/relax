@@ -3,29 +3,29 @@ db.messages.parser.error-duplicate-variable,duplicate variable name: {{name}},no
 db.messages.parser.error-invalid-date-format,"""{{str}}""  is not a valid date; expected format: YYYY-MM-DD","""{{str}}"" não é uma data válida; formato esperado: YYYY-MM-DD","""{{str}}"" ist kein gültiges Datum; erwartetes Format: YYYY-MM-DD","""{{str}}""  no es una fecha válida; formato esperado: YYYY-MM-DD","""__str__""  유효하지 않은 날짜; 형식: YYYY-MM-DD","""{{str}}""  non è una data valida; formato atteso: AAAA-MM-GG"
 db.messages.parser.error-group-duplicate-header,duplicate header {{name}},cabeçalho duplicado {{name}},mehrfacher header {{name}},header duplicado {{name}}, 헤더 중복: {{name}},intestazione duplicata {{name}}
 db.messages.parser.error-group-unknown-header,unknown header {{name}},cabeçalho desconhecido {{name}},unbekannter header {{name}},header desconocido {{name}},알 수 없는 헤더:  {{name}},instazione sconosciuta {{name}}
-db.messages.parser.error-group-header-name-missing,the name of the group is missing (group: ....),o nome do grupo está faltando (group: ....),der Name des Datensatzes fehlt (group: ....),el nombre del grupo no se ha encontrado (group: ....),그룹 이름이 없음(group: ....),manca il nome del gruppo (group: ....)
+db.messages.parser.error-group-header-name-missing,the name of the group is missing (group: ....),o nome do grupo está ausente (group: ....),der Name des Datensatzes fehlt (group: ....),el nombre del grupo no se ha encontrado (group: ....),그룹 이름이 없음(group: ....),manca il nome del gruppo (group: ....)
 db.messages.parser.error-group-header-name-empty,the name of the group must not be empty,o nome do grupo não pode ser vazio,der Name des Datensatzes ist leer,el nombre del grupo debe ser rellenado,그룹 이름은 비어있으면 안됨,il nome del gruppo non può essere vuoto
 db.messages.parser.error-group-non-unique-attribute,non unique attribute {{name{{ in column }}index}},atributo não único {{name}} na coluna {{index}},nicht eindeutiges Attribut {{name}} in Spalte {{index}},atributo no único {{name}} en columna {{index}},__index__ 열에서 고유하지 않은 속성 {{name}},attributo non unico {{name{{ in column }}index}}
 db.messages.parser.error-group-non-unique-group-name,duplicate group name: {{name}},nome de grupo duplicado: {{name}},Der Name der Gruppe {{name}} ist nicht eindeutig.,El nombre del grupo no es único.,duplicate group name: {{name}},nome del gruppo duplicato: {{name}}
 db.messages.parser.error-sql-string-use-single-quotes,use single quotes for strings,use aspas simples para strings (caracteres/texto),verwenden Sie einfache Anführungszeichen für Zeichenketten,utiliza comillas simples para cadenas de caracteres,문자열에 작은 따음표 사용,usa l’apostrofo per le stringhe
 db.messages.parser.error-sql-invalid-relation-name,"""{{str}}"" must not be used as a relation-name","""{{str}}"" não pode ser usado como nome de relação","""{{str}}"" darf nicht als name einer Relation verwendet werden","""{{str}}"" no debe ser utilizado como nombre de relacion","""__str__""은 관계 이름으로 사용 할 수 없음","""{{str}}"" non deve essere usato come nome di relazione"
 db.messages.parser.error-sql-invalid-column-name,"""{{str}}"" must not be used as a column-name","""{{str}}"" não pode ser usado como nome de coluna","""{{str}}"" darf nicht als name einer Spalte verwendet werden","""{{str}}"" no debe ser utilizado como nombre de columna","""__str__""은 열 이름으로 사용할 수 없음","""{{str}}"" non deve essere usato come nome di colonna"
-db.messages.parser.error-sql-group-by-missing,group by is missing,group by está faltando,group-by-Klausel fehlt,group by no se encuentra,group by 없음,manca “group by”
+db.messages.parser.error-sql-group-by-missing,group by is missing,group by está ausente,group-by-Klausel fehlt,group by no se encuentra,group by 없음,manca “group by”
 db.messages.parser.error-sql-having-without-group-by,"having found but missing ""group by"" or aggregation","“having” encontrado, mas sem ""group by"" ou agregação","having-Klausel gefunden doch ""group by"" or Aggregation fehlt","se ha encontrado pero no se encuentra ""group by"" ó agregación","""group by"" 또는 집계 없음","“having” senza ""group by"" o aggregazioni"
 db.messages.parser.error-sql-negative-limit,the limit given must be >= 0,o limite dado precisa ser >= 0,das Limit muss größer oder gleich 0 sein,el límite dado debe ser >= 0,0 이상이어야 함,il limite dato deve essere >= 0
 db.messages.parser.error-sqldump-invalid-column-number,invalid number of columns in line {{line}},número inválido de colunas na linha {{line}},ungültige Spaltenanzahl in Zeile {{line}},número inválido de columnas en línea {{line}},__line__ 에서 유효하지 않은 열,numero di colonne non valido in linea {{line}}
-db.messages.parser.error-sqldump-invalid-type,invalid type in line  {{line}},tipo inválido na linha  {{line}},ungültiger Typ in Zeile {{line}},tipo inválido en línea  {{line}},__line__ 에서 유효하지 않은 타입,tipo non valido in linea {{line}}
+db.messages.parser.error-sqldump-invalid-type,invalid type in line {{line}},tipo inválido na linha  {{line}},ungültiger Typ in Zeile {{line}},tipo inválido en línea {{line}},__line__ 에서 유효하지 않은 타입,tipo non valido in linea {{line}}
 db.messages.parser.error-sqldump-insert-wrong-number-columns,number of values != number of columns,número de valores != número de colunas,Anzahl der Werte != Anzahl der Spalten,número de valores != número de columnas,값의 숫자 !=  열의 숫자,numero di valori != numero di colonne
 db.messages.parser.error-valueexpr-like-operand-no-string,right operand of LIKE must be a string literal,operando direito de LIKE deve ser uma string literal,der rechte Operand von LIKE muss ein Zeichenkettenliteral sein,operando derecho de LIKE debe ser una cadena literal,LIKE의 오른쪽 피연산자는 문자열 리터럴이어야 함,l’operando destro di LIKE deve essere un letterale stringa
-db.messages.exec.error-column-not-unique,"could not add column ""{{column}}"" because of ambiguity","não foi possível adicionar a coluna ""{{column}}"" devido a ambiguidade","Spalte ""{{column}}"" kann wegen mehrdeutigkeit nicht hinzugefügt werden","no se pude agregar columna ""{{column}}"" por ambiguedad","모호성 때문에 열 ""__column__"" 을 추가할 수 없음","non posso aggiungere la colonna ""{{column}}"" perché ambigua"
+db.messages.exec.error-column-not-unique,"could not add column ""{{column}}"" because of ambiguity","não é possível adicionar a coluna ""{{column}}"" devido à ambiguidade","Spalte ""{{column}}"" kann wegen mehrdeutigkeit nicht hinzugefügt werden","no se pude agregar columna ""{{column}}"" por ambiguedad","모호성 때문에 열 ""__column__"" 을 추가할 수 없음","non posso aggiungere la colonna ""{{column}}"" perché ambigua"
 db.messages.exec.error-column-not-found-name,"could not find column ""{{column}}"" in schema {{schema}}","não foi possível encontrar a coluna ""{{column}}"" no esquema {{schema}}","Spalte ""{{column}} wurde im Schema {{schema}} nicht gefunden","no se pude encontrar columna ""{{column}}"" en esquema {{schema}}","스키마 __schema__ 에서 열 ""__column__"" 을 찾을 수 없음","Impossibile trovare la colonna ""{{column}}"" nello schema {{schema}}"
 db.messages.exec.error-column-not-found-index,"column index ""{{column}}"" is out of range in schema {{schema}}; index starts at 1","índice da coluna ""{{column}}"" está fora do intervalo no esquema {{schema}}; índice começa em 1","Spaltenindex ""{{column}}"" ist ausserhalb des Gültigkeitsbereichs für Schema {{schema}}; Indizes starten mit 1","índice de columna ""{{column}}"" está fuera de rango en equema {{schema}}; index starts at 1","열 인덱스  ""__column__"" 는 범위를 벗어남; 인덱스는 1에서 시작","L'indice della colonna ""{{column}}"" è fuori intervallo nello schema {{schema}}; l'indice inizia da 1"
 db.messages.exec.error-column-ambiguous,"column ""{{column}}"" is ambiguous in {{schema}}","coluna""{{column}}"" é ambígua em {{schema}}","Spalte ""{{column}}"" ist mehrdeutig im Schema {{schema}}","columna ""{{column}}"" es ambigua en esquema {{schema}}","열 ""__column__"" 는 스키마  __schema__ 에서 모호함","La colonna ""{{column}}"" è ambigua in {{schema}}"
 db.messages.exec.error-column-index-out-of-range,"column index ""{{column}}"" is out of range in  {{schema}}; index starts at 1","índice da coluna ""{{column}}"" está fora do intervalo no esquema {{schema}}; índice começa em 1","Spaltenindex ""{{column}}"" ist ausserhalb des Gültigkeitsbereichs für Schema {{schema}}; Indizes starten mit 1","índice de columna ""{{column}}"" está fuera de rango en equema {{schema}}; índice comienza en 1","열 인덱스  ""__column__"" 는 범위를 벗어남; 인덱스는 1에서 시작","L'indice della colonna ""{{column}}"" è fuori intervallo in {{schema}}; l'indice inizia da 1"
-db.messages.exec.error-could-not-change-rel-alias-ambiguity,"could not set relation alias ""{{alias}}"" because of ambiguity",não foi possível definir o ”alias” da relação “{{alias}}” por causa da ambiguidade,"Relations alias ""{{alias}}"" kann wegen Mehrdeutigkeit nicht gesetzt werden","no se pudo establecer relación alias ""{{alias}}"" por ambiguedad","모호성 때문에 릴레이션 가명 ""__alias__""을 사용할 수 없음 ","Impossibile impostare l'alias di relazione ""{{alias}}"" a causa di ambiguità"
-db.messages.exec.error-could-not-rename-ambiguity,"could not set new name ""{{newName}}"" for ""{{oldName}}"" because of ambiguity in {{schema}}","não foi possível definir o novo nome ""{{newName}}"" para ""{{oldName}}"" devido a ambiguidade em {{schema}}","neuer Name ""{{newName}}"" für ""{{oldName}}"" kann wegen Mehrdeutigkeit nicht gesetzt werden im Schema {{schema}}","no se pudo establecer nuevo nombre ""{{newName}}"" para ""{{oldName}}"" por ambiguedad en el equema {{schema}}","스키마 __schema__ 에서의 모호성 때문에 ""__oldName__""을 위한 새로운 이름 ""__newName__"" 을 설정 할 수 없음","Impossibile impostare il nuovo nome ""{{newName}}"" per ""{{oldName}}"" a causa di ambiguità in {{schema}}"
+db.messages.exec.error-could-not-change-rel-alias-ambiguity,"could not set relation alias ""{{alias}}"" because of ambiguity",não é possível definir o ”alias” da relação “{{alias}}” por causa da ambiguidade,"Relations alias ""{{alias}}"" kann wegen Mehrdeutigkeit nicht gesetzt werden","no se pudo establecer relación alias ""{{alias}}"" por ambiguedad","모호성 때문에 릴레이션 가명 ""__alias__""을 사용할 수 없음 ","Impossibile impostare l'alias di relazione ""{{alias}}"" a causa di ambiguità"
+db.messages.exec.error-could-not-rename-ambiguity,"could not set new name ""{{newName}}"" for ""{{oldName}}"" because of ambiguity in {{schema}}","não é possível definir o novo nome ""{{newName}}"" para ""{{oldName}}"" devido à ambiguidade em {{schema}}","neuer Name ""{{newName}}"" für ""{{oldName}}"" kann wegen Mehrdeutigkeit nicht gesetzt werden im Schema {{schema}}","no se pudo establecer nuevo nombre ""{{newName}}"" para ""{{oldName}}"" por ambiguedad en el equema {{schema}}","스키마 __schema__ 에서의 모호성 때문에 ""__oldName__""을 위한 새로운 이름 ""__newName__"" 을 설정 할 수 없음","Impossibile impostare il nuovo nome ""{{newName}}"" per ""{{oldName}}"" a causa di ambiguità in {{schema}}"
 db.messages.exec.error-schema-a-not-part-of-schema-b,schema {{schemaA}} is not part of {{schemaB}},esquema {{schemaA}} não é parte de {{schemaB}},Schema {{schemaA}} ist nicht Teil von {{schemaB}},esquema {{schemaA}} no es parte de {{schemaB}},스키마  __schemaA__ 는 __schemaB__ 의 부분이 아님,Lo schema {{schemaA}} non fa parte di {{schemaB}}
-db.messages.exec.error-schemas-not-unifiable,schemas are not unifiable: types are different or size is different: {{schemaA}}  and {{schemaB}},os esquemas não são unificáveis: os tipos ou o tamanho diferem: {{schemaA}} e {{schemaB}},Schemas sind nicht unifiable: Typen oder Anzahl der Attribute ist unterschiedlich: {{schemaA}}  and {{schemaB}},esquemas no son unificables: los tipos son diferentes ó los tamaño son diferentes: {{schemaA}}  y {{schemaB}},스키마들은 통합될 수 없음: 타입들은 다르거나 사이즈들이 다르다: __schemaA__  와 __schemaB__,Gli schemi non sono unificabili: i tipi sono diversi o le dimensioni sono diverse: {{schemaA}} e {{schemaB}}
+db.messages.exec.error-schemas-not-unifiable,schemas are not unifiable: types are different or size is different: {{schemaA}}  and {{schemaB}},os esquemas não podem ser unificados: os tipos ou o tamanho diferem: {{schemaA}} e {{schemaB}},Schemas sind nicht unifiable: Typen oder Anzahl der Attribute ist unterschiedlich: {{schemaA}}  and {{schemaB}},esquemas no son unificables: los tipos son diferentes ó los tamaño son diferentes: {{schemaA}}  y {{schemaB}},스키마들은 통합될 수 없음: 타입들은 다르거나 사이즈들이 다르다: __schemaA__  와 __schemaB__,Gli schemi non sono unificabili: i tipi sono diversi o le dimensioni sono diverse: {{schemaA}} e {{schemaB}}
 db.messages.exec.error-column-not-in-both-schemas,"column ""{{column}}"" can not be found in both schemas of join","coluna ""{{column}}"" não pode ser encontrada em ambos os esquemas de junção","Spalte ""{{column}}"" kann nicht in beiden Schemas des Joins gefunden werden","columna ""{{column}}"" no se puede encontrar en ambos esquemas del join","열 ""__column__""은 두 스키마의 조인에서 찾을 수 없음","La colonna ""{{column}}"" non può essere trovata in entrambi gli schemi di join"
 db.messages.exec.error-condition-must-be-boolean,condition must be a boolean expression,condição deve ser uma expressão booleana,Bedingung muss ein boolscher Ausdruck sein,condición debe ser una expresión booleana,조건은 불린 대수여야만 함,La condizione deve essere un'espressione booleana
 db.messages.exec.error-func-not-defined-for-column-type,{{func}} not defined for type {{colType}},{{func}} não definida para o tipo {{colType}},{{func}} ist nicht für Datentyp {{colType}} definiert,{{func}} no está definido para {{colType}},__func_ _은 타입 __colType__ 을 위해 정의될 수 없음,{{func}} non definito per il tipo {{colType}}
@@ -34,13 +34,63 @@ db.messages.exec.error-no-columns-match-alias-star,"no columns match ""{{alias}}
 db.messages.exec.error-datatype-not-specified-for-col,"datatype for column {{index}} (""{{column}}"") is not specified","tipo de dados para a coluna {{index}} (""{{column}}"") não foi especificado","Datentype für Spalte {{index}} (""{{column}}"") wurde nicht spezifiziert","tipo de dato para columna {{index}} (""{{column}}"") no está especificado","열 __index__의 데이터 타입 (""__column__"")이 구체화되지 않음","il tipo di dati per la colonna {{index}} (""{{column}}"") non è specificato"
 db.messages.exec.error-invalid-projection-error,"invalid projection ""{{argument}}"": {{error}}","projeção inválida ""{{argument}}"": {{erro}}","ungültige Projektion ""{{argument}}"": {{error}}","proyección inválida ""{{argument}}"": {{error}}","유효하지 않은 프로젝션 ""__argument__"": __error__","proiezione non valida ""{{argument}}"": {{error}}"
 db.messages.exec.error-function-expects-type,"function ""{{func}}"" expects arguments of type ""{{expected}}"" but ""{{given}}"" given","a função ""{{func}}"" espera argumentos do tipo ""{{expected}}"" mas ""{{given}}"" foi dado","Funktion ""{{func}}"" erwartet Argumente vom Typ ""{{expected}}"" aber ""{{given}}"" gefunden","función ""{{func}}"" espera argumentos de tipo ""{{expected}}"" pero ""{{given}}"" fue dado","함수 ""__func__""는 인자 타입  ""__expected__"" 으로 기대하지만  ""__given__"" 이 주어짐","la funzione ""{{func}}"" si aspetta argomenti di tipo ""{{expected}}"" ma ""{{given}}"" è stato specificato"
-db.messages.exec.error-could-not-compare-different-types,could not compare value if types are different: {{typeA}} != {{typeB}},não foi possível comparar o valor se os tipos forem diferentes: {{typeA}}! = {{typeB}},Werte mit unterschiedlichen Datentypen können nicht verglichen werden: {{typeA}} != {{typeB}},no se pudo comparar valor si tipos son diferentes: {{typeA}} != {{typeB}},타입이 다르면 비교할 수 없음: __typeA__ != __typeB__,non è stato possibile confrontare il valore se i tipi sono diversi: {{typeA}} != {{typeB}}
+db.messages.exec.error-could-not-compare-different-types,could not compare value if types are different: {{typeA}} != {{typeB}},não é possível comparar valores de tipos diferentes: {{typeA}}! = {{typeB}},Werte mit unterschiedlichen Datentypen können nicht verglichen werden: {{typeA}} != {{typeB}},no se pudo comparar valor si tipos son diferentes: {{typeA}} != {{typeB}},타입이 다르면 비교할 수 없음: __typeA__ != __typeB__,non è stato possibile confrontare il valore se i tipi sono diversi: {{typeA}} != {{typeB}}
 db.messages.exec.error-function-expects-arguments-of-same-type,{{func}} expects all arguments to be of the same type,{{func}} espera que todos os argumentos sejam do mesmo tipo,"Funktion {{func}} erwartet, dass alle Argumente den selben Datentyp haben.",{{func}} espera que todos los argumentos sean del mismo tipo,__func__ 는 모든 인자가 같은 타입으로 기대함,{{func}} si aspetta che tutti gli argomenti siano dello stesso tipo
-db.messages.exec.error-case-when-condition-must-be-boolean,the condition of a CASE WHEN must be of type boolean,a condição de um CASE WHEN deve ser do tipo booleano,Die Bedingung für ein CASE WHEN muss ein boolscher Ausdruck sein,la condición de un CASE WHEN debe ser de tipo booleano,CASE WHEN 조건은 불린 타입이어야 함,la condizione di un CASE WHEN deve essere di tipo booleano
-db.messages.exec.error-case-when-expects-results-of-same-type,<i>CASE WHEN condition THEN result END</i> expects all <i>results<i/> to be of the same type,<i> CASE WHEN condição THEN resultado END </i> espera que todos os <i> resultados <i /> sejam do mesmo tipo,<i>CASE WHEN condition THEN result END</i> erwartet dass alle <i>results</> vom selben Typ sind,<i>CASE WHEN condition THEN result END</i> espera todos <i>results<i/> ser del mismo tipo,<i>CASE WHEN condition THEN result END</i>는 모든 <i>결과<i/>가 같은 타입으로 기대함,<i>CASE WHEN condizione THEN risultato END</i> si aspetta che tutti i <i>risultati<i/> siano dello stesso tipo
+db.messages.exec.error-case-when-condition-must-be-boolean,the condition of a CASE WHEN must be of type boolean,a condição de um CASE WHEN deve ser uma expressão booleana,Die Bedingung für ein CASE WHEN muss ein boolscher Ausdruck sein,la condición de un CASE WHEN debe ser de tipo booleano,CASE WHEN 조건은 불린 타입이어야 함,la condizione di un CASE WHEN deve essere di tipo booleano
+db.messages.exec.error-case-when-expects-results-of-same-type,<i>CASE WHEN condition THEN result END</i> expects all <i>results<i/> to be of the same type,<i>CASE WHEN condição THEN resultado END</i> espera que todos os <i>resultados<i/> sejam do mesmo tipo,<i>CASE WHEN condition THEN result END</i> erwartet dass alle <i>results</> vom selben Typ sind,<i>CASE WHEN condition THEN result END</i> espera todos <i>results<i/> ser del mismo tipo,<i>CASE WHEN condition THEN result END</i>는 모든 <i>결과<i/>가 같은 타입으로 기대함,<i>CASE WHEN condizione THEN risultato END</i> si aspetta che tutti i <i>risultati<i/> siano dello stesso tipo
 db.messages.exec.error-invalid-date-format,"""{{str}}""  is not a valid date; expected format: YYYY-MM-DD","""{{str}}"" não é uma data válida; formato esperado: YYYY-MM-DD","""{{str}}"" ist kein gültiges Datum; erwartetes Format: YYYY-MM-DD","""{{str}}""  no es una fecha válido; formato esperado: YYYY-MM-DD","""__str__""  는 유효하지 않은 날짜; 형식: YYYY-MM-DD","""{{str}}"" non è una data valida; formato previsto: AAAA-MM-GG"
+db.messages.exec.error-cast-failed,"""{{expr}}"" could not be casted to type {{type}}","""{{expr}}"" não pode ser convertido para tipo {{type}}","""{{expr}}"" konnte nicht in Typ {{type}} umgewandelt werden","""{{expr}}"" no se pudo convertir a tipo ""{{type}}""","""{{expr}}""을(를) {{type}}(으)로 변환할 수 없습니다","""{{expr}}"" non può essere convertito in tipo ""{{type}}"""
 db.messages.translate.error-relation-not-found,"could not find relation ""{{name}}""","não foi possível encontrar relação ""{{name}}""","Relation ""{{name}}"" nicht gefunden","no se pudo encontrar relación ""{{name}}""","릴레이션  ""{{name}}""을 찾을 수 없음","Impossibile trovare la relazione ""{{name}}"""
-db.messages.translate.warning-distinct-missing,DISTINCT is missing,DISTINCT está faltando,Distinct fehlt,DISTINCT fehlt,DISTINCT 없음,DISTINCT mancante
+db.messages.translate.error-relation-predicate-not-found,"relation predicate must be defined for variable ""{{variable}}""","predicado relacional deve ser definido para a variável ""{{variable}}""","Relationsprädikat muss für die Variable definiert sein ""{{variable}}""","El predicado relacional debe estar definido para la variable ""{{variable}}""","변수에 대한 관계 술어가 정의되어야 합니다 ""{{variable}}""","relation predicate must be defined for variable ""{{variable}}"""
+db.messages.translate.error-relation-predicate-defined-twice,"relation predicate defined twice for variable ""{{variable}}"" ","predicado relacional definido duas vezes para a variável ""{{variable}}"" ","Relationsprädikat wurde für die Variable doppelt definiert ""{{variable}}"" ","El predicado relacional está definido dos veces para la variable ""{{variable}}"" ","변수에 대해 관계 술어가 두 번 정의되었습니다 ""{{variable}}"" ","relation predicate defined twice for variable ""{{variable}}"" "
+db.messages.translate.error-trc-unsafe-formula,"cannot negate relation predicate ""{{relation}}({{variable}})"" (unsafe formula) ","não é possível negar um predicado relacional ""{{relation}}({{variable}})"" (formula insegura) ","Relationsprädikat kann nicht negiert werden ""{{relation}}({{variable}})"" (Unsichere Formel) ","No se puede negar el predicado relacional ""{{relation}}({{variable}})"" (Fórmula insegura) ","관계 술어를 부정할 수 없습니다 ""{{relation}}({{variable}})"" (안전하지 않은 공식) ","cannot negate relation predicate ""{{relation}}({{variable}})"" (unsafe formula) "
+db.messages.translate.error-trc-unbound-variable,Unbound variables are not supported.,Variáveis não vinculadas não são suportadas.,Ungebundene Variablen werden nicht unterstützt.,Las variables no vinculadas no son compatibles.,지원되지 않는 변수입니다,Unbound variables are not supported.
+calc.editors.trc.toolbar.expression,query expression,expressão trc,Abfrageausdruck,expresión de consulta,쿼리 표현식,query expression
+calc.editors.trc.toolbar.expression-content,<b>{</b> t <b>|</b> COND(t) <b>}</b>,<b>{</b> t <b>|</b> COND(t) <b>}</b>,<b>{</b> t <b>|</b> COND(t) <b>}</b>,<b>{</b> t <b>|</b> COND(t) <b>}</b>,<b>{</b> t <b>|</b> COND(t) <b>}</b>,<b>{</b> t <b>|</b> COND(t) <b>}</b>
+calc.editors.trc.toolbar.membership,relation membership,membro de relação,Beziehungsgliedschaft,pertenencia a una relación,관계 멤버십,relation membership
+calc.editors.trc.toolbar.membership-content,t <b>∈</b> R<br>t <b>in</b> R<br>R<b>(</b>t<b>)</b>,t <b>∈</b> R<br>t <b>in</b> R<br>R<b>(</b>t<b>)</b>,t <b>∈</b> R<br>t <b>in</b> R<br>R<b>(</b>t<b>)</b>,t <b>∈</b> R<br>t <b>in</b> R<br>R<b>(</b>t<b>)</b>,t <b>∈</b> R<br>t <b>in</b> R<br>R<b>(</b>t<b>)</b>,t <b>∈</b> R<br>t <b>in</b> R<br>R<b>(</b>t<b>)</b>
+calc.editors.trc.toolbar.left-arrow,rename column,renomear coluna,Spalte umbenennen,renombrar columna,열 이름 변경,rename column
+calc.editors.trc.toolbar.left-arrow-content,"{ y<b class=""math"">←</b>r.a | R(r) }<br>{ y <b><-</b> r.a | R(r) }","{ y<b class=""math"">←</b>r.a | R(r) }<br>{ y <b><-</b> r.a | R(r) }","{ y<b class=""math"">←</b>r.a | R(r) }<br>{ y <b><-</b> r.a | R(r) }","{ y<b class=""math"">←</b>r.a | R(r) }<br>{ y <b><-</b> r.a | R(r) }","{ y<b class=""math"">←</b>r.a | R(r) }<br>{ y <b><-</b> r.a | R(r) }","{ y<b class=""math"">←</b>r.a | R(r) }<br>{ y <b><-</b> r.a | R(r) }"
+calc.editors.trc.toolbar.right-arrow,rename column,renomear coluna,Spalte umbenennen,renombrar columna,열 이름 변경,rename column
+calc.editors.trc.toolbar.right-arrow-content,"{ r.a<b class=""math"">→</b>y | R(r) }<br>{ r.a <b>-></b> y | R(r) }","{ r.a<b class=""math"">→</b>y | R(r) }<br>{ r.a <b>-></b> y | R(r) }","{ r.a<b class=""math"">→</b>y | R(r) }<br>{ r.a <b>-></b> y | R(r) }","{ r.a<b class=""math"">→</b>y | R(r) }<br>{ r.a <b>-></b> y | R(r) }","{ r.a<b class=""math"">→</b>y | R(r) }<br>{ r.a <b>-></b> y | R(r) }","{ r.a<b class=""math"">→</b>y | R(r) }<br>{ r.a <b>-></b> y | R(r) }"
+calc.editors.trc.toolbar.and,and,e,und,y,그리고,and
+calc.editors.trc.toolbar.and-content,"F₁ <b class=""math"">&and;</b> F₂<br>F₁ <b>and</b> F₂","F₁ <b class=""math"">&and;</b> F₂<br>F₁ <b>and</b> F₂","F₁ <b class=""math"">&and;</b> F₂<br>F₁ <b>and</b> F₂","F₁ <b class=""math"">&and;</b> F₂<br>F₁ <b>and</b> F₂","F₁ <b class=""math"">&and;</b> F₂<br>F₁ <b>and</b> F₂","F₁ <b class=""math"">&and;</b> F₂<br>F₁ <b>and</b> F₂"
+calc.editors.trc.toolbar.or,or,ou,oder,o,또는,or
+calc.editors.trc.toolbar.or-content,"F₁ <b class=""math"">&or;</b> F₂<br>F₁ <b>or</b> F₂","F₁ <b class=""math"">&or;</b> F₂<br>F₁ <b>or</b> F₂","F₁ <b class=""math"">&or;</b> F₂<br>F₁ <b>or</b> F₂","F₁ <b class=""math"">&or;</b> F₂<br>F₁ <b>or</b> F₂","F₁ <b class=""math"">&or;</b> F₂<br>F₁ <b>or</b> F₂","F₁ <b class=""math"">&or;</b> F₂<br>F₁ <b>or</b> F₂"
+calc.editors.trc.toolbar.xor,xor,ou exclusivo,Ausschließliches oder,disyunción exclusiva,배타적 또는,xor
+calc.editors.trc.toolbar.xor-content,"F₁ <b class=""math"">⊻</b> F₂<br>F₁ <b>xor</b> F₂","F₁ <b class=""math"">⊻</b> F₂<br>F₁ <b>xor</b> F₂","F₁ <b class=""math"">⊻</b> F₂<br>F₁ <b>xor</b> F₂","F₁ <b class=""math"">⊻</b> F₂<br>F₁ <b>xor</b> F₂","F₁ <b class=""math"">⊻</b> F₂<br>F₁ <b>xor</b> F₂","F₁ <b class=""math"">⊻</b> F₂<br>F₁ <b>xor</b> F₂"
+calc.editors.trc.toolbar.implies,implication,implicação,Implikation,implicación, 논리적 함의,implication
+calc.editors.trc.toolbar.implies-content,F₁ <b>⇒</b> F₂<br>F₁ <b>=></b> F₂<br>F₁ <b>implies</b> F₂,F₁ <b>⇒</b> F₂<br>F₁ <b>=></b> F₂<br>F₁ <b>implies</b> F₂,F₁ <b>⇒</b> F₂<br>F₁ <b>=></b> F₂<br>F₁ <b>implies</b> F₂,F₁ <b>⇒</b> F₂<br>F₁ <b>=></b> F₂<br>F₁ <b>implies</b> F₂,F₁ <b>⇒</b> F₂<br>F₁ <b>=></b> F₂<br>F₁ <b>implies</b> F₂,F₁ <b>⇒</b> F₂<br>F₁ <b>=></b> F₂<br>F₁ <b>implies</b> F₂
+calc.editors.trc.toolbar.equivalence,equivalence,equivalência,Äquivalenz,equivalencia,논리적 동등성,equivalence
+calc.editors.trc.toolbar.equivalence-content,F₁ <b>⇔</b> F₂<br>F₁ <b><=></b> F₂<br>F₁ <b>iff</b> F₂,F₁ <b>⇔</b> F₂<br>F₁ <b><=></b> F₂<br>F₁ <b>iff</b> F₂,F₁ <b>⇔</b> F₂<br>F₁ <b><=></b> F₂<br>F₁ <b>iff</b> F₂,F₁ <b>⇔</b> F₂<br>F₁ <b><=></b> F₂<br>F₁ <b>iff</b> F₂,F₁ <b>⇔</b> F₂<br>F₁ <b><=></b> F₂<br>F₁ <b>iff</b> F₂,F₁ <b>⇔</b> F₂<br>F₁ <b><=></b> F₂<br>F₁ <b>iff</b> F₂
+calc.editors.trc.toolbar.not,not,não,nicth,no,아니오,not
+calc.editors.trc.toolbar.not-content,<b>¬</b>(F)<br><b>!</b>(F)<br><b>not</b>(F),<b>¬</b>(F)<br><b>!</b>(F)<br><b>not</b>(F),<b>¬</b>(F)<br><b>!</b>(F)<br><b>not</b>(F),<b>¬</b>(F)<br><b>!</b>(F)<br><b>not</b>(F),<b>¬</b>(F)<br><b>!</b>(F)<br><b>not</b>(F),<b>¬</b>(F)<br><b>!</b>(F)<br><b>not</b>(F)
+calc.editors.trc.toolbar.equals,equals,igual,gleich,igual,같음,equals
+calc.editors.trc.toolbar.equals-content,tᵢ.A <b>=</b> tⱼ.B<br>tᵢ.A <b>=</b> c,tᵢ.A <b>=</b> tⱼ.B<br>tᵢ.A <b>=</b> c,tᵢ.A <b>=</b> tⱼ.B<br>tᵢ.A <b>=</b> c,tᵢ.A <b>=</b> tⱼ.B<br>tᵢ.A <b>=</b> c,tᵢ.A <b>=</b> tⱼ.B<br>tᵢ.A <b>=</b> c,tᵢ.A <b>=</b> tⱼ.B<br>tᵢ.A <b>=</b> c
+calc.editors.trc.toolbar.not-equals,not equals,diferente,ungleich,diferente,같지 않음,not equals
+calc.editors.trc.toolbar.not-equals-content,tᵢ.A <b>≠</b> tⱼ.B<br>tᵢ.A <b>!=</b> tⱼ.B<br>tᵢ.A <b><></b> c,tᵢ.A <b>≠</b> tⱼ.B<br>tᵢ.A <b>!=</b> tⱼ.B<br>tᵢ.A <b><></b> c,tᵢ.A <b>≠</b> tⱼ.B<br>tᵢ.A <b>!=</b> tⱼ.B<br>tᵢ.A <b><></b> c,tᵢ.A <b>≠</b> tⱼ.B<br>tᵢ.A <b>!=</b> tⱼ.B<br>tᵢ.A <b><></b> c,tᵢ.A <b>≠</b> tⱼ.B<br>tᵢ.A <b>!=</b> tⱼ.B<br>tᵢ.A <b><></b> c,tᵢ.A <b>≠</b> tⱼ.B<br>tᵢ.A <b>!=</b> tⱼ.B<br>tᵢ.A <b><></b> c
+calc.editors.trc.toolbar.greater,greater than,maior que, größer als,mayor que,보다 큼,greater than
+calc.editors.trc.toolbar.greater-content,tᵢ.A <b>></b> tⱼ.B<br>tᵢ.A <b>></b> c,tᵢ.A <b>></b> tⱼ.B<br>tᵢ.A <b>></b> c,tᵢ.A <b>></b> tⱼ.B<br>tᵢ.A <b>></b> c,tᵢ.A <b>></b> tⱼ.B<br>tᵢ.A <b>></b> c,tᵢ.A <b>></b> tⱼ.B<br>tᵢ.A <b>></b> c,tᵢ.A <b>></b> tⱼ.B<br>tᵢ.A <b>></b> c
+calc.editors.trc.toolbar.lesser,less than,menor que,kleiner als,menor que,보다 작음,less than
+calc.editors.trc.toolbar.lesser-content,tᵢ.A <b><</b> tⱼ.B<br>tᵢ.A <b><</b> c,tᵢ.A <b><</b> tⱼ.B<br>tᵢ.A <b><</b> c,tᵢ.A <b><</b> tⱼ.B<br>tᵢ.A <b><</b> c,tᵢ.A <b><</b> tⱼ.B<br>tᵢ.A <b><</b> c,tᵢ.A <b><</b> tⱼ.B<br>tᵢ.A <b><</b> c,tᵢ.A <b><</b> tⱼ.B<br>tᵢ.A <b><</b> c
+calc.editors.trc.toolbar.greater-or-equals,greater or equals,maior ou igual,größer oder gleich,mayor o igual que,크거나 같음,greater or equals
+calc.editors.trc.toolbar.greater-or-equals-content,tᵢ.A <b>≥</b> tⱼ.B<br>tᵢ.A <b>>=</b> c,tᵢ.A <b>≥</b> tⱼ.B<br>tᵢ.A <b>>=</b> c,tᵢ.A <b>≥</b> tⱼ.B<br>tᵢ.A <b>>=</b> c,tᵢ.A <b>≥</b> tⱼ.B<br>tᵢ.A <b>>=</b> c,tᵢ.A <b>≥</b> tⱼ.B<br>tᵢ.A <b>>=</b> c,tᵢ.A <b>≥</b> tⱼ.B<br>tᵢ.A <b>>=</b> c
+calc.editors.trc.toolbar.lesser-or-equals,less than or equal to,menor ou igual,kleiner oder gleich,menor o igual que,작거나 같음,less than or equal to
+calc.editors.trc.toolbar.lesser-or-equals-content,tᵢ.A <b>≤</b> tⱼ.B<br>tᵢ.A <b><=</b> c,tᵢ.A <b>≤</b> tⱼ.B<br>tᵢ.A <b><=</b> c,tᵢ.A <b>≤</b> tⱼ.B<br>tᵢ.A <b><=</b> c,tᵢ.A <b>≤</b> tⱼ.B<br>tᵢ.A <b><=</b> c,tᵢ.A <b>≤</b> tⱼ.B<br>tᵢ.A <b><=</b> c,tᵢ.A <b>≤</b> tⱼ.B<br>tᵢ.A <b><=</b> c
+calc.editors.trc.toolbar.exists,existential quantifier,quantificador existencial,existentieller Quantor,cuantificador existencial,존재 양화사,existential quantifier
+calc.editors.trc.toolbar.exists-content,<b>∃</b>p (F)<br><b>exists</b> p (F)<br>,<b>∃</b>p (F)<br><b>exists</b> p (F)<br>,<b>∃</b>p (F)<br><b>exists</b> p (F)<br>,<b>∃</b>p (F)<br><b>exists</b> p (F)<br>,<b>∃</b>p (F)<br><b>exists</b> p (F)<br>,<b>∃</b>p (F)<br><b>exists</b> p (F)<br>
+calc.editors.trc.toolbar.for-all,universal quantifier,quantificador universal,universeller Quantor,cuantificador universal,보편적 양화자,universal quantifier
+calc.editors.trc.toolbar.for-all-content,<b>∀</b>p (F)<br><b>for all</b> p (F),<b>∀</b>p (F)<br><b>for all</b> p (F),<b>∀</b>p (F)<br><b>for all</b> p (F),<b>∀</b>p (F)<br><b>for all</b> p (F),<b>∀</b>p (F)<br><b>for all</b> p (F),<b>∀</b>p (F)<br><b>for all</b> p (F)
+calc.editors.trc.toolbar.insert-date,insert date,inserir data,Datum einfügen,insertar fecha,날짜 삽입,insert date
+calc.editors.trc.toolbar.insert-date-content,tᵢ.A &lt; <b>date('1970-01-01')</b>,tᵢ.A &lt; <b>date('1970-01-01')</b>,tᵢ.A &lt; <b>date('1970-01-01')</b>,tᵢ.A &lt; <b>date('1970-01-01')</b>,tᵢ.A &lt; <b>date('1970-01-01')</b>,tᵢ.A &lt; <b>date('1970-01-01')</b>
+calc.editors.trc.toolbar.single-line-comment,single-line comment,comentário de linha única,Einzelzeilenkommentar,comentario de una sola línea,한 줄 주석,single-line comment
+calc.editors.trc.toolbar.single-line-comment-content,{ t | COND(t) } <b>-- useful comment</b>,{ t | COND(t) } <b>-- comentário</b>,{ t | COND(t) } <b>-- useful comment</b>,{ t | COND(t) } <b>-- comentario</b>,{ t | COND(t) } <b>-- 유용한 의견</b>,{ t | COND(t) } <b>-- useful comment</b>
+calc.editors.trc.toolbar.multi-line-comment,multi-line comment,comentário multilinha,Mehrzeilenkommentar,comentario de varias líneas,여러 줄 주석,multi-line comment
+calc.editors.trc.toolbar.multi-line-comment-content,"<b>/* this is a very,<br>very long comment */</b><br>{ t | COND(t) }","<b>/* este é um comentário,<br>muito longo */</b><br>{ t | COND(t) }",<b>/* dies ist ein sehr <br>langer Kommentar */</b><br>{ t | COND(t) },"<b>/* este es un comentario,<br>muy largo */</b><br>{ t | COND(t) }",<b>/* 이것은 매우 긴 <br> 주석입니다 */</b><br>{ t | COND(t) },"<b>/* this is a very,<br>very long comment */</b><br>{ t | COND(t) }"
+calc.editors.trc.toolbar.autoreplace-operators.none,no replacement,nenhum,kein Ersatz,sin reemplazo,대체 없음,no replacement
+calc.editors.trc.toolbar.autoreplace-operators.plain2math,exists => ∃,exists => ∃,exists => ∃,exists => ∃,exists => ∃,exists => ∃
+calc.editors.trc.toolbar.autoreplace-operators.math2plain,∃ => exists,∃ => exists,∃ => exists,∃ => exists,∃ => exists,∃ => exists
+db.messages.translate.warning-distinct-missing,DISTINCT is missing,DISTINCT está ausente,Distinct fehlt,DISTINCT fehlt,DISTINCT 없음,DISTINCT mancante
 db.messages.translate.warning-ignored-all-on-set-operators,ignored ALL on set operation,ignorou ALL na operação definida,ALL bei Mengenoperatoren wurde ignoriert,TODOS los operadores de cantidad fueron ignorados,집합 연산에서 무시된 ALL,Ignorato ALL nell'operazione di set
 db.messages.translate.error-variable-name-conflict,"name conflict: relation name ""{{name}}"" already exists","conflito de nomes: o nome da relação ""{{name}}"" já existe","Namenskonflikt: eine Relation mit Namen ""{{name}}"" existiert bereits","conflicto de nombre: nombre de relación ""{{name}}"" ya existe","이름 충돌: 릴레이션 이름 ""{{name}}"" 은 이미 존재함","Conflitto di nomi: il nome della relazione ""{{name}}"" esiste già"
 db.messages.translate.error-variable-cyclic-usage,"cyclic usage of variable ""{{name}}"" detected","uso cíclico da variável ""{{name}}"" detectado","Zyklische Verwendung von Variable ""{{name}}"" erkannt","uso de variable cíclico ""{{name}}"" detectado","변수  ""{{name}}""의 순환 사용이 감지됨","Rilevato utilizzo ciclico della variabile ""{{name}}"""
@@ -50,27 +100,29 @@ keyboard shortcuts:
 	execute statement:    [CTRL]+[RETURN]
 	execute selection:    [CTRL]+[SHIFT]+[RETURN]
 	autocomplete:         [CTRL]+[SPACE]
-","Digite sua consulta aqui
+","Digite sua consulta aqui ...
 
 Atalhos do teclado:
-	executar declaraçãot:    [CTRL]+[RETURN]
-	executar seleção:    [CTRL]+[SHIFT]+[RETURN]
-	autocompletar:         [CTRL]+[SPACE]
+	executar declaração:    [CTRL]+[RETURN]
+	executar seleção:       [CTRL]+[SHIFT]+[RETURN]
+	autocompletar:          [CTRL]+[SPACE]
 ","Abfrage ...
-Tastatürkürzel
+
+Tastatürkürzel:
 	Abfrage ausführen:                      [CTRL]+[RETURN]
-	Markierten teil der Abfrage ausführen:  [CTRL]+[SHIFT]+[RETURN]	Autovervollständigung:                  [CTRL]+[SPACE]","tu consulta va aquí ...
+	Markierten teil der Abfrage ausführen:  [CTRL]+[SHIFT]+[RETURN]
+	Autovervollständigung:                  [CTRL]+[SPACE]","tu consulta va aquí ...
 
 atajos de teclado:
 	ejecutar declaración:    [CTRL]+[RETURN]
-	tejecutar selección:    [CTRL]+[SHIFT]+[RETURN]
-	autocompletar:         [CTRL]+[SPACE]
+	ejecutar selección:      [CTRL]+[SHIFT]+[RETURN]
+	autocompletar:           [CTRL]+[SPACE]
 ","쿼리는 이곳에 표시된다 ...
 
 키보드 단축키:
 	statement 실행:    [CTRL]+[RETURN]
 	selection 실행:    [CTRL]+[SHIFT]+[RETURN]
-	자동 완성:         [CTRL]+[SPACE]","La tua intettogazione è qui ...
+	자동 완성:          [CTRL]+[SPACE]","La tua intettogazione è qui ...
 
 Scorciatoie da tastiera:
 	esegui istruzione:         [CTRL]+[RETURN]
@@ -79,7 +131,7 @@ Scorciatoie da tastiera:
 "
 editor.alert-message-headers.success,Success,Sucesso,Erfolg,Éxito,성공,Successo
 editor.alert-message-headers.info,Info,Info,Info,Info,정보,Info
-editor.alert-message-headers.warning,Warning,Perigo,Warnung,Advertencia,경고,Avviso
+editor.alert-message-headers.warning,Warning,Aviso,Warnung,Advertencia,경고,Avviso
 editor.alert-message-headers.error,Error,Erro,Fehler,Error, 에러 ,Errore
 editor.inline-relation-editor.button-ok,ok,Ok,ok,ok,ok,ok
 editor.inline-relation-editor.button-cancel,cancel,Cancelar,abbrechen,cancelar,취소,annulla
@@ -111,7 +163,7 @@ calc.navigation.take-a-tour,Take a Tour,Faça um Tour,Tour starten,Haz un recorr
 calc.navigation.feedback,Feedback,Feedback,Feedback,Feedback,피드백,Feedback
 calc.navigation.help,Help,Ajuda,Hilfe (en),Ayuda (en),도움말,Guida
 calc.navigation.calc,Calculate,Calcular,Rechner,Calculadora,Calculate,Calcola
-calc.navigation.language,Language,Linguagem,Sprache,Lenguaje,언어,Lingua
+calc.navigation.language,Language,Idioma,Sprache,Lenguaje,언어,Lingua
 calc.maintainer-groups.misc,Miscellaneous,Diversos,Diverse,Misceláneo,다른 종류,Varie
 calc.maintainer-groups.temp,Temporary,Temporário,Ungespeichert,Temporal,임시,Temporaneo
 calc.maintainer-groups.uibk,University of Innsbruck,University of Innsbruck,Universität Innsbruck,Universidad de Innsbruck,Innsbruck 대학교,Università di Innsbruck
@@ -119,19 +171,19 @@ calc.maintainer-groups.karlsruhe,Karlsruhe University of Applied Sciences,Univer
 calc.maintainer-groups.saarland,University of Saarland,University of Saarland,Universität Saarland,Universidad de Saarland,Saarland 대학교,Università del Saarland
 calc.maintainer-groups.hsd,University of Applied Sciences Düsseldorf,Universidade de Ciências Aplicadas de Düsseldorf, Hochschule Düsseldorf,Universidad de Düsseldorf, Düsseldorf 대학교,Università di Scienze Applicate di Düsseldorf
 calc.maintainer-groups.ufes,Federal University of Espírito Santo,Universidade Federal do Espírito Santo,Bundesuniversität Espirito Santo,Universidad Federal de Espírito Santo,에스피리토 산토 연방대학교,Università Federale del Santo Spirito
-calc.maintainer-groups.savben,Istituto di Istruzione Superiore Savoia Benincasa,Istituto di Istruzione Superiore Savoia Benincasa,Istituto di Istruzione Superiore Savoia Benincasa,Istituto di Istruzione Superiore Savoia Benincasa,Istituto di Istruzione Superiore Savoia Benincasa,Istituto di Istruzione Superiore Savoia Benincasa
-calc.editors.button-history,history,Histórico,Verlauf,historia,기록,cronologia
-calc.editors.button-clear-history,clear,limpar,Verlauf löschen,borrar,기록 새로고침,cancella
+calc.maintainer-groups.savben,Istituto di Istruzione Superiore Savoia Benincasa,Istituto di Istruzione Superiore Savoia Benincasa,Istituto di Istruzione Superiore Savoia Benincasa,Istituto di Istruzione Superiore Savoia Benincasa,Savoia Benincasa 고등교원기관,Istituto di Istruzione Superiore Savoia Benincasa
+calc.editors.button-history,history,histórico,Verlauf,historia,기록,cronologia
+calc.editors.button-clear-history,clear,Limpar,Verlauf löschen,borrar,기록 새로고침,cancella
 calc.editors.confirm-clear-history,Are you sure you want to clear the history? This action cannot be undone.,Tem certeza de que deseja limpar o histórico? Esta ação não pode ser desfeita.,"Sind Sie sicher, dass Sie den Verlauf löschen möchten?",¿Estás seguro de que deseas borrar el historial? Esta acción no se puede deshacer.,기록을 새로고침 하시겠습니까? 이 작업은 취소할 수 없습니다.,Sei sicuro di voler cancellare la cronologia? Questa azione non può essere annullata.
 calc.editors.insert-relation-title,Insert,Inserir,Einfügen,Insertar,Insert,Inserisci
 calc.editors.insert-relation-tooltip,Insert relation or column names,Inserir relação ou nomes de coluna,Beziehungs- oder Spaltennamen einfügen,Insertar nombres de relaciones o columnas,Insert relation or column names,Inserisci nomi di relazioni o colonne
 calc.editors.group.tab-name,Group Editor,Editor de Grupo,Datensatz Editor,Editor de Grupo,그룹 에디터,Editor di gruppo
 calc.editors.group.tab-name-short,GE,EG,DS,EG,그룹 에디터,GE
-calc.editors.group.toolbar.import-sql,import SQL-dump,Importar SQL-dump,SQL-dump importieren,importar SQL-dump,SQL-덤프 가져오기,importa SQL-dump
-calc.editors.group.toolbar.import-sql-content,import SQL-dump,Importar SQL-dump,SQL-dump importieren,importar SQL-dump,SQL-컨텐트 가져오기,importa SQL-dump
+calc.editors.group.toolbar.import-sql,import SQL-dump,Importar dump SQL,SQL-dump importieren,importar SQL-dump,SQL-덤프 가져오기,importa SQL-dump
+calc.editors.group.toolbar.import-sql-content,import SQL-dump,Importar dump SQL,SQL-dump importieren,importar SQL-dump,SQL-컨텐트 가져오기,importa SQL-dump
 calc.editors.group.toolbar.add-new-relation,add new relation,+ nova relação,neue Relation hinzufügen,agregar nueva relación,새로운 릴레이션 추가,aggiungi nuova relazione
 calc.editors.group.toolbar.add-new-relation-content,open relation editor,Abrir editor de relações,Relationseditor öffnen,abrir editor de relaciones,릴레이션 에디터 열기,apri editor di relazioni
-calc.editors.group.button-download,download,Download,download,descargar,다운로드,scarica
+calc.editors.group.button-download,download,baixar,download,descargar,다운로드,scarica
 calc.editors.group.button-exec,preview,Visualizar,Vorschau,vista previa,preview,anteprima
 calc.editors.group.button-use,use Group in editor,Use Grupo no Editor,Datensatz im Editor verwenden,utilizar Grupo en editor,에디터에서 그룹 사용하기,usa gruppo nell'editor
 calc.editors.group.button-use_plural,use first Group in editor,Use o primeiro Grupo no Editor,Datensatz im Editor verwenden,utilizar Grupos en editor,에디터에서 여러 그룹 사용하기,usa primo gruppo nell'editor
@@ -183,19 +235,19 @@ A = {
 	a:string, b:number
 	esempio,  42
 }"
-calc.editors.group.modal-sqldump.modal-title,Import SQL-Dump,Importar SQL-dump,SQL-Dump importieren,Importar SQL-Dump,SQL-Dump 가져오기,Importa SQL-Dump
+calc.editors.group.modal-sqldump.modal-title,Import SQL-Dump,Importar dump SQL,SQL-Dump importieren,Importar SQL-Dump,SQL-Dump 가져오기,Importa SQL-Dump
 calc.editors.group.modal-sqldump.button-close,Close,Fechar,schließen,Cerrar,닫기,Chiudi
 calc.editors.group.modal-sqldump.button-cancel,cancel,Cancelar,abbrechen,cancelar,취소,annulla
 calc.editors.group.modal-sqldump.button-import-sql,import SQL,Importar SQL,importieren,importar SQL,SQL 가져오기,importa SQL
-calc.editors.group.modal-sqldump.description,Put your SQL-Dump here to create a group.,Coloque seu SQL-Dump aqui para criar um grupo.,Kopieren Sie den SQL-Dump hier her um einen Datensatz daraus zu erstellen.,Ponga su SQL-Dump aquí para crear un grupo.,그룹을 생성하려면 SQL-Dump 이곳에 가져와라,Inserisci qui il tuo SQL-Dump per creare un gruppo.
+calc.editors.group.modal-sqldump.description,Put your SQL-Dump here to create a group.,Coloque seu dump SQL aqui para criar um grupo.,Kopieren Sie den SQL-Dump hier her um einen Datensatz daraus zu erstellen.,Ponga su SQL-Dump aquí para crear un grupo.,그룹을 생성하려면 SQL-Dump 이곳에 가져와라,Inserisci qui il tuo SQL-Dump per creare un gruppo.
 calc.editors.ra.tab-name,Relational Algebra,Álgebra Relacional,Relationale Algebra,Álgebra Relacional,관계 대수,Algebra relazionale
 calc.editors.ra.tab-name-short,RelAlg,AlgRel,RelAlg,ÁlgRel,관계 대수,RelAlg
 calc.editors.bags.tab-name,Multiset Algebra,Álgebra multiconjunto,Multimengenalgebra,Álgebra de Multiconjuntos,다중집합 대수학,Algebra multiset
 calc.editors.bags.tab-name-short,BagAlg,AlgMC,BagAlg,ÁlgMC,다중집합 대수학,BagAlg
 calc.editors.ra.button-execute-query,execute query,Executar consulta,Query ausführen,executar consulta,쿼리 실행,esegui query
 calc.editors.ra.button-execute-selection,execute selection,Executar seleção,Markierung ausführen,executar selección,셀렉션 실행,esegui selezione
-calc.editors.ra.button-download,download,Download,download,descargar,다운로드,scarica
-calc.editors.ra.toolbar.duplicate-elimination,duplicate elimination,duplicate elimination,duplicate elimination,duplicate elimination,duplicate elimination,eliminazione duplicati
+calc.editors.ra.button-download,download,baixar,download,descargar,다운로드,scarica
+calc.editors.ra.toolbar.duplicate-elimination,duplicate elimination,Eliminação de duplicatas,duplicate elimination,duplicate elimination,duplicate elimination,eliminazione duplicati
 calc.editors.ra.toolbar.duplicate-elimination-content,"<b class=""math"">∂</b> <b>(</b> A <b>)</b>
 <br><b>delta</b> A","<b class=""math"">∂</b> <b>(</b> A <b>)</b>
 <br><b>delta</b> A","<b class=""math"">∂</b> <b>(</b> A <b>)</b>
@@ -232,7 +284,7 @@ calc.editors.ra.toolbar.right-arrow-content,"<div class=""math"">&sigma; A.y > 2
 calc.editors.ra.toolbar.rename-columns-operator,rename columns operator,operador renomear colunas,Umbenennung von Spalten,renombrar operador de columnas,열 연산자 변경,operatore di ridenominazione delle colonne
 calc.editors.ra.toolbar.rename-columns-operator-content,"<div class=""math"">&sigma; A.y > 2 ( <b>&rho;</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div class=""math"">&sigma; A.y > 2 ( <b>&rho;</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div class=""math"">&sigma; A.y > 2 ( <b>&rho;</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div class=""math"">&sigma; A.y > 2 ( <b>&rho;</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div class=""math"">&sigma; A.y > 2 ( <b>&rho;</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>","<div class=""math"">&sigma; A.y > 2 ( <b>&rho;</b> y<b class=""math"">←</b>a <b>(</b> A <b>)</b> )</div>"
 calc.editors.ra.toolbar.orderBy,order by,ordenar (order by),Sortieren,ordenar por,정렬,ordina per
-calc.editors.ra.toolbar.orderBy-content,"<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>","<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>",,"<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>","<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>","<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>"
+calc.editors.ra.toolbar.orderBy-content,"<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>","<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>","<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>","<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>","<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>","<div><b class=""math"">&tau;</b> a asc, [2] desc <b> (</b> A <b>)</b><div><div><b class=""math"">tau</b> a asc, [2] desc <b> (</b> A <b>)</b></div>"
 calc.editors.ra.toolbar.groupBy,group by,agrupar (group by),Gruppieren,agrupar por,그룹화,raggruppa per
 calc.editors.ra.toolbar.groupBy-content,"<div><b class=""math"">&gamma;</b> a, b<b>;</b> count(c)→c ( A )</div>
 <div><b class=""math"">gamma</b> count(a)->x, sum(b)->y ( A )</div>","<div><b class=""math"">&gamma;</b> a, b<b>;</b> count(c)→c ( A )</div>
@@ -339,7 +391,7 @@ calc.editors.ra.toolbar.assignment-content,"<div><b>X = </b> pi a ( A )
 <br />( X ) <span class=""math"">&cup;</span> ( Y )<br /></div>","<div><b>X = </b> pi a ( A )
 <br /><b>Y = </b> pi b ( b )
 <br />( X ) <span class=""math"">&cup;</span> ( Y )<br /></div>"
-calc.editors.ra.toolbar.single-line-comment,single-line comment,comentário em linha,Kommentar einzeilig,comentario de una línea,한 줄 주석,commento di linea
+calc.editors.ra.toolbar.single-line-comment,single-line comment,comentário de linha única,Kommentar einzeilig,comentario de una línea,한 줄 주석,commento di linea
 calc.editors.ra.toolbar.single-line-comment-content,"<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>","<span class=""math"">&pi;</span> a, b A <b>-- comentário útil</b>","<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>","<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>","<span class=""math"">&pi;</span> a, b A <b>-- useful comment</b>","<span class=""math"">&pi;</span> a, b A <b>-- commento utile</b>"
 calc.editors.ra.toolbar.multi-line-comment,multi-line comment,comentário multilinha,Kommentar mehrzeilig,comentario de múltiples líneas,여러 줄 주석,commento su più linee
 calc.editors.ra.toolbar.multi-line-comment-content,"<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A","<b>/* este é um comentário longo,<br>muito longo*/</b><br><span class=""math"">&pi;</span> a, b A","<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A","<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A","<b>/* this is a very,<br>very long comment */</b><br><span class=""math"">&pi;</span> a, b A","<b>/* questo è un <br>commento molto lungo*/</b><br><span class=""math"">&pi;</span> a, b A"
@@ -348,17 +400,17 @@ calc.editors.ra.toolbar.inline-relation-content,"&sigma; a = 'test' (<b>{<br>a:s
 calc.editors.ra.toolbar.inline-relation-editor,inline-relation (editor),relação aninhada (editor),inline-Relation (Editor),inline-relation (editor),인라인-릴레이션 (에디터),Relazione “in linea”(editor)
 calc.editors.ra.toolbar.inline-relation-editor-content,create a new inline-relation using a built in editor,criar uma nova relação aninhada usando o editor,eine neue inline-Relation mit dem Editor erstellen,crear nuevo inline-relation utilizando editor incorporado,create a new inline-relation using a built in editor,crea una nuova relazione inline usando un editor incorporato
 calc.editors.ra.toolbar.insert-date,insert date,inserir data,Datum einfügen,insertar fecha,날짜 삽입,inserisci data
-calc.editors.ra.toolbar.insert-date-content,"<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )","<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )","<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )",,"<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )","<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )"
-calc.editors.ra.toolbar.autoreplace-operators.title,operator replacement,substituição de operador,Operatoren ersetzen,,operator replacement,sostituzione operatore
-calc.editors.ra.toolbar.autoreplace-operators.header,automatically replace operators,substituir operadores automaticamente,Operatoren automatisch ersetzen,,automatically replace operators,sostituzione automatica operatori
-calc.editors.ra.toolbar.autoreplace-operators.none,no replacement,sem substituição,keine Ersetzung,,no replacement,nessuna sostituzione
-calc.editors.ra.toolbar.autoreplace-operators.plain2math,pi => π,pi => π,pi => π,,pi => π,pi => π
-calc.editors.ra.toolbar.autoreplace-operators.math2plain,π => pi,π => pi,π => pi,,π => pi,π => pi
+calc.editors.ra.toolbar.insert-date-content,"<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )","<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )","<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )","<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )","<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )","<span class=""math"">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )"
+calc.editors.ra.toolbar.autoreplace-operators.title,operator replacement,substituição de operador,Operatoren ersetzen,operator replacement,operator replacement,sostituzione operatore
+calc.editors.ra.toolbar.autoreplace-operators.header,automatically replace operators,substituir operadores automaticamente,Operatoren automatisch ersetzen,automatically replace operators,automatically replace operators,sostituzione automatica operatori
+calc.editors.ra.toolbar.autoreplace-operators.none,no replacement,sem substituição,keine Ersetzung,no replacement,no replacement,nessuna sostituzione
+calc.editors.ra.toolbar.autoreplace-operators.plain2math,pi => π,pi => π,pi => π,pi => π,pi => π,pi => π
+calc.editors.ra.toolbar.autoreplace-operators.math2plain,π => pi,π => pi,π => pi,π => pi,π => pi,π => pi
 calc.editors.sql.tab-name,SQL,SQL,SQL,SQL,SQL,SQL
 calc.editors.sql.tab-name-short,SQL,SQL,SQL,SQL,SQL,SQL
 calc.editors.sql.button-execute-query,execute query,Executar consulta,Query ausführen,ejecutar consulta,쿼리 실행,esegui query
 calc.editors.sql.button-execute-selection,execute selection,Executar seleção,Markierung ausführen,ejecutar selección,셀렉션 실행,esegui selezione
-calc.editors.sql.button-download,download,Download,download,descargar,다운로드,scarica
+calc.editors.sql.button-download,download,baixar,download,descargar,다운로드,scarica
 calc.editors.sql.toolbar.select,select clause,cláusula select,select-Klausel,seleccionar cláusula,select  문,clausola select
 calc.editors.sql.toolbar.select-content,"<p>SELECT * FROM A</p><div>SELECT a, A.b, A.c FROM A</div>","<p>SELECT * FROM A</p><div>SELECT a, A.b, A.c FROM A</div>","<p>SELECT * FROM A</p><div>SELECT a, A.b, A.c FROM A</div>","<p>SELECT * FROM A</p><div>SELECT a, A.b, A.c FROM A</div>","<p>SELECT * FROM A</p><div>SELECT a, A.b, A.c FROM A</div>","<p>SELECT * FROM A</p><div>SELECT a, A.b, A.c FROM A</div>"
 calc.editors.sql.toolbar.from,from clause,cláusula from,from-Klausel,cláusula from (desde),from 문,Clausola from
@@ -367,7 +419,7 @@ calc.editors.sql.toolbar.where,where  clause,cláusula where,where-Klausel,cláu
 calc.editors.sql.toolbar.where-content,"SELECT * FROM A, B <br>where A.a = B.a or false","SELECT * FROM A, B <br>where A.a = B.a or false","SELECT * FROM A, B <br>where A.a = B.a or false","SELECT * FROM A, B <br>where A.a = B.a or false","SELECT * FROM A, B <br>where A.a = B.a or false","SELECT * FROM A, B <br>where A.a = B.a or false"
 calc.editors.sql.toolbar.group-by,group by clause,cláusula group by,group-b-Klausel,cláusula agrupar por,group by 문,Clausola group by
 calc.editors.sql.toolbar.group-by-content,"SELECT a, COUNT(b) as num <br>FROM A <br>GROUP BY a","SELECT a, COUNT(b) as num <br>FROM A <br>GROUP BY a","SELECT a, COUNT(b) as num <br>FROM A <br>GROUP BY a","SELECT a, COUNT(b) as num <br>FROM A <br>GROUP BY a","SELECT a, COUNT(b) as num <br>FROM A <br>GROUP BY a","SELECT a, COUNT(b) as num <br>FROM A <br>GROUP BY a"
-calc.editors.sql.toolbar.having,having  clause,cáusula having  clause,having-Klausel,teniendo cláusula,having 문,Clausola having 
+calc.editors.sql.toolbar.having,having  clause,cláusula having,having-Klausel,teniendo cláusula,having 문,Clausola having 
 calc.editors.sql.toolbar.having-content,"SELECT a, SUM(b) as sum <br>FROM A <br>GROUP BY a<br>having sum > 10","SELECT a, SUM(b) as sum <br>FROM A <br>GROUP BY a<br>having sum > 10","SELECT a, SUM(b) as sum <br>FROM A <br>GROUP BY a<br>having sum > 10","SELECT a, SUM(b) as sum <br>FROM A <br>GROUP BY a<br>having sum > 10","SELECT a, SUM(b) as sum <br>FROM A <br>GROUP BY a<br>having sum > 10","SELECT a, SUM(b) as sum <br>FROM A <br>GROUP BY a<br>having sum > 10"
 calc.editors.sql.toolbar.order-by,order by  clause,cláusula order by,order-by-Klausel,cláusula ordenar por,order by 문,Clausola order by 
 calc.editors.sql.toolbar.order-by-content,"<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>","<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>","<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>","<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>","<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>","<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>"
@@ -384,12 +436,21 @@ where a &lt; <b>date(""1970-01-01"")</b>"
 calc.result.modal.title,Result,Resultado,Ergebnis,Resultado,Result,Risultato
 calc.result.modal.close,Close,Fechar,Schließen,Cerrar,Close,Chiudi
 calc.editors.ra.inline-editor.title,Relation Editor,Editor de Relação,Relation Editor,Editor de relaciones,Relation Editor,Editor relazioni
-calc.editors.ra.inline-editor.button-download-csv,Download CSV,Download CSV,CSV downloaden,Descargar CSV,Download CSV,Scarica CSV
-calc.editors.ra.inline-editor.button-upload-csv,Upload CSV,Upload CSV,CSV uploaden,Subir CSV,upload CSV,Carica CSV
+calc.editors.ra.inline-editor.button-download-csv,Download CSV,Baixar (CSV),CSV downloaden,Descargar CSV,Download CSV,Scarica CSV
+calc.editors.ra.inline-editor.button-upload-csv,Upload CSV,Carregar (CSV),CSV uploaden,Subir CSV,upload CSV,Carica CSV
 calc.editors.ra.inline-editor.button-cancel,Cancel,Cancelar,Abbrechen,Cancelar,Cancel,Annulla
 calc.editors.ra.inline-editor.button-ok,Ok,Ok,Ok,Ok,Ok,Ok
 calc.editors.ra.inline-editor.row-name,Name,Nome,Name,Nombre,Name,Nome
 calc.editors.ra.inline-editor.row-type,Type,Tipo,Typ,Escriba,Type,Tipo
 calc.editors.ra.inline-editor.input-relation-name,Relation Name,Nome da Relação,Relations Name,Nombre de la relación,Relation Name,Nome relazione
 calc.navigation.imprint,Imprint,Impressão,Impressum,Imprimir,Imprint,Impressum
+calc.editors.ra.button-download-csv,Result (CSV),Resultado (CSV),Ergebnis (CSV),Resultado (CSV),결과 (CSV),Risultato (CSV)
+calc.editors.ra.button-download-jpg,Result (JPG),Resultado (JPG),Ergebnis (JPG),Resultado (JPG),결과 (JPG),Risultato (JPG)
+calc.editors.ra.button-download-query,Query,Consulta,Query,Consulta,쿼리,Query
+calc.editors.ra.button-zoom-center,Zoom to fit,Ajustar à visualização,Ansicht einpassen,Ajustar a la vista,뷰에 맞추기,Centra
+calc.editors.ra.button-zoom-in,Zoom in,Aumentar zoom,Hereinzoomen,Acercar,줌인,Ingrandisci
+calc.editors.ra.button-zoom-out,Zoom out,Diminuir zoom,Herauszoomen,Alejar,줌아웃,Rimpiccolisci
+calc.editors.ra.button-zoom-reset,Reset zoom,Redefinir zoom,Auf Standard-Zoomstufe zurücksetzen,Restablecer zoom,줌초기화,Ripristina zoom
+calc.menu.recently-used,Recently used gists,Gists usados recentemente,Zuletzt verwendete Gists,Gists utilizados recientemente,Recently used gists,Gists usati di recente
+calc.result.exec.time,Execution time: ,Tempo de execução: ,Ausführungszeit: ,Tiempo de consulta: ,Execution time: ,Tempo di esecuzione: 
 local.change,Reload page to change language?,Recarregar página para alterar o idioma?,Seite neu laden um Sprache zu ändern?,¿Recargar la página para cambiar el idioma?,언어를 변경하려면 페이지를 새로고침하시겠습니까?,Ricaricare la pagina per cambiare la lingua?

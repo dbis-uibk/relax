@@ -1052,9 +1052,61 @@ QUnit.test('test space between plaintext and and operands', function (assert) {
 	}
 });
 
-QUnit.test('antijoin 1', function (assert) {
+QUnit.test('leftAntiJoin 1', function (assert) {
+	const relations = getTestRelations();
+	const result = exec_ra('S left anti join T', relations).getResult();
+
+	const reference = exec_ra('{S.b, S.d\n' +
+		'b, 300\n' +
+		'c, 400\n' +
+		'e, 150\n' +
+		'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('leftAntiJoin 2', function (assert) {
+	const relations = getTestRelations();
+	const result = exec_ra('S left anti semi join T', relations).getResult();
+
+	const reference = exec_ra('{S.b, S.d\n' +
+		'b, 300\n' +
+		'c, 400\n' +
+		'e, 150\n' +
+		'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('leftAntiJoin 3', function (assert) {
 	const relations = getTestRelations();
 	const result = exec_ra('S anti join T', relations).getResult();
+
+	const reference = exec_ra('{S.b, S.d\n' +
+		'b, 300\n' +
+		'c, 400\n' +
+		'e, 150\n' +
+		'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('rightAntiJoin 1', function (assert) {
+	const relations = getTestRelations();
+	const result = exec_ra('T right anti join S', relations).getResult();
+
+	const reference = exec_ra('{S.b, S.d\n' +
+		'b, 300\n' +
+		'c, 400\n' +
+		'e, 150\n' +
+		'}', {}).getResult();
+
+	assert.deepEqual(result, reference);
+});
+
+QUnit.test('rightAntiJoin 2', function (assert) {
+	const relations = getTestRelations();
+	const result = exec_ra('T right anti semi join S', relations).getResult();
 
 	const reference = exec_ra('{S.b, S.d\n' +
 		'b, 300\n' +

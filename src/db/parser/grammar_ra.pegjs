@@ -390,10 +390,16 @@ rightSemiJoinOperator
 / __ o:(('right'i __ 'semi'i __ 'join'i) { return getNodeInfo('rightSemiJoinOperator'); }) __
 	{ return o; }
 
-antiJoinOperator
-= _ o:('▷' { return getNodeInfo('antiJoinOperator'); }) _
+leftAntiJoinOperator
+= _ o:('▷' { return getNodeInfo('leftAntiJoinOperator'); }) _
 	{ return o; }
-/ __ o:(('anti'i (__ 'semi'i)? __ 'join'i) { return getNodeInfo('antiJoinOperator'); }) __
+/ __ o:((('left'i __)? 'anti'i (__ 'semi'i)? __ 'join'i) { return getNodeInfo('leftAntiJoinOperator'); }) __
+	{ return o; }
+
+rightAntiJoinOperator
+= _ o:('◁' { return getNodeInfo('rightAntiJoinOperator'); }) _
+	{ return o; }
+/ __ o:(('right'i __ 'anti'i (__ 'semi'i)? __ 'join'i) { return getNodeInfo('rightAntiJoinOperator'); }) __
 	{ return o; }
 
 leftOuterJoinOperator
@@ -827,7 +833,7 @@ precedence: (low to high)
 
 4: union, difference
 3: intersect
-2: crossJoin, thetaJoin, naturalJoin, leftOuterJoin, rightOuterJoin, fullOuterJoin, leftSemiJoin, rightSemiJoin, antiJoin, division
+2: crossJoin, thetaJoin, naturalJoin, leftOuterJoin, rightOuterJoin, fullOuterJoin, leftSemiJoin, rightSemiJoin, leftAntiJoin, rightAntiJoin, division
 1: projection, selection, renameColumns, renameRelation, groupBy, orderBy
 0: table, relation, ( ex )
 */
@@ -863,7 +869,8 @@ expression_precedence2
 	/ fullOuterJoin
 	/ leftSemiJoin
 	/ rightSemiJoin
-	/ antiJoin
+	/ rightAntiJoin
+	/ leftAntiJoin
 	/ division
 )+
 	{ return buildBinary(first, rest); }
@@ -968,11 +975,18 @@ rightSemiJoin
 		return {type: 'rightSemiJoin', child2: c, codeInfo: getCodeInfo()};
 	}
 
-antiJoin
-= o:antiJoinOperator  a:booleanExprWithTrailingWhitspace? c:expression_precedence1
+leftAntiJoin
+= o:leftAntiJoinOperator a:booleanExprWithTrailingWhitspace? c:expression_precedence1
 	{
 		operatorPositions.push(o);
-		return {type: 'antiJoin', child2: c, arg:a, codeInfo: getCodeInfo()};
+		return {type: 'leftAntiJoin', child2: c, arg:a, codeInfo: getCodeInfo()};
+	}
+
+rightAntiJoin
+= o:rightAntiJoinOperator a:booleanExprWithTrailingWhitspace? c:expression_precedence1
+	{
+		operatorPositions.push(o);
+		return {type: 'rightAntiJoin', child2: c, arg:a, codeInfo: getCodeInfo()};
 	}
 
 division

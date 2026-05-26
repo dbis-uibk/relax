@@ -70,7 +70,8 @@ declare module bagsAst {
 		| naturalJoin
 		| leftSemiJoin
 		| rightSemiJoin
-		| antiJoin
+		| leftAntiJoin
+		| rightAntiJoin
 		| leftOuterJoin
 		| rightOuterJoin
 		| fullOuterJoin
@@ -289,8 +290,13 @@ declare module bagsAst {
 		type: 'rightSemiJoin'
 	}
 
-	interface antiJoin extends binaryRelalgOperation {
-		type: 'antiJoin'
+	interface leftAntiJoin extends binaryRelalgOperation {
+		type: 'leftAntiJoin'
+		arg: booleanExpr
+	}
+
+	interface rightAntiJoin extends binaryRelalgOperation {
+		type: 'rightAntiJoin'
 		arg: booleanExpr
 	}
 

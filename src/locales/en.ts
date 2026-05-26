@@ -221,8 +221,10 @@ export const langEN = {
 	'calc.editors.ra.toolbar.left-semi-join-content': '<div><b>(</b> A <b class="math">) ⋉ (</b> B <b>)</b></div>',
 	'calc.editors.ra.toolbar.right-semi-join': 'right semi join',
 	'calc.editors.ra.toolbar.right-semi-join-content': '<div><b>(</b> A <b class="math">) ⋊ (</b> B <b>)</b></div>',
-	'calc.editors.ra.toolbar.anti-join': 'anti join',
-	'calc.editors.ra.toolbar.anti-join-content': '<div><b>(</b> A <b class="math">) ▷ (</b> B <b>)</b></div>',
+	'calc.editors.ra.toolbar.left-anti-join': 'left anti semi join',
+	'calc.editors.ra.toolbar.left-anti-join-content': '<div><b>(</b> A <b class="math">) \u25b7 (</b> B <b>)</b></div>\n<div><b>(</b> A <b class="math">) \u25b7 A.a != B.a (</b> B <b>)</b></div>',
+	'calc.editors.ra.toolbar.right-anti-join': 'right anti semi join',
+	'calc.editors.ra.toolbar.right-anti-join-content': '<div><b>(</b> A <b class="math">) \u25c1 (</b> B <b>)</b></div>\n<div><b>(</b> A <b class="math">) \u25c1 A.a = B.a (</b> B <b>)</b></div>',
 	'calc.editors.ra.toolbar.assignment': 'assignment',
 	'calc.editors.ra.toolbar.assignment-content': `
 		<div><b>X = </b> pi a ( A )

@@ -19,9 +19,10 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const NUM_TREE_LABEL_COLORS = 6;
 export const KEYWORDS_RELALG = [
-	'delta', 'pi', 'sigma', 'rho', 'tau', '<-', 'intersect', 'union', '/', '-', '\\', 'x', 'cross join', 'join',
+	'delta', 'pi', 'sigma', 'rho', 'tau', '<-', 'intersect', 'union', '/', '-', '\\', 'x', 'cross join',
 	'inner join', 'natural join', 'left join', 'right join', 'left outer join',
-	'right outer join', 'full outer join', 'left semi join', 'right semi join', 'anti join',
+	'right outer join', 'full outer join', 'left semi join', 'right semi join', 'left anti semi join', 'left anti join',
+	'right anti semi join', 'right anti join', 'anti semi join', 'anti join', 'join',
 	'and', 'or', 'xor', '||', 'not between', 'between',
 ];
 
@@ -334,8 +335,14 @@ export class EditorBagalg extends React.Component<Props, State> {
 							{
 								label: '▷',
 								onClick: this.replaceText,
-								tooltipTitle: 'calc.editors.ra.toolbar.anti-join',
-								tooltip: 'calc.editors.ra.toolbar.anti-join-content',
+								tooltipTitle: 'calc.editors.ra.toolbar.left-anti-join',
+								tooltip: 'calc.editors.ra.toolbar.left-anti-join-content',
+							},
+							{
+								label: '◁',
+								onClick: this.replaceText,
+								tooltipTitle: 'calc.editors.ra.toolbar.right-anti-join',
+								tooltip: 'calc.editors.ra.toolbar.right-anti-join-content',
 							},
 							{
 								label: '∂',

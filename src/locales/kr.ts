@@ -115,6 +115,7 @@ export const langKR = {
 	'calc.editors.ra.button-download': '다운로드',
     'calc.editors.ra.button-download-csv': '결과 (CSV)',
 	'calc.editors.ra.button-download-jpg': '결과 (JPG)',
+	'calc.editors.ra.button-download-json': '결과 (JSON)',
     'calc.editors.ra.button-download-query': '쿼리',
 	'calc.editors.ra.button-zoom-in': '줌인',
 	'calc.editors.ra.button-zoom-out': '줌아웃',

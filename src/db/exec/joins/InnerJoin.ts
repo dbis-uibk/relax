@@ -17,7 +17,7 @@ import { Join, JoinCondition } from './Join';
  */
 export class InnerJoin extends Join {
 	constructor(child: RANode, child2: RANode, condition: JoinCondition) {
-		super(child, child2, '⨝', condition, false);
+		super(child, child2, '⨝', 'innerJoin', condition, false);
 	}
 
 	_checkSchema(schemaA: Schema, schemaB: Schema): void {

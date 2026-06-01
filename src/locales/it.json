@@ -224,6 +224,7 @@
 	"calc.navigation.imprint": "Impressum",
 	"calc.editors.ra.button-download-csv": "Risultato (CSV)",
 	"calc.editors.ra.button-download-jpg": "Risultato (JPG)",
+	"calc.editors.ra.button-download-json": "Risultato (JSON)",
 	"calc.editors.ra.button-download-query": "Query",
 	"calc.editors.ra.button-zoom-center": "Centra",
 	"calc.editors.ra.button-zoom-in": "Ingrandisci",

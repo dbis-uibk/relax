@@ -32,7 +32,7 @@ export class Projection extends RANodeUnary {
 	} | null = null;
 
 	constructor(child: RANode, proj: ProjectionColumn[]) {
-		super('&pi;', child);
+		super('&pi;', child, 'projection');
 		this._columns = proj;
 	}
 

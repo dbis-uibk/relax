@@ -143,6 +143,7 @@ export const langES: Partial<typeof langEN> = {
   'calc.editors.ra.button-execute-selection': 'ejecutar selección',
   'calc.editors.ra.button-download': 'Descargar',
   'calc.editors.ra.button-download-csv': 'Resultado (CSV)',
+  'calc.editors.ra.button-download-json': 'Resultado (JSON)',
   'calc.editors.ra.button-download-query': 'Consulta',
   'calc.editors.ra.button-zoom-in': 'Acercar',
   'calc.editors.ra.button-zoom-out': 'Alejar',

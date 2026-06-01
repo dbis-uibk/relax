@@ -14,7 +14,7 @@ import * as i18n from 'i18next';
  */
 export class AntiJoin extends Join {
 	constructor(child: RANode, child2: RANode, condition: JoinCondition) {
-		super(child, child2, '▷', condition, false, true);
+		super(child, child2, '▷', 'antiJoin', condition, false, true);
 	}
 
 	_checkSchema(schemaA: Schema, schemaB: Schema): void {

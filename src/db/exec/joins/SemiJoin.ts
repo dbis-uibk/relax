@@ -20,7 +20,7 @@ import { Join } from './Join';
  */
 export class SemiJoin extends Join {
 	constructor(child: RANode, child2: RANode, isLeftSemiJoin: boolean) {
-		super(child, child2, (isLeftSemiJoin ? '⋉' : '⋊'), {
+		super(child, child2, (isLeftSemiJoin ? '⋉' : '⋊'), (isLeftSemiJoin ? 'leftSemiJoin' : 'rightSemiJoin'), {
 			type: 'natural',
 			restrictToColumns: null,
 		}, !isLeftSemiJoin);

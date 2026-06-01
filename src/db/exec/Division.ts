@@ -19,7 +19,7 @@ export class Division extends RANodeBinary {
 	private _delegate: RANode | null = null;
 
 	constructor(child: RANode, child2: RANode) {
-		super('÷', child, child2);
+		super('÷', child, child2, 'division');
 	}
 
 	getSchema() {

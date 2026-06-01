@@ -102,6 +102,7 @@ export const langPT = {
       '<div><b>(</b> A <b>) <span class="math">&cap;</span> (</b> B <b>)</b></div>',
     'calc.editors.ra.button-download': 'baixar',
     'calc.editors.ra.button-download-csv': 'Resultado (CSV)',
+    'calc.editors.ra.button-download-json': 'Resultado (JSON)',
     'calc.editors.ra.button-download-query': 'Consulta',
     'calc.editors.ra.button-zoom-in': 'Aumentar zoom',
     'calc.editors.ra.button-zoom-out': 'Diminuir zoom',

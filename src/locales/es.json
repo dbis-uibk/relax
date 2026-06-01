@@ -273,6 +273,7 @@
 	"calc.navigation.imprint": "Imprimir",
 	"calc.editors.ra.button-download-csv": "Resultado (CSV)",
 	"calc.editors.ra.button-download-jpg": "Resultado (JPG)",
+	"calc.editors.ra.button-download-json": "Resultado (JSON)",
 	"calc.editors.ra.button-download-query": "Consulta",
 	"calc.editors.ra.button-zoom-center": "Ajustar a la vista",
 	"calc.editors.ra.button-zoom-in": "Acercar",

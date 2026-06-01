@@ -21,7 +21,7 @@ export class Relation extends RANodeNullary {
 		/** relation is filled by evaluating the node */
 		content?: RANode,
 	) {
-		super(functionName);
+		super(functionName, 'relation');
 		if (content === undefined) {
 			this._table = new Table();
 		}

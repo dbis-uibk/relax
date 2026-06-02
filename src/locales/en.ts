@@ -218,9 +218,15 @@ export const langEN = {
 		<div><b>(</b> A <b class=\"math\">) ⟗ A.a != B.a (</b> B <b>)</b></div>
 	`,
 	'calc.editors.ra.toolbar.left-semi-join': 'left semi join',
-	'calc.editors.ra.toolbar.left-semi-join-content': '<div><b>(</b> A <b class="math">) ⋉ (</b> B <b>)</b></div>',
+	'calc.editors.ra.toolbar.left-semi-join-content': `
+		<div><b>(</b> A <b class="math">) ⋉ (</b> B <b>)</b></div>
+		<div><b>(</b> A <b class="math">) ⋉ A.a ≤ B.a (</b> B <b>)</b></div>
+	`,
 	'calc.editors.ra.toolbar.right-semi-join': 'right semi join',
-	'calc.editors.ra.toolbar.right-semi-join-content': '<div><b>(</b> A <b class="math">) ⋊ (</b> B <b>)</b></div>',
+	'calc.editors.ra.toolbar.right-semi-join-content': `
+		<div><b>(</b> A <b class="math">) ⋊ (</b> B <b>)</b></div>
+		<div><b>(</b> A <b class="math">) ⋊ A.a = B.a (</b> B <b>)</b></div>
+	`,
 	'calc.editors.ra.toolbar.anti-join': 'anti join',
 	'calc.editors.ra.toolbar.anti-join-content': '<div><b>(</b> A <b class="math">) ▷ (</b> B <b>)</b></div>',
 	'calc.editors.ra.toolbar.assignment': 'assignment',

@@ -618,6 +618,89 @@ QUnit.test('test orderBy explicit columns of local variable from natural join of
 	assert.deepEqual(root.getResult(false), ref.getResult(false));
 });
 
+QUnit.test('test bag leftSemiJoin with natural condition', function (assert) {
+	const relations = getTestBags();
+	const query = '(R2) left semi join (S2)';
+	const root = exec_ra(query, relations);
+
+	const ref = exec_ra(`{
+		R.a:number, R.b:number
+
+		2,   3
+	}`, relations);
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test bag leftThetaSemiJoin with simple condition', function (assert) {
+	const relations = getTestBags();
+	const root = exec_ra('(R2) ⋉ R.b = S.b (S2)', relations);
+	const ref = exec_ra(`{
+		R.a:number, R.b:number
+
+		2,   3
+	}`, relations);
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test bag leftThetaSemiJoin with complex condition', function (assert) {
+	const relations = getTestBags();
+	const query = '(R2) ⋉ R.b = S.b and S.c > 3 (S2)';
+	const root = exec_ra(query, relations);
+
+	const ref = exec_ra(`{
+		R.a:number, R.b:number
+
+		2,   3
+	}`, relations);
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test bag rightSemiJoin with natural condition', function (assert) {
+	const relations = getTestBags();
+	const query = '(R2) right semi join (S2)';
+	const root = exec_ra(query, relations);
+
+	const ref = exec_ra(`{
+		S.b:number, S.c:number
+
+		3,   4
+		3,   4
+	}`, relations);
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test bag rightThetaSemiJoin with simple condition', function (assert) {
+	const relations = getTestBags();
+	const root = exec_ra('(R2) ⋊ R.b = S.b (S2)', relations);
+	const ref = exec_ra(`{
+		S.b:number, S.c:number
+
+		3,   4
+		3,   4
+	}`, relations);
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test bag rightThetaSemiJoin with complex condition', function (assert) {
+	const relations = getTestBags();
+	const query = '(R2) ⋊ R.b = S.b and S.c > 2 (S2)';
+	const root = exec_ra(query, relations);
+
+	const ref = exec_ra(`{
+		S.b:number, S.c:number
+
+		3,   4
+		3,   4
+	}`, relations);
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
 QUnit.test('test orderBy implicit columns of bags from natural join of local variables', function (assert) {
 	const query = 'k = R j = S2 tau a asc, c desc (k ⨝ j)';
 	const root = exec_ra(query, getTestBags());

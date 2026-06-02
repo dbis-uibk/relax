@@ -181,9 +181,15 @@ export const langKR = {
 	'calc.editors.ra.toolbar.full-outer-join-content[0]': '<div><b>(</b> A <b class="math">) ⟗ (</b> B <b>)</b></div>',
 	'calc.editors.ra.toolbar.full-outer-join-content[1]': '<div><b>(</b> A <b class="math">) ⟗ A.a != B.a (</b> B <b>)</b></div>',
 	'calc.editors.ra.toolbar.left-semi-join': '왼쪽 세미 조인',
-	'calc.editors.ra.toolbar.left-semi-join-content': '<div><b>(</b> A <b class="math">) ⋉ (</b> B <b>)</b></div>',
+	'calc.editors.ra.toolbar.left-semi-join-content': `
+		<div><b>(</b> A <b class="math">) ⋉ (</b> B <b>)</b></div>
+		<div><b>(</b> A <b class="math">) ⋉ A.a ≤ B.a (</b> B <b>)</b></div>
+	`,
 	'calc.editors.ra.toolbar.right-semi-join': '오른쪽 세미 조인',
-	'calc.editors.ra.toolbar.right-semi-join-content': '<div><b>(</b> A <b class="math">) ⋊ (</b> B <b>)</b></div>',
+	'calc.editors.ra.toolbar.right-semi-join-content': `
+		<div><b>(</b> A <b class="math">) ⋊ (</b> B <b>)</b></div>
+		<div><b>(</b> A <b class="math">) ⋊ A.a = B.a (</b> B <b>)</b></div>
+	`,
 	'calc.editors.ra.toolbar.anti-join': '안티 조인',
 	'calc.editors.ra.toolbar.anti-join-content': '<div><b>(</b> A <b class="math">) ▷ (</b> B <b>)</b></div>',
 	'calc.editors.ra.toolbar.assignment': '할당',

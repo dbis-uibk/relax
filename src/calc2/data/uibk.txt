@@ -1519,3 +1519,709 @@ InvoiceParts = {
 Customer = {
     CustomerId:number, FirstName:string, LastName:string, Address:string, City:string, Country:string,PostalCode:string,Email:string
 }
+group: UIBK - LLM API Service
+description[[
+The educational database “LLM API Service” models a platform that sells monthly LLM access bundles to customers, tracks daily token consumption, and issues monthly invoices. Sample data covers October and November 2026.
+
+1. The relation `Company` contains LLM providers:
+    * `CompanyId` (`number`): Unique identifier of the company.
+    * `Name` (`string`): Company name.
+
+2. The relation `LLM` contains language models:
+    * `LLMId` (`number`): Unique identifier of the model.
+    * `CompanyId` (`number`): Provider of the model.
+    * `Name` (`string`): Model name.
+    * `Parameters` (`number`): Disclosed total parameter count in billions (open-weight model cards).
+
+3. The relation `Bundle` contains monthly access packages:
+    * `BundleId` (`number`): Unique identifier of the bundle.
+    * `Name` (`string`): Bundle name.
+
+4. The relation `BundleParts` assigns models to bundles with a token price:
+    * `BundleId` (`number`): Bundle identifier.
+    * `LLMId` (`number`): Model identifier.
+    * `TokenPrice` (`number`): Price in EUR per 1 000 000 tokens.
+
+5. The relation `Customer` contains customers:
+    * `CustomerId` (`number`): Unique identifier of the customer.
+    * `FirstName` (`string`): First name.
+    * `LastName` (`string`): Last name.
+
+6. The relation `Subscription` records which bundle a customer has in a given month (at most one bundle per customer and month):
+    * `CustomerId` (`number`): Customer identifier.
+    * `BundleId` (`number`): Bundle identifier.
+    * `Year` (`number`): Subscription year.
+    * `Month` (`number`): Subscription month (1–12).
+
+7. The relation `LLMConsumption` records daily token usage:
+    * `LLMId` (`number`): Model used.
+    * `CustomerId` (`number`): Customer who used the model.
+    * `Day` (`date`): Day of usage (`YYYY-MM-DD`).
+    * `TokenConsumption` (`number`): Tokens consumed that day.
+
+8. The relation `Invoice` records monthly invoices:
+    * `InvoiceId` (`number`): Unique identifier of the invoice.
+    * `CustomerId` (`number`): Invoiced customer.
+    * `Year` (`number`): Billing year.
+    * `Month` (`number`): Billing month.
+    * `Total` (`number`): Invoice total in EUR.
+
+9. The relation `InvoiceParts` records per-model amounts on an invoice:
+    * `InvoicePartId` (`number`): Unique identifier of the invoice part.
+    * `InvoiceId` (`number`): Invoice identifier.
+    * `LLMId` (`number`): Billed model.
+    * `Amount` (`number`): Amount in EUR for that model.
+]]
+
+
+Company = {
+    CompanyId:number, Name:string
+    1 'DeepSeek'
+    2 'Mistral'
+    3 'Google'
+    4 'Meta'
+    5 'Alibaba'
+}
+
+LLM = {
+    LLMId:number, CompanyId:number, Name:string, Parameters:number
+    1 1 'DeepSeek-V4-Pro' 1600
+    2 1 'DeepSeek-V4-Flash' 284
+    3 2 'Ministral 3 14B' 14
+    4 2 'Mistral Large 4' 1050
+    5 4 'Llama 4 Maverick' 400
+    6 3 'Gemma 4 26B A4B' 25
+    7 5 'Qwen3.5-397B' 397
+    8 4 'Llama 4 Scout' 109
+    9 3 'Gemma 4 12B' 12
+    10 2 'Mistral Large 3' 675
+    11 3 'Gemma 4 31B' 31
+    12 5 'Qwen3-235B' 235
+}
+
+Bundle = {
+    BundleId:number, Name:string
+    1 'Starter'
+    2 'Pro'
+    3 'Enterprise'
+    4 'Research'
+    5 'Budget'
+}
+
+BundleParts = {
+    BundleId:number, LLMId:number, TokenPrice:number
+    1 3 0.20
+    1 6 0.15
+    1 9 0.10
+    1 11 0.25
+    2 2 0.30
+    2 3 0.18
+    2 5 0.80
+    2 6 0.12
+    2 8 0.40
+    2 9 0.08
+    2 12 0.50
+    3 1 1.20
+    3 2 0.25
+    3 4 1.00
+    3 5 0.70
+    3 7 0.90
+    3 8 0.35
+    3 10 0.80
+    3 12 0.45
+    4 4 0.90
+    4 5 0.65
+    4 7 0.80
+    4 10 0.70
+    4 11 0.20
+    4 12 0.40
+    5 3 0.12
+    5 6 0.10
+    5 9 0.06
+    5 11 0.15
+}
+
+Customer = {
+    CustomerId:number, FirstName:string, LastName:string
+    1 'Anna' 'Abele'
+    2 'Ben' 'Bauer'
+    3 'Clara' 'Chen'
+    4 'David' 'Dorn'
+    5 'Elena' 'Egger'
+    6 'Felix' 'Frank'
+    7 'Greta' 'Gruber'
+    8 'Hans' 'Hofer'
+    9 'Iris' 'Ivic'
+    10 'Jonas' 'Jung'
+    11 'Klara' 'Klein'
+    12 'Leon' 'Lang'
+    13 'Mara' 'Moser'
+    14 'Nina' 'Novak'
+    15 'Otto' 'Ortner'
+    16 'Paula' 'Pichler'
+    17 'Quinn' 'Quast'
+    18 'Rosa' 'Roth'
+    19 'Sam' 'Steiner'
+    20 'Tina' 'Thaler'
+    21 'Uwe' 'Unger'
+    22 'Vera' 'Vogel'
+    23 'Willi' 'Wagner'
+    24 'Xenia' 'Xander'
+    25 'Yuri' 'Young'
+    26 'Zoe' 'Zimmermann'
+    27 'Alex' 'Berger'
+}
+
+Subscription = {
+    CustomerId:number, BundleId:number, Year:number, Month:number
+    1 2 2026 10
+    1 3 2026 11
+    2 1 2026 10
+    2 5 2026 11
+    3 3 2026 10
+    3 4 2026 11
+    4 5 2026 10
+    4 5 2026 11
+    5 2 2026 10
+    5 2 2026 11
+    6 1 2026 10
+    6 1 2026 11
+    7 4 2026 10
+    7 4 2026 11
+    8 3 2026 10
+    8 3 2026 11
+    9 2 2026 10
+    9 5 2026 11
+    10 1 2026 10
+    10 2 2026 11
+    11 5 2026 10
+    11 5 2026 11
+    12 3 2026 10
+    12 3 2026 11
+    13 2 2026 10
+    13 2 2026 11
+    14 4 2026 10
+    14 4 2026 11
+    15 1 2026 10
+    15 1 2026 11
+    16 2 2026 10
+    16 3 2026 11
+    17 3 2026 10
+    17 3 2026 11
+    18 5 2026 10
+    18 5 2026 11
+    19 2 2026 10
+    19 3 2026 11
+    20 1 2026 10
+    20 1 2026 11
+    21 4 2026 10
+    21 4 2026 11
+    22 2 2026 10
+    22 2 2026 11
+    23 5 2026 10
+    23 5 2026 11
+    24 3 2026 10
+    24 3 2026 11
+    25 1 2026 10
+    25 2 2026 11
+    26 2 2026 10
+    26 2 2026 11
+    27 5 2026 10
+    27 2 2026 11
+}
+
+LLMConsumption = {
+    LLMId:number, CustomerId:number, Day:date, TokenConsumption:number
+    2 1 2026-10-05 6000000
+    2 1 2026-10-12 4000000
+    3 1 2026-10-05 15000000
+    5 1 2026-10-20 7500000
+    1 1 2026-11-03 5000000
+    1 1 2026-11-10 3500000
+    1 1 2026-11-17 4250000
+    4 1 2026-11-14 11000000
+    7 1 2026-11-22 4500000
+    8 1 2026-11-28 5500000
+    3 2 2026-10-08 12500000
+    6 2 2026-10-09 20000000
+    9 2 2026-10-18 6000000
+    3 2 2026-11-04 14000000
+    6 2 2026-11-11 4500000
+    9 2 2026-11-19 17500000
+    11 2 2026-11-25 7000000
+    1 3 2026-10-07 10000000
+    4 3 2026-10-14 4000000
+    5 3 2026-10-21 8500000
+    10 3 2026-10-28 3000000
+    4 3 2026-11-06 7500000
+    5 3 2026-11-13 9500000
+    7 3 2026-11-20 12500000
+    11 3 2026-11-27 9000000
+    3 4 2026-10-03 25000000
+    6 4 2026-10-10 10000000
+    9 4 2026-10-17 22500000
+    3 4 2026-11-07 19000000
+    3 4 2026-11-12 10500000
+    3 4 2026-11-18 8000000
+    6 4 2026-11-14 11000000
+    9 4 2026-11-21 21000000
+    2 5 2026-10-06 5500000
+    5 5 2026-10-13 7000000
+    8 5 2026-10-27 5000000
+    2 5 2026-11-05 6500000
+    2 5 2026-11-12 4500000
+    2 5 2026-11-19 5500000
+    3 5 2026-11-12 13500000
+    5 5 2026-11-26 8000000
+    9 5 2026-11-29 16500000
+    3 6 2026-10-02 11000000
+    6 6 2026-10-09 9000000
+    11 6 2026-10-16 7500000
+    3 6 2026-11-03 12000000
+    9 6 2026-11-10 15500000
+    6 6 2026-11-17 6000000
+    4 7 2026-10-04 4500000
+    10 7 2026-10-11 20000000
+    11 7 2026-10-25 2500000
+    4 7 2026-11-08 6000000
+    7 7 2026-11-15 9000000
+    12 7 2026-11-22 7000000
+    1 8 2026-10-01 8000000
+    4 8 2026-10-10 2000000
+    5 8 2026-10-17 6500000
+    1 8 2026-11-05 8500000
+    7 8 2026-11-12 10000000
+    10 8 2026-11-19 4000000
+    2 9 2026-10-09 5000000
+    5 9 2026-10-16 6000000
+    3 9 2026-11-01 14500000
+    6 9 2026-11-08 8500000
+    9 9 2026-11-15 18000000
+    3 10 2026-10-02 9000000
+    6 10 2026-10-12 5500000
+    2 10 2026-11-03 4500000
+    5 10 2026-11-14 6500000
+    8 10 2026-11-21 4000000
+    3 11 2026-10-05 27500000
+    6 11 2026-10-15 12500000
+    9 11 2026-10-22 24000000
+    3 11 2026-11-06 25500000
+    3 11 2026-11-13 11000000
+    3 11 2026-11-20 9000000
+    6 11 2026-11-13 22000000
+    11 11 2026-11-27 10000000
+    1 12 2026-10-08 11000000
+    4 12 2026-10-15 3500000
+    10 12 2026-10-22 15000000
+    7 12 2026-11-05 4500000
+    2 12 2026-11-12 7000000
+    12 12 2026-11-19 8000000
+    2 13 2026-10-04 7000000
+    5 13 2026-10-11 8500000
+    3 13 2026-10-18 13000000
+    2 13 2026-11-06 7500000
+    2 13 2026-11-13 4000000
+    2 13 2026-11-20 4750000
+    8 13 2026-11-13 6000000
+    5 13 2026-11-20 9000000
+    4 14 2026-10-10 5500000
+    10 14 2026-10-17 17500000
+    12 14 2026-10-24 8000000
+    4 14 2026-11-02 7000000
+    7 14 2026-11-09 9500000
+    11 14 2026-11-16 3000000
+    3 15 2026-10-06 10000000
+    9 15 2026-10-13 14000000
+    6 15 2026-10-20 16500000
+    3 15 2026-11-05 10500000
+    6 15 2026-11-12 7500000
+    11 15 2026-11-19 9500000
+    2 16 2026-10-04 6500000
+    5 16 2026-10-11 9000000
+    9 16 2026-10-18 12500000
+    1 16 2026-11-03 9500000
+    4 16 2026-11-10 10500000
+    7 16 2026-11-17 3000000
+    1 17 2026-10-03 8000000
+    5 17 2026-10-10 10500000
+    4 17 2026-10-17 3000000
+    1 17 2026-11-07 8000000
+    8 17 2026-11-14 11000000
+    10 17 2026-11-21 14000000
+    3 18 2026-10-08 20000000
+    6 18 2026-10-15 9000000
+    11 18 2026-10-22 6000000
+    3 18 2026-11-05 18500000
+    9 18 2026-11-12 20500000
+    6 18 2026-11-19 7500000
+    2 19 2026-10-11 6000000
+    5 19 2026-10-18 7500000
+    2 19 2026-11-09 5500000
+    5 19 2026-11-16 12000000
+    1 19 2026-11-23 5000000
+    4 19 2026-11-28 8000000
+    3 20 2026-10-01 9500000
+    6 20 2026-10-08 7000000
+    9 20 2026-10-15 13500000
+    3 20 2026-11-02 5000000
+    11 20 2026-11-09 16000000
+    6 20 2026-11-16 2250000
+    4 21 2026-10-04 5500000
+    10 21 2026-10-11 6500000
+    5 21 2026-10-18 6000000
+    4 21 2026-11-05 4500000
+    7 21 2026-11-12 22500000
+    11 21 2026-11-19 11000000
+    2 22 2026-10-05 5000000
+    5 22 2026-10-12 7000000
+    2 22 2026-11-04 6500000
+    3 22 2026-11-11 11500000
+    5 22 2026-11-18 7500000
+    3 23 2026-10-09 18000000
+    6 23 2026-10-16 9500000
+    9 23 2026-10-23 6000000
+    3 23 2026-11-06 8000000
+    6 23 2026-11-13 8500000
+    9 23 2026-11-20 4750000
+    1 24 2026-10-02 10500000
+    4 24 2026-10-09 3750000
+    5 24 2026-10-16 9000000
+    12 24 2026-10-23 6500000
+    1 24 2026-11-03 8500000
+    7 24 2026-11-10 7000000
+    10 24 2026-11-17 14500000
+    3 25 2026-10-05 5000000
+    6 25 2026-10-12 7000000
+    2 25 2026-11-04 6500000
+    5 25 2026-11-11 11500000
+    8 25 2026-11-18 7500000
+    2 26 2026-10-09 18000000
+    5 26 2026-10-16 9500000
+    2 26 2026-11-06 6000000
+    5 26 2026-11-13 8000000
+    3 26 2026-11-20 5500000
+    8 26 2026-11-27 8500000
+    3 27 2026-10-07 5500000
+    6 27 2026-10-14 8500000
+    9 27 2026-10-21 4750000
+    2 27 2026-11-05 6000000
+    5 27 2026-11-12 8000000
+    6 27 2026-11-19 12000000
+}
+
+Invoice = {
+    InvoiceId:number, CustomerId:number, Year:number, Month:number, Total:number
+    1 1 2026 10 11.70
+    2 1 2026 11 32.27
+    3 2 2026 10 6.10
+    4 2 2026 11 4.23
+    5 3 2026 10 24.35
+    6 3 2026 11 24.72
+    7 4 2026 10 5.35
+    8 4 2026 11 6.86
+    9 5 2026 10 9.25
+    10 5 2026 11 15.10
+    11 6 2026 10 5.43
+    12 6 2026 11 4.85
+    13 7 2026 10 18.55
+    14 7 2026 11 15.40
+    15 8 2026 10 16.15
+    16 8 2026 11 22.40
+    17 9 2026 10 6.30
+    18 9 2026 11 3.67
+    19 10 2026 10 2.62
+    20 10 2026 11 8.15
+    21 11 2026 10 5.99
+    22 11 2026 11 9.16
+    23 12 2026 10 28.70
+    24 12 2026 11 9.40
+    25 13 2026 10 11.24
+    26 13 2026 11 14.48
+    27 14 2026 10 20.40
+    28 14 2026 11 14.50
+    29 15 2026 10 5.88
+    30 15 2026 11 5.60
+    31 16 2026 10 10.15
+    32 16 2026 11 24.60
+    33 17 2026 10 19.95
+    34 17 2026 11 24.65
+    35 18 2026 10 4.20
+    36 18 2026 11 4.20
+    37 19 2026 10 7.80
+    38 19 2026 11 23.78
+    39 20 2026 10 4.30
+    40 20 2026 11 5.34
+    41 21 2026 10 13.40
+    42 21 2026 11 24.25
+    43 22 2026 10 7.10
+    44 22 2026 11 10.02
+    45 23 2026 10 3.47
+    46 23 2026 11 2.09
+    47 24 2026 10 25.58
+    48 24 2026 11 28.10
+    49 25 2026 10 2.05
+    50 25 2026 11 14.15
+    51 26 2026 10 13.00
+    52 26 2026 11 12.59
+    53 27 2026 10 1.79
+    54 27 2026 11 9.64
+}
+
+InvoiceParts = {
+    InvoicePartId:number, InvoiceId:number, LLMId:number, Amount:number
+    1 1 2 3.00
+    2 1 3 2.70
+    3 1 5 6.00
+    4 2 1 15.30
+    5 2 4 11.00
+    6 2 7 4.05
+    7 2 8 1.92
+    8 3 3 2.50
+    9 3 6 3.00
+    10 3 9 0.60
+    11 4 3 1.68
+    12 4 6 0.45
+    13 4 9 1.05
+    14 4 11 1.05
+    15 5 1 12.00
+    16 5 4 4.00
+    17 5 5 5.95
+    18 5 10 2.40
+    19 6 4 6.75
+    20 6 5 6.17
+    21 6 7 10.00
+    22 6 11 1.80
+    23 7 3 3.00
+    24 7 6 1.00
+    25 7 9 1.35
+    26 8 3 4.50
+    27 8 6 1.10
+    28 8 9 1.26
+    29 9 2 1.65
+    30 9 5 5.60
+    31 9 8 2.00
+    32 10 2 4.95
+    33 10 3 2.43
+    34 10 5 6.40
+    35 10 9 1.32
+    36 11 3 2.20
+    37 11 6 1.35
+    38 11 11 1.88
+    39 12 3 2.40
+    40 12 6 0.90
+    41 12 9 1.55
+    42 13 4 4.05
+    43 13 10 14.00
+    44 13 11 0.50
+    45 14 4 5.40
+    46 14 7 7.20
+    47 14 12 2.80
+    48 15 1 9.60
+    49 15 4 2.00
+    50 15 5 4.55
+    51 16 1 10.20
+    52 16 7 9.00
+    53 16 10 3.20
+    54 17 2 1.50
+    55 17 5 4.80
+    56 18 3 1.74
+    57 18 6 0.85
+    58 18 9 1.08
+    59 19 3 1.80
+    60 19 6 0.82
+    61 20 2 1.35
+    62 20 5 5.20
+    63 20 8 1.60
+    64 21 3 3.30
+    65 21 6 1.25
+    66 21 9 1.44
+    67 22 3 5.46
+    68 22 6 2.20
+    69 22 11 1.50
+    70 23 1 13.20
+    71 23 4 3.50
+    72 23 10 12.00
+    73 24 2 1.75
+    74 24 7 4.05
+    75 24 12 3.60
+    76 25 2 2.10
+    77 25 3 2.34
+    78 25 5 6.80
+    79 26 2 4.88
+    80 26 5 7.20
+    81 26 8 2.40
+    82 27 4 4.95
+    83 27 10 12.25
+    84 27 12 3.20
+    85 28 4 6.30
+    86 28 7 7.60
+    87 28 11 0.60
+    88 29 3 2.00
+    89 29 6 2.48
+    90 29 9 1.40
+    91 30 3 2.10
+    92 30 6 1.12
+    93 30 11 2.38
+    94 31 2 1.95
+    95 31 5 7.20
+    96 31 9 1.00
+    97 32 1 11.40
+    98 32 4 10.50
+    99 32 7 2.70
+    100 33 1 9.60
+    101 33 4 3.00
+    102 33 5 7.35
+    103 34 1 9.60
+    104 34 8 3.85
+    105 34 10 11.20
+    106 35 3 2.40
+    107 35 6 0.90
+    108 35 11 0.90
+    109 36 3 2.22
+    110 36 6 0.75
+    111 36 9 1.23
+    112 37 2 1.80
+    113 37 5 6.00
+    114 38 1 6.00
+    115 38 2 1.38
+    116 38 4 8.00
+    117 38 5 8.40
+    118 39 3 1.90
+    119 39 6 1.05
+    120 39 9 1.35
+    121 40 3 1.00
+    122 40 6 0.34
+    123 40 11 4.00
+    124 41 4 4.95
+    125 41 5 3.90
+    126 41 10 4.55
+    127 42 4 4.05
+    128 42 7 18.00
+    129 42 11 2.20
+    130 43 2 1.50
+    131 43 5 5.60
+    132 44 2 1.95
+    133 44 3 2.07
+    134 44 5 6.00
+    135 45 3 2.16
+    136 45 6 0.95
+    137 45 9 0.36
+    138 46 3 0.96
+    139 46 6 0.85
+    140 46 9 0.28
+    141 47 1 12.60
+    142 47 4 3.75
+    143 47 5 6.30
+    144 47 12 2.93
+    145 48 1 10.20
+    146 48 7 6.30
+    147 48 10 11.60
+    148 49 3 1.00
+    149 49 6 1.05
+    150 50 2 1.95
+    151 50 5 9.20
+    152 50 8 3.00
+    153 51 2 5.40
+    154 51 5 7.60
+    155 52 2 1.80
+    156 52 3 0.99
+    157 52 5 6.40
+    158 52 8 3.40
+    159 53 3 0.66
+    160 53 6 0.85
+    161 53 9 0.28
+    162 54 2 1.80
+    163 54 5 6.40
+    164 54 6 1.44
+}
+
+
+group: UIBK - LLM API Service Schemata
+description[[
+Schemata of the educational database “LLM API Service”, which models a platform that sells monthly LLM access bundles to customers, tracks daily token consumption, and issues monthly invoices. The filled database covers October and November 2026.
+
+1. The relation `Company` contains LLM providers:
+    * `CompanyId` (`number`): Unique identifier of the company.
+    * `Name` (`string`): Company name.
+
+2. The relation `LLM` contains language models:
+    * `LLMId` (`number`): Unique identifier of the model.
+    * `CompanyId` (`number`): Provider of the model.
+    * `Name` (`string`): Model name.
+    * `Parameters` (`number`): Disclosed total parameter count in billions (open-weight model cards).
+
+3. The relation `Bundle` contains monthly access packages:
+    * `BundleId` (`number`): Unique identifier of the bundle.
+    * `Name` (`string`): Bundle name.
+
+4. The relation `BundleParts` assigns models to bundles with a token price:
+    * `BundleId` (`number`): Bundle identifier.
+    * `LLMId` (`number`): Model identifier.
+    * `TokenPrice` (`number`): Price in EUR per 1 000 000 tokens.
+
+5. The relation `Customer` contains customers:
+    * `CustomerId` (`number`): Unique identifier of the customer.
+    * `FirstName` (`string`): First name.
+    * `LastName` (`string`): Last name.
+
+6. The relation `Subscription` records which bundle a customer has in a given month (at most one bundle per customer and month):
+    * `CustomerId` (`number`): Customer identifier.
+    * `BundleId` (`number`): Bundle identifier.
+    * `Year` (`number`): Subscription year.
+    * `Month` (`number`): Subscription month (1–12).
+
+7. The relation `LLMConsumption` records daily token usage:
+    * `LLMId` (`number`): Model used.
+    * `CustomerId` (`number`): Customer who used the model.
+    * `Day` (`date`): Day of usage (`YYYY-MM-DD`).
+    * `TokenConsumption` (`number`): Tokens consumed that day.
+
+8. The relation `Invoice` records monthly invoices:
+    * `InvoiceId` (`number`): Unique identifier of the invoice.
+    * `CustomerId` (`number`): Invoiced customer.
+    * `Year` (`number`): Billing year.
+    * `Month` (`number`): Billing month.
+    * `Total` (`number`): Invoice total in EUR.
+
+9. The relation `InvoiceParts` records per-model amounts on an invoice:
+    * `InvoicePartId` (`number`): Unique identifier of the invoice part.
+    * `InvoiceId` (`number`): Invoice identifier.
+    * `LLMId` (`number`): Billed model.
+    * `Amount` (`number`): Amount in EUR for that model.
+]]
+
+Company = {
+    CompanyId:number, Name:string
+}
+
+LLM = {
+    LLMId:number, CompanyId:number, Name:string, Parameters:number
+}
+
+Bundle = {
+    BundleId:number, Name:string
+}
+
+BundleParts = {
+    BundleId:number, LLMId:number, TokenPrice:number
+}
+
+Customer = {
+    CustomerId:number, FirstName:string, LastName:string
+}
+
+Subscription = {
+    CustomerId:number, BundleId:number, Year:number, Month:number
+}
+
+LLMConsumption = {
+    LLMId:number, CustomerId:number, Day:date, TokenConsumption:number
+}
+
+Invoice = {
+    InvoiceId:number, CustomerId:number, Year:number, Month:number, Total:number
+}
+
+InvoiceParts = {
+    InvoicePartId:number, InvoiceId:number, LLMId:number, Amount:number
+}

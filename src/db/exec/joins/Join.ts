@@ -511,10 +511,15 @@ export abstract class Join extends RANodeBinary {
 				// skip all but certain columns (for joins with USING())
 				continue;
 			}
-			
-			let indices = [];
+
+			// If there are duplicate columns, try to match by name only if alias match yields nothing
+			let indices: number[] = [];
 			if (hasDuplicateCols) {
 				indices = schemaB.getColumnIndexArray(a.getName(), a.getRelAlias());
+				// If no match found with alias, try without alias (by name only)
+				if (indices.length === 0) {
+					indices = schemaB.getColumnIndexArray(a.getName(), null);
+				}
 			} else {
 				indices = schemaB.getColumnIndexArray(a.getName(), null);
 			}

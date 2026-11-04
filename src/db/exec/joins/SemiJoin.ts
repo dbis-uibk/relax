@@ -6,7 +6,7 @@
 
 import { RANode, Session } from '../RANode';
 import { Schema } from '../Schema';
-import { Join } from './Join';
+import { Join, JoinCondition } from './Join';
 
 /**
  * relational algebra semi-join operator
@@ -16,14 +16,17 @@ import { Join } from './Join';
  * @param   {RANode}        child          the left child expression
  * @param   {RANode}        child2         the right child expression
  * @param   {Boolean}       isLeftSemiJoin true if if is a left semi join; false for right semi join
+ * @param   {JoinCondition} condition      optional join condition (theta or natural)
  * @returns {SemiJoin}
  */
 export class SemiJoin extends Join {
-	constructor(child: RANode, child2: RANode, isLeftSemiJoin: boolean) {
-		super(child, child2, (isLeftSemiJoin ? '⋉' : '⋊'), {
+	constructor(child: RANode, child2: RANode, isLeftSemiJoin: boolean, condition?: JoinCondition) {
+		// Default to natural join if no condition provided (backward compatibility)
+		const joinCondition: JoinCondition = condition || {
 			type: 'natural',
 			restrictToColumns: null,
-		}, !isLeftSemiJoin);
+		};
+		super(child, child2, (isLeftSemiJoin ? '⋉' : '⋊'), joinCondition, !isLeftSemiJoin);
 	}
 
 	_checkSchema(schemaA: Schema, schemaB: Schema): void {

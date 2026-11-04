@@ -1344,7 +1344,8 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
-					const node = new SemiJoin(child, child2, true);
+					const condition = parseJoinCondition(n.arg ?? null);
+					const node = new SemiJoin(child, child2, true, condition);
 					// Passing metadata from inner relation/expression to output relation
 					if (child.getMetaData('fromVariable')) {
 						node.setMetaData(
@@ -1376,7 +1377,8 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
-					const node = new SemiJoin(child, child2, false);
+					const condition = parseJoinCondition(n.arg ?? null);
+					const node = new SemiJoin(child, child2, false, condition);
 					// Passing metadata from inner relation/expression to output relation
 					if (child.getMetaData('fromVariable')) {
 						node.setMetaData(

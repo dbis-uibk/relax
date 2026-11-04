@@ -52,8 +52,10 @@ export const langPT = {
     'calc.editors.ra.toolbar.single-line-comment': 'coment\u00e1rio de linha \u00fanica',
     'db.messages.parser.error-sqldump-insert-wrong-number-columns':
       'n\u00famero de valores != n\u00famero de colunas',
-    'calc.editors.ra.toolbar.left-semi-join-content':
-      '<div><b>(</b> A <b class="math">) \u22c9 (</b> B <b>)</b></div>',
+    'calc.editors.ra.toolbar.left-semi-join-content':  `
+      <div><b>(</b> A <b class="math">) \u22c9 (</b> B <b>)</b></div>
+      <div><b>(</b> A <b class="math">) \u22c9 A.a ≤ B.a (</b> B <b>)</b></div>
+    `,
     'calc.editors.group.modal-sqldump.button-cancel': 'Cancelar',
     'calc.editors.sql.toolbar.having': 'cl\u00e1usula having',
     'db.messages.exec.error-datatype-not-specified-for-col':
@@ -65,8 +67,10 @@ export const langPT = {
     'calc.editors.ra.button-execute-query': 'Executar consulta',
     'calc.editors.sql.toolbar.order-by-content':
       '<p>SELECT * FROM A ORDER BY a asc, b desc</p><div>SELECT * FROM A ORDER BY 1, 2, 3</div>',
-    'calc.editors.ra.toolbar.right-semi-join-content':
-      '<div><b>(</b> A <b class="math">) \u22ca (</b> B <b>)</b></div>',
+    'calc.editors.ra.toolbar.right-semi-join-content': `
+      <div><b>(</b> A <b class="math">) \u22ca (</b> B <b>)</b></div>
+      <div><b>(</b> A <b class="math">) \u22ca A.a = B.a (</b> B <b>)</b></div>
+    `,
     'calc.editors.ra.toolbar.orderBy': 'ordenar (order by)',
     'calc.editors.ra.toolbar.groupBy': 'agrupar (group by)',
     'db.messages.parser.error-sql-invalid-relation-name':

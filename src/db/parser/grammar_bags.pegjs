@@ -962,17 +962,17 @@ fullOuterJoin
 	}
 
 leftSemiJoin
-= o:leftSemiJoinOperator c:expression_precedence1
+= o:leftSemiJoinOperator a:booleanExprWithTrailingWhitspace? c:expression_precedence1
 	{
 		operatorPositions.push(o);
-		return {type: 'leftSemiJoin', child2: c, codeInfo: getCodeInfo()};
+		return {type: 'leftSemiJoin', child2: c, arg:a, codeInfo: getCodeInfo()};
 	}
 
 rightSemiJoin
-= o:rightSemiJoinOperator c:expression_precedence1
+= o:rightSemiJoinOperator a:booleanExprWithTrailingWhitspace? c:expression_precedence1
 	{
 		operatorPositions.push(o);
-		return {type: 'rightSemiJoin', child2: c, codeInfo: getCodeInfo()};
+		return {type: 'rightSemiJoin', child2: c, arg:a, codeInfo: getCodeInfo()};
 	}
 
 antiJoin

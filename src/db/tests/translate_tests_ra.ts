@@ -841,6 +841,33 @@ QUnit.test('test leftSemiJoin 0', function (assert) {
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
+QUnit.test('test leftThetaSemiJoin 0', function (assert) {
+    const relations = getTestRelations();
+    const root = exec_ra('(S) ⋉ S.d = T.d (T)', relations);
+    const ref = exec_ra(`{
+        S.b, S.d
+
+        'a', 100
+        'c', 400
+        'd', 200
+    }`, relations);
+
+    assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test leftThetaSemiJoin 1', function (assert) {
+    const relations = getTestRelations();
+    const query = '(S) ⋉ S.d = T.d and T.b != S.b (T)';
+    const root = exec_ra(query, relations);
+
+    const ref = exec_ra(`{
+        S.b, S.d
+
+        'c', 400
+    }`, relations);
+    assert.deepEqual(root.getResult(), ref.getResult());
+});
+
 QUnit.test('test rightSemiJoin 0', function (assert) {
 	const relations = getTestRelations();
 	const query = '((R) right semi join (T))';
@@ -854,6 +881,33 @@ QUnit.test('test rightSemiJoin 0', function (assert) {
 	}`, {});
 
 	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test rightThetaSemiJoin 0', function (assert) {
+    const relations = getTestRelations();
+    const root = exec_ra('(S) ⋊ S.d = T.d (T)', relations);
+    const ref = exec_ra(`{
+        T.b, T.d
+
+        'a', 100
+		'd', 200
+        'f', 400
+    }`, relations);
+
+    assert.deepEqual(root.getResult(), ref.getResult());
+});
+
+QUnit.test('test rightThetaSemiJoin 1', function (assert) {
+    const relations = getTestRelations();
+    const query = '(S) ⋊ S.d = T.d and T.b != S.b (T)';
+    const root = exec_ra(query, relations);
+
+    const ref = exec_ra(`{
+        T.b, T.d
+
+        'f', 400
+    }`, relations);
+    assert.deepEqual(root.getResult(), ref.getResult());
 });
 
 QUnit.test('test leftOuterJoin 0', function (assert) {

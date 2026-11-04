@@ -10,6 +10,7 @@
 		"rootDir": ".",
 		"jsx": "react",
 		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
 		"typeRoots": [
 			"./typings",
 			"./node_modules/@types"

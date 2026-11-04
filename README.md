@@ -10,6 +10,15 @@ A relational algebra calculator
 * Execute `yarn serve` to locally run the webapp on port 8088
 * (Optional) open folder with https://code.visualstudio.com/ and install the workspace recommended extensions (includes tasks)
 
+## How to test
+Every pull request runs these checks automatically (see `.github/workflows/ci.yml`). To run them locally:
+
+* Execute `yarn typecheck` to check the types
+* Use `NODE_OPTIONS=--openssl-legacy-provider yarn build` to create a build in the `dist` folder
+* Execute `yarn test` to run the tests of that build in headless Firefox (requires Firefox)
+
+With `yarn serve` running, you can also see the tests at <http://localhost:8088/test.html>.
+
 Alternatively, you can make use of the Visual Studio Code Dev Containers extension to develop inside a Docker container and take advantage of Visual Studio Code's full feature set. A **development container** is a running container with a well-defined tool/runtime stack and its prerequisites.
 
 To get started, follow these steps:

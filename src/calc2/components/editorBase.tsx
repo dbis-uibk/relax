@@ -14,6 +14,7 @@ import { Group } from 'calc2/store/groups';
 import classNames from 'classnames';
 import * as CodeMirror from 'codemirror';
 import 'codemirror/addon/hint/show-hint';
+import { htmlToText } from 'db/exec/html';
 import { RANode, RANodeBinary, RANodeUnary } from 'db/exec/RANode';
 import { forEachPreOrder } from 'db/translate/utils';
 import * as React from 'react';
@@ -1599,7 +1600,7 @@ export class EditorBase extends React.Component<Props, State> {
 			const found = [];
 	
 			const error = EditorBase._generateErrorFromException(e, 0, 0);
-			const messageWithoutHtml = $('<span>').append(error.message).text();
+			const messageWithoutHtml = htmlToText(error.message);
 
 			if (!error.codemirrorPositions) {
 				this.clearExecutionAlerts();

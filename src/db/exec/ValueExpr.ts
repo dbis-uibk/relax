@@ -6,6 +6,7 @@
 
 import { ExecutionError } from './ExecutionError';
 import { Column } from './Column';
+import { escapeHtml } from './html';
 import { Schema, Data, DataType } from './Schema';
 import * as i18n from 'i18next';
 import { CodeInfo } from './CodeInfo';
@@ -215,7 +216,7 @@ export class ValueExprColumnValue extends ValueExpr {
 	}
 
 	getFormulaHtml(): string {
-		const s = Column.printColumn(this._name, this._relAlias);
+		const s = escapeHtml(Column.printColumn(this._name, this._relAlias));
 		if (this._wrappedInParentheses === true) {
 			return '(' + s + ')';
 		}
@@ -1227,7 +1228,7 @@ export class ValueExprGeneric extends ValueExpr {
 				case 'constant': {
 					const value = this._args[0] as Data;
 					const type = this._dataTypeCalculated || this._dataType;
-					return printValue(value, type);
+					return escapeHtml(printValue(value, type));
 				}
 				case 'rand':
 				case 'rownum':
@@ -1325,7 +1326,7 @@ export class ValueExprGeneric extends ValueExpr {
 				}
 			}
 
-			return this.toString();
+			return escapeHtml(this.toString());
 		}
 
 		if (this._wrappedInParentheses === true) {

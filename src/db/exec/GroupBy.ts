@@ -6,6 +6,7 @@
 
 import * as i18n from 'i18next';
 import { Column } from './Column';
+import { escapeHtml } from './html';
 import { RANode, RANodeUnary, Session } from './RANode';
 import { DataType, Schema } from './Schema';
 import { Table, Tuple } from './Table';
@@ -278,7 +279,7 @@ export class GroupBy extends RANodeUnary {
 			return `${s}→${func.name}`;
 		});
 
-		return `${group.join(', ')}; ${agg.join(', ')}`;
+		return escapeHtml(`${group.join(', ')}; ${agg.join(', ')}`);
 	}
 
 

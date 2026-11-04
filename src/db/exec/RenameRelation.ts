@@ -4,6 +4,7 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+import { escapeHtml } from './html';
 import { RANode, RANodeUnary, Session } from './RANode';
 import { Schema } from './Schema';
 
@@ -57,6 +58,6 @@ export class RenameRelation extends RANodeUnary {
 	}
 
 	getArgumentHtml() {
-		return this._newRelAlias;
+		return escapeHtml(this._newRelAlias);
 	}
 }

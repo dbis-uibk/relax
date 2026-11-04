@@ -6,6 +6,7 @@
 
 import * as i18n from 'i18next';
 import { Column } from './Column';
+import { escapeHtml } from './html';
 import { RANode, RANodeUnary, Session } from './RANode';
 
 /**
@@ -138,6 +139,6 @@ export class OrderBy extends RANodeUnary {
 			const s = `${this._orderCols[i].toString()} ${this._orderAsc[i] ? 'asc' : 'desc'}`;
 			list.push(s);
 		}
-		return list.join(', ');
+		return escapeHtml(list.join(', '));
 	}
 }

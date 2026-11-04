@@ -46,6 +46,8 @@ export class Result extends React.Component<Props, State> {
 		},
 	);
 
+	private pagedTableRef = React.createRef<PagedTable>();
+
 	constructor(props: Props) {
 		super(props);
 
@@ -63,6 +65,11 @@ export class Result extends React.Component<Props, State> {
 		this.setState({
 			activeNode,
 		});
+
+		// Reset pagination when a new node is selected
+		if (this.pagedTableRef.current) {
+			this.pagedTableRef.current.resetPage();
+		}
 	}
 
 	render() {
@@ -84,6 +91,7 @@ export class Result extends React.Component<Props, State> {
 						activeNode={activeNode}
 						numTreeLabelColors={numTreeLabelColors}
 						setActiveNode={this.setActiveNode}
+						onNodeClick={this.setActiveNode}
 					/>
 				</div>
 
@@ -102,6 +110,7 @@ export class Result extends React.Component<Props, State> {
 							{result
 								? (
 									<PagedTable
+										ref={this.pagedTableRef}
 										className="table table-condensed"
 										maxLinesPerPage={maxLinesPerPage}
 										table={result}

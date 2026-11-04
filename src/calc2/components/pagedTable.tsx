@@ -31,6 +31,10 @@ export class PagedTable extends React.Component<Props, State> {
 		};
 	}
 
+	resetPage(): void {
+		this.setState({ page: 0 });
+	}
+
 	render() {
 		const { table, maxLinesPerPage, showPagination = true, className = '' } = this.props;
 		const { page } = this.state;

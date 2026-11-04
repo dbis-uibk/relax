@@ -25,6 +25,7 @@ interface Props {
 	numTreeLabelColors?: number,
 	setActiveNode?(activeNode: RANode): void,
 	doEliminateDuplicates?: boolean,
+	onNodeClick?(node: RANode): void,
 }
 
 export class RaTree extends React.Component<Props> {
@@ -135,7 +136,10 @@ export class RaTree extends React.Component<Props> {
 							'node': true,
 							'active': n === activeNode,
 						})}
-						onClick={() => setActiveNode && setActiveNode(n)}
+						onClick={() => {
+							setActiveNode && setActiveNode(n);
+							this.props.onNodeClick && this.props.onNodeClick(n);
+						}}
 					>
 						<Popover
 							title={<div>{fromVariableMarker}<div dangerouslySetInnerHTML={{ __html: n.getFormulaHtml(true, false) }}></div></div>}

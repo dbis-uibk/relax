@@ -1,0 +1,80 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Release commit message, e.g. "v0.38 Short description"'
+        required: true
+
+concurrency:
+  group: release
+
+permissions: {}
+
+jobs:
+  # installs and runs third-party code, so it only gets read access
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Only release from development
+        run: test "$GITHUB_REF" = refs/heads/development
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn typecheck
+      - run: yarn build
+        env:
+          # webpack 4 hashes with md4, which OpenSSL 3 only offers as a legacy algorithm
+          NODE_OPTIONS: --openssl-legacy-provider
+      - run: yarn test
+      - uses: actions/upload-artifact@v7
+        with:
+          name: site
+          path: dist
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pages: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: site
+          path: dist
+      - name: Publish to gh-pages
+        env:
+          MESSAGE: ${{ inputs.message }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          helper/publishRelease.sh "$MESSAGE"
+      - name: Request a Pages build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        # only a fallback, the next step decides whether the release went live
+        run: gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds" || echo 'request failed'
+      - name: Wait until the build is live
+        run: |
+          bundle=$(basename dist/js/calc.*.bundle.js)
+          for attempt in $(seq 40); do
+            if curl -fsS "https://dbis-uibk.github.io/relax/?release=$GITHUB_RUN_ID-$attempt" | grep -q "js/$bundle"; then
+              echo "$bundle is live"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "$bundle did not go live within 10 minutes" >&2
+          exit 1

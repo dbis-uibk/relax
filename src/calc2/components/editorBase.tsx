@@ -1127,6 +1127,10 @@ export class EditorBase extends React.Component<Props, State> {
 			execButtonLabel,
 		} = this.props;
 
+		const hasEditorContent =
+			!!editor && editor.getValue().trim().length > 0;
+		const hasQueryResult = !!queryResult;
+
 		return (
 			<div>
 				<div className="editor-base">
@@ -1142,12 +1146,12 @@ export class EditorBase extends React.Component<Props, State> {
 					<div className="input-buttons">
 						<button
 							type="button"
-							disabled={isExecutionDisabled}
+							disabled={isExecutionDisabled || !hasEditorContent}
 							className={classNames('btn btn-primary exec-button selection', {
 								'selection-selected': isSelectionSelected,
 								'btn-danger': execErrors.length > 0,
 								'btn-success': execSuccessful,
-								'disabled': isExecutionDisabled,
+								'disabled': isExecutionDisabled || !hasEditorContent,
 							})}
 							onClick={() => {
 								if (!editor) {
@@ -1179,6 +1183,7 @@ export class EditorBase extends React.Component<Props, State> {
 											</>
 											),
 									 	value: '',
+										disabled: !hasEditorContent,
 									},
 									{
 										label: (
@@ -1187,6 +1192,7 @@ export class EditorBase extends React.Component<Props, State> {
 											</>
 											),
 									 	value: '',
+										disabled: !hasQueryResult,
 									},
 									{
 										label: (
@@ -1195,6 +1201,7 @@ export class EditorBase extends React.Component<Props, State> {
 											</>
 											),
 									 	value: '',
+										disabled: !hasQueryResult,
 									},
 									]
 										

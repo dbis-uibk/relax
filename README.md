@@ -32,14 +32,11 @@ To get started, follow these steps:
 * Any change in the files within the container is kept in the existing repository source code on your filesystem so that you can easily push your contributions.
 
 ## How to Release
-* Clone the repo
-* Checkout the `development` branch
-* Execute `yarn install` to install all dependencies
-* Use `NODE_OPTIONS=--openssl-legacy-provider yarn build` to create release build in the `dist` folder
-* Copy the content of your `dist` folder somewhere outside of the repository
-* Checkout the branch `gh-pages`
-* Remove everything there and paste content of the former `dist` folder
-* Push to github (the person doing this must be an administrator of the project)
+* Open the [Release workflow](https://github.com/dbis-uibk/relax/actions/workflows/release.yml) and select *Run workflow* on the `development` branch (requires write access to the repo)
+* Enter a message like `v0.38 Short description`, which becomes the commit message on `gh-pages`
+* The workflow runs all checks, publishes the build to the `gh-pages` branch and waits until it is live
+
+To undo a release, revert its commit on the `gh-pages` branch.
 
 ## Contributions
 * Contributions are **highly appreciated**

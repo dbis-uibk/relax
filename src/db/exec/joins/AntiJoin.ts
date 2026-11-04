@@ -7,26 +7,44 @@
 import { RANode, Session } from '../RANode';
 import { Schema } from '../Schema';
 import { Join, JoinCondition } from './Join';
-import * as i18n from 'i18next';
 
 /**
  * relational algebra anti-join operator
+ * 
+ * @extends Join
+ * @constructor
+ * @param   {RANode}        child          the left child expression
+ * @param   {RANode}        child2         the right child expression
+ * @param   {Boolean}       isLeftAntiJoin true if if is a left anti join;
+ * 										   false for right anti join
+ * @returns {AntiJoin}
  */
 export class AntiJoin extends Join {
-	constructor(child: RANode, child2: RANode, condition: JoinCondition) {
-		super(child, child2, '▷', condition, false, true);
+	private readonly _isLeftAntiJoin: boolean;
+
+	constructor(child: RANode, child2: RANode, isLeftAntiJoin: boolean, condition: JoinCondition) {
+		super(child, child2, (isLeftAntiJoin ? '▷' : '◁'), condition, !isLeftAntiJoin, true);
+		this._isLeftAntiJoin = isLeftAntiJoin;
 	}
 
 	_checkSchema(schemaA: Schema, schemaB: Schema): void {
 		try {
-			this._schema = this._child.getSchema().copy();
-			this._rowCreatorMatched = function (rowA: any[], rowB: any[]): any[] {
-				return rowA;
-			};
+			if (this._isLeftAntiJoin) {
+				this._schema = this._child.getSchema().copy();
+				this._rowCreatorMatched = function (rowA: any[], rowB: any[]): any[] {
+					return rowA;
+				};
 
-			this._rowCreatorNotMatched = function (rowA: any[], rowB: any[]): any[] {
-				return rowA;
-			};
+				this._rowCreatorNotMatched = function (rowA: any[], rowB: any[]): any[] {
+					return rowA;
+				};
+			} else {
+				this._schema = this._child2.getSchema().copy();
+				this._rowCreatorMatched = null;
+				this._rowCreatorNotMatched = function (rowA: any[], rowB: any[]): any[] {
+					return rowB;
+				};
+			}
 		}
 		catch (e) {
 			// throw (new) error in the join-context

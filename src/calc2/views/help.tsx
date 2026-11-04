@@ -347,8 +347,19 @@ export class Help extends React.Component<Props> {
 									<td className="math">▷</td>
 									<td>
 										<ul>
+											<li>left anti semi join</li>
+											<li>left anti join</li>
 											<li>anti semi join</li>
 											<li>anti join</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td className="math">◁</td>
+									<td>
+										<ul>
+											<li>right anti semi join</li>
+											<li>right anti join</li>
 										</ul>
 									</td>
 								</tr>
@@ -380,9 +391,12 @@ export class Help extends React.Component<Props> {
 										<li>union</li>
 										<li>intersection</li>
 										<li>subtraction</li>
-										<li>orderby</li>
+										<li>order by</li>
 										<li>left outer join</li>
 										<li>left semi join</li>
+										<li>left anti semi join</li>
+										<li>left anti join</li>
+										<li>anti semi join</li>
 										<li>anti join</li>
 										<li>duplicate elimination (bags)</li>
 									</ul>
@@ -965,7 +979,8 @@ export class Help extends React.Component<Props> {
 																			NonTerminal('full outer join', '#relalg-operations-fulljoin'),
 																			NonTerminal('left semi join', '#relalg-operations-leftsemijoin'),
 																			NonTerminal('right semi join', '#relalg-operations-rightsemijoin'),
-																			NonTerminal('anti semi join', '#relalg-operations-antijoin'),
+																			NonTerminal('left anti semi join', '#relalg-operations-leftantijoin'),
+																			NonTerminal('right anti semi join', '#relalg-operations-rightantijoin'),
 																	),
 																	NonTerminal('RA-expression', '#relalg-relalgexpr'),
 															),
@@ -1826,7 +1841,7 @@ export class Help extends React.Component<Props> {
 								</div>
 							</div>
 							<div>
-								<h4 id="relalg-operations-antijoin">anti semi join</h4>
+								<h4 id="relalg-operations-leftantijoin">left anti semi join</h4>
 								<div className="scroll-x"><table className="table table-nonfluid">
 									<tbody>
 										<tr>
@@ -1835,7 +1850,7 @@ export class Help extends React.Component<Props> {
 										</tr>
 										<tr>
 											<th>alternative syntax</th>
-											<td>anti semi join<br />anti join</td>
+											<td>left anti semi join<br />left anti join<br />anti semi join<br />anti join</td>
 										</tr>
 									</tbody>
 								</table></div>
@@ -1850,7 +1865,42 @@ export class Help extends React.Component<Props> {
 															Sequence(
 																	NonTerminal('RA-expression', '#relalg-relalgexpr'),
 																	Sequence(
-																			Choice(0, '▷', Sequence('anti', Optional('semi'), 'join')),
+																			Choice(0, '▷', Sequence(Optional('left'), 'anti', Optional('semi'), 'join')),
+																	),
+															),
+															NonTerminal('RA-expression', '#relalg-relalgexpr'),
+													),
+											)} />
+																	*/}
+									</div>
+								</div>
+							</div>
+							<div>
+								<h4 id="relalg-operations-rightantijoin">right anti semi join</h4>
+								<div className="scroll-x"><table className="table table-nonfluid">
+									<tbody>
+										<tr>
+											<th>symbol</th>
+											<td className="math">◁</td>
+										</tr>
+										<tr>
+											<th>alternative syntax</th>
+											<td>right anti semi join<br />right anti join</td>
+										</tr>
+									</tbody>
+								</table></div>
+								<div>no argument
+									<br />
+
+									<div className="too-wide">
+										{/*
+										<RailroadDiagram 
+											diagram={Diagram(
+													Stack(
+															Sequence(
+																	NonTerminal('RA-expression', '#relalg-relalgexpr'),
+																	Sequence(
+																			Choice(0, '◁', Sequence('right', 'anti', Optional('semi'), 'join')),
 																	),
 															),
 															NonTerminal('RA-expression', '#relalg-relalgexpr'),
@@ -1904,9 +1954,10 @@ export class Help extends React.Component<Props> {
 											<a href="#relalg-operations-leftjoin">left outer join</a>,
 											<a href="#relalg-operations-rightjoin">right outer join</a>,
 											<a href="#relalg-operations-fulljoin">full outer join</a>,
-											<a href="#relalg-operations-leftsemijoin">left semi-join</a>,
-											<a href="#relalg-operations-rightsemijoin">right semi-join</a>,
-											<a href="#relalg-operations-antijoin">anti semi-join</a>,
+											<a href="#relalg-operations-leftsemijoin">left semi join</a>,
+											<a href="#relalg-operations-rightsemijoin">right semi join</a>,
+											<a href="#relalg-operations-leftantijoin">left anti semi join</a>,
+											<a href="#relalg-operations-rightantijoin">right anti semi join</a>,
 											<a href="#relalg-operations-division">division</a>
 										</td>
 									</tr>

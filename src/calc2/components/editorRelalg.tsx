@@ -21,7 +21,8 @@ const NUM_TREE_LABEL_COLORS = 6;
 export const KEYWORDS_RELALG = [
 	'pi', 'sigma', 'rho', 'tau', '<-', 'intersect', 'union', '/', '-', '\\', 'x', 'cross join', 'join',
 	'inner join', 'natural join', 'left join', 'right join', 'left outer join',
-	'right outer join', 'full outer join', 'left semi join', 'right semi join', 'anti join',
+	'right outer join', 'full outer join', 'left semi join', 'right semi join', 'left anti join',
+	'left anti semi join', 'right anti join', 'right anti semi join', 'anti join', 'anti semi join',
 	'and', 'or', 'xor', '||', 'not between', 'between',
 ];
 
@@ -334,8 +335,14 @@ export class EditorRelalg extends React.Component<Props, State> {
 							{
 								label: '▷',
 								onClick: this.replaceText,
-								tooltipTitle: 'calc.editors.ra.toolbar.anti-join',
-								tooltip: 'calc.editors.ra.toolbar.anti-join-content',
+								tooltipTitle: 'calc.editors.ra.toolbar.left-anti-join',
+								tooltip: 'calc.editors.ra.toolbar.left-anti-join-content',
+							},
+							{
+								label: '◁',
+								onClick: this.replaceText,
+								tooltipTitle: 'calc.editors.ra.toolbar.right-anti-join',
+								tooltip: 'calc.editors.ra.toolbar.right-anti-join-content',
 							},
 						],
 					},

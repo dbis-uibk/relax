@@ -164,16 +164,18 @@ const RELATIONAL_ALGEBRA_SNIPPETS = [
 	{ prefix: 'fullouterjoin', symbol: '⟗', description: 'Full outer join (⟗)' },
 	{ prefix: 'leftsemijoin', symbol: '⋉', description: 'Left semi join (⋉)' },
 	{ prefix: 'rightsemijoin', symbol: '⋊', description: 'Right semi join (⋊)' },
-	{ prefix: 'antijoin', symbol: '▷', description: 'Anti join (▷)' },
+	{ prefix: 'leftantijoin', symbol: '▷', description: 'Left anti join (▷)' },
+	{ prefix: 'rightantijoin', symbol: '◁', description: 'Right anti join (◁)' },
 ];
 
 CodeMirror.defineMode('relalg', function () {
 	const keywords = [
-		'pi', 'sigma', 'rho', 'tau', 'gamma', '<-', '->', 'intersect', 'union', 'except', '/', '-', '\\\\', 'x', 'cross join', 'join',
+		'pi', 'sigma', 'rho', 'tau', 'gamma', '<-', '->', 'intersect', 'union', 'except', '/', '-', '\\\\', 'x', 'cross join',
 		'inner join', 'natural join', 'left join', 'right join', 'left outer join', 'right outer join',
-		'left semi join', 'right semi join', 'anti join', 'anti semi join', 'and', 'or', 'xor', 'not between', 'between',
+		'left semi join', 'right semi join', 'left anti join', 'left anti semi join', 'right anti join', 'right anti semi join',
+		'anti join', 'anti semi join', 'join', 'and', 'or', 'xor', 'not between', 'between',
 	];
-	const keywordsMath = ['π', 'σ', 'ρ', 'τ', '←', '→', '∩', '∪', '÷', '-', '⨯', '⨝', '⟕', '⟖', '⟗', '⋉', '⋊', '▷', 'γ'];
+	const keywordsMath = ['π', 'σ', 'ρ', 'τ', '←', '→', '∩', '∪', '÷', '-', '⨯', '⨝', '⟕', '⟖', '⟗', '⋉', '⋊', '▷', '◁', 'γ'];
 	const operators = ['<-', '->', '>=', '<=', '=', '∧', '∨', '⊻', '⊕', '≠', '=', '¬', '>', '<', '≥', '≤'];
 	const matchAny = (
 		stream: CodeMirror.StringStream,
@@ -278,11 +280,12 @@ CodeMirror.defineMode('relalg', function () {
 
 CodeMirror.defineMode('bagalg', function () {
 	const keywords = [
-		'delta', 'pi', 'sigma', 'rho', 'tau', 'gamma', '<-', '->', 'intersect', 'union', 'except', '/', '-', '\\\\', 'x', 'cross join', 'join',
+		'delta', 'pi', 'sigma', 'rho', 'tau', 'gamma', '<-', '->', 'intersect', 'union', 'except', '/', '-', '\\\\', 'x', 'cross join',
 		'inner join', 'natural join', 'left join', 'right join', 'left outer join', 'right outer join',
-		'left semi join', 'right semi join', 'anti join', 'anti semi join', 'and', 'or', 'xor', 'not between', 'between',
+		'left semi join', 'right semi join', 'left anti join', 'left anti semi join', 'right anti join', 'right anti semi join', 'anti join',
+		'anti semi join', 'join', 'and', 'or', 'xor', 'not between', 'between',
 	];
-	const keywordsMath = ['∂', 'π', 'σ', 'ρ', 'τ', '←', '→', '∩', '∪', '÷', '-', '⨯', '⨝', '⟕', '⟖', '⟗', '⋉', '⋊', '▷', 'γ'];
+	const keywordsMath = ['∂', 'π', 'σ', 'ρ', 'τ', '←', '→', '∩', '∪', '÷', '-', '⨯', '⨝', '⟕', '⟖', '⟗', '⋉', '⋊', '▷', '◁', 'γ'];
 	const operators = ['<-', '->', '>=', '<=', '=', '∧', '∨', '⊻', '⊕', '≠', '=', '¬', '>', '<', '≥', '≤'];
 	const matchAny = (
 		stream: CodeMirror.StringStream,

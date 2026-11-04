@@ -78,7 +78,8 @@ export const langPT = {
       'a fun\u00e7\u00e3o "{{func}}" espera argumentos do tipo "{{expected}}" mas "{{given}}" foi dado',
     'db.messages.parser.error-valueexpr-like-operand-no-string':
       'operando direito de LIKE deve ser uma string literal',
-    'calc.editors.ra.toolbar.anti-join': 'anti join',
+    'calc.editors.ra.toolbar.left-anti-join': 'left anti semi join',
+    'calc.editors.ra.toolbar.right-anti-join': 'right anti semi join',
     'calc.editors.group.modal-sqldump.button-import-sql': 'Importar SQL',
     'calc.editors.ra.toolbar.insert-date-content':
       "<span class=\"math\">&sigma;</span> a &lt; <b>date('1970-01-01')</b> ( A )",
@@ -170,8 +171,10 @@ export const langPT = {
       '\u00edndice da coluna "{{column}}" est\u00e1 fora do intervalo no esquema {{schema}}; \u00edndice come\u00e7a em 1',
     'calc.editors.ra.toolbar.rename-content':
       '<div><span class="math">&sigma;</span> x.a > 1 ( <b class="math">&rho;</b> x <b>(</b> A <b>)</b> )</div>\n<div class="math">&sigma; A.y > 2 ( <b class="math">rho</b> y<b class="math">\u2190</b>a <b>(</b> A <b>)</b> )</div>',
-    'calc.editors.ra.toolbar.anti-join-content':
-      '<div><b>(</b> A <b class="math">) \u25b7 (</b> B <b>)</b></div>',
+    'calc.editors.ra.toolbar.left-anti-join-content':
+      '<div><b>(</b> A <b class="math">) \u25b7 (</b> B <b>)</b></div>\n<div><b>(</b> A <b class="math">) \u25b7 A.a != B.a (</b> B <b>)</b></div>',
+    'calc.editors.ra.toolbar.right-anti-join-content':
+      '<div><b>(</b> A <b class="math">) \u25c1 (</b> B <b>)</b></div>\n<div><b>(</b> A <b class="math">) \u25c1 A.a = B.a (</b> B <b>)</b></div>',
     'db.messages.exec.error-invalid-date-format':
       '"{{str}}" n\u00e3o \u00e9 uma data v\u00e1lida; formato esperado: YYYY-MM-DD',
     'db.messages.exec.error-cast-failed':

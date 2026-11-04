@@ -379,8 +379,11 @@ export function textFromRelalgAstNode(node: relalgAst.astNode) {
 			case 'rightSemiJoin':
 				return binaryFormula(n.type, '⋊', null, rec(n.child), rec(n.child2));
 
-			case 'antiJoin':
+			case 'leftAntiJoin':
 				return binaryFormula(n.type, '▷', null, rec(n.child), rec(n.child2));
+
+			case 'rightAntiJoin':
+				return binaryFormula(n.type, '◁', null, rec(n.child), rec(n.child2));
 
 			case 'leftOuterJoin':
 				{

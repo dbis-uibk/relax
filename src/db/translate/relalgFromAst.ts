@@ -1402,14 +1402,47 @@ export function relalgFromRelalgAstNode(astNode: relalgAst.relalgOperation, rela
 					return node;
 				}
 
-			case 'antiJoin':
+			case 'leftAntiJoin':
 				{
 					const start = Date.now();
 
 					const child = recRANode(n.child);
 					const child2 = recRANode(n.child2);
 					const condition = parseJoinCondition(n.arg);
-					const node = new AntiJoin(child, child2, condition);
+					const node = new AntiJoin(child, child2, true, condition);
+					// Passing metadata from inner relation/expression to output relation
+					if (child.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child.getMetaData('fromVariable'));
+					}
+					if (child2.getMetaData('fromVariable')) {
+						node.setMetaData(
+							'fromVariable',
+							(
+								node.getMetaData('fromVariable') ?
+									node.getMetaData('fromVariable') + ' ' : ''
+							) +
+							child2.getMetaData('fromVariable'));
+					}
+					setAdditionalData(n, node);
+					node._execTime = Date.now() - start;
+
+					return node;
+				}
+
+			case 'rightAntiJoin':
+				{
+					const start = Date.now();
+
+					const child = recRANode(n.child);
+					const child2 = recRANode(n.child2);
+					const condition = parseJoinCondition(n.arg);
+					const node = new AntiJoin(child, child2, false, condition);
 					// Passing metadata from inner relation/expression to output relation
 					if (child.getMetaData('fromVariable')) {
 						node.setMetaData(

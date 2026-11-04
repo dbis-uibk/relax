@@ -7,6 +7,7 @@
 import { ValueExpr } from 'db/exec/ValueExpr';
 import { CodeInfo } from './CodeInfo';
 import { ExecutionError } from './ExecutionError';
+import { escapeHtml } from './html';
 import { Schema } from './Schema';
 import { Table } from './Table';
 
@@ -183,7 +184,7 @@ export abstract class RANodeNullary extends RANode {
 		return (
 			`${wrap ? '(' : ''}
 				<span>
-					<span class="math">${this._functionName}</span>
+					<span class="math">${escapeHtml(this._functionName)}</span>
 				</span>
 			${wrap ? ')' : ''}`
 		);

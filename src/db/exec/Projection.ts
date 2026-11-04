@@ -7,6 +7,7 @@
 import * as i18n from 'i18next';
 import { Column } from './Column';
 import { ExecutionError } from './ExecutionError';
+import { escapeHtml } from './html';
 import { RANode, RANodeUnary, Session } from './RANode';
 import { Schema } from './Schema';
 import { Table } from './Table';
@@ -416,13 +417,13 @@ export class Projection extends RANodeUnary {
 			const p = this._columns[i];
 
 			if (p instanceof Column) {
-				args.push(p.toString());
+				args.push(escapeHtml(p.toString()));
 			}
 			else {
 				let tmp = p.child.getFormulaHtml();
 				tmp += '→';
-				tmp += p.relAlias === null ? '' : p.relAlias + '.';
-				tmp += p.name;
+				tmp += p.relAlias === null ? '' : escapeHtml(p.relAlias) + '.';
+				tmp += escapeHtml(p.name);
 
 				args.push(tmp);
 			}

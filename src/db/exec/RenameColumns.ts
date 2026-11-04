@@ -6,6 +6,7 @@
 
 import * as i18n from 'i18next';
 import { Column } from './Column';
+import { escapeHtml } from './html';
 import { RANode, RANodeUnary, Session } from './RANode';
 import { Schema } from './Schema';
 
@@ -118,6 +119,6 @@ export class RenameColumns extends RANodeUnary {
             out.push(`${e.newName}←${Column.printColumn(e.oldName, e.oldRelAlias)}`);
         }
 
-        return out.join(', ');
+        return escapeHtml(out.join(', '));
     }
 }

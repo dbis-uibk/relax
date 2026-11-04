@@ -5,6 +5,7 @@
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import { printValue } from 'db/exec/ValueExpr';
+import { escapeHtml } from './html';
 import { Relation } from './Relation';
 import { Data, DataType, Schema } from './Schema';
 
@@ -73,7 +74,7 @@ export class Table {
 		const value = this._rows[row][col];
 		const type = this._schema.getType(col);
 
-		const text = printValue(value, type);
+		const text = escapeHtml(printValue(value, type));
 		return '<span class="' + (value === null ? 'null ' + type : type) + '">' + text + '</span>';
 	}
 
@@ -106,10 +107,10 @@ export class Table {
 			const c = this._schema.getColumn(i);
 
 			if (unqualifiedColumnNames) {
-				thead += '<th>' + c.getName() + '</th>';
+				thead += '<th>' + escapeHtml(c.getName()) + '</th>';
 			}
 			else {
-				thead += '<th>' + c.toString() + '</th>';
+				thead += '<th>' + escapeHtml(c.toString()) + '</th>';
 			}
 		}
 		thead += '</tr></thead>';

@@ -12,7 +12,7 @@ interface Props {
 	source: string,
 }
 
-export const Markdown: React.StatelessComponent<Props> = ({ source }) => (
+export const Markdown: React.FunctionComponent<Props> = ({ source }) => (
 	<div>
 		{remark().use(reactRenderer, {
 			sanitize: true,

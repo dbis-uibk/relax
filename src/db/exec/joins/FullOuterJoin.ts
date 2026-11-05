@@ -97,9 +97,13 @@ export class FullOuterJoin extends Join {
 			const schemaB = this.getChild2().getSchema();
 
 			// Identify common column names between A and B
+			const { restrictToColumns } = this._joinConditionOptions as { restrictToColumns: string[] | null };
 			const commonColumnNames = new Set<string | number>();
 			for (let i = 0; i < schemaA.getSize(); i++) {
 				const colName = schemaA.getColumn(i).getName();
+				if (restrictToColumns !== null && restrictToColumns.indexOf(colName + '') === -1) {
+					continue; // USING(): same-named columns outside the list stay separate
+				}
 				for (let j = 0; j < schemaB.getSize(); j++) {
 					if (schemaB.getColumn(j).getName() === colName) {
 						commonColumnNames.add(colName);

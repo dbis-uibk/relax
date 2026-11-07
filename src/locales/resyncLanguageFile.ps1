@@ -3,6 +3,9 @@
 # Ideally, it should never be used again, as future localization changes will always be done in "languanges.csv",
 # and the json files are built by "writeLanguageFiles.py"
 
+# Does not work with powershell 5
+#Requires -Version 7
+
 # Move to script dir so that all files are searched in this path.
 Set-Location (Split-Path $script:MyInvocation.MyCommand.Path)
 

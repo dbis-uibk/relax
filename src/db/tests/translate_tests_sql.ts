@@ -645,6 +645,25 @@ QUnit.test('test fullOuterJoin 0', function (assert) {
 	assert.deepEqual(root.getResult(), ref.getResult());
 });
 
+QUnit.test('test fullOuterJoin using', function (assert) {
+	const query = 'select distinct * from T full outer join S using(b)';
+	const root = exec_sql(query);
+
+	const ref = exec_ra(`{
+		T.b, T.d, S.d
+
+		'a',  100,  100
+		'd',  200,  200
+		'f',  400,  null
+		'g',  120,  null
+		'b',  null, 300
+		'c',  null, 400
+		'e',  null, 150
+	}`);
+
+	assert.deepEqual(root.getResult(), ref.getResult());
+});
+
 QUnit.test('test is null 0', function (assert) {
 	const query = 'select distinct * from T ' +
 		'left outer join S on T.b=S.b ' +

@@ -405,8 +405,31 @@ QUnit.test('test bag groupBy a; sum[b] (R2)', function (assert) {
 	assert.deepEqual(root.getResult(false), ref.getResult(false));
 });
 
-QUnit.test('test (R2) bag outer join (S2)', function (assert) {
+QUnit.test('test (R2) bag full natural outer join (S2)', function (assert) {
 	const query = '(R2) full outer join (S2)';
+	const relations = getTestBags();
+	const root = exec_ra(query, relations);
+
+	const ref = exec_ra(`{
+		R.a:number, R.b:number, S.c:number
+
+		0,   1,   null
+		2,   3,   4
+		2,   3,   4
+		0,   1,   null
+		2,   4,   null
+		3,   4,   null
+		null,0,   1
+		null,2,   4
+		null,2,   5
+		null,0,   2
+	}`, relations);
+
+	assert.deepEqual(root.getResult(false), ref.getResult(false));
+});
+
+QUnit.test('test (R2) bag full theta outer join (S2)', function (assert) {
+	const query = '(R2) full outer join R2.b = S2.b (S2)';
 	const relations = getTestBags();
 	const root = exec_ra(query, relations);
 

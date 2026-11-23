@@ -49,7 +49,7 @@
 		"html-webpack-exclude-assets-plugin": "0.0.7",
 		"html-webpack-plugin": "3.2.x",
 		"http-proxy-middleware": "^2.0.9",
-		"i18next": "^11.3.3",
+		"i18next": "^26.3.4",
 		"i18next-browser-languagedetector": "^2.0.0",
 		"i18next-xhr-backend": "^1.4.2",
 		"immutable": "4.0.0-rc.12",

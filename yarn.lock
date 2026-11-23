@@ -3161,10 +3161,10 @@ i18next-xhr-backend@^1.4.2:
   resolved "https://registry.yarnpkg.com/i18next-xhr-backend/-/i18next-xhr-backend-1.5.1.tgz#50282610780c6a696d880dfa7f4ac1d01e8c3ad5"
   integrity sha512-9OLdC/9YxDvTFcgsH5t2BHCODHEotHCa6h7Ly0EUlUC7Y2GS09UeoHOGj3gWKQ3HCqXz8NlH4gOrK3NNc9vPuw==
 
-i18next@^11.3.3:
-  version "11.10.2"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-11.10.2.tgz#e5f10346f6320ecf15595419926c25255381a56c"
-  integrity sha512-1rowdX8PqrvsdFhYb3v0A/LlIHLQL1HTa4ia29IzhvNAg2fesNV7R1jXibWLmLQdz3FfTB8RuqSqDEjIawXruA==
+i18next@^26.3.4:
+  version "26.3.4"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-26.3.4.tgz#a2e8540b0a1a6004eba525c05faa89c256fb57c8"
+  integrity sha512-pa7m0d7pBDqGHZxljT+WPFeyFgQ7P7SciPPo1tTqYuO0z4sqADYhwnBESmmGp/wEof1inwdls/k8ZgTg8rxFHA==
 
 iconv-lite@~0.4.24:
   version "0.4.24"
